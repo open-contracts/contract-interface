@@ -47,7 +47,7 @@ const StepPre : FC<StepPreProps> & {
             <StepStage.Title>
                 <h1 style={{
                     color : Colors.primaryTextColor
-                }}>Dog</h1>
+                }}>Loading...</h1>
             </StepStage.Title>
         </StepStage>
 
@@ -96,7 +96,7 @@ export const StepLoad : FC<StepPreProps>  = ({
                 <StepStage.Title>
                     <h1 style={{
                         color : Colors.primaryTextColor
-                    }}>Cat</h1>
+                    }}>Loading...</h1>
                 </StepStage.Title>
             </StepStage>
 
