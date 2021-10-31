@@ -18,12 +18,12 @@ import {to} from "await-to-js";
 
 const Members = ["Header", "Items"];
 
-export type MarketBenchMobileProps = {
+export type RunBenchMobileProps = {
     items : DappI[],
     updateDapp? : (prevId : string, dapp : DappI)=>void
 }
 
-export const MarketBenchMobile : FC<MarketBenchMobileProps> = ({
+export const RunBenchMobile : FC<RunBenchMobileProps> = ({
     children,
     items,
     updateDapp

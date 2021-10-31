@@ -93,23 +93,6 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
                     ]} />
                 </div>
             </HeaderLayoutMobile.Nav>
-            <HeaderLayoutMobile.Account>
-                <div style={{
-                    height : "100%",
-                    width : "100%",
-                    display : "grid",
-                    alignItems : "center",
-                    alignContent : "center",
-                    justifyContent : "right",
-                    justifyItems : "right"
-                }}>
-                    <AbleAccountToggle>
-                        <AbleAccountToggle.ToggleIcon>
-                            <PersonFill size="100%" color={Colors.colors.Maintheme}/>
-                        </AbleAccountToggle.ToggleIcon>
-                    </AbleAccountToggle>
-                </div>
-            </HeaderLayoutMobile.Account>
         </HeaderLayoutMobile>
 
     )

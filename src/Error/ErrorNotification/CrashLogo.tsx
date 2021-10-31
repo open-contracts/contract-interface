@@ -7,7 +7,7 @@ export type CrashLogoProps = {
 }
 
 export const CrashLogo : FC<CrashLogoProps>  = ({
-    color = Colors.Maintheme,style
+    color = Colors.primaryTextColor,style
 }) =>{
 
     return (

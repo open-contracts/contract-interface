@@ -10,6 +10,7 @@ export type LogoBProps = {
     fontSize ? : React.CSSProperties["height"],
     logoColor? : React.CSSProperties["color"],
     fontColor? : React.CSSProperties["color"]
+    label ? : boolean
 }
 
 export const LogoB : FC<LogoBProps>  = ({
@@ -18,12 +19,13 @@ export const LogoB : FC<LogoBProps>  = ({
     size = "80px",
     fontSize = "24px",
     logoColor,
-    fontColor
+    fontColor,
+    label = true
 }) =>{
 
     const Colors = useColorStore();
-    const _logoColor = logoColor || Colors.colors.Maintheme;
-    const _fontColor = fontColor || Colors.colors.primaryTextColor;
+    const _logoColor = logoColor || Colors.colors.primaryTextColor;
+    const _fontColor = fontColor || Colors.colors.tertiaryTextColor;
 
     return (
 
@@ -51,7 +53,7 @@ export const LogoB : FC<LogoBProps>  = ({
                 </svg>
             </div>
             &emsp;
-            <div style={{
+            {label && <div style={{
                 fontSize : fontSize,
                 color : _fontColor,
                 textAlign : "left",
@@ -60,7 +62,7 @@ export const LogoB : FC<LogoBProps>  = ({
                 {main}
                 <br/>
                 {post}
-            </div>
+            </div>}
         </div>
        
     )

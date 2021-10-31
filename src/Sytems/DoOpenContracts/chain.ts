@@ -1,6 +1,7 @@
 import { EthI, web3 } from "./ethereum";
 import ethers from "ethers";
 
+/*
 export interface ChainYieldI {
     provider : ethers.providers.Web3Provider,
     user : ethers.ethers.providers.JsonRpcSigner,
@@ -17,4 +18,4 @@ export const loadChain = (ethereum : any) : ChainYieldI=>{
         user : user
     }
 
-}
+}*/

@@ -63,11 +63,15 @@ export const MainSegment : FC<MainSegmentProps>  = () =>{
 
     return (
 
-        <ItemProvider initialItems={initItems}>
-            <ColorProvider {...Colors}>
-                <MainRouter/>
-            </ColorProvider>
-        </ItemProvider>
+       <div style={{
+           background : Colors.Maintheme
+       }}>
+            <ItemProvider initialItems={initItems}>
+                <ColorProvider {...Colors}>
+                    <MainRouter/>
+                </ColorProvider>
+            </ItemProvider>
+       </div>
 
 
     )

@@ -115,7 +115,7 @@ export const ApolloDappBlockItemInternals :  FC<ApolloDappBlockItemInternalsProp
                         height : "300px",
                         cursor : "pointer",
                         gridTemplateRows : "3fr 1fr",
-                        color : Colors.Maintheme,
+                        color : Colors.primaryTextColor,
                         borderRadius : DesktopSizes.BorderRadius.standard,
                         overflow : "hidden",
                         ...style

@@ -14,10 +14,10 @@ export const HeaderResponsive : FC<HeaderResponsiveProps>  = ({
 
        <MediaResponsive>
            <MediaResponsive.Desktop>
-                <HeaderDesktop selected={selected}/>
+                <HeaderDesktop/>
            </MediaResponsive.Desktop>
            <MediaResponsive.Laptop>
-                <HeaderDesktop selected={selected}/>
+                <HeaderDesktop/>
            </MediaResponsive.Laptop>
            <MediaResponsive.Tablet>
                 <HeaderMobile selected={selected}/>

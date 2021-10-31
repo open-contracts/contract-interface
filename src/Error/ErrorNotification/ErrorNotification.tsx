@@ -1,4 +1,5 @@
 import React, {FC, ReactElement} from 'react';
+import { Colors } from '../../Theme';
 import { CrashLogo } from './CrashLogo';
 
 export type ErrorNotificationProps = {
@@ -30,7 +31,9 @@ export const ErrorNotification : FC<ErrorNotificationProps>  = ({
                     margin : "auto",
                 }}/>
             </div>
-            <div>
+            <div style={{
+                color : Colors.primaryTextColor
+            }}>
                 <h6>{errorText.toUpperCase()}</h6>
             </div>
         </div>

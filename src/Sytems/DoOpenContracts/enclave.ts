@@ -1,4 +1,4 @@
-import {WebSocket, Event} from "ws";
+/*import {WebSocket, Event} from "ws";
 
 function connectEnclave() {
     var enclaveProviderIP = $('#enclaveProviderIP').val();
@@ -54,7 +54,7 @@ function connectEnclave() {
             }
         } 
     };
-}
+}*/
 
 
 export interface OpenEnclaveReturnsI {
@@ -103,7 +103,7 @@ export const requestEnclaveAttestation = (ws : WebSocket)=>{
  */
 export const isAttestationEvent = (event : Event) : boolean=>{
 
-    return event["data"]["fname"] === "attestation";
+    return (event as any)["data"]["fname"] === "attestation";
 
 }
 

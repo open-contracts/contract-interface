@@ -1,6 +1,6 @@
 import React, {FC, ReactElement} from 'react';
-import { MarketBenchDesktop } from '../../Benches';
-import { LogoA } from '../../Glitter';
+import { RunBenchDesktop } from '../../Benches';
+import { LogoA, LogoB } from '../../Glitter';
 import { DappI, isDapp } from '../../Items';
 import { MainLayoutDesktop } from '../../Layouts';
 import { HeaderResponsive } from '../../Maps/Headers';
@@ -9,8 +9,9 @@ import { Colors, DesktopSizes } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
 import { HOME } from '../../Maps/Headers';
 import { MediaResponsive } from '../../Sytems';
-import { MarketBenchMobile } from '../../Benches/Market/MarkBenchMobile';
+import { RunBenchMobile } from '../../Benches/Run/Run';
 import { MainLayoutMobile } from '../../Layouts';
+import {Step} from "../../Components/Walkthrough/Step";
 
 export type HomePageProps = {}
 
@@ -55,7 +56,7 @@ export const HomePage : FC<HomePageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <MarketBenchDesktop items={dappItems} updateDapp={updateDapp}/>
+                        <Step/>
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
             </MediaResponsive.Desktop>
@@ -65,7 +66,7 @@ export const HomePage : FC<HomePageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <MarketBenchDesktop items={dappItems} updateDapp={updateDapp}/>
+                            <Step/>
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
            </MediaResponsive.Laptop>
@@ -75,7 +76,7 @@ export const HomePage : FC<HomePageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <MarketBenchMobile items={dappItems} updateDapp={updateDapp}/>
+                        <RunBenchMobile items={dappItems} updateDapp={updateDapp}/>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
            </MediaResponsive.Tablet>
@@ -85,7 +86,7 @@ export const HomePage : FC<HomePageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <MarketBenchMobile items={dappItems} updateDapp={updateDapp}/>
+                        <RunBenchMobile items={dappItems} updateDapp={updateDapp}/>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
            </MediaResponsive.Mobile>

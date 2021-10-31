@@ -1,4 +1,6 @@
-var provider = null;
+export {};
+
+/*var provider = null;
 var user = null;
 var raw_contract = null;
 var contract = null;
@@ -50,25 +52,6 @@ async function loadOpenContract() {
   OPNhub = new ethers.Contract(hubAddress, JSON.parse(hubABI), provider).connect(user);
        
   // add a button allowing the user to get OPN tokens
-  tokenActions = "<p>You need $OPN tokens to call an open contract function that performs an enclave computation. Get it here:</p>"; 
-  tokenActions += '<input type="submit" value="Get 10 $OPN" onclick="getTokens()" /><br />'
-  tokenActions += "<p>You need to allow the OpenContracts Hub to spend 3 $OPN tokens, otherwise it will reject the final transaction. Do that here:</p>"; 
-  tokenActions += '<input type="submit" value="Give Hub access to 3 $OPN" onclick="allowHub()" /><br />'	
-  $('#tokenActions').html(tokenActions);
-	
-  // add a button for every function in the contract
-  var contractFunctions = contract.interface.fragments;
-  var fnames = "<p><b>Contract Functions:</b></p>";
-  for (let i = 1; i < contractFunctions.length; i++) {
-    fname = contractFunctions[i].name;
-    fnames += `<input id=${fname} type="submit" value="${fname}" onclick="showFunction(${fname})" />`;
-	}
-  fnames += "<br />"
-  $('#functionNames').html(fnames);
-  $('#currentFunction').html("");
-  $('#results').html("");
-}
-
 
 async function getTokens() {
     await OPNtoken.gimmeSomeMoreOfDemCoins();
@@ -78,61 +61,7 @@ async function allowHub() {
     await OPNtoken.approve(OPNhub.address, 3);
 }
 
-// executed by clicking on a function button
-function showFunction(fname) {
-  fname = fname.value;
-  var fjson = contract.interface.fragments.filter(x=>x.name==fname)[0];
-  var currentFunction = `<p><b>Function name:</b>  ${fname}</p>`;
-  currentFunction += `<p><b>State mutability:</b> ${fjson.stateMutability}</p>`;
-  currentFunction += '<form id="contractForm" action="javascript:void(0);"> <p><b>Arguments:</b>';
-  if (fjson.inputs.length == 0 && fjson.stateMutability!="payable") {currentFunction += " none  <br />"}
-  if (fjson.stateMutability=="payable") {
-  	currentFunction += `<div>	<label for="msgValue">messageValue (ETH):	</label> <input id="msgValue" type="text" value="0" size="60" /></div>`;
-  }
-  for (let i = 0; i < fjson.inputs.length; i++) {
-  	var input = fjson.inputs[i];
-  	var inputname = input.name;
-  	if (inputname == null) {inputname = input.type}
-  	currentFunction += `<div>	<label for="${inputname}">	${inputname}:	</label> <input id="${inputname}" type="text" value="${input.type}" size="60" /> 	</div>`;
-	}
-  currentFunction +=`<br /> <input type="submit" value="Call" onclick=callFunction(${fname}) /> </form>`
-  $('#currentFunction').html(currentFunction)
-  $('#results').html("");
-}
 
-
-// executed by the Call button
-async function callFunction(fname) {
-   fname = fname.value;
-   var fjson = contract.interface.fragments.filter(x=>x.name==fname)[0];
-   var args = [];
-   for (let i = 0; i < fjson.inputs.length; i++) {
-     	var input = fjson.inputs[i];
-     	var inputname = input.name;
-     	if (inputname == null) {inputname = input.type}
-   		args.push($(`#${inputname}`).val());
-   }
-   
-   if (fjson.stateMutability=="payable") {
-      var msgVal = ethers.utils.parseEther($("#msgValue").val());
-      args.push({value: msgVal});
-   }
-
-   try {
-   	 var txReturn = await contract.functions[fname].apply(this, args);
-     if (fjson.stateMutability=="view") {
-    	 $('#results').html(txReturn.map(x => x.toString()));
-     } else {
-       $('#results').html("Waiting for confirmation...");
-       await txReturn.wait();
-     	 $('#results').html("Confirmed!");
-     }
-     console.log(txReturn);
-   } catch(error) {
-     $('#results').html(error.message);
-   }
-   
-}
 
 
 async function requestHubTransaction(nonce, calldata, oracleSignature, oracleProvider, registrySignature) {
@@ -327,4 +256,4 @@ function connectEnclave() {
             }
         } 
     };
-}
+}*/

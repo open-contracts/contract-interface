@@ -35,7 +35,7 @@ export const ApolloDappMainItemActions : FC<ApolloDappMainItemActionsProps>  = (
             alignContent : "center",
             alignItems : "center"
         }}>
-            <AthenaButton invert primaryColor={Colors.Maintheme} secondaryColor="white" onClick={handleGithub}>
+            <AthenaButton invert primaryColor={Colors.primaryTextColor} secondaryColor="white" onClick={handleGithub}>
                 <div style={{
                     display : "flex",
                     alignContent : "center",
@@ -45,7 +45,7 @@ export const ApolloDappMainItemActions : FC<ApolloDappMainItemActionsProps>  = (
                 </div>
             </AthenaButton>
             &emsp;
-            <AthenaButton primaryColor={Colors.Maintheme} secondaryColor="white" onClick={handleRun}>
+            <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor="white" onClick={handleRun}>
             <div style={{
                     display : "flex",
                     alignContent : "center",
@@ -90,7 +90,7 @@ export const ApolloDappMainMobileItemActions : FC<ApolloDappMainItemActionsProps
         }}>
             <AthenaButton style={{
                 width : "100%"
-            }}invert primaryColor={Colors.Maintheme} secondaryColor="white" size="lg" onClick={handleGithub}>
+            }}invert primaryColor={Colors.primaryTextColor} secondaryColor="white" size="lg" onClick={handleGithub}>
                 <div style={{
                     width : "100%",
                     display : "flex",
@@ -104,7 +104,7 @@ export const ApolloDappMainMobileItemActions : FC<ApolloDappMainItemActionsProps
             &emsp;
             <AthenaButton style={{
                 width : "100%"
-            }} primaryColor={Colors.Maintheme} secondaryColor="white" size="lg" onClick={handleRun}>
+            }} primaryColor={Colors.primaryTextColor} secondaryColor="white" size="lg" onClick={handleRun}>
             <div style={{
                      width : "100%",
                      display : "flex",

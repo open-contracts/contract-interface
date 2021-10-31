@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import { MarketBenchDesktop } from '../../Benches';
+import { RunBenchDesktop } from '../../Benches';
 import { LogoA } from '../../Glitter';
 import { isDapp } from '../../Items';
 import { MainLayoutDesktop } from '../../Layouts';
@@ -9,7 +9,7 @@ import { Colors, DesktopSizes } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
 import { HOME } from '../../Maps/Headers';
 import { MediaResponsive } from '../../Sytems';
-import { MarketBenchMobile } from '../../Benches/Market/MarkBenchMobile';
+import { RunBenchMobile } from '../../Benches/Run/Run';
 import { MainLayoutMobile } from '../../Layouts';
 import {ErrorNotification} from "../../Error";
 

@@ -7,6 +7,8 @@ import { PersonFill } from 'react-bootstrap-icons';
 import { Colors } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
 import { useHistory } from 'react-router';
+import {ConnectionStatus} from "../ConnectionStatus";
+import { ReadyT } from '../../Components/Ready/AristophanesReady/AristophanesReady';
 
 export const HOME = "EXPLORE"
 export const HOME_PATH = "/"
@@ -16,11 +18,15 @@ export const DOCS = "DOCS";
 export const DOCS_PATH = "https://open-contracts.readthedocs.io";
 
 export type HeaderDesktopProps = {
-    selected : string
+    crt ? : ReadyT,
+    wallet ? : ReadyT,
+    enclave ? : ReadyT
 }
 
 export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
-    selected
+    crt,
+    wallet,
+    enclave
 }) =>{
 
     const Colors = useColorStore();
@@ -74,42 +80,8 @@ export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
                 </div>
             </HeaderLayoutDesktop.Brand>
             <HeaderLayoutDesktop.Nav>
-                <div style={{
-                    height : "100%",
-                    width : "100%",
-                    alignItems : "center",
-                    alignContent : 'center',
-                    justifyItems : "right",
-                    justifyContent : "right",
-                    display : "grid"
-                }}>
-                    <ArchimedesNav nodeStyle={{
-                        fontSize : "20px"
-                    }}
-                    initSelected={selected}
-                    onSelect={handleSelect}
-                    itemNames={[
-                        HOME, ABOUT, DOCS
-                    ]} />
-                </div>
+                <ConnectionStatus crt={crt} wallet={wallet} enclave={enclave}/>
             </HeaderLayoutDesktop.Nav>
-            <HeaderLayoutDesktop.Account>
-                <div style={{
-                    height : "100%",
-                    width : "100%",
-                    display : "grid",
-                    alignItems : "center",
-                    alignContent : "center",
-                    justifyContent : "right",
-                    justifyItems : "right"
-                }}>
-                    <AbleAccountToggle>
-                        <AbleAccountToggle.ToggleIcon>
-                            <PersonFill size="100%" color={Colors.colors.Maintheme}/>
-                        </AbleAccountToggle.ToggleIcon>
-                    </AbleAccountToggle>
-                </div>
-            </HeaderLayoutDesktop.Account>
         </HeaderLayoutDesktop>
 
     )
