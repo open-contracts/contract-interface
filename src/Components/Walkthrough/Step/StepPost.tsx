@@ -1,6 +1,8 @@
 import React, {FC, ReactElement} from 'react';
 import { StepStage } from './StepStage';
 import { generateNamedMember, getComponentMembers } from 'rgfm';
+import {SucceededStepPost} from "./SuceededStepPost";
+import {FailedStepPost} from "./FailedStepPost";
 
 import { Members } from './StepType';
 import { Colors } from '../../../Theme';
@@ -8,19 +10,22 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 import {motion} from "framer-motion";
+import { AthenaButton } from '../../Buttons';
 
-export type StepPreProps = {
-    next ? : ()=>void
+export type StepPostProps = {
+    done ? : (success : boolean)=>void,
+    success ? : boolean
 }
 
-const StepPre : FC<StepPreProps> & {
+const StepPost : FC<StepPostProps> & {
     
         Title : FC,
         Info : FC,
         Content : FC
     
 }  = ({
-    next,
+    done,
+    success,
     children
 }) =>{
 
@@ -35,14 +40,17 @@ const StepPre : FC<StepPreProps> & {
             <div style={{
                 display : "grid",
                 gridTemplateColumns : "1fr",
-                gridTemplateRows : "1fr 1fr 4fr"
+                gridTemplateRows : "1fr 1fr 4fr",
+                justifyContent : "center",
+                justifyItems : "center"
             }}>
                 <motion.div
                         animate={{
                             position : "relative",
                             height : "100%",
                             width : "100%",
-                            y : [300, 0]
+                            opacity : success ? [1.0, .25, 0] : 1.0,
+                            y : success ? [0, 0, 100] : 0
                         }}
                         transition={{
                             ease : "easeInOut",
@@ -55,36 +63,31 @@ const StepPre : FC<StepPreProps> & {
                 </motion.div>
                 <motion.div
                     animate={{
-                        opacity : [0, 0, 0, 0, 1.0]
+                        opacity : success ? [1.0, 0, 0] : 1.0
                     }}
                     transition={{
                         ease : "easeInOut",
-                        duration : 1.25
+                        duration : 1
                     }}
                 >
                     <p style={{
                         color : Colors.primaryTextColor
                     }}>{Info}</p>
                 </motion.div>
-                <motion.div 
-                    animate={{
-                        opacity : [0, 0, 1.0],
-                    }}
-                    transition={{
-                        ease : "easeInOut",
-                        duration : 2.0
-                    }}
-                >
+                {success && <SucceededStepPost done={done}>
                     {Content}
-                </motion.div>
+                </SucceededStepPost>}
+                {!success && <FailedStepPost done={done}>
+                    {Content}
+                </FailedStepPost>}
             </div>
     )
 
 }
 
-StepPre.Title = generateNamedMember("Title");
-StepPre.Info = generateNamedMember("Info");
-StepPre.Content = generateNamedMember("Content");
+StepPost.Title = generateNamedMember("Title");
+StepPost.Info = generateNamedMember("Info");
+StepPost.Content = generateNamedMember("Content");
 
 
-export {StepPre}
+export {StepPost}

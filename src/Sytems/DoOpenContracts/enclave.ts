@@ -1,4 +1,4 @@
-/*import {WebSocket, Event} from "ws";
+import {WebSocket, Event} from "ws";
 
 function connectEnclave() {
     var enclaveProviderIP = $('#enclaveProviderIP').val();
@@ -54,7 +54,7 @@ function connectEnclave() {
             }
         } 
     };
-}*/
+}
 
 
 export interface OpenEnclaveReturnsI {

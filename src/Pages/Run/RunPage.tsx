@@ -12,41 +12,19 @@ import { MediaResponsive } from '../../Sytems';
 import { RunBenchMobile } from '../../Benches/Run/Run';
 import { MainLayoutMobile } from '../../Layouts';
 import {Step} from "../../Components/Walkthrough/Step";
+import { ArrowUpCircleFill } from 'react-bootstrap-icons';
+import { useState } from 'react';
+import { ReadyT } from '../../Components/Ready/AristophanesReady/AristophanesReady';
+import { useEffect } from 'react';
+import {RunSteps} from "../../Statics/Steps/RunSteps";
 
 export type HomePageProps = {}
 
 export const HomePage : FC<HomePageProps>  = () =>{
 
-    const {
-        items,
-        dispatch
-    } = useItemStore();
-
-    const dappItems = Object.values(items).filter((item)=>{
-        return isDapp(item);
-    }).sort((a : DappI, b : DappI)=>{
-        return a.id.localeCompare(b.id)
-    })
-
-    const updateDapp = (id : string, item : DappI)=>{
-
-        dispatch((state)=>{
-
-            const {[id] : target, ...rest} = state.items;
-
-            return {
-                ...state,
-                items : {
-                    ...rest,
-                    [item.id] : item
-                }
-            }
-        })
-
-    }
-
     const Colors = useColorStore();
 
+   
     return (
 
        <MediaResponsive>
@@ -56,7 +34,7 @@ export const HomePage : FC<HomePageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <Step/>
+                        <RunSteps/>
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
             </MediaResponsive.Desktop>
@@ -76,7 +54,6 @@ export const HomePage : FC<HomePageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <RunBenchMobile items={dappItems} updateDapp={updateDapp}/>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
            </MediaResponsive.Tablet>
@@ -86,7 +63,6 @@ export const HomePage : FC<HomePageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <RunBenchMobile items={dappItems} updateDapp={updateDapp}/>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
            </MediaResponsive.Mobile>

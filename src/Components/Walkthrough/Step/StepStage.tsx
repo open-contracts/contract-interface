@@ -56,11 +56,14 @@ const StepStage : FC<StepStageProps> & {
             alignContent : "center",
             alignItems : "center",
             justifyContent : "center",
-            transition : `${duration}ms ease-in-out`,
+            transition : `all 1s ease-in-out`,
             justifyItems : "center",
             ...load ? startStyle?.wrapper : endStyle?.wrapper
         }}>
-            <div>
+            <div style={{
+                transition : `all 1s ease-in-out`,
+                ...load ? startStyle?.Title : endStyle?.Title
+            }}>
                 {Title}
             </div>
             <div>
