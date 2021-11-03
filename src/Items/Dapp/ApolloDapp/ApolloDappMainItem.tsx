@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 import { useErrorContext } from '../../../Error/ErrorProvider';
 import { Colors, DesktopSizes } from '../../../Theme';
 import {ApolloDappFunctions} from "./ApolloDappFunctions";
+import {TerminalAndres} from "../../../Benches/Terminal/TerminalAndres";
 
 export type ApolloDappMainItemReadmeProps = {
     style ? : React.CSSProperties,
@@ -71,7 +72,6 @@ export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps> 
                         width : "100%"
                     }}/>
                 </div>
-                <br/>
                 <div style={{
                     display : "flex",
                     justifyContent : "left",
@@ -84,6 +84,20 @@ export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps> 
                     <ApolloDappFunctions dapp={dappItem}/>
                 </div>
                 <br/>
+                <div>
+                    <TerminalAndres style={{
+                        width : "100%",
+                        height : "200px",
+                        overflowY : "scroll",
+                        textAlign : "left",
+                        padding : DesktopSizes.Padding.standard,
+                        color : Colors.primaryTextColor,
+                        fontFamily : "Consolas",
+                        background : "#1e1e1e"
+                    }}>
+                        opencontracts@10.123.34.36 &gt;
+                    </TerminalAndres>
+                </div>
                 <hr style={{
                     color : Colors.primaryTextColor
                 }}/>

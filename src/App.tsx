@@ -11,18 +11,6 @@ import {editor} from "monaco-editor";
 import {Colors} from "./Theme"
 
 function App() {
-
-  editor.defineTheme(
-    'darkDapp',    
-    {
-        base: 'vs-dark',
-        inherit: true,
-        rules: [],
-        colors: {
-          'editor.background': Colors.Maintheme,
-        }
-    })
-    editor.setTheme("darkDapp")
   return (
     <div className="App">
       <MainSegment/>
