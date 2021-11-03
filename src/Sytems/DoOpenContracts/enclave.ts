@@ -1,6 +1,6 @@
 import {WebSocket, Event} from "ws";
 
-function connectEnclave() {
+/*function connectEnclave() {
     var enclaveProviderIP = $('#enclaveProviderIP').val();
     // var oracleCode =  getOracleString(); // $('#oracleCode').val();	
     var trusted_connection = false;
@@ -54,7 +54,7 @@ function connectEnclave() {
             }
         } 
     };
-}
+}*/
 
 
 export interface OpenEnclaveReturnsI {
@@ -149,7 +149,7 @@ export const getEnclaveAttestation = async (ws : WebSocket)=>{
 }
 
 /**
- * 
+ * Gets an enclave's IP
  * @param enclaveIp 
  */
 export const connectToEnclave = async (enclaveIp : string)=>{

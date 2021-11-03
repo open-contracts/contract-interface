@@ -35,25 +35,16 @@ export const ApolloDappMainItemActions : FC<ApolloDappMainItemActionsProps>  = (
             alignContent : "center",
             alignItems : "center"
         }}>
-            <AthenaButton invert primaryColor={Colors.primaryTextColor} secondaryColor="white" onClick={handleGithub}>
+            <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme} onClick={handleGithub}>
                 <div style={{
                     display : "flex",
                     alignContent : "center",
                     alignItems : "center"
                 }}>
-                    See on GitHub&emsp;<Github color="white"/>
+                    See on GitHub&emsp;<Github/>
                 </div>
             </AthenaButton>
             &emsp;
-            <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor="white" onClick={handleRun}>
-            <div style={{
-                    display : "flex",
-                    alignContent : "center",
-                    alignItems : "center"
-                }}>
-                    Run&emsp;<PlayFill/>
-                </div>
-            </AthenaButton>
         </div>
 
     )
@@ -90,7 +81,7 @@ export const ApolloDappMainMobileItemActions : FC<ApolloDappMainItemActionsProps
         }}>
             <AthenaButton style={{
                 width : "100%"
-            }}invert primaryColor={Colors.primaryTextColor} secondaryColor="white" size="lg" onClick={handleGithub}>
+            }}invert primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme} size="lg" onClick={handleGithub}>
                 <div style={{
                     width : "100%",
                     display : "flex",

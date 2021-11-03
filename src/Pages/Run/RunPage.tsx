@@ -3,7 +3,7 @@ import { RunBenchDesktop } from '../../Benches';
 import { LogoA, LogoB } from '../../Glitter';
 import { DappI, isDapp } from '../../Items';
 import { MainLayoutDesktop } from '../../Layouts';
-import { HeaderResponsive } from '../../Maps/Headers';
+import { HeaderDesktop, HeaderResponsive } from '../../Maps/Headers';
 import { useItemStore } from '../../Sytems/ItemProvider';
 import { Colors, DesktopSizes } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
@@ -17,13 +17,30 @@ import { useState } from 'react';
 import { ReadyT } from '../../Components/Ready/AristophanesReady/AristophanesReady';
 import { useEffect } from 'react';
 import {RunSteps} from "../../Statics/Steps/RunSteps";
+import { StepStatusT, AllSteps } from '../../Statics/Steps/Steps';
 
 export type HomePageProps = {}
 
+export const simulateNetworkRequest =  async <T extends any>(value : T, upperBound : number = 5000) : Promise<T> =>{
+    return new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+            resolve(value);
+        }, Math.random() * upperBound)
+    })
+}
+
 export const HomePage : FC<HomePageProps>  = () =>{
 
-    const Colors = useColorStore();
+    const [stepStatus, setStepStatus] = useState<StepStatusT>({
+        crt : "not ready",
+        wallet : "not ready",
+        enclave : "not ready"
+    });
 
+    const [readyToRun, setReadyToRun] = useState(false);
+    const handleAllDone = ()=>{
+        setReadyToRun(true);
+    }
    
     return (
 
@@ -31,10 +48,49 @@ export const HomePage : FC<HomePageProps>  = () =>{
            <MediaResponsive.Desktop>
                 <MainLayoutDesktop>
                     <MainLayoutDesktop.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <RunSteps/>
+                        {!readyToRun&&
+                            <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>
+                        }
+                        {readyToRun && 
+                            <RunBenchDesktop dapp={{
+                                __isDapp__ : true,
+                                id : "test",
+                                gitUrl : "https://github.com/open-contracts/reforestation-commitments",
+                                functions : [
+                                    {
+                                        name : "helloWorld",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "helloFriend",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "spray",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "sprayOracle",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    }
+                                ]
+                            }}/>
+                        }
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
             </MediaResponsive.Desktop>

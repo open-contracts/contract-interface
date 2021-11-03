@@ -6,9 +6,13 @@ import {EnclaveStep} from "./EnclaveStep";
 
 export const AllSteps = ["crt", "wallet", "enclave"];
 
+export type StepStatusT = {
+    [key in typeof AllSteps[number]] : ReadyT
+}
+
 export type StepsProps = {
     done ? : (which : string, success : boolean)=>void
-    status ? : {[key in typeof AllSteps[number]] : ReadyT},
+    status ? : StepStatusT,
     which ? : typeof AllSteps[number],
 }
 

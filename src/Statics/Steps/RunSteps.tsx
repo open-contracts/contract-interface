@@ -1,25 +1,23 @@
 import React, {FC, ReactElement} from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import {Steps, AllSteps} from "./Steps";
+import {Steps, AllSteps, StepStatusT} from "./Steps";
+import { simulateNetworkRequest } from './simulateNetworkRequest';
 
 export type RunStepsProps = {
     done ? : ()=>void,
-    onWallet ? : (data : string)=>void
+    setStepStatus ? : (stepStatus : StepStatusT)=>void,
+    stepStatus : StepStatusT
 }
 
 export const RunSteps : FC<RunStepsProps>  = ({
-    done
+    done,
+    setStepStatus,
+    stepStatus
 }) =>{
 
     const [stepIndex, setStepIndex] = useState(0);
     const [allDone, setAllDone] = useState(false);
-
-    /*const [[stageReady, stageRequested], setInitItems] = 
-    useState<[
-        {[key : string] : DappI}|undefined,
-        boolean
-    ]>([undefined, false]);*/
 
     const handleDone = (which : string, success : boolean)=>{
         const index = AllSteps.indexOf(which);
@@ -33,6 +31,17 @@ export const RunSteps : FC<RunStepsProps>  = ({
     }
 
     useEffect(()=>{
+
+        simulateNetworkRequest<StepStatusT>({
+            ...stepStatus,
+            [AllSteps[stepIndex]] : "ready"
+        }).then((data)=>{
+            setStepStatus && setStepStatus(data)
+        })
+
+    }, [stepStatus])
+
+    useEffect(()=>{
         if(allDone){
             done && done();
         }
@@ -43,11 +52,7 @@ export const RunSteps : FC<RunStepsProps>  = ({
         <Steps 
         done={handleDone}
         which={AllSteps[stepIndex]}
-        status={{
-            crt : "ready",
-            wallet : "ready",
-            enclave : "failed"
-        }}/>
+        status={stepStatus}/>
 
 
     )

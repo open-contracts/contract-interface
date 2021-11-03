@@ -1,12 +1,14 @@
 import { getFileBlob, getFileText, getSha, octokit } from "../../Sytems/Octokit";
 import {to} from "await-to-js";
+import {OpenContractInterfaceI, AbiI} from "../../Sytems/DoOpenContracts/OpenContractInterface";
 
 export interface DappDataI {
     name : string,
     readme : string,
     contract : string,
     oracle : string,
-    appTile : string
+    appTile : string,
+    functions : AbiI[]
 }
 
 export interface DappI extends Partial<DappDataI>{

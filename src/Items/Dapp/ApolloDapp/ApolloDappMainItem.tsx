@@ -8,7 +8,8 @@ import remarkGfm from 'remark-gfm'
 import { ApolloDappMainItemActions } from './ApolloDappMainItemActions';
 import { useHistory } from 'react-router-dom';
 import { useErrorContext } from '../../../Error/ErrorProvider';
-import { DesktopSizes } from '../../../Theme';
+import { Colors, DesktopSizes } from '../../../Theme';
+import {ApolloDappFunctions} from "./ApolloDappFunctions";
 
 export type ApolloDappMainItemReadmeProps = {
     style ? : React.CSSProperties,
@@ -71,8 +72,24 @@ export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps> 
                     }}/>
                 </div>
                 <br/>
-                <hr/>
-                <div>
+                <div style={{
+                    display : "flex",
+                    justifyContent : "left",
+                    justifyItems : "right",
+                    alignContent : "left",
+                    alignItems : "left",
+                    color : Colors.primaryTextColor,
+                    width : "100%"
+                }}>
+                    <ApolloDappFunctions dapp={dappItem}/>
+                </div>
+                <br/>
+                <hr style={{
+                    color : Colors.primaryTextColor
+                }}/>
+                <div style={{
+                    color : Colors.primaryTextColor
+                }}>
                     <ApolloDappMainItemReadMe readme={dappItem.readme}/>
                 </div>
             </div>

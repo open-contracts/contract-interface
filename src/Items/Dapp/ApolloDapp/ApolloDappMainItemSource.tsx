@@ -1,5 +1,6 @@
 import React, {FC, ReactElement} from 'react';
 import MonacoEditor,{ Monaco} from '@monaco-editor/react';
+import {editor} from "monaco-editor";
 import Skeleton from "react-loading-skeleton";
 import { Colors, DesktopSizes } from '../../../Theme';
 import { SizeDropdown } from '../../../Components/ContentBrowsing';
@@ -36,6 +37,7 @@ export const ApolloDappMainItemSourceCode : FC<ApolloDappMainItemSourceCodeProps
             console.log(data);
         }}
         style={{
+            background : "#1e1e1e",
             width : "100%",
             height : "auto"
         }}>
@@ -44,16 +46,17 @@ export const ApolloDappMainItemSourceCode : FC<ApolloDappMainItemSourceCodeProps
             isDropped={isDropped}
             dropStyle={{
                 height : "60px",
-                color : "blue"
+                color : "cyan"
             }}
             style={{
-                border : `1px solid ${Colors.Maintheme}`,
+                border : `1px solid ${Colors.primaryTextColor}`,
                 borderRadius : DesktopSizes.BorderRadius.standard,
                 paddingTop: DesktopSizes.Padding.standard
             }}>
                 {!code && <Skeleton height="100%" width="100%"/>}
                 {code &&
                     <MonacoEditor
+                        theme={"vs-dark"}  
                         onMount={handleMount}
                         width="95%"
                         height={(height || 0) + 60}
@@ -150,12 +153,14 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                 display : "grid",
                 gridTemplateColumns : "1fr 1fr",
                 gap : "5%",
-                textAlign : "left"
+                textAlign : "left",
+                color : Colors.primaryTextColor,
             }}>
                <div>
                     <h6>contract.sol</h6>
                     <div style={{
-                        position : "relative"
+                        position : "relative",
+                        background : Colors.primaryTextColor
                     }}>
                         <ApolloDappMainItemSourceCode
                             code={contract}
@@ -187,7 +192,8 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                             padding : "1px",
                             borderTopRightRadius: DesktopSizes.BorderRadius.standard,
                             borderBottomLeftRadius : DesktopSizes.BorderRadius.standard,
-                            opacity : .7
+                            opacity : .7,
+                            background : Colors.primaryTextColor
                         }}>
                             <ArrowsAngleExpand size={10}/>
                         </div>
@@ -196,7 +202,7 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                <div>
                     <h6>oracle.py</h6>
                     <div style={{
-                        position : "relative"
+                        position : "relative",
                     }}>
                         <ApolloDappMainItemSourceCode
                             code={oracle}
@@ -228,7 +234,8 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                             padding : "1px",
                             borderTopRightRadius: DesktopSizes.BorderRadius.standard,
                             borderBottomLeftRadius : DesktopSizes.BorderRadius.standard,
-                            opacity : .7
+                            opacity : .7,
+                            background : Colors.primaryTextColor
                         }}>
                             <ArrowsAngleExpand size={10}/>
                         </div>
@@ -263,8 +270,9 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                                 display : "flex",
                                 padding : DesktopSizes.Padding.standard,
                                 background : `${Colors.Maintheme}ff`,
+                                border : `1px solid ${Colors.primaryTextColor}`,
                                 borderRadius : DesktopSizes.BorderRadius.standard,
-                                color : "white",
+                                color : Colors.primaryTextColor,
                                 textAlign : "left"
                             }}>{modal === "contract" ? "contract.sol" : "oracle.py"}
                                    <div 
@@ -272,7 +280,6 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                                         style={{
                                             marginLeft: "auto",
                                             marginRight: 0,
-                                            background : "white",
                                             display : "grid",
                                             gridTemplateColumns : "1fr",
                                             justifyContent : "center",
@@ -287,7 +294,8 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                                             borderLeft: `1px solid ${Colors.Maintheme}`,
                                             padding : "1px",
                                             borderRadius: DesktopSizes.BorderRadius.standard,
-                                            opacity : .7
+                                            opacity : .7,
+                                            background : Colors.primaryTextColor
                                         }}>
                                             <X size={12}/>
                                         </div>
