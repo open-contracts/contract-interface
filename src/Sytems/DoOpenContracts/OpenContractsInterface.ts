@@ -1,3 +1,5 @@
+import { getFileText } from "../Octokit"
+
 export interface OpenContractsInterfaceI {
     ropsten: RopstenI;
 }
@@ -66,20 +68,16 @@ export interface TokenAbi {
 
 /**
  * Fetches the open contracts interace from GitHub.
- * @param contractRepo 
+ * @param protocolRepo
  * @returns 
  */
- export const OpenContractsInterface = async (contractRepo : string)
+ export const OpenContractsInterface = async ()
  : Promise<OpenContractsInterfaceI>=>{
      return JSON.parse(
-         await(
-             await (
-                 fetch(
-                     new URL(
-                         `${contractRepo}/opencontracts_interface.json` 
-                     ) as unknown as string
-                 )
-             )
-         ).text()
+         await getFileText({
+             owner : "open-contracts",
+             repo : "open-contracts.github.io",
+             path : "opencontracts_interface.json"
+         })
      )
  }

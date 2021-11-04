@@ -21,7 +21,7 @@ export const CrtStep : FC<CrtStepProps>  = ({
         ready={ready}
         >
             <Step.Title>
-                Step 1: Checking Root CA
+                Step 2: Checking Root CA
             </Step.Title>
             <Step.Info>
                 You must have installed our Root CA to use this application.

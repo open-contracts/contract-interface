@@ -1,5 +1,20 @@
-import Web3 from "web3";
+import { ethers } from "ethers";
 
-export const web3 = new Web3(Web3.givenProvider);
-export const ethereum = web3.eth;
-export type EthI = typeof ethereum;
+declare global {
+    interface Window {
+        ethereum : ethers.providers.ExternalProvider
+    }
+}
+
+export const initEthereum = async () : Promise<ethers.providers.Web3Provider>=>{
+
+    const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        "any"
+    )
+
+    window.ethereum.request && window.ethereum.request({method : "eth_requestAccounts"});
+    
+    return provider;
+
+}

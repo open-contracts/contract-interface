@@ -6,6 +6,10 @@ export interface OpnTokenI extends ethers.Contract{
     approve(address : string, amountOpn : number):Promise<void>
 }
 
+export interface OpnHubI extends ethers.Contract{
+    registryIpList(count : number):Promise<string>
+}
+
 /**
  * Creates an OpnTokenContract.
  * @param ocInterface 
@@ -37,13 +41,12 @@ export const OpnToken = (
     ocInterface : OpenContractsInterfaceI, 
     network : keyof OpenContractsInterfaceI,
     provider : ethers.providers.Web3Provider,
-    user : ethers.providers.JsonRpcSigner
 ) : OpnTokenI=>{
     return OpnTokenContract(
         ocInterface,
         network,
         provider
-    ).connect(user) as OpnTokenI;
+    ).connect(provider.getSigner()) as OpnTokenI;
 }
 
 /**
@@ -79,14 +82,13 @@ export const OpnForwarder = (
     ocInterface : OpenContractsInterfaceI, 
     network : keyof OpenContractsInterfaceI,
     provider : ethers.providers.Web3Provider,
-    user : ethers.providers.JsonRpcSigner
 )=>{
 
     return OpnForwarderContract(
         ocInterface,
         network,
         provider
-    ).connect(user);
+    ).connect(provider.getSigner());
 
 }
 
@@ -101,12 +103,12 @@ export const OpnHubContract = (
     ocInterface : OpenContractsInterfaceI, 
     network : keyof OpenContractsInterfaceI,
     provider : ethers.providers.Web3Provider,
-)=>{
+) : OpnHubI=>{
     return new ethers.Contract(
         ocInterface[network].hub.address,
         ocInterface[network].hub.abi,
         provider
-    )
+    ) as OpnHubI
 }
 
 /**
@@ -121,13 +123,12 @@ export const OpnHub = (
     ocInterface : OpenContractsInterfaceI, 
     network : keyof OpenContractsInterfaceI,
     provider : ethers.providers.Web3Provider,
-    user : ethers.providers.JsonRpcSigner
-)=>{
+) : OpnHubI=>{
     return OpnHubContract(
         ocInterface,
         network,
         provider
-    ).connect(user);
+    ).connect(provider.getSigner()) as OpnHubI;
 }
 
 /**
@@ -146,8 +147,37 @@ export const getOpnTokens = async (opnToken : OpnTokenI)=>{
  */
 export const allowHub = async (
     opnToken : OpnTokenI, 
-    opnHub : OpnTokenI,
+    opnHub : OpnHubI,
     amountOpn : number
 )=>{
     await opnToken.approve(opnHub.address, amountOpn);
+}
+
+/**
+ * Converts a hex string to an array of int.
+ * @param hexString 
+ * @returns 
+ */
+export const hexStringToArray = (hexString : string)=>{
+
+    const pairs = hexString.match(/[\dA-F]{2}/gi);
+    const integers = pairs ? pairs.map(function(s) {return parseInt(s, 16);}) : [];
+    return new Uint8Array(integers);
+
+}
+
+/**
+ * Gets the ip for the registry.
+ * @param opnHub 
+ * @returns 
+ */
+export const getRegistryIp = async (
+    opnHub : OpnHubI
+) : Promise<string>=>{
+
+    console.log(opnHub.address);
+
+    console.log(hexStringToArray(await opnHub.registryIpList(3)));
+
+    return hexStringToArray(await opnHub.registryIpList(0)).join(".");
 }

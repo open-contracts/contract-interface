@@ -1,23 +1,23 @@
 import React, {FC, ReactElement} from 'react';
 import { RunBenchDesktop } from '../../Benches';
-import { LogoA, LogoB } from '../../Glitter';
-import { DappI, isDapp } from '../../Items';
 import { MainLayoutDesktop } from '../../Layouts';
 import { HeaderDesktop, HeaderResponsive } from '../../Maps/Headers';
-import { useItemStore } from '../../Sytems/ItemProvider';
-import { Colors, DesktopSizes } from '../../Theme';
-import { useColorStore } from '../../Theme/ColorProvider';
 import { HOME } from '../../Maps/Headers';
 import { MediaResponsive } from '../../Sytems';
-import { RunBenchMobile } from '../../Benches/Run/Run';
 import { MainLayoutMobile } from '../../Layouts';
 import {Step} from "../../Components/Walkthrough/Step";
-import { ArrowUpCircleFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
-import { ReadyT } from '../../Components/Ready/AristophanesReady/AristophanesReady';
 import { useEffect } from 'react';
 import {RunSteps} from "../../Statics/Steps/RunSteps";
 import { StepStatusT, AllSteps } from '../../Statics/Steps/Steps';
+import { ethers } from 'ethers';
+import { checkRootCa } from '../../Sytems/DoOpenContracts';
+
+declare global {
+    interface Window {
+        ethereum : ethers.providers.ExternalProvider
+    }
+}
 
 export type HomePageProps = {}
 
@@ -30,6 +30,15 @@ export const simulateNetworkRequest =  async <T extends any>(value : T, upperBou
 }
 
 export const HomePage : FC<HomePageProps>  = () =>{
+
+    useEffect(()=>{
+
+        checkRootCa().then((data)=>{
+            console.log(data);
+        })
+    
+
+    }, [])
 
     const [stepStatus, setStepStatus] = useState<StepStatusT>({
         crt : "not ready",

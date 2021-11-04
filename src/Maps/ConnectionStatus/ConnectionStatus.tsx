@@ -20,12 +20,14 @@ export const ConnectionStatus : FC<ConnectionStatusProps>  = ({
             height : "100%",
             alignContent : "center",
             alignItems : "center",
+            justifyItems : "right",
+            justifyContent : "right",
             textAlign : "left"
         }}>
-            <AristophanesReady label={"Root CA"} ready={crt} />
-            &emsp;
-            &emsp;
             <AristophanesReady label={"Wallet"} ready={wallet} />
+            &emsp;
+            &emsp;
+            <AristophanesReady label={"Root CA"} ready={crt} />
             &emsp;
             &emsp;
             <AristophanesReady label={"Enclave"} ready={enclave}/>

@@ -1,4 +1,3 @@
-import { EthI, web3 } from "./ethereum";
 import ethers from "ethers";
 
 /*
