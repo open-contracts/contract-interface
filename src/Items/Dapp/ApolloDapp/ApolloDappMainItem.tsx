@@ -11,6 +11,7 @@ import { useErrorContext } from '../../../Error/ErrorProvider';
 import { Colors, DesktopSizes } from '../../../Theme';
 import {ApolloDappFunctions} from "./ApolloDappFunctions";
 import {TerminalAndres} from "../../../Benches/Terminal/TerminalAndres";
+import {DappInput} from "../../DappPut/DappInput";
 
 export type ApolloDappMainItemReadmeProps = {
     style ? : React.CSSProperties,
@@ -85,18 +86,13 @@ export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps> 
                 </div>
                 <br/>
                 <div>
-                    <TerminalAndres style={{
-                        width : "100%",
-                        height : "200px",
-                        overflowY : "scroll",
-                        textAlign : "left",
-                        padding : DesktopSizes.Padding.standard,
-                        color : Colors.primaryTextColor,
-                        fontFamily : "Consolas",
-                        background : "#1e1e1e"
-                    }}>
-                        opencontracts@10.123.34.36 &gt;
-                    </TerminalAndres>
+                    <DappInput dappInput={{
+                        type : "input",
+                        name : "msg",
+                        prompt : "Test",
+                        description : "Something should go in here.",
+                        value : "None"
+                    }}/>
                 </div>
                 <hr style={{
                     color : Colors.primaryTextColor
