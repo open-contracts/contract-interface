@@ -48,7 +48,7 @@ export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
                 </div>
             </HeaderLayoutDesktop.Brand>
             <HeaderLayoutDesktop.Nav>
-                <ConnectionStatus crt={crt} wallet={wallet} enclave={enclave}/>
+                <ConnectionStatus wallet={wallet}/>
             </HeaderLayoutDesktop.Nav>
         </HeaderLayoutDesktop>
 

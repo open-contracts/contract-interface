@@ -12,7 +12,10 @@ export const RunBenchDesktop : FC<RunBenchDesktopProps>  = ({
 
     return (
 
-        <>{"no dapp"}</>
+        <>{dapp  ? 
+            <ApolloDappMainItem dappItem={dapp}/>
+            : "No dapp"
+        }</>
 
     )
 

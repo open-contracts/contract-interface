@@ -1,10 +1,11 @@
 /// <reference types="react-scripts" />
 
-import {ether} from "ethers";
+import {ether, ethers} from "ethers";
 
 
 declare global {
     interface window {
+        ethereum : ethers.providers.ExternalProvider
         hexStringtoArray(hexString : string) : number[];
         b64Url2Buff(b64urlstring : string) : Buffer;
 

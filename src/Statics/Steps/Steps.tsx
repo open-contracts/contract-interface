@@ -4,7 +4,7 @@ import { CrtStep } from './CrtStep';
 import {WalletStep} from "./WalletStep";
 import {EnclaveStep} from "./EnclaveStep";
 
-export const AllSteps = ["wallet", "crt", "enclave"];
+export const AllSteps = ["wallet"];
 
 export type StepStatusT = {
     [key in typeof AllSteps[number]] : ReadyT

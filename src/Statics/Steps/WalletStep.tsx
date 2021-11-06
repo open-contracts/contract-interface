@@ -20,7 +20,7 @@ export const WalletStep : FC<WalletStepProps>  = ({
         done={done}
         ready={ready}>
             <Step.Title>
-                Step 1: Connecting to MetaMask
+               Connecting to MetaMask
             </Step.Title>
             <Step.Info>
                 We need to connect to your MetaMask to run the application.

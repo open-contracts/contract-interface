@@ -23,7 +23,7 @@ export const MainSegment : FC<MainSegmentProps>  = () =>{
        <div style={{
            background : Colors.Maintheme
        }}>
-           <HomePage/>
+           <MainRouter/>
        </div>
 
 

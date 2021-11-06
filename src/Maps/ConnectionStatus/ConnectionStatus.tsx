@@ -1,17 +1,31 @@
 import React, {FC, ReactElement} from 'react';
 import { AristophanesReady, ReadyT } from '../../Components/Ready/AristophanesReady/AristophanesReady';
+import {ethers} from "ethers";
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Colors } from '../../Theme';
 
 export type ConnectionStatusProps = {
-    crt ? : ReadyT,
     wallet ? : ReadyT,
-    enclave ? : ReadyT
 }
 
 export const ConnectionStatus : FC<ConnectionStatusProps>  = ({
-    crt,
     wallet,
-    enclave
 }) =>{
+
+    const [address, setAddress] = useState<string|undefined>(undefined);
+
+    useEffect(()=>{
+
+        if(wallet === "ready"){
+            const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+            const signer = provider.getSigner();
+            !address && signer.getAddress().then((address)=>{
+                setAddress(address);
+            })
+        }
+
+    }, [wallet])
 
     return (
 
@@ -24,13 +38,11 @@ export const ConnectionStatus : FC<ConnectionStatusProps>  = ({
             justifyContent : "right",
             textAlign : "left"
         }}>
-            <AristophanesReady label={"Wallet"} ready={wallet} />
-            &emsp;
-            &emsp;
-            <AristophanesReady label={"Root CA"} ready={crt} />
-            &emsp;
-            &emsp;
-            <AristophanesReady label={"Enclave"} ready={enclave}/>
+
+            <AristophanesReady label={"Metamask"} ready={wallet} expressions={{
+                ready : address
+            }} />
+              
         </div>
 
     )
