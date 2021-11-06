@@ -6,7 +6,7 @@ import { AbleAccountToggle } from '../../Components/AccountToggles';
 import { PersonFill } from 'react-bootstrap-icons';
 import { Colors } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import {ConnectionStatus} from "../ConnectionStatus";
 import { ReadyT } from '../../Components/Ready/AristophanesReady/AristophanesReady';
 
@@ -29,44 +29,12 @@ export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
     enclave
 }) =>{
 
-    const Colors = useColorStore();
-
-    const navigate = useNavigate();
-
-    const goHome = ()=>{
-        navigate(HOME_PATH);
-    }
-
-    const goAbout = ()=>{
-        navigate(ABOUT_PATH);
-    }
-
-    const goDocs = ()=>{
-        window.location.href = DOCS_PATH;
-    }
-
-    const handleSelect = (item : string)=>{
-
-        if(item === ABOUT) {
-            goAbout();
-        } else if(item === DOCS){
-            goDocs();
-        } else {
-            goHome();
-        }
-
-    }
-
-    const handleLogo  = ()=>{
-        handleSelect("HOME")
-    }
 
     return (
 
         <HeaderLayoutDesktop>
             <HeaderLayoutDesktop.Brand>
                 <div 
-                    onClick={handleLogo}
                     style={{
                     cursor : "pointer",
                     height : "100%",

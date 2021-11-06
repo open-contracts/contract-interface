@@ -14,7 +14,7 @@ export const MainRouter : FC<MainRouterProps>  = () =>{
 
     return (
 
-        <BrowserRouter basename="/">
+        <BrowserRouter>
             <IntegratedErrorBoundary>
                 <Routes>
                     <Route path="/" element={<HomePage/>}/>

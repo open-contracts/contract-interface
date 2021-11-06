@@ -43,7 +43,6 @@ export const ErrorProvider : FC<ErrorProviderProps>  = ({
 
     const [state, dispatch] = useReducer(ErrorReducer, DefaultErrorContext);
 
-    // initializing phase
     useEffect(()=>{
 
         if(!state.errorLoaded && !state.errorLoading && !state.errorValidating){
@@ -60,7 +59,6 @@ export const ErrorProvider : FC<ErrorProviderProps>  = ({
 
     })
 
-    // validating phase
     useEffect(()=>{
 
         if(!state.errorLoaded && !state.errorLoading && state.errorValidating && state.dispatch){

@@ -6,7 +6,7 @@ import { AbleAccountToggle } from '../../Components/AccountToggles';
 import { PersonFill } from 'react-bootstrap-icons';
 import { Colors } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 export const HOME = "EXPLORE"
 export const HOME_PATH = "/"

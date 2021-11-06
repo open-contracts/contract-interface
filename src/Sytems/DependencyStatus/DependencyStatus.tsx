@@ -45,7 +45,6 @@ export const DependencyProvider : FC<DependencyProviderProps>  = ({
 
     const [state, dispatch] = useReducer(DependencyReducer, DefaultDependencyContext);
 
-    // initializing phase
     useEffect(()=>{
 
         if(!state.DependencysLoaded && !state.DependencysLoading && !state.DependencysValidating){
@@ -62,7 +61,6 @@ export const DependencyProvider : FC<DependencyProviderProps>  = ({
 
     })
 
-    // validating phase
     useEffect(()=>{
 
         if(!state.DependencysLoaded && !state.DependencysLoading && state.DependencysValidating && state.dispatch){

@@ -59,7 +59,7 @@ export const LeftRightScrollAdorno : FC<LeftRightScrollAdornoProps>  = ({
         <div 
         style={{
             position : "relative",
-            width : "100px", // I honestly don't really understand why this solves the scaling issue, but it does.
+            width : "100px",
             ...style
         }}>
             {showLeft && <LeftRightScrollButton

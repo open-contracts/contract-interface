@@ -3,7 +3,7 @@ import { AthenaButton } from '../../../Components/Buttons';
 import { Colors } from '../../../Theme';
 import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus } from 'react-bootstrap-icons';
 import { PlayFill } from 'react-bootstrap-icons';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { parseGitUrl } from '../Dapp';
 
 export type ApolloDappMainItemActionsProps = {

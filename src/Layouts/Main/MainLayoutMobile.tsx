@@ -20,6 +20,8 @@ const MainLayoutMobile : FC<MainLayoutMobileProps>  & {
         Footer
     } = getComponentMembers(Members, children);
 
+    console.log(Header, Footer, Content);
+
     return (
 
         <div style={{

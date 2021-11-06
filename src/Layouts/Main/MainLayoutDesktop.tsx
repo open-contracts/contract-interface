@@ -20,6 +20,8 @@ const MainLayoutDesktop : FC<MainLayoutDesktopProps>  & {
         Footer
     } = getComponentMembers(Members, children);
 
+    console.log(Header, Content);
+
     return (
 
         <div style={{
@@ -53,7 +55,7 @@ const MainLayoutDesktop : FC<MainLayoutDesktopProps>  & {
 
 }
 
-MainLayoutDesktop.Header = generateNamedMember('Header');
+MainLayoutDesktop.Header = generateNamedMember("Header");
 MainLayoutDesktop.Content = generateNamedMember("Content");
 MainLayoutDesktop.Footer = generateNamedMember("Footer");
 

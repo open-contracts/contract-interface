@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from 'react';
+import React, {Children, FC, ReactElement} from 'react';
 import {generateNamedMember, getComponentMembers} from "rgfm";
 import MediaQuery from "react-responsive";
 
@@ -26,6 +26,8 @@ const MediaResponsive : FC<MediaResponsiveProps> & {
         Tablet,
         Mobile
     } = getComponentMembers(Members, children);
+
+    console.log(Children.toArray(children), Desktop, Laptop)
 
     return (
 

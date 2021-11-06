@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 
 export type RunDappProps = {}
 

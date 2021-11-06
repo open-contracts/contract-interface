@@ -1,6 +1,5 @@
 import { getFileBlob, getFileText, getSha, octokit } from "../../Sytems/Octokit";
 import {to} from "await-to-js";
-import {OpenContractInterfaceI, AbiI} from "../../Sytems/DoOpenContracts/OpenContractInterface";
 
 export interface DappDataI {
     name : string,

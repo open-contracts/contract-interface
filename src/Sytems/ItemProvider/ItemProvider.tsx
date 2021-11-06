@@ -41,8 +41,6 @@ export const ItemProvider : FC<ItemProviderProps>  = ({
 }) =>{
 
     const [state, dispatch] = useReducer(itemReducer, DefaultItemContext);
-
-    // initializing phase
     useEffect(()=>{
 
         if(!state.itemsLoaded && !state.itemsLoading && !state.itemsValidating){
@@ -62,7 +60,6 @@ export const ItemProvider : FC<ItemProviderProps>  = ({
 
     })
 
-    // validating phase
     useEffect(()=>{
 
         if(!state.itemsLoaded && !state.itemsLoading && state.itemsValidating && state.dispatch){

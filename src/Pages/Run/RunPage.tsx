@@ -11,7 +11,6 @@ import { useEffect } from 'react';
 import {RunSteps} from "../../Statics/Steps/RunSteps";
 import { StepStatusT, AllSteps } from '../../Statics/Steps/Steps';
 import { ethers } from 'ethers';
-import { checkRootCa } from '../../Sytems/DoOpenContracts';
 
 declare global {
     interface Window {

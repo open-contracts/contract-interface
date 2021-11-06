@@ -1,6 +1,6 @@
 import React, {FC, ReactElement} from 'react';
 import { MainLayoutDesktop, MainLayoutMobile } from '../../Layouts';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { useItemStore } from '../../Sytems/ItemProvider';
 import { ApolloDappMainItem } from '../../Items/Dapp/ApolloDapp/ApolloDappMainItem';
 import { HeaderResponsive, HOME } from '../../Maps/Headers';

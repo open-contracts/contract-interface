@@ -2,7 +2,6 @@ import React, {FC, ReactElement} from 'react';
 import {DappI} from "../Dapp";
 import {AthenaButton} from "../../../Components/Buttons/AthenaButton";
 import {Colors} from "../../../Theme";
-import { AbiI } from '../../../Sytems/DoOpenContracts/OpenContractInterface';
 
 export type ApolloDappFunctionProps = {
     dapp : DappI,
