@@ -3,7 +3,7 @@ import { AthenaButton } from '../../../Components/Buttons';
 import { Colors } from '../../../Theme';
 import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus } from 'react-bootstrap-icons';
 import { PlayFill } from 'react-bootstrap-icons';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import { parseGitUrl } from '../Dapp';
 
 export type ApolloDappMainItemActionsProps = {
@@ -19,7 +19,7 @@ export const ApolloDappMainItemActions : FC<ApolloDappMainItemActionsProps>  = (
         repo
     }  = parseGitUrl(gitUrl);
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const handleGithub = ()=>{
         window.location.href = gitUrl;
     }
@@ -94,7 +94,7 @@ export const ApolloDappMainMobileItemActions : FC<ApolloDappMainItemActionsProps
         repo
     }  = parseGitUrl(gitUrl);
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const handleGithub = ()=>{
         window.location.href = gitUrl;
     }

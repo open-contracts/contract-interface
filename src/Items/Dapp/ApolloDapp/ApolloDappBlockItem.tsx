@@ -2,7 +2,7 @@ import React, {FC, ReactElement, useEffect, useState} from 'react';
 import { Colors, DesktopSizes } from '../../../Theme';
 import { DappI, getDappImageUri, getDappInfo, getDappName } from '../Dapp';
 import Skeleton from "react-loading-skeleton";
-import { Redirect, useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { GrowOnEventAchamaenid } from '../../../Glitter/Animations';
 import { ThroughGlassAgathocles } from '../../../Glitter/Animations/ThroughGlass/ThroughGlassAgathocles';
 import { useErrorContext } from '../../../Error/ErrorProvider';
@@ -75,7 +75,7 @@ export const ApolloDappBlockItemInternals :  FC<ApolloDappBlockItemInternalsProp
     style
 }) => {
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [hovered, setHovered] = useState(false);
 
@@ -90,7 +90,7 @@ export const ApolloDappBlockItemInternals :  FC<ApolloDappBlockItemInternalsProp
 
     const [redirect, setRedirect] = useState(false);
     const handleClick = ()=>{
-        history.push(`dapp/${dappItem.id}`)
+        navigate(`dapp/${dappItem.id}`)
     }
 
     return (

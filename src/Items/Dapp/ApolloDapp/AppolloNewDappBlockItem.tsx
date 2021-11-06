@@ -7,7 +7,7 @@ import {generate} from "shortid";
 import { useColorStore } from '../../../Theme/ColorProvider';
 import { ApolloBlockItemName } from '.';
 import { BorderRight, Plus } from 'react-bootstrap-icons';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DOCS_PATH } from '../../../Maps/Headers/HeaderDesktop';
 import { GrowOnEventAchamaenid } from '../../../Glitter/Animations';
 import { ThroughGlassAgathocles } from '../../../Glitter/Animations/ThroughGlass/ThroughGlassAgathocles';
@@ -71,7 +71,7 @@ export const AppolloNewDappBlockItem : FC<AppolloNewDappBlockItemProps>  = ({
 
     const Colors = useColorStore()
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleClick = ()=>{
         window.location.href = DOCS_PATH;

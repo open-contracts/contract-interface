@@ -31,14 +31,6 @@ export const simulateNetworkRequest =  async <T extends any>(value : T, upperBou
 
 export const HomePage : FC<HomePageProps>  = () =>{
 
-    useEffect(()=>{
-
-        checkRootCa().then((data)=>{
-            console.log(data);
-        })
-    
-
-    }, [])
 
     const [stepStatus, setStepStatus] = useState<StepStatusT>({
         crt : "not ready",

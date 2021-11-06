@@ -9,12 +9,9 @@ export const RunDapp : FC<RunDappProps>  = () =>{
     const {
         owner,
         repo
-    } = useParams<{
-        owner : string,
-        repo : string
-    }>();
+    } = useParams();
 
-    window.location.href = `https://open-contracts.github.io?github_user=${encodeURI(owner)}&github_repo=${encodeURI(repo)}`; 
+    window.location.href = `https://open-contracts.github.io?github_user=${encodeURI(owner||"")}&github_repo=${encodeURI(repo||"")}`; 
 
     return (
 

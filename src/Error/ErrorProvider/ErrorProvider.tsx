@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, createContext, useReducer, useEffect, useContext} from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export interface ErrorContextI {
@@ -39,7 +39,7 @@ export const ErrorProvider : FC<ErrorProviderProps>  = ({
     children
 }) =>{
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [state, dispatch] = useReducer(ErrorReducer, DefaultErrorContext);
 
@@ -80,7 +80,7 @@ export const ErrorProvider : FC<ErrorProviderProps>  = ({
     useEffect(()=>{
 
         if(state.error){
-            history.push("/error");
+            navigate("/error");
             dispatch((state)=>{
                 return {
                     ...state,

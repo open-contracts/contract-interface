@@ -6,7 +6,7 @@ import { AbleAccountToggle } from '../../Components/AccountToggles';
 import { PersonFill } from 'react-bootstrap-icons';
 import { Colors } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import {ConnectionStatus} from "../ConnectionStatus";
 import { ReadyT } from '../../Components/Ready/AristophanesReady/AristophanesReady';
 
@@ -31,14 +31,14 @@ export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
 
     const Colors = useColorStore();
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const goHome = ()=>{
-        history.push(HOME_PATH);
+        navigate(HOME_PATH);
     }
 
     const goAbout = ()=>{
-        history.push(ABOUT_PATH);
+        navigate(ABOUT_PATH);
     }
 
     const goDocs = ()=>{

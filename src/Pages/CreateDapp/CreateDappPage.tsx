@@ -14,10 +14,7 @@ export const CreateDappPage : FC<CreateDappPageProps>  = () =>{
     const {
         owner,
         repo
-    } = useParams<{
-        owner : string,
-        repo : string
-    }>();
+    } = useParams();
 
     const {
         items

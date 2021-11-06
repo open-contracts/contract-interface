@@ -6,7 +6,7 @@ import Skeleton from "react-loading-skeleton";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { ApolloDappMainItemActions } from './ApolloDappMainItemActions';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useErrorContext } from '../../../Error/ErrorProvider';
 import { Colors, DesktopSizes } from '../../../Theme';
 import {ApolloDappFunctions} from "./ApolloDappFunctions";

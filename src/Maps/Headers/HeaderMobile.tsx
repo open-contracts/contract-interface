@@ -6,7 +6,7 @@ import { AbleAccountToggle } from '../../Components/AccountToggles';
 import { PersonFill } from 'react-bootstrap-icons';
 import { Colors } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 export const HOME = "EXPLORE"
 export const HOME_PATH = "/"
@@ -25,14 +25,14 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
 
     const Colors = useColorStore();
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const goHome = ()=>{
-        history.push(HOME_PATH);
+        navigate(HOME_PATH);
     }
 
     const goAbout = ()=>{
-        history.push(ABOUT_PATH);
+        navigate(ABOUT_PATH);
     }
 
     const goDocs = ()=>{

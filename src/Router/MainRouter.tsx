@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import {BrowserRouter, Route, Switch, useParams} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { IntegratedErrorBoundary } from '../Error/IntegratedErrorBoundary';
 import { HomePage } from '../Pages';
 import { AboutPage } from '../Pages/About/AboutPage';
@@ -14,28 +14,16 @@ export const MainRouter : FC<MainRouterProps>  = () =>{
 
     return (
 
-        <BrowserRouter>
+        <BrowserRouter basename="/">
             <IntegratedErrorBoundary>
-                <Switch>
-                    <Route exact path="/">
-                        <HomePage/>
-                    </Route>
-                    <Route path="/about">
-                        <AboutPage/>
-                    </Route>
-                    <Route path="/dapp/:owner/:repo">
-                        <DappPage/>
-                    </Route>
-                    <Route path='/run-dapp/:owner/:repo'>
-                        <RunDapp/>
-                    </Route>
-                    <Route path="/docs">
-                        <DocsPage/>
-                    </Route>
-                    <Route path="/error">
-                        <ErrorPage/>
-                    </Route>
-                </Switch>
+                <Routes>
+                    <Route path="/" element={<HomePage/>}/>
+                    <Route path="/about" element={<AboutPage/>}/>
+                    <Route path="/dapp/:owner/:repo" element={<DappPage/>}/>
+                    <Route path='/run-dapp/:owner/:repo' element={<RunDapp/>}/>
+                    <Route path="/docs" element={<DocsPage/>}/>
+                    <Route path="/error" element={<ErrorPage/>}/>
+                </Routes>
             </IntegratedErrorBoundary>
         </BrowserRouter>
 
