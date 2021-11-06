@@ -21,6 +21,7 @@ export const LeftRightScrollButton : FC<LeftRightScrollButtonProps>  = ({
             <PhantomBox 
                 left={left}
                 style={{
+                    cursor : "pointer",
                     height : "100%",
                     width : "50px",
                     display : "grid",

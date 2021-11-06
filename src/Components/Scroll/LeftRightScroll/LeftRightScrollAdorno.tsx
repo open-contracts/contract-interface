@@ -1,4 +1,6 @@
 import React, {FC, ReactElement, useRef} from 'react';
+import { useReducer } from 'react';
+import { useState } from 'react';
 import { LeftRightScrollButton } from './LeftRightScrollButton';
 
 export type LeftRightScrollAdornoProps = {
@@ -12,7 +14,8 @@ export const LeftRightScrollAdorno : FC<LeftRightScrollAdornoProps>  = ({
     step = 25
 }) =>{
 
-    const containerRef = useRef<HTMLDivElement>(null)
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [tick, forceUpdate] = useReducer(x=>x+1, 0);
 
     const showLeft = containerRef.current ? (containerRef.current.scrollLeft > 0) : true;
     const showRight = containerRef.current ? (
@@ -25,14 +28,28 @@ export const LeftRightScrollAdorno : FC<LeftRightScrollAdornoProps>  = ({
     console.log(showLeft, showRight);
 
     const handleLeftClick = ()=>{
+
+        forceUpdate();
+
         containerRef.current?.scroll({
             left : containerRef.current.scrollLeft - (.25 * containerRef.current.clientWidth) 
         })
     }
 
     const handleRightClick = ()=>{
+
+        console.log(
+            containerRef.current?.scrollLeft,
+            containerRef.current?.clientWidth,
+            containerRef.current?.scrollWidth
+        )
+
+        forceUpdate()
+
         containerRef.current?.scroll({
-            left : containerRef.current.scrollLeft + (.25 * containerRef.current.clientWidth)
+            left : containerRef.current.scrollLeft + (.25 * containerRef.current.clientWidth),
+            top : 0,
+            behavior : "smooth"
         })
     }
 
@@ -40,13 +57,9 @@ export const LeftRightScrollAdorno : FC<LeftRightScrollAdornoProps>  = ({
     return (
 
         <div 
-        ref={containerRef}
         style={{
-            overflowX : "scroll",
-            display : "flex",
-            alignContent : "center",
-            alignItems : "center",
             position : "relative",
+            width : "100px", // I honestly don't really understand why this solves the scaling issue, but it does.
             ...style
         }}>
             {showLeft && <LeftRightScrollButton
@@ -57,9 +70,21 @@ export const LeftRightScrollAdorno : FC<LeftRightScrollAdornoProps>  = ({
                 position : "absolute",
                 width : "30px",
                 top : 0,
-                left : 0
+                left : 0,
+                zIndex : 2000
             }}/>}
-            {children}
+            <div ref={containerRef}
+                style={{
+                    display : "flex",
+                    alignContent : "center",
+                    alignItems : "center",
+                    position : "relative",
+                    overflowX : "scroll",
+                    width : "100%",
+                }}
+            >
+                {children}
+            </div>
             {showRight && <LeftRightScrollButton
             onClick={handleRightClick}
             left={false}
@@ -68,7 +93,8 @@ export const LeftRightScrollAdorno : FC<LeftRightScrollAdornoProps>  = ({
                 position : "absolute",
                 width : "30px",
                 top : 0,
-                right : 0
+                right : 0,
+                zIndex : 2000
             }}/>}
         </div>
 

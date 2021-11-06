@@ -54,7 +54,6 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
             alignContent : "center",
             alignItems : "center",
             width : "100%",
-            overflowX : "hidden"
         }}>
             <CollectionFill size={18}/>
             &emsp;|&emsp;

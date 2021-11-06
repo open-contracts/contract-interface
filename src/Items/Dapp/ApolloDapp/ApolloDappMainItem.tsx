@@ -66,11 +66,6 @@ export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps> 
                     <ApolloDappMainItemActions gitUrl={dappItem.gitUrl}/>
                 </div>
                 <div style={{
-                    display : "flex",
-                    justifyContent : "left",
-                    justifyItems : "right",
-                    alignContent : "left",
-                    alignItems : "left",
                     color : Colors.primaryTextColor,
                     width : "100%"
                 }}>
