@@ -250,7 +250,15 @@ async function OpenContracts() {
             const forwarder = oc_interface[opencontracts.network].forwarder;
             opencontracts.OPNforwarder = new ethers.Contract(forwarder.address, forwarder.abi, opencontracts.provider);
             const hub = oc_interface[opencontracts.network].hub;
-            opencontracts.OPNhub = new ethers.Contract(hub.address, hub.abi, opencontracts.provider);    
+            opencontracts.OPNhub = new ethers.Contract(hub.address, hub.abi, opencontracts.provider);
+	    opencontracts.getOPN = async function (amountString) {
+                const amount = ethers.utils.parseEther(amountString);
+                await opencontracts.OPNtoken.connect(opencontracts.signer).mint(amount);
+	    }
+	    opencontracts.approveOPN = async function (amountString) {
+		const amount = ethers.utils.parseEther(amountString);
+		await opencontracts.OPNtoken.connect(opencontracts.signer).approve(opencontracts.OPNhub.address, amount);
+	    }
         }
         
         if (!(opencontracts.network in contract_interface)) {
