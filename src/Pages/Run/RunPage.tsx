@@ -96,6 +96,62 @@ export const HomePage : FC<HomePageProps>  = () =>{
                                         outputs : [],
                                         stateMutability : "none",
                                         type : "oracle"
+                                    },
+                                    {
+                                        name : "helloWorld",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "helloFriend",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "spray",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "sprayOracle",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "helloWorld",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "helloFriend",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "spray",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
+                                    },
+                                    {
+                                        name : "sprayOracle",
+                                        inputs : [],
+                                        outputs : [],
+                                        stateMutability : "none",
+                                        type : "oracle"
                                     }
                                 ]
                             }}/>

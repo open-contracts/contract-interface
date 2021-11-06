@@ -8,11 +8,11 @@ export const Colors = {
     readyGreen : "#11db1e",
     waitingYellow : "#fceb2f",
     failedRed : "#ff0000",
-    forestGreen : "#011910",
+    forestGreen : "#011210",
     forestEdge : "#034b30",
-    deepMaroon : "#800000",
+    deepMaroon : "#350000",
     lilac : "#C8A2C8",
     deepPurple: "#301934",
-    deepBlue : "#00003f",
+    deepBlue : "#000022",
     royalBlue : "#4169e1"
 } as const

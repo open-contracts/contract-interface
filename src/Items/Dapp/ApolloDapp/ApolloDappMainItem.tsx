@@ -11,7 +11,7 @@ import { useErrorContext } from '../../../Error/ErrorProvider';
 import { Colors, DesktopSizes } from '../../../Theme';
 import {ApolloDappFunctions} from "./ApolloDappFunctions";
 import {TerminalAndres} from "../../../Benches/Terminal/TerminalAndres";
-import {DappInput} from "../../DappPut/DappInput";
+import {DappInput, DappInteractput, DappOutput, DappErrput} from "../../DappPut";
 
 export type ApolloDappMainItemReadmeProps = {
     style ? : React.CSSProperties,
@@ -51,27 +51,19 @@ export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps> 
     return (
 
         <div style={{
+            width : "100%",
             ...style
         }}>
             <div style={{
                 display : "grid",
+                width : "100%",
                 gridTemplateColumns : "1fr"
             }}>
                 <div style={{
+                    width : "100%",
                     paddingBottom : DesktopSizes.Padding.whitespacePreferred
                 }}>
                     <ApolloDappMainItemActions gitUrl={dappItem.gitUrl}/>
-                </div>
-                <div style={{
-                    paddingBottom : DesktopSizes.Padding.whitespacePreferred
-                }}>
-                    <ApolloDappMainItemSource 
-                    contract={dappItem.contract}
-                    oracle={dappItem.oracle}
-                    style={{
-                        height : "100%",
-                        width : "100%"
-                    }}/>
                 </div>
                 <div style={{
                     display : "flex",
@@ -85,7 +77,9 @@ export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps> 
                     <ApolloDappFunctions dapp={dappItem}/>
                 </div>
                 <br/>
-                <div>
+                <div style={{
+                    width : "100%"
+                }}>
                     <DappInput dappInput={{
                         type : "input",
                         name : "msg",
@@ -93,14 +87,29 @@ export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps> 
                         description : "Something should go in here.",
                         value : "None"
                     }}/>
-                </div>
-                <hr style={{
-                    color : Colors.primaryTextColor
-                }}/>
-                <div style={{
-                    color : Colors.primaryTextColor
-                }}>
-                    <ApolloDappMainItemReadMe readme={dappItem.readme}/>
+                    <br/>
+                    <DappInteractput dappInteractput={{
+                        type : "interactive",
+                        name : "Request to launch interactive mode",
+                        description : "Something should go in here.",
+                        value : "None"
+                    }}/>
+                    <br/>
+                    <DappOutput
+                        dappOutput={{
+                            type : "output",
+                            name : "Output from helloWorld",
+                            description : "Something should go in here.",
+                            value : "Your hash: 524b2a8ba5be13ef0837accdb22741c3e1bfba59"
+                        }}
+                    />
+                    <br/>
+                    <DappErrput dappErrput={{
+                         type : "error",
+                         name : "Error: invalid argument",
+                         description : "You are seeing this error because.",
+                         value : "Error: invalid argument at line 27 in oracle.py"
+                    }}/>
                 </div>
             </div>
         </div>

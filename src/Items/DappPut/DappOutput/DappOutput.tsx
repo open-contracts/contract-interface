@@ -2,14 +2,17 @@ import React, {FC, ReactElement} from 'react';
 import { DappOutputI } from '../DappPutType';
 import { DappPutLayout } from '../DappPutLayout';
 import {Colors} from "../../../Theme/Colors";
+import {DappOutputHeader} from "./DappOutputHeader";
+import { DappOutputContent } from '../DappOutput/DappOutputContent';
 
 export type DappPutOutputProps = {
     style ? : React.CSSProperties
     dappOutput : DappOutputI
 }
 
-export const DappPutOutput : FC<DappPutOutputProps>  = ({
-    style
+export const DappOutput : FC<DappPutOutputProps>  = ({
+    style,
+    dappOutput
 }) =>{
 
     return (
@@ -20,10 +23,10 @@ export const DappPutOutput : FC<DappPutOutputProps>  = ({
             ...style
         }}>
             <DappPutLayout.Header>
-
+                <DappOutputHeader dappOutput={dappOutput}/>
             </DappPutLayout.Header>
             <DappPutLayout.Content>
-
+                <DappOutputContent dappOutput={dappOutput}/>
             </DappPutLayout.Content>
         </DappPutLayout>
 

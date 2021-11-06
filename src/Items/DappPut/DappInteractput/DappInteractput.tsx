@@ -3,13 +3,14 @@ import { DappInteractputI } from '../DappPutType';
 import { DappPutLayout } from '../DappPutLayout';
 import {Colors} from "../../../Theme/Colors";
 import { DappInteractputHeader } from './DappInteractputHeader';
+import {DappInteractputContent} from "./DappInteractputContent";
 
 export type DappPutInteractputProps = {
     style ? : React.CSSProperties
     dappInteractput : DappInteractputI
 }
 
-export const DappPutInteractput : FC<DappPutInteractputProps>  = ({
+export const DappInteractput : FC<DappPutInteractputProps>  = ({
     dappInteractput,
     style
 }) =>{
@@ -25,7 +26,7 @@ export const DappPutInteractput : FC<DappPutInteractputProps>  = ({
                 <DappInteractputHeader dappInteractput={dappInteractput}/>
             </DappPutLayout.Header>
             <DappPutLayout.Content>
-
+                <DappInteractputContent dappInteractput={dappInteractput}/>
             </DappPutLayout.Content>
         </DappPutLayout>
 

@@ -94,7 +94,9 @@ export const RunBenchMobile : FC<RunBenchMobileProps> = ({
             <MainBenchLayout.Header>
             </MainBenchLayout.Header>
             <MainBenchLayout.Items>
-                <div>
+                <div style={{
+                    width : "100%"
+                }}>
                         <div style={{
                             display : "grid",
                             gridTemplateColumns : "1fr 1fr",

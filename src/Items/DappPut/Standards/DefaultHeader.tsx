@@ -28,6 +28,7 @@ const DefaultHeader : FC<DefaultHeaderProps> & {
                 alignContent : "center",
                 alignItems : "center",
                 fontSize : "24px",
+                color : Colors.primaryTextColor
             }}><b>{Icon}&emsp;</b>{dappPut.name}<br/></div>
             <p style={{
                 color : Colors.secondaryTextColor
