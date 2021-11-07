@@ -36,7 +36,7 @@ export const RunPageWithRepo : FC<RunPageWithRepoProps>  = ({
                         <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <RunBenchDesktop />
+                        <RunBenchDesktop dapp={dapp} />
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
             </MediaResponsive.Desktop>

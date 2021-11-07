@@ -1,7 +1,6 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react';
 import { DappI, getDappName, getDappSolidityContract, getDappOracle, getDappImageUri, getDappReadMe } from '../Dapp';
 import { ApolloBlockItemImage, ApolloBlockItemName } from '.';
-import { ApolloRunDappMainItemMobileSource } from './ApolloRunDappMainItemSource';
 import Skeleton from "react-loading-skeleton";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -35,17 +34,6 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
                     paddingBottom : DesktopSizes.Padding.whitespacePreferred
                 }}>
                     <ApolloRunDappMainMobileItemActions gitUrl={dappItem.gitUrl}/>
-                </div>
-                <div style={{
-                    paddingBottom : DesktopSizes.Padding.whitespacePreferred
-                }}>
-                    <ApolloRunDappMainItemMobileSource 
-                    contract={dappItem.contract}
-                    oracle={dappItem.oracle}/>
-                </div>
-                <hr/>
-                <div>
-                    <ApolloRunDappMainItemReadMe readme={dappItem.readme}/>
                 </div>
             </div>
         </div>

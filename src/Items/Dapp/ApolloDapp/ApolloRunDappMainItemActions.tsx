@@ -14,20 +14,6 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
     gitUrl
 }) =>{
 
-    const {
-        owner,
-        repo
-    }  = parseGitUrl(gitUrl);
-
-    const navigate = useNavigate();
-    const handleGithub = ()=>{
-        window.location.href = gitUrl;
-    }
-    const handleRun = ()=>{
-        window.location.href = `https://open-contracts.github.io?github_user=${encodeURI(owner||"")}&github_repo=${encodeURI(repo||"")}`
-    }
-
-
     return (
 
         <>
@@ -36,7 +22,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 alignContent : "center",
                 alignItems : "center"
             }}>
-                <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme} onClick={handleGithub}>
+                <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -46,7 +32,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                     </div>
                 </AthenaButton>
                 &emsp;
-                <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme} onClick={handleGithub}>
+                <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -56,7 +42,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                     </div>
                 </AthenaButton>
                 &emsp;
-                <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme} onClick={handleGithub}>
+                <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
