@@ -58,6 +58,13 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
                 gridTemplateColumns : "1fr"
             }}>
                 <div style={{
+                    textAlign : "left",
+                    color : Colors.primaryTextColor
+                }}>
+                    <h3>{dappItem.name}</h3>
+                </div>
+                <br/>
+                <div style={{
                     width : "100%",
                     paddingBottom : DesktopSizes.Padding.whitespacePreferred
                 }}>
@@ -139,14 +146,34 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = ({
 
     })
 
-    const [[nameLoad, nameRequested], setNameLoad] = useState<[
-        string|undefined,
-        boolean
-    ]>([
-        forceLoad ? undefined : dappState.name,
-        false
-    ]);
-    
+    const [nameLoad, setNameLoad] = useState<string|undefined>(undefined);
+    useEffect(()=>{
+
+        if(!nameLoad){
+            getDappName(
+                dappItem,
+                (name : string)=>setNameLoad(name)
+            ).catch((err)=>{
+                dispatch((state)=>{
+                    return {
+                        ...state,
+                        error : err
+                    }
+                })
+            })
+        }
+
+    }, [])
+    useEffect(()=>{
+
+        if(dappState.name !== nameLoad){
+            setDappState({
+                ...dappState,
+                name : nameLoad
+            })
+        }
+
+    })
 
     return (
 

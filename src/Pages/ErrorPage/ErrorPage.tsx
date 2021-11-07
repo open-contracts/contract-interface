@@ -4,7 +4,6 @@ import { LogoA } from '../../Glitter';
 import { isDapp } from '../../Items';
 import { MainLayoutDesktop } from '../../Layouts';
 import { HeaderResponsive } from '../../Maps/Headers';
-import { useItemStore } from '../../Sytems/ItemProvider';
 import { Colors, DesktopSizes } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
 import { HOME } from '../../Maps/Headers';

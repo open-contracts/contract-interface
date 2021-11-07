@@ -5,7 +5,7 @@ import {Colors} from "../../../Theme";
 
 export type ApolloDappFunctionProps = {
     dapp : DappI,
-    func : AbiI,
+    func : OpenContractFunctionI,
     selected : boolean,
     onClick ? : (
         e : React.MouseEvent,

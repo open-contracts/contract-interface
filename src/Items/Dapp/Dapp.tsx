@@ -4,10 +4,11 @@ import {to} from "await-to-js";
 export interface DappDataI {
     name : string,
     readme : string,
-    contract : string,
     oracle : string,
     appTile : string,
-    functions : AbiI[]
+    contract : OpenContractI,
+    openContractsInterface : OpenContractsInterfaceI,
+    dappInterface : OpenContractInterfaceI
 }
 
 export interface DappI extends Partial<DappDataI>{
@@ -57,6 +58,8 @@ export const getDappName = async (dapp : DappI, onGet ? : (name : string)=>void)
         owner,
         repo 
     } = parseGitUrl(dapp.gitUrl);
+
+    console.log(owner, repo);
 
     const [err, readme] = owner && repo ? await to(getFileText({
         owner : owner,
@@ -280,6 +283,65 @@ export const getDappReadMe = async (dapp : DappI, onGet ? : (readme : string)=>v
 
 }
 
+export const jsonInterfacePath = "interface.json";
+export const getDappInterface = async (
+    dapp : DappI,
+    onGet ? : (dappInterface : OpenContractInterfaceI)=>void
+) : Promise<OpenContractInterfaceI>=>{
+
+    const {
+        owner,
+        repo 
+    } = parseGitUrl(dapp.gitUrl);
+
+    const dappInterface = (owner && repo) ? JSON.parse(
+        await getFileText({
+            owner : owner,
+            repo : repo,
+            path : jsonInterfacePath
+        })
+    ) : undefined
+
+    if(!dappInterface){
+        throw new Error("Failed to find a Dapp Interface.");
+    }
+
+    onGet && onGet(dappInterface);
+
+    return dappInterface;
+
+}
+
+export const getOpenContractsInterface = async (
+    onGet ? : (dappInterface : OpenContractsInterfaceI)=>void
+) : Promise<OpenContractsInterfaceI>=>{
+
+
+    const dappInterface = JSON.parse(await (await fetch('opencontracts_interface.json')).text())
+
+    if(!dappInterface){
+        throw new Error("Failed to find the Open Contracts interface for this site.");
+    }
+
+    onGet && onGet(dappInterface);
+
+    return dappInterface;
+
+}
+
+export const getDappContract = async (
+    dapp : DappI
+) : Promise<OpenContractI>=>{
+
+    const opencontract = await window.OpenContracts();
+    const dappInterface = dapp.dappInterface|| await getDappInterface(dapp);
+    const openContractsInterface = dapp.openContractsInterface || await getOpenContractsInterface();
+
+    opencontract.parseContracts(openContractsInterface, dappInterface);
+
+    return opencontract;
+
+}
 
 export const getDappInfo = async (
     dapp : DappI

@@ -4,7 +4,7 @@ import {ether, ethers} from "ethers";
 
 
 declare global {
-    interface window {
+    interface Window {
         ethereum : ethers.providers.ExternalProvider
         hexStringtoArray(hexString : string) : number[];
         b64Url2Buff(b64urlstring : string) : Buffer;
@@ -19,6 +19,8 @@ declare global {
         ) : Promise<{
             [key : string] : string
         }>
+
+        OpenContracts() : Promise<OpenContractI>
     }
     
     interface OpenContractsInterfaceI {
@@ -122,10 +124,11 @@ declare global {
         inputs : any [],
         oracleData ? : {
             [key : string] : string
-        }
+        },
+        call : ()=>any
     }
     
-    interface OpenContractsI {
+    interface OpenContractI {
         
         parseContracts(
             ocInterface : OpenContractsInterfaceI,
@@ -137,7 +140,7 @@ declare global {
         OPNforwarder : ethers.Contract,
     
         contract : ethers.Contract,
-        contractFunctions : Function[],
+        contractFunctions : OpenContractFunctionI[],
     
     }
     
