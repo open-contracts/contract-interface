@@ -58,6 +58,8 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
 
     const setFunc = (contractFunction : OpenContractFunctionI)=>{
 
+        console.log(contractFunction);
+
         if(dappItem.contract && setDappItem){
 
             const newContractFunctions = dappItem.contract.contractFunctions.reduce((agg, oldContractFunction)=>{
