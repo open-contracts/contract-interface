@@ -317,7 +317,8 @@ async function OpenContracts() {
                         f.inputs.push({name: input.name, type: input.type, value: null});
                     }
                 }
-                f.call = async function () {
+                f.call = async function (inputs) { // option to provide inputs is useful for frameworks like React where state may have been cloned
+                    f.inputs = inputs || f.inputs;
 		    const unspecifiedInputs = f.inputs.filter(i=>i.value == null).map(i => i.name);
 		    if (unspecifiedInputs.length > 0) {
 			    throw new Error(`The following inputs to "${f.name}" were unspecified:  ${unspecifiedInputs}`);
