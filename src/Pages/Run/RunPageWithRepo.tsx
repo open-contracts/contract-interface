@@ -48,7 +48,7 @@ export const RunPageWithRepo : FC<RunPageWithRepoProps>  = ({
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                    
+                        <RunBenchDesktop dapp={dapp} />
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
             </MediaResponsive.Laptop>
@@ -58,7 +58,7 @@ export const RunPageWithRepo : FC<RunPageWithRepoProps>  = ({
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        
+                        <RunBenchDesktop dapp={dapp} />
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
             </MediaResponsive.Tablet>
@@ -68,7 +68,7 @@ export const RunPageWithRepo : FC<RunPageWithRepoProps>  = ({
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                    
+                        <RunBenchDesktop dapp={dapp} />
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
             </MediaResponsive.Mobile>

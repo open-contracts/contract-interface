@@ -10,7 +10,7 @@ export const MainRouter : FC<MainRouterProps>  = () =>{
 
     return (
 
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <IntegratedErrorBoundary>
                 <Routes>
                     <Route path="/" element={<RunPage/>}/>

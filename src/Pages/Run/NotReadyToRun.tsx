@@ -48,7 +48,7 @@ export const NotReadyToRun : FC<NotReadyToRunProps>  = ({
            <MediaResponsive.Laptop>
                 <MainLayoutDesktop>
                     <MainLayoutDesktop.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
                         <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>

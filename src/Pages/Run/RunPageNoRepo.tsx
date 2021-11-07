@@ -64,7 +64,19 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                    
+                    <div style={{
+                            display : "flex",
+                            alignContent : "center",
+                            alignItems : "center"
+                        }}>
+                            <TextInputApollo 
+                            placeholder={"Enter repo"}
+                            onTextInput={setText}/>&emsp;<AthenaButton 
+                            onClick={handleSubmit}
+                            primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                                Submit
+                            </AthenaButton>
+                        </div>
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
             </MediaResponsive.Laptop>
@@ -74,7 +86,19 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        
+                    <div style={{
+                            display : "flex",
+                            alignContent : "center",
+                            alignItems : "center"
+                        }}>
+                            <TextInputApollo 
+                            placeholder={"Enter repo"}
+                            onTextInput={setText}/>&emsp;<AthenaButton 
+                            onClick={handleSubmit}
+                            primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                                Submit
+                            </AthenaButton>
+                        </div>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
             </MediaResponsive.Tablet>
@@ -84,7 +108,19 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                    
+                    <div style={{
+                            display : "flex",
+                            alignContent : "center",
+                            alignItems : "center"
+                        }}>
+                            <TextInputApollo 
+                            placeholder={"Enter repo"}
+                            onTextInput={setText}/>&emsp;<AthenaButton 
+                            onClick={handleSubmit}
+                            primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                                Submit
+                            </AthenaButton>
+                        </div>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
             </MediaResponsive.Mobile>

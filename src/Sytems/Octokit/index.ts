@@ -1,4 +1,5 @@
 import { Octokit } from "@octokit/rest";
+import to from "await-to-js";
 import {fromByteArray} from "base64-js";
 const { createPullRequest } = require("octokit-plugin-create-pull-request");
 
@@ -53,9 +54,14 @@ export const getFileText = async (args : {
     path : string
 }) : Promise<string>=> {
 
-    const fileBlob =await getFileBlob(args);
+    const [error, text] = await to(
+        (await fetch(`https://raw.githubusercontent.com/${args.owner}/${args.repo}/main/${args.path}`)).text()
+    )
 
+    if(error){
+        throw error;
+    }
 
-    return b64DecodeUnicode(fileBlob.data.content);
+    return text as string;
 
 }
