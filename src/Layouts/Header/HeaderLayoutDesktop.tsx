@@ -27,7 +27,8 @@ const HeaderLayoutDesktop : FC<HeaderLayoutDesktopProps> & {
             display : "grid",
             gridTemplateColumns : "1fr 1fr",
             justifyContent : "center",
-            justifyItems : "center"
+            justifyItems : "center",
+            position : "sticky"
         }}>
             <div style={{
                 height : "100%",

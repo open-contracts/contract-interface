@@ -1,6 +1,5 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react';
 import { DappI, getDappName, getDappSolidityContract, getDappOracle, getDappImageUri, getDappReadMe, parseGitUrl, getDappContract } from '../Dapp';
-import { ApolloBlockItemImage, ApolloBlockItemName } from '.';
 import Skeleton from "react-loading-skeleton";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -10,6 +9,8 @@ import { useErrorContext } from '../../../Error/ErrorProvider';
 import { Colors, DesktopSizes } from '../../../Theme';
 import {ApolloDappFunctions} from "./ApolloRunDappFunctions";
 import {DappInput, DappInteractput, DappOutput, DappErrput} from "../../DappPut";
+import {DappFunctionAthena} from "../../DappFunction";
+import { DappFunctionLogs } from '../../DappFunction';
 
 export type ApolloRunDappMainItemReadmeProps = {
     style ? : React.CSSProperties,
@@ -36,7 +37,8 @@ export const ApolloRunDappMainItemReadMe : FC<ApolloRunDappMainItemReadmeProps> 
 }
 
 export type ApolloRunDappMainItemInternalsProps = {
-    dappItem : DappI
+    dappItem : DappI,
+    setDappItem ? : (dappItem : DappI)=>void,
     style? : React.CSSProperties,
     key? : React.Key,
 }
@@ -44,7 +46,42 @@ export type ApolloRunDappMainItemInternalsProps = {
 export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsProps>  = ({
     dappItem,
     style,
+    setDappItem
 }) =>{
+
+    const [which, setWhich] = useState<string|undefined>(undefined);
+
+    const selectedFunc = dappItem.contract && dappItem.contract.contractFunctions ? 
+                            dappItem.contract.contractFunctions.filter((func)=>{
+                                return func.name === which
+                            })[0] : undefined
+
+    const setFunc = (contractFunction : OpenContractFunctionI)=>{
+
+        if(dappItem.contract && setDappItem){
+
+            const newContractFunctions = dappItem.contract.contractFunctions.reduce((agg, oldContractFunction)=>{
+                return [
+                    ...contractFunction.name === oldContractFunction.name ? [contractFunction] : [oldContractFunction]
+                ]
+            }, [] as OpenContractFunctionI[])
+    
+            setDappItem({
+                ...dappItem,
+                contract : {
+                    ...dappItem.contract,
+                    contractFunctions : newContractFunctions
+                }
+            })
+
+        }
+
+    }
+
+    useEffect(()=>{
+        
+    })
+
 
     return (
 
@@ -57,59 +94,36 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
                 width : "100%",
                 gridTemplateColumns : "1fr"
             }}>
+                <div>
+                    <ApolloRunDappMainItemActions gitUrl={dappItem.gitUrl} dapp={dappItem}/>
+                </div>
                 <div style={{
                     textAlign : "left",
                     color : Colors.primaryTextColor
                 }}>
-                    <h3>{dappItem.name}</h3>
+                    <h1>{dappItem.name}</h1>
+                    <p>Description here...</p>
                 </div>
-                <br/>
                 <div style={{
-                    width : "100%",
-                    paddingBottom : DesktopSizes.Padding.whitespacePreferred
+                    textAlign : "left",
+                    color : Colors.primaryTextColor
                 }}>
-                    <ApolloRunDappMainItemActions gitUrl={dappItem.gitUrl}/>
+                    <h4>Functions</h4>
                 </div>
                 <div style={{
                     color : Colors.primaryTextColor,
                     width : "100%"
                 }}>
-                    <ApolloDappFunctions dapp={dappItem}/>
+                    <ApolloDappFunctions dapp={dappItem} setWhich={setWhich}/>
                 </div>
                 <br/>
                 <div style={{
                     width : "100%"
                 }}>
-                    <DappInput dappInput={{
-                        type : "input",
-                        name : "msg",
-                        prompt : "Test",
-                        description : "Something should go in here.",
-                        value : "None"
-                    }}/>
-                    <br/>
-                    <DappInteractput dappInteractput={{
-                        type : "interactive",
-                        name : "Request to launch interactive mode",
-                        description : "Something should go in here.",
-                        value : "None"
-                    }}/>
-                    <br/>
-                    <DappOutput
-                        dappOutput={{
-                            type : "output",
-                            name : "Output from helloWorld",
-                            description : "Something should go in here.",
-                            value : "Your hash: 524b2a8ba5be13ef0837accdb22741c3e1bfba59"
-                        }}
-                    />
-                    <br/>
-                    <DappErrput dappErrput={{
-                         type : "error",
-                         name : "Error: invalid argument",
-                         description : "You are seeing this error because.",
-                         value : "Error: invalid argument at line 27 in oracle.py"
-                    }}/>
+                   {selectedFunc && <DappFunctionAthena 
+                            setDappFunction={setFunc}
+                            dapp={dappItem} 
+                            contractFunction={selectedFunc}/>}
                 </div>
             </div>
         </div>
@@ -181,10 +195,13 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = ({
         if(!contractLoad){
             getDappContract(
                 dappItem,
-                (contract : OpenContractI)=>setContractLoad(contract)
+                (contract : OpenContractI)=>{
+                    
+                    setContractLoad(contract)
+                }
             ).catch((err)=>{
 
-                console.log(err);
+                
 
                 dispatch((state)=>{
                     return {
@@ -207,9 +224,11 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = ({
 
     })
 
+    
+
     return (
 
-        <ApolloRunDappMainItemInternals dappItem={dappState} style={style}/>
+        <ApolloRunDappMainItemInternals setDappItem={setDappState} dappItem={dappState} style={style}/>
 
     )
 

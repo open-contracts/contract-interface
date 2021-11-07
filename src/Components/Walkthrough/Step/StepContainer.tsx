@@ -22,7 +22,7 @@ export const StepContainer : FC<StepContainerProps>  = ({
     const Stage = stages[stageIndex];
 
     useEffect(()=>{
-        console.log(stageIndex);
+        
     })
 
     return (

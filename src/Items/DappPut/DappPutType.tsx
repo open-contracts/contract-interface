@@ -1,23 +1,28 @@
-export interface DappPutI {
+export interface DappPutI extends PutI {
     name : string, 
-    description : string,
+    description ? : string,
     value : string,
-    type : string
+    type : InputTypeE,
+    putType : string
+}
+
+export interface DappDescputI extends DappPutI {
+    putType : "description"
 }
 
 export interface DappInputI extends DappPutI {
     prompt : string,
-    type : "input"
+    putType : "input"
 }
 
 export interface DappOutputI extends DappPutI {
-    type : "output"
+    putType : "output"
 }
 
 export interface DappErrputI extends DappPutI {
-    type : "error"
+    putType : "error"
 }
 
 export interface DappInteractputI extends DappPutI {
-    type : "interactive"
+    putType : "interactive"
 }

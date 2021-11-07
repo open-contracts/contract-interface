@@ -26,7 +26,7 @@ const MutateColorAgathaChristie : FC<MutateColorAgathaChristieProps> & {
 
     useEffect(()=>{
 
-        console.log(filter);
+        
 
         if(!transitionOpacityTimeout){
 

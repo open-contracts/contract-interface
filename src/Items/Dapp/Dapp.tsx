@@ -59,7 +59,7 @@ export const getDappName = async (dapp : DappI, onGet ? : (name : string)=>void)
         repo 
     } = parseGitUrl(dapp.gitUrl);
 
-    console.log(owner, repo);
+    
 
     const [err, readme] = owner && repo ? await to(getFileText({
         owner : owner,
@@ -312,20 +312,22 @@ export const getDappInterface = async (
 
 }
 
+export const ocInterfacePath = "/protocol/opencontracts_interface.json"
 export const getOpenContractsInterface = async (
     onGet ? : (dappInterface : OpenContractsInterfaceI)=>void
 ) : Promise<OpenContractsInterfaceI>=>{
 
+    
 
-    const dappInterface = JSON.parse(await (await fetch('opencontracts_interface.json')).text())
+    const ocInterface = JSON.parse(await (await fetch(ocInterfacePath)).text())
 
-    if(!dappInterface){
+    if(!ocInterface){
         throw new Error("Failed to find the Open Contracts interface for this site.");
     }
 
-    onGet && onGet(dappInterface);
+    onGet && onGet(ocInterface);
 
-    return dappInterface;
+    return ocInterface;
 
 }
 
@@ -350,7 +352,7 @@ export const getDappInfo = async (
     dapp : DappI
 )=>{
 
-    console.log(await getDescription(dapp));
+    
 
     const {
         owner,

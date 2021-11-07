@@ -29,7 +29,7 @@ export const LeftRightScrollButton : FC<LeftRightScrollButtonProps>  = ({
                     alignItems : "center",
                     justifyContent : "center",
                     justifyItems : "center",
-                    color : "black",
+                    color : Colors.primaryTextColor,
                     ...style
                 }}>
                     {left ? <ChevronLeft  size={18}/> : <ChevronRight size={18}/>}

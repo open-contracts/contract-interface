@@ -1,4 +1,6 @@
 import React, {FC, ReactElement} from 'react';
+import { Colors } from '../../../Theme';
+import Color from "color";
 
 export type PhantomBoxProps = {
     style ? : React.CSSProperties,
@@ -11,13 +13,13 @@ export const PhantomBox : FC<PhantomBoxProps>  = ({
     left
 }) =>{
 
-    console.log(left);
+    
 
     return (
 
         <div style={{
             height : "100%",
-            background : `linear-gradient(${left ? "to left" : "to right"}, #FFFFFF00, #FFFFFF05, #FFFFFF10, #FFFFFF30)`,
+            background : `linear-gradient(${left ? "to left" : "to right"}, #00000000, #00000010, #22222220, #30303040)`,
             ...style
         }}>
             {children}

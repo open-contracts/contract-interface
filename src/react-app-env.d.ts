@@ -114,6 +114,9 @@ declare global {
         type:         string;
     }
     
+    interface OpnTokenI extends ethers.Contract{
+        async gimmeSomeMoreOfDemCoins()
+    }
     
     interface OpenContractFunctionI {
         name : string,
@@ -121,11 +124,20 @@ declare global {
         stateMutability : string,
         oracleFolder ? : string,
         requiresOracle ? : boolean,
-        inputs : any [],
+        inputs : PutI[],
+        errors ? : any[],
+        prints ? : any[],
+        xpras ? : any[],
+        submits ? : any[]
         oracleData ? : {
             [key : string] : string
         },
-        call : ()=>any
+        call : ()=>Promise<void>,
+        submitHandler : (submit : string)=>Promise<any>,
+        xpraHandler : (targetUrl : string, sessionUrl : string, xpraExit : promise)=>Promise<any>,
+        inputHandler : (message : string)=>Promise<any>,
+        printHandler : (message : string)=>Promise<any>
+        errorHandler : (message : string)=>Promise<any>
     }
     
     interface OpenContractI {
@@ -135,7 +147,7 @@ declare global {
             contractInterface : OpenContractInterfaceI
         ) : void
     
-        OPNtoken : ethers.Contract,
+        OPNtoken : OpnTokenI,
         OPNhub : ethers.Contract,
         OPNforwarder : ethers.Contract,
     

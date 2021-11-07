@@ -20,7 +20,7 @@ const MainLayoutDesktop : FC<MainLayoutDesktopProps>  & {
         Footer
     } = getComponentMembers(Members, children);
 
-    console.log(Header, Content);
+    
 
     return (
 

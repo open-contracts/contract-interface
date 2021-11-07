@@ -14,9 +14,9 @@ export const DappOutputHeader : FC<DappOutputHeaderProps>  = ({
     return (
 
         <DefaultHeader dappPut={dappOutput}>
-            <DefaultHeader.Icon>
+            <DefaultHeader.Pre>
                 <ArrowReturnRight size={18}/>
-            </DefaultHeader.Icon>
+            </DefaultHeader.Pre>
         </DefaultHeader>
 
     )

@@ -36,9 +36,14 @@ export const RunPage : FC<RunPageProps>  = () =>{
         setReadyToRun(true);
     }
 
+    const _setStepStatus = (stepStatus : StepStatusT)=>{
+        
+        setStepStatus(stepStatus);
+    }
+
     if(!readyToRun) {
         return (
-            <NotReadyToRun setStepStatus={setStepStatus} stepStatus={stepStatus} handleAllDone={handleAllDone}/>
+            <NotReadyToRun setStepStatus={_setStepStatus} stepStatus={stepStatus} handleAllDone={handleAllDone}/>
         )
     }
    

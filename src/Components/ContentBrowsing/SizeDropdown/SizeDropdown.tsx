@@ -18,7 +18,7 @@ export const DropdownBottom : FC<DropdownBottomProps> = ({
 
     const handleClick = (e : React.MouseEvent)=>{
 
-        console.log(onDropped, isDropped);
+        
 
         onDropped && onDropped(!isDropped);
 

@@ -1,20 +1,20 @@
 import React, {FC, ReactElement} from 'react';
-import { DappErrputI } from '../DappPutType';
+import { DappDescputI } from '../DappPutType';
 import { DefaultHeader } from '../Standards/DefaultHeader';
 import {ExclamationCircleFill} from "react-bootstrap-icons";
 
-export type DappErrputHeaderProps = {
-    dappErrput : DappErrputI
+export type DappDescputHeaderProps = {
+    dappDescput : DappDescputI
 }
 
-export const DappErrputHeader : FC<DappErrputHeaderProps>  = ({
-    dappErrput
+export const DappDescputHeader : FC<DappDescputHeaderProps>  = ({
+    dappDescput
 }) =>{
 
     return (
 
         <DefaultHeader
-            dappPut={dappErrput}>
+            dappPut={dappDescput}>
                 <DefaultHeader.Pre>
                     <ExclamationCircleFill size={18}/>
                 </DefaultHeader.Pre>

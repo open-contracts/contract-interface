@@ -26,7 +26,7 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
 
     return (
 
-        <div>
+    
             <AthenaButton 
             onClick={handleClick}
                 style={{
@@ -34,13 +34,27 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                     borderLeft: "none",
                     borderRight : "none",
                     borderBottom : selected ? `1px solid ${Colors.primaryTextColor}` : "none",
-                    borderRadius : 0
+                    borderRadius : 0,
+                    wordWrap : "normal",
+                    width : "auto"
                 }}
             
             primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
-                <b>ƒ<sub>x</sub></b>&emsp;{func.name}
+                    <div style={{
+                        display : "grid",
+                        gridTemplateColumns : "1fr auto",
+                        alignContent : "center",
+                        alignItems : "center"
+                    }}>
+                        <div>
+                            <b>ƒ<sub>x</sub></b>&emsp;
+                        </div>
+                        <div>
+                           {func.name}
+                        </div>
+                    </div>
             </AthenaButton>
-        </div>
+
 
     )
 

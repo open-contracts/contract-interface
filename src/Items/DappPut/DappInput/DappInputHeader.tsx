@@ -4,7 +4,7 @@ import { DappInputI } from '../DappPutType';
 import {DefaultHeader} from "../Standards";
 
 export type DappInputHeaderProps = {
-    dappInput : DappInputI
+    dappInput : DappInputI,
 }
 
 export const DappInputHeader : FC<DappInputHeaderProps>  = ({
@@ -13,10 +13,17 @@ export const DappInputHeader : FC<DappInputHeaderProps>  = ({
 
     return (
 
-        <DefaultHeader dappPut={dappInput}>
-            <DefaultHeader.Icon>
+        <DefaultHeader dappPut={dappInput} style={{
+            color : Colors.babyBlue
+        }}>
+            <DefaultHeader.Pre>
                 𝑥
-            </DefaultHeader.Icon>
+            </DefaultHeader.Pre>
+            <DefaultHeader.Post>
+                &emsp;<i style={{
+                    color : Colors.secondaryTextColor
+                }}>{dappInput.type}</i>
+            </DefaultHeader.Post>
         </DefaultHeader>
 
     )

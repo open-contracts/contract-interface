@@ -23,7 +23,7 @@ export const MainSegment : FC<MainSegmentProps>  = () =>{
             gitUrl : "https://github.com/open-contracts/fiat-swap",
             id : "any"
         }).then((name)=>{
-            console.log(name);
+            
         })
 
     }, [])

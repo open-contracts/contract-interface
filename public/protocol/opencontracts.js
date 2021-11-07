@@ -58,7 +58,7 @@ async function extractContentIfValid(attestation_data) {
 
     // extracts hash + pubkeys
     const hash = attestation_doc['pcrs'][0];
-    console.log("------->UNCHECKED< ENCLAVE HASH:--------", hash);
+    console.warn("------->UNCHECKED< ENCLAVE HASH:--------", hash);
     // TODO: Add hash ceck
     const ETHkey = new TextDecoder().decode(attestation_doc['public_key']);
     const RSAraw = hexStringToArray(new TextDecoder().decode(attestation_doc['user_data'])).buffer;
@@ -118,7 +118,7 @@ async function decrypt(AESkey, json) {
 
 async function enclaveSession(opencontracts, f) {
     var registryIP = hexStringToArray(await opencontracts.OPNhub.registryIpList(0)).join(".");
-    console.log(`Trying to connect to registry with IP ${registryIP}.`);
+    console.warn(`Trying to connect to registry with IP ${registryIP}.`);
     var ws = new WebSocket("wss://" + registryIP + ":8080/");
     var secondsPassed = 0;
     var timer = setInterval(() => {secondsPassed++; if (secondsPassed>30) {clearInterval(timer)}}, 1000);
@@ -137,7 +137,7 @@ async function enclaveSession(opencontracts, f) {
         if (data['fname'] == 'return_oracle_ip') {
             ws.close();
 	    if (data['ip'] == "N/A") {throw new Error("No enclave available, try again in a bit or try a different registry.")}
-	    console.log(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
+	    console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
 	    setTimeout(async () => {await connect(data['ip'])}, 11000);
 	}
     }
@@ -172,7 +172,7 @@ async function enclaveSession(opencontracts, f) {
 		    const xpraExit = new Promise((resolve, reject) => {setInterval(()=> {if (xpraFinished) {resolve(true)}}, 1000)});
 	            setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
 		} else if (data["fname"] == 'xpra_finished') {
-                    console.log("xpra finished.");		
+                    console.warn("xpra finished.");		
 		    xpraFinished = true;
 		} else if (data['fname'] == 'user_input') {
 		    userInput = await f.inputHandler(data['message']);
@@ -278,15 +278,15 @@ async function OpenContracts() {
                 f.requiresOracle = (f.oracleFolder != undefined);
 		if (f.requiresOracle) {
 		    f.printHandler = async function(message) {
-			    console.log(`Warning: using default (popup) printHandler for function ${f.name}`); 
+			    console.warn(`Warning: using default (popup) printHandler for function ${f.name}`); 
 			    alert(message);
 		    };
 		    f.inputHandler = async function (message) {
-			    console.log(`Warning: using default (popup) inputHandler for function ${f.name}`); 
+			    console.warn(`Warning: using default (popup) inputHandler for function ${f.name}`); 
 			    return prompt(message);
 		    };
 		    f.xpraHandler = async function(targetUrl, sessionUrl, xpraExit) {
-			    console.log(`Warning: using default (popup) xpraHandler for function ${f.name}`); 
+			    console.warn(`Warning: using default (popup) xpraHandler for function ${f.name}`); 
 			    if (window.confirm(`open interactive session to {targetUrl} in new tab?`)) {
 		                var newWin = window.open(sessionUrl,'_blank');
 				xpraExit.then(newWin.close);
@@ -297,11 +297,11 @@ async function OpenContracts() {
 			    }
 		    };
 		    f.errorHandler = async function (message) {
-			    console.log(`Warning: using default (popup) errorHandler for function ${f.name}`); 
+			    console.warn(`Warning: using default (popup) errorHandler for function ${f.name}`); 
 			    alert("Error in enclave. Traceback:\n" + message);
 		    };
 		    f.submitHandler = async function (submit) {
-			    console.log(`Warning: using default (popup) submitHandler for function ${f.name}`); 
+			    console.warn(`Warning: using default (popup) submitHandler for function ${f.name}`); 
 			    message = "Oracle execution completed. Starting final transaction. ";
 			    alert(message + "It will fail if you did not grant enough $OPN to the hub.");
 			    await submit()

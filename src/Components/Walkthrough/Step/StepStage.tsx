@@ -26,7 +26,7 @@ const StepStage : FC<StepStageProps> & {
     const [load, setLoad] = useState(false);
 
     const timeout = !load && duration && setTimeout(()=>{
-        console.log("Timed out.", next);
+        
         next && next();
     }, duration)
 
@@ -35,7 +35,7 @@ const StepStage : FC<StepStageProps> & {
     })
 
     useEffect(()=>{
-        console.log(load)
+        
         if(!load){
             setLoad(true);
         }

@@ -1,0 +1,33 @@
+import React, {FC, ReactElement} from 'react';
+import { AthenaButton } from '../../../Components/Buttons';
+import { Colors } from '../../../Theme';
+import { DappDescputI } from '../DappPutType';
+import { darkenStandard, lightenStandard } from '../Methods';
+
+export type DappDescputContentProps = {
+    dappDescput : DappDescputI
+}
+
+export const DappDescputContent : FC<DappDescputContentProps>  = ({
+    dappDescput
+}) =>{
+
+    return (
+
+        <div style={{
+            color : Colors.primaryTextColor
+        }}>
+            {dappDescput.value}
+            <br/>
+            <br/>
+            <AthenaButton
+                    primaryColor={darkenStandard(Colors.failedRed)}
+                    secondaryColor={lightenStandard(Colors.deepMaroon)}
+                >
+                    Reset args
+                </AthenaButton>
+        </div>
+
+    )
+
+}

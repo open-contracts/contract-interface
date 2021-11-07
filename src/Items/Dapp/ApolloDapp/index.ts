@@ -1,1 +1,1 @@
-export * from "./ApolloRunDappBlockItem"
+export * from "./ApolloRunDappMainItem"

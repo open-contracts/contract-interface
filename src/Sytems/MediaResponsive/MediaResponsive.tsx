@@ -27,7 +27,7 @@ const MediaResponsive : FC<MediaResponsiveProps> & {
         Mobile
     } = getComponentMembers(Members, children);
 
-    console.log(Children.toArray(children), Desktop, Laptop)
+    
 
     return (
 

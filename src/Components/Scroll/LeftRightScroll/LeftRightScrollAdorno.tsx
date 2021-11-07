@@ -20,32 +20,18 @@ export const LeftRightScrollAdorno : FC<LeftRightScrollAdornoProps>  = ({
     const showLeft = containerRef.current ? (containerRef.current.scrollLeft > 0) : true;
     const showRight = containerRef.current ? (
         (containerRef.current.scrollWidth -  containerRef.current.scrollLeft) > 
-        containerRef.current.clientWidth
+        containerRef.current.clientWidth + 1
     ) : true;
 
-    console.log(containerRef.current?.getClientRects())
-
-    console.log(showLeft, showRight);
-
     const handleLeftClick = ()=>{
-
         forceUpdate();
-
         containerRef.current?.scroll({
             left : containerRef.current.scrollLeft - (.25 * containerRef.current.clientWidth) 
         })
     }
 
     const handleRightClick = ()=>{
-
-        console.log(
-            containerRef.current?.scrollLeft,
-            containerRef.current?.clientWidth,
-            containerRef.current?.scrollWidth
-        )
-
         forceUpdate()
-
         containerRef.current?.scroll({
             left : containerRef.current.scrollLeft + (.25 * containerRef.current.clientWidth),
             top : 0,

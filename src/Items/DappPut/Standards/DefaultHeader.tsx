@@ -3,21 +3,25 @@ import { Colors } from '../../../Theme';
 import { DappPutI } from '../DappPutType';
 import { generateNamedMember, getComponentMembers } from 'rgfm';
 
-const Members = ["Icon"];
+const Members = ["Pre", "Post"];
 
 export type DefaultHeaderProps = {
-    dappPut : DappPutI
+    dappPut : DappPutI,
+    style ? : React.CSSProperties
 }
 
 const DefaultHeader : FC<DefaultHeaderProps> & {
-    Icon : FC,
+    Pre : FC,
+    Post : FC
 }  = ({
     dappPut,
-    children
+    children,
+    style
 }) =>{
 
     const {
-        Icon
+        Pre,
+        Post
     } = getComponentMembers(Members, children);
 
     return (
@@ -27,9 +31,10 @@ const DefaultHeader : FC<DefaultHeaderProps> & {
                 display :"flex",
                 alignContent : "center",
                 alignItems : "center",
-                fontSize : "24px",
-                color : Colors.primaryTextColor
-            }}><b>{Icon}&emsp;</b>{dappPut.name}<br/></div>
+                fontSize : "18px",
+                color : Colors.primaryTextColor,
+                ...style
+            }}><b>{Pre}&emsp;</b>{dappPut.name}{Post}<br/></div>
             <p style={{
                 color : Colors.secondaryTextColor
             }}>
@@ -41,6 +46,7 @@ const DefaultHeader : FC<DefaultHeaderProps> & {
 
 }
 
-DefaultHeader.Icon = generateNamedMember("Icon");
+DefaultHeader.Pre = generateNamedMember("Pre");
+DefaultHeader.Post = generateNamedMember("Post");
 
 export {DefaultHeader}

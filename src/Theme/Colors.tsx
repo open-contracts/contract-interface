@@ -14,5 +14,6 @@ export const Colors = {
     lilac : "#C8A2C8",
     deepPurple: "#301934",
     deepBlue : "#000022",
-    royalBlue : "#4169e1"
+    royalBlue : "#4169e1",
+    babyBlue : "#89CFF0"
 } as const

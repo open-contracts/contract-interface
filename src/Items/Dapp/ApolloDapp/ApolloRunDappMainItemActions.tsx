@@ -1,22 +1,47 @@
 import React, {FC, ReactElement} from 'react';
 import { AthenaButton } from '../../../Components/Buttons';
-import { Colors } from '../../../Theme';
+import { Colors, DesktopSizes } from '../../../Theme';
 import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus } from 'react-bootstrap-icons';
 import { PlayFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
-import { parseGitUrl } from '../Dapp';
+import { DappI, parseGitUrl } from '../Dapp';
+import { ethers, providers } from 'ethers';
 
 export type ApolloRunDappMainItemActionsProps = {
-    gitUrl : string
+    gitUrl : string,
+    dapp : DappI
 }
 
 export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps>  = ({
-    gitUrl
+    gitUrl,
+    dapp
 }) =>{
+
+    const getTokens = async ()=>{
+        if(dapp.contract){
+
+            const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+            const signerToken =  dapp.contract.OPNtoken.connect(provider.getSigner());
+            await signerToken.gimmeSomeMoreOfDemCoins();
+        }
+    }
 
     return (
 
-        <>
+        <div style={{
+        }}>
+             <div style={{
+                display : "flex",
+                color : Colors.primaryTextColor,
+                alignItems : "center"
+            }}>
+                <InfoCircle size={22}/>&emsp;If this is your first time here, you may need to&nbsp;<a href="" style={{
+                    color : "#ADD8E6"
+                }}>get some OPN</a>&nbsp;and&nbsp;<a href="" style={{
+                    color : "#ADD8E6"
+                }}>grant access to the Open Contracts hub</a>.
+            </div>
+            <br/>
             <div style={{
             display : "flex",
                 alignContent : "center",
@@ -32,7 +57,9 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                     </div>
                 </AthenaButton>
                 &emsp;
-                <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                <AthenaButton
+                    action={getTokens}
+                    primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -42,7 +69,8 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                     </div>
                 </AthenaButton>
                 &emsp;
-                <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                <AthenaButton 
+                    primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -53,19 +81,10 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 </AthenaButton>
                 &emsp;
             </div>
-            <br/>
-            <div style={{
-                display : "flex",
-                color : Colors.primaryTextColor,
-                alignItems : "center"
-            }}>
-                &emsp;<InfoCircle/>&emsp;If this is your first time here, you may need to&nbsp;<a href="" style={{
-                    color : "#ADD8E6"
-                }}>get some OPN</a>&nbsp;and&nbsp;<a href="" style={{
-                    color : "#ADD8E6"
-                }}>grant access to the Open Contracts hub</a>.
-            </div>
-        </>
+            <hr style={{
+                color : Colors.primaryTextColor
+            }}/>
+        </div>
 
     )
 
@@ -83,9 +102,6 @@ export const ApolloRunDappMainMobileItemActions : FC<ApolloRunDappMainItemAction
     const navigate = useNavigate();
     const handleGithub = ()=>{
         window.location.href = gitUrl;
-    }
-    const handleRun = ()=>{
-        window.location.href = `https://open-contracts.github.io?github_user=${encodeURI(owner||"")}&github_repo=${encodeURI(repo||"")}`
     }
 
 
@@ -115,7 +131,7 @@ export const ApolloRunDappMainMobileItemActions : FC<ApolloRunDappMainItemAction
             &emsp;
             <AthenaButton style={{
                 width : "100%"
-            }} primaryColor={Colors.primaryTextColor} secondaryColor="white" size="lg" onClick={handleRun}>
+            }} primaryColor={Colors.primaryTextColor} secondaryColor="white" size="lg" >
             <div style={{
                      width : "100%",
                      display : "flex",
@@ -123,7 +139,7 @@ export const ApolloRunDappMainMobileItemActions : FC<ApolloRunDappMainItemAction
                      alignItems : "center",
                      justifyContent : "center"
                 }}>
-                    Run&emsp;<PlayFill/>
+                    Get OPN&emsp;<Coin/>
                 </div>
             </AthenaButton>
         </div>

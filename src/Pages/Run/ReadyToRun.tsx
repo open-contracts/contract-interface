@@ -23,12 +23,12 @@ export const ReadyToRun : FC<ReadyToRunProps>  = ({
         repo
     } = useParams();
 
-    console.log(owner, repo)
+    
 
 
     if(owner && repo){
         
-        console.log("We have a repo");
+        
 
         return (<RunPageWithRepo stepStatus={stepStatus} repo={{
             owner : owner ,

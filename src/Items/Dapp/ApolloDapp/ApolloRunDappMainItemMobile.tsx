@@ -1,6 +1,5 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react';
 import { DappI, getDappName, getDappSolidityContract, getDappOracle, getDappImageUri, getDappReadMe } from '../Dapp';
-import { ApolloBlockItemImage, ApolloBlockItemName } from '.';
 import Skeleton from "react-loading-skeleton";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -33,7 +32,7 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
                 <div style={{
                     paddingBottom : DesktopSizes.Padding.whitespacePreferred
                 }}>
-                    <ApolloRunDappMainMobileItemActions gitUrl={dappItem.gitUrl}/>
+                    <ApolloRunDappMainMobileItemActions dapp={dappItem} gitUrl={dappItem.gitUrl}/>
                 </div>
             </div>
         </div>

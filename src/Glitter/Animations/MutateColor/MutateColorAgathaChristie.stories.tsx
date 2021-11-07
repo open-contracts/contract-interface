@@ -21,7 +21,7 @@ const MutateColorPinkOverlaySampleSample  : FC = ()=>{
 
         const degMatch = filter.match(/(\d+.{0,1}\d*)\%/)
 
-        console.log(degMatch);
+        
 
         const deg =  Number(degMatch && degMatch.length ? degMatch[1] : 1);
         

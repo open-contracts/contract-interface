@@ -14,9 +14,9 @@ export const DappInteractputHeader : FC<DappInteractputHeaderProps>  = ({
     return (
 
         <DefaultHeader dappPut={dappInteractput}>
-            <DefaultHeader.Icon>
+            <DefaultHeader.Pre>
                 <HandIndexFill size={18}/>
-            </DefaultHeader.Icon>
+            </DefaultHeader.Pre>
         </DefaultHeader>
 
     )
