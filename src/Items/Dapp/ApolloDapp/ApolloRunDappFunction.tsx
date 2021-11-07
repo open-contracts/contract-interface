@@ -36,7 +36,8 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                     borderBottom : selected ? `1px solid ${Colors.primaryTextColor}` : "none",
                     borderRadius : 0,
                     wordWrap : "normal",
-                    width : "auto"
+                    width : "auto",
+                    fontSize : "18px"
                 }}
             
             primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>

@@ -18,19 +18,10 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
     setWhich
 }) =>{
 
-    const [_which, _setWhich] = useState<string|undefined>(
-        which ? which : dapp.contract? dapp.contract.contractFunctions[0].name : undefined
-    )
-
     const onFunctionClick = (e : React.MouseEvent, name : string)=>{
-        _setWhich(name);
+        setWhich && setWhich(name);
     }
 
-    useEffect(()=>{
-        if(_which && (which !== _which)){
-            setWhich && setWhich(_which);
-        }
-    })
 
     const funcs = dapp.contract && dapp.contract ? dapp.contract.contractFunctions.map((func)=>{
 
@@ -39,7 +30,7 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
             <>
                 <ApolloDappFunction 
                     onClick={onFunctionClick}
-                    selected={func.name === _which} 
+                    selected={func.name === which} 
                     dapp={dapp} 
                     func={func}/>&emsp;
             </>

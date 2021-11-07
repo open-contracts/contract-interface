@@ -18,8 +18,8 @@ export const DappDescput : FC<DappPutDescputProps>  = ({
     return (
 
         <DappPutLayout style={{
-            background : Colors.deepMaroon,
-            border : `1px solid ${Colors.failedRed}`,
+            background : Colors.deepYellow,
+            border : `1px solid ${Colors.infoYellow}`,
             ...style
         }}>
             <DappPutLayout.Header>

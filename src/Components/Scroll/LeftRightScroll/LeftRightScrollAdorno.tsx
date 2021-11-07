@@ -26,14 +26,16 @@ export const LeftRightScrollAdorno : FC<LeftRightScrollAdornoProps>  = ({
     const handleLeftClick = ()=>{
         forceUpdate();
         containerRef.current?.scroll({
-            left : containerRef.current.scrollLeft - (.25 * containerRef.current.clientWidth) 
+            left : containerRef.current.scrollLeft - (.4 * containerRef.current.clientWidth) ,
+            top : 0,
+            behavior : "smooth"
         })
     }
 
     const handleRightClick = ()=>{
         forceUpdate()
         containerRef.current?.scroll({
-            left : containerRef.current.scrollLeft + (.25 * containerRef.current.clientWidth),
+            left : containerRef.current.scrollLeft + (.4 * containerRef.current.clientWidth),
             top : 0,
             behavior : "smooth"
         })

@@ -24,10 +24,8 @@ const DappPutLayout : FC<DappPutInputProps> & {
     return (
 
         <div style={{
-            display : "grid",
-            gridTemplateColumns : "1fr",
-            gridTemplateRows : "3fr 2fr",
             textAlign : "left",
+            overflowWrap : "anywhere",
             paddingTop : DesktopSizes.Padding.whitespacePreferred,
             paddingBottom : DesktopSizes.Padding.whitespacePreferred,
             paddingLeft : DesktopSizes.Padding.whitespacePreferred,

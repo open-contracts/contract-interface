@@ -8,6 +8,7 @@ declare global {
         ethereum : ethers.providers.ExternalProvider
         hexStringtoArray(hexString : string) : number[];
         b64Url2Buff(b64urlstring : string) : Buffer;
+        async githubOracleDownloader(user : string, repo : string, ref : string, folder : OpenContractFunctionI["oracleFolder"])
 
         extractContentIfValid(attestationData : any) : Promise<void>;
 
@@ -47,9 +48,9 @@ declare global {
     }
     
     interface PutI {
-        internalType: string;
-        name:         string;
-        type:         InputTypeE;
+        internalType ? : string;
+        name ?:         string;
+        type ? :         InputTypeE;
         indexed?:     boolean;
     }
     
@@ -109,9 +110,10 @@ declare global {
     }
     
     interface PutI {
-        internalType: string;
+        internalType ? : string;
         name:         string;
-        type:         string;
+        type ?:         string;
+        value ? :        string;
     }
     
     interface OpnTokenI extends ethers.Contract{
@@ -132,7 +134,7 @@ declare global {
         oracleData ? : {
             [key : string] : string
         },
-        call : ()=>Promise<void>,
+        call : (inputs ? : PutI[])=>Promise<any>,
         submitHandler : (submit : string)=>Promise<any>,
         xpraHandler : (targetUrl : string, sessionUrl : string, xpraExit : promise)=>Promise<any>,
         inputHandler : (message : string)=>Promise<any>,

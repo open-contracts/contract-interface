@@ -14,6 +14,7 @@ export interface StateMapI<T extends any = string> {
 }
 
 export type AristophanesReadyProps = {
+    right ? : boolean
     ready ? : "ready" | "not ready" | "failed",
     label ? : string,
     size ? : React.CSSProperties["height"],
@@ -49,6 +50,7 @@ export const DefaultColors : StateMapI<React.CSSProperties["color"]> = {
  * @returns 
  */
 export const AristophanesReady : FC<AristophanesReadyProps>  = ({
+    right,
     ready = "not ready",
     label,
     expressions,
@@ -111,7 +113,7 @@ export const AristophanesReady : FC<AristophanesReadyProps>  = ({
                     cursor : "pointer",
                     ...style
                 }}>
-                    <div style={{
+                    {!right && <div style={{
                         display: "flex",
                         height : "100%",
                         alignContent : "center",
@@ -123,7 +125,7 @@ export const AristophanesReady : FC<AristophanesReadyProps>  = ({
                         style={{
                             ...lightStyle
                         }}/>
-                    </div>
+                    </div>}
                     &ensp;
                     <div style={{
                         display : "flex",
@@ -145,6 +147,20 @@ export const AristophanesReady : FC<AristophanesReadyProps>  = ({
                             </span>
                         </div>
                     </div>
+                    &ensp;
+                    {right && <div style={{
+                        display: "flex",
+                        height : "100%",
+                        alignContent : "center",
+                        alignItems : "center"
+                    }}>
+                        <Circle 
+                        color={_colors[ready]}
+                        size={"65%"}
+                        style={{
+                            ...lightStyle
+                        }}/>
+                    </div>}
                 </div>
             </GrowOnEventAchamaenid>
         </ThroughGlassAgathocles>

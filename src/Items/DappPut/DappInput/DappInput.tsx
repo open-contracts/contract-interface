@@ -9,20 +9,14 @@ import { darkenStandard } from '../Methods';
 export type DappPutInputProps = {
     style ? : React.CSSProperties
     dappInput : DappInputI,
-    setInput ? : (input : DappInputI, index : number)=>void,
-    index  : number
+    setInput ? : (input : DappInputI)=>void,
 }
 
 export const DappInput : FC<DappPutInputProps>  = ({
     dappInput,
     style,
-    index,
     setInput
 }) =>{
-
-    const handleSetInput = (dappInput : DappInputI)=>{
-        setInput && setInput(dappInput, index);
-    }
 
     return (
 
@@ -36,7 +30,7 @@ export const DappInput : FC<DappPutInputProps>  = ({
                 <DappInputHeader dappInput={dappInput} />
             </DappPutLayout.Header>
             <DappPutLayout.Content>
-                <DappInputContent setInput={handleSetInput} dappInput={dappInput}/>
+                <DappInputContent setInput={setInput} dappInput={dappInput}/>
             </DappPutLayout.Content>
         </DappPutLayout>
 

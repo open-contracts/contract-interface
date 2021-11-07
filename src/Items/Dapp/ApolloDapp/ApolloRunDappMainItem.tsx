@@ -10,7 +10,6 @@ import { Colors, DesktopSizes } from '../../../Theme';
 import {ApolloDappFunctions} from "./ApolloRunDappFunctions";
 import {DappInput, DappInteractput, DappOutput, DappErrput} from "../../DappPut";
 import {DappFunctionAthena} from "../../DappFunction";
-import { DappFunctionLogs } from '../../DappFunction';
 
 export type ApolloRunDappMainItemReadmeProps = {
     style ? : React.CSSProperties,
@@ -51,22 +50,30 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
 
     const [which, setWhich] = useState<string|undefined>(undefined);
 
-    const selectedFunc = dappItem.contract && dappItem.contract.contractFunctions ? 
+    const _selectedFunc = dappItem.contract && dappItem.contract.contractFunctions ? 
                             dappItem.contract.contractFunctions.filter((func)=>{
                                 return func.name === which
                             })[0] : undefined
 
+    const selectedFunc = _selectedFunc || (
+        dappItem.contract?.contractFunctions[0]
+    )
+
     const setFunc = (contractFunction : OpenContractFunctionI)=>{
 
-        console.log(contractFunction);
+        
 
         if(dappItem.contract && setDappItem){
 
             const newContractFunctions = dappItem.contract.contractFunctions.reduce((agg, oldContractFunction)=>{
+
                 return [
-                    ...contractFunction.name === oldContractFunction.name ? [contractFunction] : [oldContractFunction]
+                    ...agg,
+                    ...(contractFunction.name === oldContractFunction.name) ? [contractFunction] : [oldContractFunction]
                 ]
             }, [] as OpenContractFunctionI[])
+
+        
     
             setDappItem({
                 ...dappItem,
@@ -92,10 +99,14 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
             ...style
         }}>
             <div style={{
-                display : "grid",
-                width : "100%",
-                gridTemplateColumns : "1fr"
             }}>
+                <div style={{
+                    textAlign : "left",
+                    color : Colors.primaryTextColor
+                }}>
+                    <h1>{dappItem.name}</h1>
+                </div>
+                <br/>
                 <div>
                     <ApolloRunDappMainItemActions gitUrl={dappItem.gitUrl} dapp={dappItem}/>
                 </div>
@@ -103,20 +114,13 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
                     textAlign : "left",
                     color : Colors.primaryTextColor
                 }}>
-                    <h1>{dappItem.name}</h1>
-                    <p>Description here...</p>
-                </div>
-                <div style={{
-                    textAlign : "left",
-                    color : Colors.primaryTextColor
-                }}>
-                    <h4>Functions</h4>
+                    <h3>Functions</h3>
                 </div>
                 <div style={{
                     color : Colors.primaryTextColor,
                     width : "100%"
                 }}>
-                    <ApolloDappFunctions dapp={dappItem} setWhich={setWhich}/>
+                    <ApolloDappFunctions which={selectedFunc ? selectedFunc.name : undefined} dapp={dappItem} setWhich={setWhich}/>
                 </div>
                 <br/>
                 <div style={{
@@ -156,7 +160,8 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = ({
     const [dappState, setDappState] = useState(dappItem);
     useEffect(()=>{
 
-        if(dappState !== dappItem && updateDapp){
+        if((dappState !== dappItem) && updateDapp){
+            
             updateDapp(dappState)
         }
 
@@ -192,6 +197,7 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = ({
     })
 
     const [contractLoad, setContractLoad] = useState<OpenContractI|undefined>(undefined);
+    const [contractLoaded, setContracLoaded] = useState(false);
     useEffect(()=>{
 
         if(!contractLoad){
@@ -202,9 +208,6 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = ({
                     setContractLoad(contract)
                 }
             ).catch((err)=>{
-
-                
-
                 dispatch((state)=>{
                     return {
                         ...state,
@@ -217,20 +220,26 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = ({
     }, [])
     useEffect(()=>{
 
-        if(dappState.contract !== contractLoad){
+        if(contractLoad && (dappState.contract !== contractLoad) && !contractLoaded){
             setDappState({
                 ...dappState,
                 contract : contractLoad
             })
+            setContracLoaded(true);
         }
 
     })
 
+    const handleSetDappState = (dapp :DappI)=>{
+        
+        
+        setDappState(dapp);
+    }
     
 
     return (
 
-        <ApolloRunDappMainItemInternals setDappItem={setDappState} dappItem={dappState} style={style}/>
+        <ApolloRunDappMainItemInternals setDappItem={handleSetDappState} dappItem={dappState} style={style}/>
 
     )
 

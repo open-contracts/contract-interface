@@ -16,7 +16,7 @@ export const DappDescputHeader : FC<DappDescputHeaderProps>  = ({
         <DefaultHeader
             dappPut={dappDescput}>
                 <DefaultHeader.Pre>
-                    <ExclamationCircleFill size={18}/>
+                    <b>ƒ<sub>x</sub></b>
                 </DefaultHeader.Pre>
             </DefaultHeader>
 

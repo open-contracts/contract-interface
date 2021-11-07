@@ -1,15 +1,15 @@
 import React, {FC, ReactElement} from 'react';
 import { AthenaButton } from '../../../Components/Buttons';
 import { Colors } from '../../../Theme';
-import { DappDescputI } from '../DappPutType';
+import { DappOracleputI } from '../DappPutType';
 import { darkenStandard, lightenStandard } from '../Methods';
 
-export type DappDescputContentProps = {
-    dappDescput : DappDescputI
+export type DappOracleputContentProps = {
+    dappOracleput : DappOracleputI
 }
 
-export const DappDescputContent : FC<DappDescputContentProps>  = ({
-    dappDescput
+export const DappOracleputContent : FC<DappOracleputContentProps>  = ({
+    dappOracleput
 }) =>{
 
     return (
@@ -17,6 +17,7 @@ export const DappDescputContent : FC<DappDescputContentProps>  = ({
         <div style={{
             color : Colors.primaryTextColor
         }}>
+            {dappOracleput.value}
         </div>
 
     )

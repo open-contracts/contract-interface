@@ -19,7 +19,7 @@ export const PhantomBox : FC<PhantomBoxProps>  = ({
 
         <div style={{
             height : "100%",
-            background : `linear-gradient(${left ? "to left" : "to right"}, #00000000, #00000010, #22222220, #30303040)`,
+            background : `linear-gradient(${left ? "to left" : "to right"}, #00000000, #00000020, #22222240, #30303040)`,
             ...style
         }}>
             {children}

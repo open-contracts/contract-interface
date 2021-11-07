@@ -2,7 +2,7 @@ export interface DappPutI extends PutI {
     name : string, 
     description ? : string,
     value : string,
-    type : InputTypeE,
+    type ? : InputTypeE,
     putType : string
 }
 
@@ -25,4 +25,8 @@ export interface DappErrputI extends DappPutI {
 
 export interface DappInteractputI extends DappPutI {
     putType : "interactive"
+}
+
+export interface DappOracleputI extends DappPutI {
+    putType : "oracle"
 }

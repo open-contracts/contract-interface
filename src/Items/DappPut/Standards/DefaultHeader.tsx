@@ -34,7 +34,8 @@ const DefaultHeader : FC<DefaultHeaderProps> & {
                 fontSize : "18px",
                 color : Colors.primaryTextColor,
                 ...style
-            }}><b>{Pre}&emsp;</b>{dappPut.name}{Post}<br/></div>
+            }}><b>{Pre}&emsp;</b>{dappPut.name}{Post}</div>
+            <br/>
             <p style={{
                 color : Colors.secondaryTextColor
             }}>

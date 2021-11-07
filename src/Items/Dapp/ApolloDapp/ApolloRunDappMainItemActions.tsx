@@ -81,9 +81,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 </AthenaButton>
                 &emsp;
             </div>
-            <hr style={{
-                color : Colors.primaryTextColor
-            }}/>
+            <br/>
         </div>
 
     )

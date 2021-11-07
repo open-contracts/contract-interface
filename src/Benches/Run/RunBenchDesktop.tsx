@@ -10,10 +10,20 @@ export const RunBenchDesktop : FC<RunBenchDesktopProps>  = ({
     dapp
 }) =>{
 
+    const [dappState, setDappState] = useState<DappI|undefined>(dapp);
+
+    const handleUpdate = (dapp  : DappI)=>{
+
+        
+        setDappState(dapp);
+
+    }
+
+
     return (
 
-        <>{dapp  ? 
-            <ApolloRunDappMainItem dappItem={dapp}/>
+        <>{dappState  ? 
+            <ApolloRunDappMainItem dappItem={dappState} updateDapp={handleUpdate} />
             : "No dapp"
         }</>
 

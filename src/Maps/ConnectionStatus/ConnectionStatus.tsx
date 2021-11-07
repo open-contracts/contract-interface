@@ -36,10 +36,10 @@ export const ConnectionStatus : FC<ConnectionStatusProps>  = ({
             alignItems : "center",
             justifyItems : "right",
             justifyContent : "right",
-            textAlign : "left"
+            textAlign : "right"
         }}>
 
-            <AristophanesReady label={"Metamask"} ready={wallet} expressions={{
+            <AristophanesReady right label={"Metamask"} ready={wallet} expressions={{
                 ready : address
             }} />
               

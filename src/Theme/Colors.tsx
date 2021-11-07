@@ -15,5 +15,9 @@ export const Colors = {
     deepPurple: "#301934",
     deepBlue : "#000022",
     royalBlue : "#4169e1",
-    babyBlue : "#89CFF0"
+    babyBlue : "#89CFF0",
+    infoYellow : "#faf264",
+    deepYellow : "#fa9200",
+    cyan : "cyan",
+    deepCyan : "#008584"
 } as const
