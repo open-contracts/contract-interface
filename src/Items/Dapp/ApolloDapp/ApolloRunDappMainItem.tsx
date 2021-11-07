@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react';
-import { DappI, getDappName, getDappSolidityContract, getDappOracle, getDappImageUri, getDappReadMe, parseGitUrl } from '../Dapp';
+import { DappI, getDappName, getDappSolidityContract, getDappOracle, getDappImageUri, getDappReadMe, parseGitUrl, getDappContract } from '../Dapp';
 import { ApolloBlockItemImage, ApolloBlockItemName } from '.';
 import Skeleton from "react-loading-skeleton";
 import ReactMarkdown from 'react-markdown'
@@ -170,6 +170,38 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = ({
             setDappState({
                 ...dappState,
                 name : nameLoad
+            })
+        }
+
+    })
+
+    const [contractLoad, setContractLoad] = useState<OpenContractI|undefined>(undefined);
+    useEffect(()=>{
+
+        if(!contractLoad){
+            getDappContract(
+                dappItem,
+                (contract : OpenContractI)=>setContractLoad(contract)
+            ).catch((err)=>{
+
+                console.log(err);
+
+                dispatch((state)=>{
+                    return {
+                        ...state,
+                        error : err
+                    }
+                })
+            })
+        }
+
+    }, [])
+    useEffect(()=>{
+
+        if(dappState.contract !== contractLoad){
+            setDappState({
+                ...dappState,
+                contract : contractLoad
             })
         }
 

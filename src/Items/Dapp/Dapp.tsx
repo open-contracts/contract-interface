@@ -330,7 +330,8 @@ export const getOpenContractsInterface = async (
 }
 
 export const getDappContract = async (
-    dapp : DappI
+    dapp : DappI,
+    onGet ? : (contract : OpenContractI)=>void
 ) : Promise<OpenContractI>=>{
 
     const opencontract = await window.OpenContracts();
@@ -338,6 +339,8 @@ export const getDappContract = async (
     const openContractsInterface = dapp.openContractsInterface || await getOpenContractsInterface();
 
     opencontract.parseContracts(openContractsInterface, dappInterface);
+
+    onGet && onGet(opencontract);
 
     return opencontract;
 
