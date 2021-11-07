@@ -1,110 +1,51 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react';
-import { DappI, getDappName, getDappSolidityContract, getDappOracle, getDappImageUri, getDappReadMe, parseGitUrl } from '../Dapp';
+import { DappI, getDappName, getDappSolidityContract, getDappOracle, getDappImageUri, getDappReadMe } from '../Dapp';
 import { ApolloBlockItemImage, ApolloBlockItemName } from '.';
-import { ApolloDappMainItemSource } from './ApolloDappMainItemSource';
+import { ApolloRunDappMainItemMobileSource } from './ApolloRunDappMainItemSource';
 import Skeleton from "react-loading-skeleton";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ApolloDappMainItemActions } from './ApolloDappMainItemActions';
-import { useNavigate } from 'react-router-dom';
+import { ApolloRunDappMainItemReadMe } from './ApolloRunDappMainItem';
+import { ApolloRunDappMainMobileItemActions } from './ApolloRunDappMainItemActions';
 import { useErrorContext } from '../../../Error/ErrorProvider';
-import { Colors, DesktopSizes } from '../../../Theme';
-import {ApolloDappFunctions} from "./ApolloDappFunctions";
-import {TerminalAndres} from "../../../Benches/Terminal/TerminalAndres";
-import {DappInput, DappInteractput, DappOutput, DappErrput} from "../../DappPut";
+import { DesktopSizes } from '../../../Theme';
 
-export type ApolloDappMainItemReadmeProps = {
-    style ? : React.CSSProperties,
-    readme : string | undefined
-}
-
-export const ApolloDappMainItemReadMe : FC<ApolloDappMainItemReadmeProps> = ({
-    style,
-    readme
-})=>{
-
-    return (
-        <div style={{
-            ...style,
-            textAlign : 'left'
-        }}>
-            {!readme && <Skeleton width="100%" count={5}/>}
-            {readme && <ReactMarkdown plugins={[remarkGfm]}>
-                {readme}    
-            </ReactMarkdown>}
-        </div>
-    )
-
-}
-
-export type ApolloDappMainItemInternalsProps = {
+export type ApolloRunDappMainItemMobileInternalsProps = {
     dappItem : DappI
     style? : React.CSSProperties,
     key? : React.Key,
 }
 
-export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps>  = ({
+export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobileInternalsProps>  = ({
     dappItem,
     style,
 }) =>{
 
+
     return (
 
         <div style={{
-            width : "100%",
             ...style
         }}>
             <div style={{
                 display : "grid",
-                width : "100%",
                 gridTemplateColumns : "1fr"
             }}>
                 <div style={{
-                    width : "100%",
                     paddingBottom : DesktopSizes.Padding.whitespacePreferred
                 }}>
-                    <ApolloDappMainItemActions gitUrl={dappItem.gitUrl}/>
+                    <ApolloRunDappMainMobileItemActions gitUrl={dappItem.gitUrl}/>
                 </div>
                 <div style={{
-                    color : Colors.primaryTextColor,
-                    width : "100%"
+                    paddingBottom : DesktopSizes.Padding.whitespacePreferred
                 }}>
-                    <ApolloDappFunctions dapp={dappItem}/>
+                    <ApolloRunDappMainItemMobileSource 
+                    contract={dappItem.contract}
+                    oracle={dappItem.oracle}/>
                 </div>
-                <br/>
-                <div style={{
-                    width : "100%"
-                }}>
-                    <DappInput dappInput={{
-                        type : "input",
-                        name : "msg",
-                        prompt : "Test",
-                        description : "Something should go in here.",
-                        value : "None"
-                    }}/>
-                    <br/>
-                    <DappInteractput dappInteractput={{
-                        type : "interactive",
-                        name : "Request to launch interactive mode",
-                        description : "Something should go in here.",
-                        value : "None"
-                    }}/>
-                    <br/>
-                    <DappOutput
-                        dappOutput={{
-                            type : "output",
-                            name : "Output from helloWorld",
-                            description : "Something should go in here.",
-                            value : "Your hash: 524b2a8ba5be13ef0837accdb22741c3e1bfba59"
-                        }}
-                    />
-                    <br/>
-                    <DappErrput dappErrput={{
-                         type : "error",
-                         name : "Error: invalid argument",
-                         description : "You are seeing this error because.",
-                         value : "Error: invalid argument at line 27 in oracle.py"
-                    }}/>
+                <hr/>
+                <div>
+                    <ApolloRunDappMainItemReadMe readme={dappItem.readme}/>
                 </div>
             </div>
         </div>
@@ -113,7 +54,7 @@ export const ApolloDappMainItemInternals : FC<ApolloDappMainItemInternalsProps> 
 
 }
 
-export type ApolloDappMainItemProps = {
+export type ApolloRunDappMainItemMobileProps = {
     dappItem : DappI,
     style? : React.CSSProperties,
     key? : React.Key,
@@ -121,7 +62,7 @@ export type ApolloDappMainItemProps = {
     forceLoad ? : boolean
 }
 
-export const ApolloDappMainItem : FC<ApolloDappMainItemProps>  = ({
+export const ApolloRunDappMainItemMobile : FC<ApolloRunDappMainItemMobileProps>  = ({
     dappItem,
     style,
     updateDapp,
@@ -328,7 +269,7 @@ export const ApolloDappMainItem : FC<ApolloDappMainItemProps>  = ({
 
     return (
 
-        <ApolloDappMainItemInternals dappItem={dappState} style={style}/>
+        <ApolloRunDappMainItemMobileInternals dappItem={dappState} style={style}/>
 
     )
 

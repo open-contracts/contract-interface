@@ -1,6 +1,6 @@
 import React, {FC, ReactElement, useState} from 'react';
 import { DappI } from '../../Items';
-import { ApolloDappMainItem } from '../../Items/Dapp/ApolloDapp/ApolloDappMainItem';
+import { ApolloRunDappMainItem } from '../../Items/Dapp/ApolloDapp/ApolloRunDappMainItem';
 
 export type RunBenchDesktopProps = {
     dapp ? : DappI
@@ -13,7 +13,7 @@ export const RunBenchDesktop : FC<RunBenchDesktopProps>  = ({
     return (
 
         <>{dapp  ? 
-            <ApolloDappMainItem dappItem={dapp}/>
+            <ApolloRunDappMainItem dappItem={dapp}/>
             : "No dapp"
         }</>
 

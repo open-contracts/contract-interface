@@ -10,7 +10,7 @@ import { AthenaButton } from '../../../Components/Buttons';
 import { ArrowsAngleExpand, ArrowsExpand, Github, PlayFill, X } from 'react-bootstrap-icons';
 
 
-export type ApolloDappMainItemSourceCodeProps = {
+export type ApolloRunDappMainItemSourceCodeProps = {
     style? : React.CSSProperties,
     code : string | undefined,
     handleDrop?: (dropped : boolean)=>void,
@@ -20,7 +20,7 @@ export type ApolloDappMainItemSourceCodeProps = {
     height? : number
 }
 
-export const ApolloDappMainItemSourceCode : FC<ApolloDappMainItemSourceCodeProps> = ({
+export const ApolloRunDappMainItemSourceCode : FC<ApolloRunDappMainItemSourceCodeProps> = ({
     style, 
     code,
     handleDrop = ()=>{},
@@ -79,13 +79,13 @@ export const ApolloDappMainItemSourceCode : FC<ApolloDappMainItemSourceCodeProps
 
 }
 
-export type ApolloDappMainItemSourceProps = {
+export type ApolloRunDappMainItemSourceProps = {
     style? : React.CSSProperties,
     contract : string | undefined,
     oracle : string | undefined
 }
 
-export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
+export const ApolloRunDappMainItemSource : FC<ApolloRunDappMainItemSourceProps>  = ({
     style,
     contract,
     oracle
@@ -162,7 +162,7 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                         position : "relative",
                         background : Colors.primaryTextColor
                     }}>
-                        <ApolloDappMainItemSourceCode
+                        <ApolloRunDappMainItemSourceCode
                             code={contract}
                             lang={"sol"}
                             handleMount={handleContractEditorDidMount}
@@ -204,7 +204,7 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                     <div style={{
                         position : "relative",
                     }}>
-                        <ApolloDappMainItemSourceCode
+                        <ApolloRunDappMainItemSourceCode
                             code={oracle}
                             lang={"python"}
                             handleMount={handleOracleEditorDidMount}
@@ -305,7 +305,7 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
                                 background : "white",
                                 borderRadius: DesktopSizes.BorderRadius.standard
                             }}>
-                                <ApolloDappMainItemSourceCode
+                                <ApolloRunDappMainItemSourceCode
                                     code={modal === "contract" ? contract : oracle}
                                     lang={modal === "contract" ? "sol" : "python"}
                                     handleMount={handleContractEditorDidMount}
@@ -325,7 +325,7 @@ export const ApolloDappMainItemSource : FC<ApolloDappMainItemSourceProps>  = ({
 }
 
 
-export const ApolloDappMainItemMobileSource : FC<ApolloDappMainItemSourceProps>  = ({
+export const ApolloRunDappMainItemMobileSource : FC<ApolloRunDappMainItemSourceProps>  = ({
     style,
     contract,
     oracle

@@ -9,7 +9,7 @@ import { MainRouter } from './Router';
 import { MainSegment } from './Segments';
 import {editor} from "monaco-editor";
 import {Colors} from "./Theme"
-import { HomePage } from './Pages';
+import { RunPage } from './Pages';
 
 function App() {
   return (

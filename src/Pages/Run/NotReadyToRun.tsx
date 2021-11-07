@@ -1,32 +1,47 @@
 import React, {FC, ReactElement} from 'react';
 import { RunBenchDesktop } from '../../Benches';
-import { LogoA } from '../../Glitter';
-import { isDapp } from '../../Items';
 import { MainLayoutDesktop } from '../../Layouts';
-import { HeaderResponsive } from '../../Maps/Headers';
-import { useItemStore } from '../../Sytems/ItemProvider';
-import { Colors, DesktopSizes } from '../../Theme';
-import { useColorStore } from '../../Theme/ColorProvider';
+import { HeaderDesktop, HeaderResponsive } from '../../Maps/Headers';
 import { HOME } from '../../Maps/Headers';
 import { MediaResponsive } from '../../Sytems';
 import { MainLayoutMobile } from '../../Layouts';
-import {ErrorNotification} from "../../Error";
+import {Step} from "../../Components/Walkthrough/Step";
+import { useState } from 'react';
+import { useEffect } from 'react';
+import {RunSteps} from "../../Statics/Steps/RunSteps";
+import { StepStatusT, AllSteps } from '../../Statics/Steps/Steps';
+import { ethers } from 'ethers';
 
-export type ErrorPageProps = {}
+declare global {
+    interface Window {
+        ethereum : ethers.providers.ExternalProvider
+    }
+}
 
-export const ErrorPage : FC<ErrorPageProps>  = () =>{
+export type NotReadyToRunProps = {
 
+    handleAllDone : ()=>void,
+    stepStatus : StepStatusT,
+    setStepStatus : (stepStatus : StepStatusT)=>void
 
+}
+
+export const NotReadyToRun : FC<NotReadyToRunProps>  = ({
+    handleAllDone,
+    stepStatus,
+    setStepStatus
+}) =>{
+   
     return (
 
        <MediaResponsive>
            <MediaResponsive.Desktop>
                 <MainLayoutDesktop>
                     <MainLayoutDesktop.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <ErrorNotification/>
+                        <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
             </MediaResponsive.Desktop>
@@ -36,7 +51,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <ErrorNotification/>
+                        <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
            </MediaResponsive.Laptop>
@@ -46,7 +61,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <ErrorNotification/>
+                        <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
            </MediaResponsive.Tablet>
@@ -56,11 +71,12 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <ErrorNotification/>
+                        <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
            </MediaResponsive.Mobile>
        </MediaResponsive>
+       
     )
 
 }

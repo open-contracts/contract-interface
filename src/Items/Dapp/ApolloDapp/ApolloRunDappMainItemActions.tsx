@@ -6,11 +6,11 @@ import { PlayFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { parseGitUrl } from '../Dapp';
 
-export type ApolloDappMainItemActionsProps = {
+export type ApolloRunDappMainItemActionsProps = {
     gitUrl : string
 }
 
-export const ApolloDappMainItemActions : FC<ApolloDappMainItemActionsProps>  = ({
+export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps>  = ({
     gitUrl
 }) =>{
 
@@ -85,7 +85,7 @@ export const ApolloDappMainItemActions : FC<ApolloDappMainItemActionsProps>  = (
 
 }
 
-export const ApolloDappMainMobileItemActions : FC<ApolloDappMainItemActionsProps>  = ({
+export const ApolloRunDappMainMobileItemActions : FC<ApolloRunDappMainItemActionsProps>  = ({
     gitUrl
 }) =>{
 

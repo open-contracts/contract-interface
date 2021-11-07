@@ -1,66 +1,77 @@
 import React, {FC, ReactElement} from 'react';
-import { RunBenchDesktop } from '../../Benches';
-import { LogoA } from '../../Glitter';
-import { isDapp } from '../../Items';
 import { MainLayoutDesktop } from '../../Layouts';
-import { HeaderResponsive } from '../../Maps/Headers';
-import { useItemStore } from '../../Sytems/ItemProvider';
-import { Colors, DesktopSizes } from '../../Theme';
-import { useColorStore } from '../../Theme/ColorProvider';
+import { HeaderDesktop, HeaderResponsive } from '../../Maps/Headers';
 import { HOME } from '../../Maps/Headers';
 import { MediaResponsive } from '../../Sytems';
 import { MainLayoutMobile } from '../../Layouts';
-import {ErrorNotification} from "../../Error";
+import { StepStatusT } from '../../Statics/Steps/Steps';
+import { RunBenchDesktop } from '../../Benches';
+import { DappI } from '../../Items';
 
-export type ErrorPageProps = {}
+export type RunPageWithRepoProps = {
+    stepStatus : StepStatusT,
+    repo : {
+        owner : string,
+        repo : string
+    }
+}
 
-export const ErrorPage : FC<ErrorPageProps>  = () =>{
+export const RunPageWithRepo : FC<RunPageWithRepoProps>  = ({
+    stepStatus,
+    repo
+}) =>{
 
+    const dapp : DappI = {
+        __isDapp__ : true,
+        gitUrl : `https://github.com/${repo.owner}/${repo.repo}`,
+        id : `${repo.owner}/${repo.repo}`
+    } 
 
     return (
 
-       <MediaResponsive>
-           <MediaResponsive.Desktop>
+        <MediaResponsive>
+            <MediaResponsive.Desktop>
                 <MainLayoutDesktop>
                     <MainLayoutDesktop.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <ErrorNotification/>
+                        <RunBenchDesktop />
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
             </MediaResponsive.Desktop>
-           <MediaResponsive.Laptop>
+            <MediaResponsive.Laptop>
                 <MainLayoutDesktop>
                     <MainLayoutDesktop.Header>
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <ErrorNotification/>
+                    
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
-           </MediaResponsive.Laptop>
-           <MediaResponsive.Tablet>
+            </MediaResponsive.Laptop>
+            <MediaResponsive.Tablet>
                 <MainLayoutMobile>
                     <MainLayoutMobile.Header>
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <ErrorNotification/>
+                        
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
-           </MediaResponsive.Tablet>
-           <MediaResponsive.Mobile>
+            </MediaResponsive.Tablet>
+            <MediaResponsive.Mobile>
                 <MainLayoutMobile>
                     <MainLayoutMobile.Header>
                         <HeaderResponsive selected={HOME}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <ErrorNotification/>
+                    
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
-           </MediaResponsive.Mobile>
-       </MediaResponsive>
+            </MediaResponsive.Mobile>
+        </MediaResponsive>
+
     )
 
 }

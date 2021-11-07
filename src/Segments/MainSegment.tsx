@@ -11,7 +11,7 @@ import { ItemProvider } from '../Sytems/ItemProvider';
 import { Colors, DesktopSizes } from '../Theme';
 import { ColorProvider } from '../Theme/ColorProvider';
 import {DependencyProvider} from "../Sytems/DependencyStatus";
-import { HomePage } from '../Pages';
+import { RunPage } from '../Pages';
 
 export type MainSegmentProps = {}
 
