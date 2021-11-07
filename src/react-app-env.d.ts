@@ -134,7 +134,7 @@ declare global {
         oracleData ? : {
             [key : string] : string
         },
-        call : (inputs ? : PutI[])=>Promise<any>,
+        call : (state  ? : OracleContractFunctionI)=>Promise<any>,
         submitHandler : (submit : string)=>Promise<any>,
         xpraHandler : (targetUrl : string, sessionUrl : string, xpraExit : promise)=>Promise<any>,
         inputHandler : (message : string)=>Promise<any>,

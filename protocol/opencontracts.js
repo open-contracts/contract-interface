@@ -124,9 +124,10 @@ async function enclaveSession(opencontracts, f) {
     var timer = setInterval(() => {secondsPassed++; if (secondsPassed>30) {clearInterval(timer)}}, 1000);
     ws.onerror = function(event) {
         if (secondsPassed < 10) {
-	    throw new Error("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.");
+            f.errorHandler("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
+	    // throw new Error("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.");
 	} else {
-	    throw new Error("Late WebSocket failure. Probable reason: no registry available at this IP.");
+        f.errorHandler("Late WebSocket failure. Probable reason: no registry available at this IP.")
 	}
     }; 
     ws.onopen = function () {
@@ -136,7 +137,9 @@ async function enclaveSession(opencontracts, f) {
         data = JSON.parse(event.data);
         if (data['fname'] == 'return_oracle_ip') {
             ws.close();
-	    if (data['ip'] == "N/A") {throw new Error("No enclave available, try again in a bit or try a different registry.")}
+	    if (data['ip'].toUpperCase() == "N/A") {
+            f.errorHandler("No enclave available, try again in a bit or try a different registry.");
+        }
 	    console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
 	    setTimeout(async () => {await connect(data['ip'])}, 11000);
 	}
@@ -161,7 +164,7 @@ async function enclaveSession(opencontracts, f) {
 		ws.send(JSON.stringify(await encrypt(AESkey, f.oracleData)));
 		ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
 	    } else if (data['fname'] == "busy") {
-	        throw new Error("Oracle is busy. Request a new IP.");
+            f.errorHandler("Oracle is busy. Request a new IP.");
 	    }
 	    if (data['fname'] == 'encrypted') {
 	        data = await decrypt(AESkey, data);
@@ -317,19 +320,20 @@ async function OpenContracts() {
                         f.inputs.push({name: input.name, type: input.type, value: null});
                     }
                 }
-                f.call = async function (inputs) { // option to provide inputs is useful for frameworks like React where state may have been cloned
-                    f.inputs = inputs || f.inputs;
-		    const unspecifiedInputs = f.inputs.filter(i=>i.value == null).map(i => i.name);
-		    if (unspecifiedInputs.length > 0) {
-			    throw new Error(`The following inputs to "${f.name}" were unspecified:  ${unspecifiedInputs}`);
-		    }
-                    if (f.requiresOracle) {
-			if (f.oracleData == undefined) {
-				throw new Error(`No oracleData specified for "${f.name}".`)
-			};
-                        return await enclaveSession(opencontracts, f);
+                f.call = async function (state) { // option to provide inputs is useful for frameworks like React where state may have been cloned
+                    _f = state || f
+                    const unspecifiedInputs = _f.inputs.filter(i=>i.value == null).map(i => i.name);
+                    if (unspecifiedInputs.length > 0) {
+                        throw new Error(`The following inputs to "${_f.name}" were unspecified:  ${unspecifiedInputs}`);
+                    }
+                    console.log(_f);
+                    if (_f.requiresOracle) {
+                                if (_f.oracleData == undefined) {
+                                    throw new Error(`No oracleData specified for "${_f.name}".`)
+                                };
+                        return await enclaveSession(opencontracts, _f);
                     } else {
-                        return await ethereumTransaction(opencontracts, f);
+                        return await ethereumTransaction(opencontracts, _f);
                     }
                 }
                 opencontracts.contractFunctions.push(f);

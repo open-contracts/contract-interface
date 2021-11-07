@@ -17,7 +17,6 @@ export const DappOracleputContent : FC<DappOracleputContentProps>  = ({
         <div style={{
             color : Colors.primaryTextColor
         }}>
-            {dappOracleput.value}
         </div>
 
     )

@@ -16,7 +16,7 @@ export const DappOracleputHeader : FC<DappOracleputHeaderProps>  = ({
         <DefaultHeader
             dappPut={dappOracleput}>
                 <DefaultHeader.Pre>
-                    <Eyeglasses size={18}/>
+                    <Eyeglasses size={18}/>&emsp;Oracle data loaded:
                 </DefaultHeader.Pre>
             </DefaultHeader>
 

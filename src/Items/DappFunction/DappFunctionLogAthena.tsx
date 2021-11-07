@@ -158,7 +158,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const handleError = async (message : string)=>{
 
-        addError("An error occurred!", new Error(message));
+        addError("An error occurred!", message);
 
     }
     contractFunction.errorHandler = handleError;
@@ -171,7 +171,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
     const handleCall = async ()=>{
 
-        if(contractFunction.requiresOracle && !contractFunction.oracleData){
+        if(contractFunction.requiresOracle){
 
             const {
                 owner,
@@ -192,11 +192,17 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
             addOracleData(data||{} as any)
 
+            contractFunction.oracleData = data || {} as any;
+
+            contractFunction.call(contractFunction).then((data)=>{
+
+            }).catch((err)=>{
+                addError("An error occurred!", err.toString());
+            })
+
         }
-        contractFunction.call(
-            contractFunction.inputs
-        ).then((data)=>{
-            addOutput("Output received!", data.toString())
+        contractFunction.call(contractFunction).then((data)=>{
+
         }).catch((err)=>{
             addError("An error occurred!", err.toString());
         })
