@@ -35,12 +35,12 @@ const DefaultHeader : FC<DefaultHeaderProps> & {
                 color : Colors.primaryTextColor,
                 ...style
             }}><b>{Pre}&emsp;</b>{dappPut.name}{Post}</div>
-            <br/>
+            {dappPut.description && <><br/>
             <p style={{
                 color : Colors.secondaryTextColor
             }}>
             {dappPut.description}
-            </p>
+            </p></>}
         </div>
 
     )

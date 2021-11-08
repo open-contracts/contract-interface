@@ -4,17 +4,20 @@ import { DappInputI } from '../DappPutType';
 import {DefaultHeader} from "../Standards";
 
 export type DappInputHeaderProps = {
+    style ? : React.CSSProperties
     dappInput : DappInputI,
 }
 
 export const DappInputHeader : FC<DappInputHeaderProps>  = ({
-    dappInput
+    dappInput,
+    style
 }) =>{
 
     return (
 
         <DefaultHeader dappPut={dappInput} style={{
-            color : Colors.babyBlue
+            color : Colors.babyBlue,
+            ...style
         }}>
             <DefaultHeader.Pre>
                 𝑥

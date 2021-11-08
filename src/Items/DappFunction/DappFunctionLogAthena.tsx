@@ -1,13 +1,16 @@
 import React, {FC, ReactElement} from 'react';
 import { useState } from 'react';
-import { Play, PlayFill } from 'react-bootstrap-icons';
+import { Play, PlayCircleFill, PlayFill } from 'react-bootstrap-icons';
 import { AthenaButton } from '../../Components/Buttons';
 import { Colors, DesktopSizes } from '../../Theme';
 import { DappI, parseGitUrl } from '../Dapp/Dapp';
 import { DappInput, DappPut } from '../DappPut';
-import { DappDescputI, DappErrputI, DappInputI, DappInteractputI, DappOracleputI, DappOutputI, DappPutI } from '../DappPut/DappPutType';
+import { DappDescputI, DappErrputI, DappInputI, DappInteractputI, DappOracleputI, DappOutputI, DappPutI, DappResultputI } from '../DappPut/DappPutType';
 import {to} from "await-to-js";
 import { useEffect } from 'react';
+import { DappInputHeader } from '../DappPut/DappInput/DappInputHeader';
+import { DappResultput } from '../DappPut/DappResultput';
+import { ArrowReturnRight } from 'react-bootstrap-icons';
 
 export interface OpenContractLogStateI {
     log : any[]
@@ -59,14 +62,33 @@ export const createOutputs = (contractFunction : OpenContractFunctionI) : DappOu
     }) : []
 }
 
-export const createOracleData = (contractFunction : OpenContractFunctionI) : DappOracleputI[]=>{
-    return contractFunction.oracleData ? Object.keys(contractFunction.oracleData).map((key)=>{
-        return {
-            name : key,
-            value : JSON.stringify(contractFunction.oracleData ? contractFunction.oracleData[key] : ""),
-            putType : "oracle",
-        } as DappOracleputI
-    }) : []
+export const createOracleData = (
+    contractFunction : OpenContractFunctionI,
+    setFunc ? : (func : OpenContractFunctionI)=>void
+) : DappOracleputI=>{
+
+    const setOracleData = (data : OpenContractFunctionI["oracleData"])=>{
+        setFunc && setFunc({
+            ...contractFunction,
+            oracleData : data
+        })
+    }
+
+    return {
+        name : contractFunction.name,
+        contractFunction : contractFunction,
+        putType : "oracle",
+        setOracleData : setOracleData
+    } as DappOracleputI
+
+}
+
+export const createResult = (contractFunction : OpenContractFunctionI) : DappResultputI=>{
+    return {
+        name : contractFunction.name,
+        value : contractFunction.result,
+        putType : "result"
+    }
 }
 
 export const createDescriptionData = (contractFunction : OpenContractFunctionI) : DappDescputI[]=>{
@@ -81,15 +103,17 @@ export const createDescriptionData = (contractFunction : OpenContractFunctionI) 
     ]
 }
 
-export const aggregateContractFunctionPuts = (contractFunction : OpenContractFunctionI)=>{
+export const aggregateContractFunctionPuts = (
+    contractFunction : OpenContractFunctionI,
+    setFunc ? : (func : OpenContractFunctionI)=>void
+)=>{
 
     return [
-        ...createDescriptionData(contractFunction),
         ...createInputs(contractFunction),
-        ...createOracleData(contractFunction),
+        ...contractFunction.requiresOracle ? [createOracleData(contractFunction, setFunc)] : [],
         ...createErrors(contractFunction),
         ...createXpras(contractFunction),
-        ...createOutputs(contractFunction)
+        ...createOutputs(contractFunction),
     ]
 
 }
@@ -169,6 +193,14 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             oracleData : data
         })
     }
+
+    const addResult = (data : OpenContractFunctionI["result"])=>{
+        setDappFunction &&  setDappFunction && setDappFunction({
+            ...contractFunction,
+            result : data
+        })
+    }
+
     const handleCall = async ()=>{
 
         if(contractFunction.requiresOracle){
@@ -195,41 +227,19 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             contractFunction.oracleData = data || {} as any;
 
             contractFunction.call(contractFunction).then((data)=>{
-
+                addResult(data);
             }).catch((err)=>{
                 addError("An error occurred!", err.toString());
             })
 
         }
         contractFunction.call(contractFunction).then((data)=>{
-
+            addResult(data);
         }).catch((err)=>{
             addError("An error occurred!", err.toString());
         })
 
     }
-    /*useEffect(()=>{
-
-        const {
-            owner,
-            repo
-        } = parseGitUrl(dapp.gitUrl)
-
-        console.log(contractFunction.oracleFolder);
-
-        window.githubOracleDownloader(
-            owner || "",
-            repo || "",
-            "main",
-            contractFunction.oracleFolder
-        ).then((data : any)=>{
-            addOracleData(data);
-        }).catch((err : any)=>{
-            addError("An error occurred!", "GitHub download failed.");
-            return;
-        });
-
-    }, [contractFunction.oracleFolder])*/
 
     const addInteractput = (name : string, targetUrl : string, sessionUrl : string)=>{
 
@@ -249,6 +259,25 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     }
 
+    const inputs = contractFunction.inputs.map((input)=>{
+        return (
+            <div style={{
+                alignContent : 'center',
+                alignItems : "center",
+                paddingBottom : DesktopSizes.Padding.whitespacePreferred
+            }}>
+                <DappInputHeader dappInput={input as DappInputI} style={{
+                    width : "50px",
+                    fontSize : "16px",
+                }}/>
+                <span style={{
+                    color : Colors.forestEdge,
+                    fontSize : "16px"
+                }}>&emsp;=&ensp;{input.value||"undefined"}</span>
+            </div>
+        )
+    })
+
     return (
 
         <div style={{
@@ -256,22 +285,44 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             paddingBottom : DesktopSizes.Padding.whitespacePreferred
         }}>
             {puts}
-            <AthenaButton 
+            <div style={{
+                position : "relative",
+            }}>
+                <AthenaButton 
+                    style={{
+                        width : "100%",
+                        padding : DesktopSizes.Padding.whitespacePreferred
+                    }}
+                    primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor} onClick={handleCall}>
+                    <div style={{
+                        fontSize : "24px",
+                        textAlign : "left"
+                    }}>
+                        <PlayCircleFill/>&emsp;{contractFunction.name}<sub>x</sub>
+                        <br/>
+                        <br/>
+                        {inputs}
+                    </div>
+                </AthenaButton>
+            </div>
+            <div style={{
+                display : "grid",
+                alignContent : "center",
+                alignItems : "center",
+                gridTemplateColumns : "1fr 9fr"
+            }}>
+                <AthenaButton 
+                onClick={handleCall}
+                primaryColor={Colors.primaryTextColor} secondaryColor={Colors.primaryTextColor}
                 style={{
+                    height : "100%",
                     width : "100%"
-                }}
-                primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor} onClick={handleCall}>
-                <div style={{
-                    fontSize : "24px",
-                    display : "flex",
-                    alignContent : "center",
-                    alignItems : "center",
-                    justifyContent : "center",
-                    justifyItems : "center"
-                }}>
-                    {contractFunction.name}&nbsp;<PlayFill/>
-                </div>
-            </AthenaButton>
+                }}><ArrowReturnRight style={{
+                    color : Colors.Maintheme
+                }} size={30}/></AthenaButton><DappResultput
+                dappResultput={createResult(contractFunction)}
+                />
+            </div>
         </div>
 
     )

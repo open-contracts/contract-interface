@@ -130,7 +130,8 @@ declare global {
         errors ? : any[],
         prints ? : any[],
         xpras ? : any[],
-        submits ? : any[]
+        submits ? : any[],
+        result ? : any, 
         oracleData ? : {
             [key : string] : string
         },

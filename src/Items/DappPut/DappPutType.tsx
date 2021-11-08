@@ -28,5 +28,11 @@ export interface DappInteractputI extends DappPutI {
 }
 
 export interface DappOracleputI extends DappPutI {
+    contractFunction : OpenContractFunctionI,
+    setOracleData : (oracleData : any)=>void
     putType : "oracle"
+}
+
+export interface DappResultputI extends DappPutI {
+    putType : "result"
 }

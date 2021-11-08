@@ -3,13 +3,12 @@ import { DappI, getDappName, getDappSolidityContract, getDappOracle, getDappImag
 import Skeleton from "react-loading-skeleton";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ApolloRunDappMainItemActions } from './ApolloRunDappMainItemActions';
-import { useNavigate } from 'react-router-dom';
-import { useErrorContext } from '../../../Error/ErrorProvider';
 import { Colors, DesktopSizes } from '../../../Theme';
-import {ApolloDappFunctions} from "./ApolloRunDappFunctions";
-import {DappInput, DappInteractput, DappOutput, DappErrput} from "../../DappPut";
-import {DappFunctionAthena} from "../../DappFunction";
+import {ApolloRunDappContent} from "./ApolloRunDappContent";
+import { ApolloRunDappFunctionGridView } from './ApolloRunDappFunctionGridView';
+import { ApolloRunDappFunctionView } from './ApolloRunDappFunctionView';
+import { useErrorContext } from '../../../Error/ErrorProvider';
+
 
 export type ApolloRunDappMainItemReadmeProps = {
     style ? : React.CSSProperties,
@@ -87,10 +86,11 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
 
     }
 
-    useEffect(()=>{
-        
-    })
-
+    const [grid, setGrid] = useState(true);
+    const handleWhich = (which : string)=>{
+        setGrid(false);
+        setWhich(which);
+    }
 
     return (
 
@@ -107,30 +107,22 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
                     <h1>{dappItem.name}</h1>
                 </div>
                 <br/>
-                <div>
-                    <ApolloRunDappMainItemActions gitUrl={dappItem.gitUrl} dapp={dappItem}/>
-                </div>
-                <div style={{
-                    textAlign : "left",
-                    color : Colors.Maintheme
-                }}>
-                    <h3>Functions</h3>
-                </div>
-                <div style={{
-                    color : Colors.Maintheme,
-                    width : "100%"
-                }}>
-                    <ApolloDappFunctions which={selectedFunc ? selectedFunc.name : undefined} dapp={dappItem} setWhich={setWhich}/>
-                </div>
-                <br/>
-                <div style={{
-                    width : "100%"
-                }}>
-                   {selectedFunc && <DappFunctionAthena 
+                <ApolloRunDappContent grid={grid} setGrid={setGrid}>
+                    <ApolloRunDappContent.Grid>
+                        <ApolloRunDappFunctionGridView
+                            dapp={dappItem}
+                            setWhich={handleWhich}
+                            which={which}
+                        />
+                    </ApolloRunDappContent.Grid>
+                    <ApolloRunDappContent.Single>
+                        <ApolloRunDappFunctionView
+                            dapp={dappItem}
                             setDappFunction={setFunc}
-                            dapp={dappItem} 
-                            contractFunction={selectedFunc}/>}
-                </div>
+                            contractFunction={selectedFunc}
+                        />
+                    </ApolloRunDappContent.Single>
+                </ApolloRunDappContent>
             </div>
         </div>
 

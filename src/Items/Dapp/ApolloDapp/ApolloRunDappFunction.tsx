@@ -1,7 +1,10 @@
 import React, {FC, ReactElement} from 'react';
 import {DappI} from "../Dapp";
 import {AthenaButton} from "../../../Components/Buttons/AthenaButton";
-import {Colors} from "../../../Theme";
+import {Colors, DesktopSizes} from "../../../Theme";
+import { DappInputHeader } from '../../DappPut/DappInput/DappInputHeader';
+import { DappInputI } from '../../DappPut/DappPutType';
+import { InfoCircle } from 'react-bootstrap-icons';
 
 export type ApolloDappFunctionProps = {
     dapp : DappI,
@@ -26,6 +29,13 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
         onClick && onClick(e, func.name);
     }
 
+    const inputs = func.inputs.map((input)=>{
+        return (<DappInputHeader dappInput={input as DappInputI} style={{
+            width : "50px",
+            fontSize : "16px"
+        }}/>)
+    })
+
     return (
 
     
@@ -38,20 +48,43 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                     ...style
                 }}
             
-            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
-                    <div style={{
-                        display : "flex",
-                        justifyContent : "center",
-                        alignContent : "center",
-                        alignItems : "center"
-                    }}>
-                        <div>
-                            <b>ƒ<sub>x</sub></b>&emsp;
-                        </div>
-                        <div>
-                           {func.name}
-                        </div>
-                    </div>
+                primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                       <div style={{
+                           overflowX : "scroll",
+                           overflowY : "scroll",
+                           padding : DesktopSizes.Padding.standard
+                       }}>
+                            <div style={{
+                                display : "flex",
+                                justifyContent : "left",
+                                alignContent : "center",
+                                alignItems : "center",
+                            }}>
+                                <div>
+                                    <b>ƒ<sub>x</sub></b>&emsp;
+                                </div>
+                                <hr style={{
+                                    color : Colors.Maintheme
+                                }}/>
+                                <div>
+                                    {func.name}
+                                </div>
+                            </div>  
+                            <div>
+                                {inputs}
+                            </div>
+                            <div style={{
+                                textAlign : "left"
+                            }}>
+                                {func.requiresOracle && <i style={{
+                                    color : Colors.deepCyan,
+                                    fontSize : "16px",
+                                    textAlign : "left"
+                                }}>
+                                    Oracle required.  
+                                </i>}
+                            </div>
+                       </div>
             </AthenaButton>
 
 
