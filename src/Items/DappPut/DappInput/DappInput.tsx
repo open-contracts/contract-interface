@@ -21,8 +21,8 @@ export const DappInput : FC<DappPutInputProps>  = ({
     return (
 
         <DappPutLayout style={{
-            background : Colors.forestGreen,
-            border : `1px solid ${darkenStandard(Colors.forestGreen)}`,
+            background : Colors.greenCeramic,
+            border : `1px solid ${darkenStandard(Colors.greenCeramic)}`,
             color : Colors.primaryTextColor,
             ...style
         }}>

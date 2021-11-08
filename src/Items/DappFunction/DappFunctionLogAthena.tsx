@@ -208,7 +208,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         })
 
     }
-    useEffect(()=>{
+    /*useEffect(()=>{
 
         const {
             owner,
@@ -229,7 +229,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             return;
         });
 
-    }, [contractFunction.oracleFolder])
+    }, [contractFunction.oracleFolder])*/
 
     const addInteractput = (name : string, targetUrl : string, sessionUrl : string)=>{
 
@@ -249,10 +249,6 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     }
 
-    useEffect(()=>{
-        console.log(contractFunction.requiresOracle, contractFunction.oracleFolder)
-    })
-
     return (
 
         <div style={{
@@ -264,7 +260,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 style={{
                     width : "100%"
                 }}
-                primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme} onClick={handleCall}>
+                primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor} onClick={handleCall}>
                 <div style={{
                     fontSize : "24px",
                     display : "flex",

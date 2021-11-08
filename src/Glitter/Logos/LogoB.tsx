@@ -24,7 +24,7 @@ export const LogoB : FC<LogoBProps>  = ({
 }) =>{
 
     const Colors = useColorStore();
-    const _logoColor = logoColor || Colors.colors.primaryTextColor;
+    const _logoColor = logoColor || Colors.colors.Maintheme;
     const _fontColor = fontColor || Colors.colors.tertiaryTextColor;
 
     return (

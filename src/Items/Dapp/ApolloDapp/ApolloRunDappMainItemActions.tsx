@@ -32,13 +32,13 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
         }}>
              <div style={{
                 display : "flex",
-                color : Colors.primaryTextColor,
+                color : Colors.Maintheme,
                 alignItems : "center"
             }}>
                 <InfoCircle size={22}/>&emsp;If this is your first time here, you may need to&nbsp;<a href="" style={{
-                    color : "#ADD8E6"
+                    color : "#99aacc"
                 }}>get some OPN</a>&nbsp;and&nbsp;<a href="" style={{
-                    color : "#ADD8E6"
+                    color : "#99aacc"
                 }}>grant access to the Open Contracts hub</a>.
             </div>
             <br/>
@@ -47,7 +47,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 alignContent : "center",
                 alignItems : "center"
             }}>
-                <AthenaButton primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                <AthenaButton primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -59,7 +59,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 &emsp;
                 <AthenaButton
                     action={getTokens}
-                    primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                    primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -70,7 +70,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 </AthenaButton>
                 &emsp;
                 <AthenaButton 
-                    primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                    primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -115,7 +115,7 @@ export const ApolloRunDappMainMobileItemActions : FC<ApolloRunDappMainItemAction
         }}>
             <AthenaButton style={{
                 width : "100%"
-            }}invert primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme} size="lg" onClick={handleGithub}>
+            }}invert primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor} size="lg" onClick={handleGithub}>
                 <div style={{
                     width : "100%",
                     display : "flex",

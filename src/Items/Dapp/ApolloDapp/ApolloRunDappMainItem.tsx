@@ -102,7 +102,7 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
             }}>
                 <div style={{
                     textAlign : "left",
-                    color : Colors.primaryTextColor
+                    color : Colors.Maintheme
                 }}>
                     <h1>{dappItem.name}</h1>
                 </div>
@@ -112,12 +112,12 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
                 </div>
                 <div style={{
                     textAlign : "left",
-                    color : Colors.primaryTextColor
+                    color : Colors.Maintheme
                 }}>
                     <h3>Functions</h3>
                 </div>
                 <div style={{
-                    color : Colors.primaryTextColor,
+                    color : Colors.Maintheme,
                     width : "100%"
                 }}>
                     <ApolloDappFunctions which={selectedFunc ? selectedFunc.name : undefined} dapp={dappItem} setWhich={setWhich}/>

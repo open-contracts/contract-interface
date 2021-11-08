@@ -54,8 +54,8 @@ export const FailedStepPost : FC<FailedStepPostProps>  = ({
             >
                 <AthenaButton 
                     size={"lg"}
-                    primaryColor={Colors.primaryTextColor} 
-                    secondaryColor={Colors.Maintheme}>Retry</AthenaButton>
+                    primaryColor={Colors.Maintheme} 
+                    secondaryColor={Colors.primaryTextColor}>Retry</AthenaButton>
             </motion.div>
         </div>
 

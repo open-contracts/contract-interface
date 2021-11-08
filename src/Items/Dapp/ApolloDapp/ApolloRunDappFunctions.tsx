@@ -5,6 +5,7 @@ import { CollectionFill } from 'react-bootstrap-icons';
 import { DappI } from '../Dapp';
 import {ApolloDappFunction} from "./ApolloRunDappFunction";
 import {LeftRightScrollAdorno} from "../../../Components/Scroll/LeftRightScroll";
+import { DesktopSizes } from '../../../Theme';
 
 export type ApolloDappFunctionsProps = {
     dapp : DappI,
@@ -27,31 +28,34 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
 
 
         return (
-            <>
+            <div style={{
+                padding : DesktopSizes.Padding.whitespacePreferred
+            }}>
                 <ApolloDappFunction 
+                    style={{
+                        width : "100%",
+                        height : "0",
+                        paddingBottom : "100%",
+                        borderRadius : "10%"
+                    }}
                     onClick={onFunctionClick}
                     selected={func.name === which} 
                     dapp={dapp} 
                     func={func}/>&emsp;
-            </>
+            </div>
         )
     }) : <></>
 
     return (
 
         <div style={{
-            display : "flex",
             alignContent : "center",
             alignItems : "center",
             width : "100%",
+            display : "grid",
+            gridTemplateColumns : "1fr 1fr 1fr"
         }}>
-            <CollectionFill size={18}/>
-            &emsp;|&emsp;
-            <LeftRightScrollAdorno style={{
-                flexGrow : 1
-            }}>
-                {funcs}
-            </LeftRightScrollAdorno>
+            {funcs}
         </div>
 
     )

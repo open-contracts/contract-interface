@@ -50,7 +50,7 @@ const StepPre : FC<StepPreProps> & {
                     }}
                 >
                     <h1 style={{
-                        color : Colors.primaryTextColor
+                        color : Colors.Maintheme
                     }}>{Title}</h1>
                 </motion.div>
     )

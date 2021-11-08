@@ -138,7 +138,7 @@ export const AristophanesReady : FC<AristophanesReadyProps>  = ({
                     }}>
                         <div>
                             <span style={{
-                                color : Colors.primaryTextColor
+                                color : Colors.Maintheme
                             }}>{label}</span><br/>
                             <span style={{
                                 color : Colors.tertiaryTextColor

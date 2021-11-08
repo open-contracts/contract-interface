@@ -10,14 +10,16 @@ export type ApolloDappFunctionProps = {
     onClick ? : (
         e : React.MouseEvent,
         name : string
-    )=>void
+    )=>void,
+    style ? : React.CSSProperties
 }
 
 export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
     dapp,
     func,
     selected,
-    onClick 
+    onClick,
+    style 
 }) =>{
 
     const handleClick = (e : React.MouseEvent)=>{
@@ -30,20 +32,16 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
             <AthenaButton 
             onClick={handleClick}
                 style={{
-                    borderTop : "none",
-                    borderLeft: "none",
-                    borderRight : "none",
-                    borderBottom : selected ? `1px solid ${Colors.primaryTextColor}` : "none",
-                    borderRadius : 0,
                     wordWrap : "normal",
                     width : "auto",
-                    fontSize : "18px"
+                    fontSize : "18px",
+                    ...style
                 }}
             
-            primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
-                        display : "grid",
-                        gridTemplateColumns : "1fr auto",
+                        display : "flex",
+                        justifyContent : "center",
                         alignContent : "center",
                         alignItems : "center"
                     }}>

@@ -32,7 +32,7 @@ export const MainSegment : FC<MainSegmentProps>  = () =>{
     return (
 
        <div style={{
-           background : Colors.Maintheme
+           background : Colors.primaryTextColor
        }}>
            <MainRouter/>
        </div>

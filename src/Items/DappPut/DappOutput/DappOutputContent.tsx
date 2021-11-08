@@ -21,7 +21,7 @@ export const DappOutputContent : FC<DappOutputContentProps>  = ({
             alignContent : 'center',
             alignItems : "center"
         }}>
-            <AthenaButton primaryColor={Colors.royalBlue} secondaryColor={Colors.deepBlue} action={async ()=>{
+            <AthenaButton primaryColor={Colors.royalBlue} secondaryColor={Colors.skyBlue} action={async ()=>{
                 navigator.clipboard.writeText(dappOutput.value||"");
             }}>
                <div style={{

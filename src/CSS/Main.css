@@ -11,13 +11,13 @@
 }
 
 html{
-	background: #373737;
-	color : #FAF9F6;
+	background: #FAF9F6;
+	color : #373737;
 }
 
 body {
-	color : #FAF9F6;
-	background: #373737;
+	background: #FAF9F6;
+	color : #373737;
 	scrollbar-width: none;
 	-ms-overflow-style: none; /* IE 11 */
     scrollbar-width: none; /* Firefox 64 */

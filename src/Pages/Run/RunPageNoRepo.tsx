@@ -51,7 +51,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
                             placeholder={"Enter repo"}
                             onTextInput={setText}/>&emsp;<AthenaButton 
                             onClick={handleSubmit}
-                            primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                                 Submit
                             </AthenaButton>
                         </div>
@@ -73,7 +73,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
                             placeholder={"Enter repo"}
                             onTextInput={setText}/>&emsp;<AthenaButton 
                             onClick={handleSubmit}
-                            primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                                 Submit
                             </AthenaButton>
                         </div>
@@ -95,7 +95,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
                             placeholder={"Enter repo"}
                             onTextInput={setText}/>&emsp;<AthenaButton 
                             onClick={handleSubmit}
-                            primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                                 Submit
                             </AthenaButton>
                         </div>
@@ -117,7 +117,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
                             placeholder={"Enter repo"}
                             onTextInput={setText}/>&emsp;<AthenaButton 
                             onClick={handleSubmit}
-                            primaryColor={Colors.primaryTextColor} secondaryColor={Colors.Maintheme}>
+                            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                                 Submit
                             </AthenaButton>
                         </div>

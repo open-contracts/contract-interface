@@ -21,7 +21,7 @@ export const LogoA : FC<LogoAProps>  = ({
     return (
 
         <div style={{
-            color : Colors.colors.primaryTextColor,
+            color : Colors.colors.Maintheme,
             fontSize : size,
             display : "grid",
             gridTemplateColumns : "auto 3fr",
@@ -32,7 +32,7 @@ export const LogoA : FC<LogoAProps>  = ({
             </div>
             <div>
                 &ensp;<span style={{
-                    color : Colors.colors.primaryTextColor
+                    color : Colors.colors.Maintheme
                 }}>{main}</span><span style={{
                     color: Colors.colors.tertiaryTextColor
                 }}>{post}</span>

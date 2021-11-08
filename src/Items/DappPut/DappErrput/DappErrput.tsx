@@ -18,7 +18,7 @@ export const DappErrput : FC<DappPutErrputProps>  = ({
     return (
 
         <DappPutLayout style={{
-            background : Colors.deepMaroon,
+            background : Colors.fadedRed,
             border : `1px solid ${Colors.failedRed}`,
             ...style
         }}>

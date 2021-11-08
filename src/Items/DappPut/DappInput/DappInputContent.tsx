@@ -31,9 +31,9 @@ export const DappInputContent : FC<DappInputContentProps>  = ({
             <TextInputApollo 
                 onTextInput={onTextInput}
                 type="text" placeholder={dappInput.prompt} style={{
-                background : lightenStandard(Colors.forestGreen),
+                background : darkenStandard(Colors.greenCeramic),
                 color : Colors.primaryTextColor,
-                border : `1px solid ${darkenStandard(Colors.forestEdge)}`
+                border : `1px solid ${lightenStandard(Colors.forestEdge)}`
             }}/>
         </div>
 
