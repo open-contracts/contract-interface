@@ -271,6 +271,7 @@ async function OpenContracts() {
             const contract = contract_interface[opencontracts.network];
             opencontracts.contract = new ethers.Contract(contract.address, contract.abi, opencontracts.provider);
             opencontracts.contractFunctions = [];
+	    opencontracts.contractDescription = contract.description;
             for (let i = 0; i < contract.abi.length; i++) {
                 if (contract.abi[i].type == 'constructor') {continue}
                 const f = {};
