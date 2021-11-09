@@ -144,7 +144,7 @@ async function enclaveSession(opencontracts, f) {
 	    setTimeout(async () => {await connect(data['ip'])}, 11000);
 	}
     }
-    // wd.onerror(-> distinguish bw cert n/a and enclave n/a)
+
     async function connect(oracleIP) {
 	var ws = new WebSocket("wss://" + oracleIP + ":8080/");
 	var ETHkey = null;
@@ -220,6 +220,26 @@ async function githubOracleDownloader(user, repo, ref, dir) {
 }
 
 
+async function getOraclePys(user, repo, ref) {
+    const response = await fetch(new URL(`https://raw.githubusercontent.com/${user}/${repo}/${ref}/interface.json`));
+    var contract = JSON.parse(await response.text());
+    var contract = contract[Object.keys(contract)[0]]
+    var oraclePys = {};
+    for (let i = 0; i < contract.abi.length; i++) {
+        if (contract.abi[i].oracleFolder == undefined) {continue}
+        if (oraclePys[contract.abi[i].oracleFolder] == undefined) {
+            oraclePys[contract.abi[i].oracleFolder] = {fnames: []};
+	    const response = await fetch(new URL(
+                `https://raw.githubusercontent.com/${user}/${repo}/${ref}/${contract.abi[i].oracleFolder}/oracle.py`
+	    ));
+            oraclePys[contract.abi[i].oracleFolder].file = await response.text();
+	}
+        oraclePys[contract.abi[i].oracleFolder].fnames.push(contract.abi[i].name);
+    }
+    return oraclePys;
+}
+
+
 async function OpenContracts() {
     const opencontracts = {};
     // detect metamask
@@ -270,9 +290,9 @@ async function OpenContracts() {
         } else {
             const contract = contract_interface[opencontracts.network];
             opencontracts.contract = new ethers.Contract(contract.address, contract.abi, opencontracts.provider);
+            opencontracts.contractName = contract.name;
+            opencontracts.contractDescription = contract.description;
             opencontracts.contractFunctions = [];
-	    opencontracts.contractName = contract.name;
-	    opencontracts.contractDescription = contract.description;
             for (let i = 0; i < contract.abi.length; i++) {
                 if (contract.abi[i].type == 'constructor') {continue}
                 const f = {};
