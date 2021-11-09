@@ -96,10 +96,10 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
 
         <div style={{
             width : "100%",
+            paddingBottom : DesktopSizes.Padding.whitespacePreferred,
             ...style
         }}>
-            <div style={{
-            }}>
+            <div>
                 <div style={{
                     textAlign : "left",
                     color : Colors.Maintheme

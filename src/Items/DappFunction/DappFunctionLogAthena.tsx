@@ -12,6 +12,7 @@ import { DappInputHeader } from '../DappPut/DappInput/DappInputHeader';
 import { DappResultput } from '../DappPut/DappResultput';
 import { ArrowReturnRight } from 'react-bootstrap-icons';
 import {DappFunctionLogRunButton} from "./DappFunctionLogRunButton";
+import {DappFunctionSubmitState} from "./DappFunctionSubmitState";
 
 export interface OpenContractLogStateI {
     log : any[]
@@ -281,18 +282,28 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         )
     })
 
+    console.log(logState);
+
     return (
 
-        <div style={{
-            width : "100%",
-            paddingBottom : DesktopSizes.Padding.standard
-        }}>
-            {puts}
-            <DappFunctionLogRunButton
-                contractFunction={contractFunction}
-                handleCall={handleCall}
-            />
-        </div>
+        <>
+            <div style={{
+                width : "100%",
+                paddingBottom : DesktopSizes.Padding.standard,
+            }}>
+                <DappFunctionLogRunButton
+                    puts={logState.log}
+                    setPut={setPut}
+                    contractFunction={contractFunction}
+                    handleCall={handleCall}
+                />
+                {puts}
+                <DappFunctionSubmitState
+                    call={handleCall}
+                    contractFunction={contractFunction}
+                />
+            </div>
+        </>
 
     )
 

@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { DappInputHeader } from '../DappPut/DappInput/DappInputHeader';
 import { DappResultput } from '../DappPut/DappResultput';
 import { ArrowReturnRight } from 'react-bootstrap-icons';
+import { TextInputApollo } from '../../Components/TextInput';
 export const createResult = (contractFunction : OpenContractFunctionI) : DappResultputI=>{
     return {
         name : contractFunction.name,
@@ -21,33 +22,63 @@ export const createResult = (contractFunction : OpenContractFunctionI) : DappRes
 
 export type DappFunctionLogRunButtonProps = {
     contractFunction : OpenContractFunctionI,
-    handleCall : ()=>void
+    puts : DappPutI[],
+    handleCall : ()=>void,
+    setPut : (put : DappPutI, index : number)=>void
 }
 
 export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
+    puts,
     contractFunction,
-    handleCall
+    handleCall,
+    setPut
 }) =>{
 
-    const inputs = contractFunction.inputs.map((input)=>{
-        return (
-            <div style={{
-                alignContent : 'center',
-                alignItems : "center",
-                paddingBottom : DesktopSizes.Padding.standard,
-                lineHeight : "18px"
-            }}>
-                <DappInputHeader dappInput={input as DappInputI} style={{
-                    width : "50px",
-                    fontSize : "16px",
-                }}/>
-                <span style={{
-                    color : Colors.forestEdge,
-                    fontSize : "16px"
-                }}>&emsp;=&ensp;{input.value||"undefined"}</span>
-            </div>
-        )
-    })
+    console.log(puts);
+
+    const inputs = puts.reduce((agg, put, index)=>{
+        console.log(put);
+        const onTextInput = (text : string)=>{
+            setPut({
+                ...put,
+                value : text
+            } as DappInputI, index)
+        }
+        return [
+            ...agg,
+            ...put.putType === "input" ? [
+                (
+                    <div style={{
+                        alignContent : 'center',
+                        alignItems : "center",
+                        paddingBottom : DesktopSizes.Padding.standard,
+                        lineHeight : "18px"
+                    }}>
+                        <DappInputHeader dappInput={put as DappInputI} style={{
+                            width : "50px",
+                            fontSize : "16px",
+                        }}/>
+                        <br/>
+                        <div style={{
+                            display : "flex",
+                            color : Colors.secondaryTextColor,
+                            alignContent : "center",
+                            alignItems : "center",
+                            fontSize : "16px"
+                        }}>
+                           &emsp;<span style={{
+                               fontSize : "16px"
+                           }}>=&emsp;</span><TextInputApollo
+                            onTextInput={onTextInput}
+                            style={{
+                                fontSize : "16px"
+                           }}/>
+                        </div>
+                    </div>
+                )
+            ] : []
+        ]
+    }, [] as React.ReactNode[])
 
     const [isHovered, setHovered] = useState(false);
     const handleMouseOver = ()=>{
@@ -65,19 +96,20 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
              <div style={{
                 position : "relative",
             }}>
-                <AthenaButton 
-                    hovered={isHovered}
+                <div
                     style={{
                         width : "100%",
                         padding : DesktopSizes.Padding.standard,
+                        borderTopLeftRadius : DesktopSizes.BorderRadius.standard,
+                        borderTopRightRadius : DesktopSizes.BorderRadius.standard,
                         borderBottomLeftRadius : "0px",
                         borderBottom : "none",
                         borderLeft :`1px solid ${Colors.Maintheme}`,
                         borderRight : `1px solid ${Colors.Maintheme}`,
                         borderTop : `1px solid ${Colors.Maintheme}`,
-                        borderBottomRightRadius : "0px"
-                    }}
-                    primaryColor={Colors.Maintheme} secondaryColor={"white"} onClick={handleCall}>
+                        borderBottomRightRadius : "0px",
+                        background : 'white'
+                    }}>
                     <div style={{
                         fontSize : "24px",
                         textAlign : "left"
@@ -89,7 +121,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                             {inputs}
                         </div>
                     </div>
-                </AthenaButton>
+                </div>
             </div>
             <div style={{
                 display : "grid",
@@ -97,11 +129,13 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                 alignItems : "center",
                 gridTemplateColumns : "1fr 9fr"
             }}>
-                <AthenaButton 
-                hovered={isHovered}
+                <div
                 onClick={handleCall}
-                primaryColor={Colors.Maintheme} secondaryColor={"white"}
                 style={{
+                    display : "flex",
+                    alignContent : "center",
+                    alignItems : "center",
+                    justifyContent : "center",
                     height : "100%",
                     width : "100%",
                     borderTopLeftRadius : "0px",
@@ -111,8 +145,10 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     borderTop : "none",
                     borderRight : "none",
                     borderBottom : `1px solid ${Colors.Maintheme}`,
-                    borderLeft : `1px solid ${Colors.Maintheme}`
-                }}><ArrowReturnRight size={30}/></AthenaButton>
+                    borderLeft : `1px solid ${Colors.Maintheme}`,
+                    background :  "white",
+                    borderBottomLeftRadius : DesktopSizes.BorderRadius.standard
+                }}><ArrowReturnRight size={30}/></div>
                 <div style={{
                     background : isHovered ? Colors.Maintheme : "white",
                     borderBottomLeftRadius : "0px",

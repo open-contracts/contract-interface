@@ -20,20 +20,7 @@ export const DappInput : FC<DappPutInputProps>  = ({
 
     return (
 
-        <DappPutLayout style={{
-            background : Colors.greenCeramic,
-            border : `1px solid ${darkenStandard(Colors.greenCeramic)}`,
-            color : Colors.primaryTextColor,
-            ...style
-        }}>
-            <DappPutLayout.Header>
-                <DappInputHeader dappInput={dappInput} />
-            </DappPutLayout.Header>
-            <DappPutLayout.Content>
-                <DappInputContent setInput={setInput} dappInput={dappInput}/>
-            </DappPutLayout.Content>
-        </DappPutLayout>
-
+        <></>
     )
 
 }
