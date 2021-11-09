@@ -236,7 +236,7 @@ async function getOraclePys(user, repo, ref) {
 	}
         oraclePys[contract.abi[i].oracleFolder].fnames.push(contract.abi[i].name);
     }
-    return oraclePys;
+    return Object.values(oraclePys);
 }
 
 
