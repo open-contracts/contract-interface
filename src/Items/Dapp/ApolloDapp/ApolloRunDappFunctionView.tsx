@@ -21,21 +21,12 @@ export const ApolloRunDappFunctionView : FC<ApolloRunDappFunctionViewProps>  = (
             padding: DesktopSizes.Padding.standard
         }}>
             {contractFunction && 
-                <>
-                    <h3 style={{
-                        textAlign : "left"
-                    }}>{contractFunction.name}</h3>
-                    <p style={{
-                        textAlign : "left"
-                    }}>
-                        {contractFunction.description}
-                    </p>
+            
                     <DappFunctionAthena
                         dapp={dapp}
                         setDappFunction={setDappFunction}
                         contractFunction={contractFunction}
                     />
-                </>
             }
             {!contractFunction && <h2>No function selected.</h2>}
         </div>

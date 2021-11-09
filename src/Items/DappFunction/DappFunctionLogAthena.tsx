@@ -13,6 +13,7 @@ import { DappResultput } from '../DappPut/DappResultput';
 import { ArrowReturnRight } from 'react-bootstrap-icons';
 import {DappFunctionLogRunButton} from "./DappFunctionLogRunButton";
 import {DappFunctionSubmitState} from "./DappFunctionSubmitState";
+import { Spinner } from 'react-bootstrap';
 
 export interface OpenContractLogStateI {
     log : any[]
@@ -81,7 +82,7 @@ export const createOracleData = (
     }
 
     return {
-        name : contractFunction.name,
+        name : "Oracle data",
         contractFunction : contractFunction,
         putType : "oracle",
         setOracleData : setOracleData
@@ -168,10 +169,13 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     const addOutput = (name : string, message : string)=>{
         setDappFunction && setDappFunction({
             ...contractFunction,
+            ...contractFunction.requiresOracle ? {
+                result : "Oracle output received! See below."
+            } : {},
             prints : [...contractFunction.prints||[], {
                 name : name,
                 value : message
-            }]
+            }],
         })
     }
 
@@ -183,6 +187,25 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
         setDappFunction && setDappFunction({
             ...contractFunction,
+            result : (
+                <div style={{
+                    alignContent : 'center',
+                    alignItems : 'center'
+                }}>
+                    <p>
+                        <span style={{
+                            color : Colors.secondaryTextColor
+                        }}>Previous result:</span> {typeof contractFunction.result === "string" ? contractFunction.result : "No data received."}
+                    </p>
+                    <p style={{
+                        color : Colors.fadedRed
+                    }}>
+                         <span style={{
+                            color : Colors.secondaryTextColor
+                        }}>Current result:</span> Error
+                    </p>
+                </div>
+            ),
             errors : [...contractFunction.errors||[], {
                 name : name,
                 description : e
@@ -248,25 +271,51 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     const handleCall = async ()=>{
 
        return new Promise((resolve, reject)=>{
+
+            addResult(<div style={{
+                display : 'flex',
+                alignContent : "center",
+                alignItems : "center"
+            }}>
+                <Spinner style={{
+                    height : "10px",
+                    width : "10px"
+                }} animation="border"/>
+                &emsp;Pending...
+            </div>)
+
             if(contractFunction.requiresOracle){
 
                 if(!contractFunction.oracleData){
                     addError("No Oracle data!", "Oracle data is required for this function.");
+                    resolve({});
                 }
 
                 contractFunction.call(contractFunction).then((data)=>{
-                    addResult(data);
+                    addResult(data ? data : <div style={{
+                        display : 'flex',
+                        alignContent : "center",
+                        alignItems : "center"
+                    }}>
+                        <Spinner style={{
+                            height : "10px",
+                            width : "10px"
+                        }} animation="border"/>
+                        &emsp;Attempting oracle connection...
+                    </div>);
                     resolve(data);
                 }).catch((err)=>{
                     addError("An error occurred!", err.toString());
+                    resolve({});
                 })
                 return;
             } 
             contractFunction.call(contractFunction).then((data)=>{
-                addResult(data);
+                addResult(data.length ? data : "Success!");
                 resolve(data);
             }).catch((err)=>{
                 addError("An error occurred!", err.toString());
+                resolve({});
             })
        })
 
@@ -276,6 +325,9 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
         setDappFunction && setDappFunction({
             ...contractFunction,
+            ...contractFunction.requiresOracle ? {
+                result : "Oracle output received! See below."
+            } : {},
             xpras : [...contractFunction.xpras||[], {
                 name : name,
                 description : sessionUrl,

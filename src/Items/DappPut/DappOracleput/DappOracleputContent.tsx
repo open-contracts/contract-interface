@@ -34,7 +34,7 @@ export const DappOracleputContent : FC<DappOracleputContentProps>  = ({
         Object.keys(map).reduce((agg, key)=>{
             return {
                 ...agg,
-                [key] : !(map[key] as Promise<string>).then ? "not ready" :  "ready"
+                [key] : [typeof map[key] === "string"] ? "ready" :  "not ready"
             }
         }, {} as {[key : string] : ReadyT})
     )

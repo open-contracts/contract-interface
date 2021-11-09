@@ -61,7 +61,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             <MediaResponsive.Laptop>
                 <MainLayoutDesktop>
                     <MainLayoutDesktop.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
                     <div style={{
@@ -83,7 +83,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             <MediaResponsive.Tablet>
                 <MainLayoutMobile>
                     <MainLayoutMobile.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
                     <div style={{
@@ -105,7 +105,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             <MediaResponsive.Mobile>
                 <MainLayoutMobile>
                     <MainLayoutMobile.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
                     <div style={{

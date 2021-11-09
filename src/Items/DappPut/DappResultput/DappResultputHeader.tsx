@@ -15,7 +15,7 @@ export const DappResultputHeader : FC<DappResultputHeaderProps>  = ({
 
     return (
 
-        <DefaultHeader dappPut={dappResultput} style={{
+        <DefaultHeader dappPut={{} as DappResultputI} style={{
             color : Colors.babyBlue,
             ...style
         }}>

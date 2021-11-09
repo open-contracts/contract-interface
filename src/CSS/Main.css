@@ -13,20 +13,26 @@
 html{
 	background: white;
 	color : #373737;
+	overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
 }
 
-body {
-	background: white;
-	color : #373737;
+div {
 	scrollbar-width: none;
 	-ms-overflow-style: none; /* IE 11 */
     scrollbar-width: none; /* Firefox 64 */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	overflow: -moz-scrollbars-none;
+}
+
+body {
+	background: white;
+	color : #373737;
 	text-rendering: geometricPrecision;
 	transition: all .2s ease-in-out;
-	overflow: visible;
+	overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
 }
 
 .grow {
