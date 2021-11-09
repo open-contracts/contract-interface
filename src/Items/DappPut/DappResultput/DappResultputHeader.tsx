@@ -22,11 +22,6 @@ export const DappResultputHeader : FC<DappResultputHeaderProps>  = ({
             <DefaultHeader.Pre>
                 𝑦      
             </DefaultHeader.Pre>
-            <DefaultHeader.Post>
-                &emsp;=&emsp;<b style={{
-                    color : Colors.Maintheme
-                }}>{dappResultput.value||"undefined"}</b>
-            </DefaultHeader.Post>
         </DefaultHeader>
 
     )

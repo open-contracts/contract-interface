@@ -16,7 +16,7 @@ export const DappDescputHeader : FC<DappDescputHeaderProps>  = ({
         <DefaultHeader
             dappPut={dappDescput}>
                 <DefaultHeader.Pre>
-                    <b>ƒ<sub>x</sub></b>
+                    <b>ƒ<sub>𝑥</sub></b>
                 </DefaultHeader.Pre>
             </DefaultHeader>
 

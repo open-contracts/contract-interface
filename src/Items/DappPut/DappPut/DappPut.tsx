@@ -10,13 +10,15 @@ import {DappOracleput} from "../DappOracleput";
 export type DappPutProps = {
     put : DappPutI,
     index : number,
-    setPut ? : (put : DappPutI, index : number)=>void
+    setPut ? : (put : DappPutI, index : number)=>void,
+    end ? : boolean
 }
 
 export const DappPut : FC<DappPutProps>  = ({
     put,
     index,
-    setPut
+    setPut,
+    end
 }) =>{
 
     const handleSetPut = (put : DappPutI)=>{
@@ -30,7 +32,7 @@ export const DappPut : FC<DappPutProps>  = ({
         case ("input") :{
 
             return (
-                <DappInput  dappInput={put as DappInputI} setInput={handleSetPut}/>
+                <DappInput   dappInput={put as DappInputI} setInput={handleSetPut}/>
             )
 
         }
@@ -38,7 +40,7 @@ export const DappPut : FC<DappPutProps>  = ({
         case ("output") :{
 
             return (
-                <DappOutput  dappOutput={put as DappOutputI}/>
+                <DappOutput end={end} dappOutput={put as DappOutputI}/>
             )
 
         }
@@ -46,7 +48,7 @@ export const DappPut : FC<DappPutProps>  = ({
         case ("error") : {
 
             return (
-                <DappErrput dappErrput={put as DappErrputI}/>
+                <DappErrput end={end} dappErrput={put as DappErrputI}/>
             )
 
         }
@@ -54,7 +56,7 @@ export const DappPut : FC<DappPutProps>  = ({
         case ("interactive") : {
 
             return (
-                <DappInteractput dappInteractput={put as DappInteractputI}/>
+                <DappInteractput end={end} dappInteractput={put as DappInteractputI}/>
             )
 
         }
@@ -62,7 +64,7 @@ export const DappPut : FC<DappPutProps>  = ({
         case ("oracle") : {
             
             return (
-                <DappOracleput dappOracleput={put as DappOracleputI}/>
+                <DappOracleput end={end} dappOracleput={put as DappOracleputI}/>
             )
 
         }

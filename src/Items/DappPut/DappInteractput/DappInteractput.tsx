@@ -7,17 +7,21 @@ import {DappInteractputContent} from "./DappInteractputContent";
 
 export type DappPutInteractputProps = {
     style ? : React.CSSProperties
-    dappInteractput : DappInteractputI
+    dappInteractput : DappInteractputI,
+    end ? : boolean
 }
 
 export const DappInteractput : FC<DappPutInteractputProps>  = ({
     dappInteractput,
-    style
+    style,
+    end
 }) =>{
 
     return (
 
-        <DappPutLayout style={{
+        <DappPutLayout 
+        end={end}
+        style={{
             background : Colors.deepPurple,
             border : `1px solid ${Colors.lilac}`,
             ...style

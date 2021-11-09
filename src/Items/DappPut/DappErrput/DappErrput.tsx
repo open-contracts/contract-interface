@@ -7,17 +7,21 @@ import { DappErrputContent } from './DappErrputContent';
 
 export type DappPutErrputProps = {
     style ? : React.CSSProperties
-    dappErrput : DappErrputI
+    dappErrput : DappErrputI,
+    end ? : boolean
 }
 
 export const DappErrput : FC<DappPutErrputProps>  = ({
     dappErrput,
-    style
+    style,
+    end
 }) =>{
 
     return (
 
-        <DappPutLayout style={{
+        <DappPutLayout 
+        end={end}
+        style={{
             background : Colors.fadedRed,
             border : `1px solid ${Colors.failedRed}`,
             ...style

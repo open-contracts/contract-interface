@@ -6,6 +6,7 @@ const Members = ["Content", "Header"];
 
 export type DappPutInputProps = {
     style ? : React.CSSProperties,
+    end ? : boolean
 }
 
 const DappPutLayout : FC<DappPutInputProps> & {
@@ -13,6 +14,7 @@ const DappPutLayout : FC<DappPutInputProps> & {
     Content : FC
 } = ({
     style,
+    end,
     children
 }) =>{
 
@@ -20,6 +22,8 @@ const DappPutLayout : FC<DappPutInputProps> & {
         Header,
         Content
     } = getComponentMembers(Members, children);
+
+    
 
     return (
 
@@ -30,8 +34,17 @@ const DappPutLayout : FC<DappPutInputProps> & {
             paddingBottom : DesktopSizes.Padding.standard,
             paddingLeft : DesktopSizes.Padding.standard,
             paddingRight : DesktopSizes.Padding.standard,
-            borderRadius : DesktopSizes.BorderRadius.standard,
-            ...style
+            borderBottomRightRadius : end ? DesktopSizes.BorderRadius.standard : "0px",
+            borderBottomLeftRadius : end ? DesktopSizes.BorderRadius.standard : "0px",
+            borderTopRightRadius : "0px",
+            borderTopLeftRadius : "0px",
+            borderCollapse : "collapse",
+            ...style,
+            border : undefined,
+            borderTop : style?.borderTop,
+            borderRight : style?.borderRight || style?.border,
+            borderLeft : style?.borderLeft || style?.border,
+            borderBottom : style?.borderBottom || style?.border
         }}>
             <div>
                 {Header}

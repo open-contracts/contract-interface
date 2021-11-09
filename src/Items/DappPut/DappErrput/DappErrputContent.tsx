@@ -18,8 +18,6 @@ export const DappErrputContent : FC<DappErrputContentProps>  = ({
             color : Colors.primaryTextColor
         }}>
             {dappErrput.value}
-            <br/>
-            <br/>
             <AthenaButton
                     primaryColor={darkenStandard(Colors.failedRed)}
                     secondaryColor={lightenStandard(Colors.fadedRed)}

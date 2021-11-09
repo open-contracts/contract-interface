@@ -23,21 +23,19 @@ export const createResult = (contractFunction : OpenContractFunctionI) : DappRes
 export type DappFunctionLogRunButtonProps = {
     contractFunction : OpenContractFunctionI,
     puts : DappPutI[],
-    handleCall : ()=>void,
     setPut : (put : DappPutI, index : number)=>void
 }
 
 export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
     puts,
     contractFunction,
-    handleCall,
     setPut
 }) =>{
 
-    console.log(puts);
+    const nonInputOutput = puts.filter(put=>((put.putType !== "input") && (put.putType !== "output")))
 
     const inputs = puts.reduce((agg, put, index)=>{
-        console.log(put);
+        
         const onTextInput = (text : string)=>{
             setPut({
                 ...put,
@@ -114,7 +112,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         fontSize : "24px",
                         textAlign : "left"
                     }}>
-                        <p><PlayCircleFill/>&emsp;{contractFunction.name}<sub>x</sub></p>
+                        <p><PlayCircleFill/>&emsp;{contractFunction.name}<sub>𝑥</sub></p>
                         <div style={{
                             paddingLeft : DesktopSizes.Padding.whitespacePreferred
                         }}>
@@ -130,7 +128,6 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                 gridTemplateColumns : "1fr 9fr"
             }}>
                 <div
-                onClick={handleCall}
                 style={{
                     display : "flex",
                     alignContent : "center",
@@ -147,26 +144,23 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     borderBottom : `1px solid ${Colors.Maintheme}`,
                     borderLeft : `1px solid ${Colors.Maintheme}`,
                     background :  "white",
-                    borderBottomLeftRadius : DesktopSizes.BorderRadius.standard
+                    borderBottomLeftRadius : nonInputOutput.length > 0 ? "0px" : DesktopSizes.BorderRadius.standard
                 }}><ArrowReturnRight size={30}/></div>
-                <div style={{
-                    background : isHovered ? Colors.Maintheme : "white",
-                    borderBottomLeftRadius : "0px",
-                    borderBottomRightRadius : DesktopSizes.BorderRadius.standard,
-                }}>
-                    <DappResultput
-                        dappResultput={createResult(contractFunction)}
-                        style={{
-                            borderTopLeftRadius : DesktopSizes.BorderRadius.standard,
-                            borderBottomLeftRadius : "0px",
-                            borderTopRightRadius : "0px",
-                            borderLeft : `1px solid ${Colors.Maintheme}`,
-                            borderRight : `1px solid ${Colors.bloodOrange}`,
-                            borderTop : `1px solid ${Colors.Maintheme}`,
-                            borderBottom : `1px solid ${Colors.bloodOrange}`
-                        }}
+                <DappResultput
+                    dappResultput={createResult(contractFunction)}
+                    style={{
+                        borderTopLeftRadius : DesktopSizes.BorderRadius.standard,
+                        borderBottomLeftRadius : "0px",
+                        borderTopRightRadius : "0px",
+                        borderBottomRightRadius : nonInputOutput.length > 0 ? "0px" : DesktopSizes.BorderRadius.standard,
+                        borderLeft : `1px solid ${Colors.Maintheme}`,
+                        borderRight : `1px solid ${Colors.forestEdge}`,
+                        borderTop : `1px solid ${Colors.Maintheme}`,
+                        borderBottom : `1px solid ${Colors.forestEdge}`,
+                        border : undefined
+                    }}
                 />
-                </div>
+    
             </div>
         </div>
       

@@ -70,9 +70,13 @@ export const createOracleData = (
 ) : DappOracleputI=>{
 
     const setOracleData = (data : OpenContractFunctionI["oracleData"])=>{
+        
+        
         setFunc && setFunc({
             ...contractFunction,
-            oracleData : data
+            oracleData : data,
+            oraclePromiseReject : undefined,
+            oraclePromiseResolve : undefined
         })
     }
 
@@ -112,7 +116,7 @@ export const aggregateContractFunctionPuts = (
 
     return [
         ...createInputs(contractFunction),
-        ...contractFunction.requiresOracle ? [createOracleData(contractFunction, setFunc)] : [],
+        ...contractFunction.oracleData ? [createOracleData(contractFunction, setFunc)] : [],
         ...createErrors(contractFunction),
         ...createXpras(contractFunction),
         ...createOutputs(contractFunction),
@@ -137,7 +141,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 }) =>{
 
     const logState : OpenContractLogStateI = {
-        log : aggregateContractFunctionPuts(contractFunction)
+        log : aggregateContractFunctionPuts(contractFunction, setDappFunction)
     }
 
     const setPut = (put : DappPutI, index : number)=>{
@@ -148,14 +152,18 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         })
     }
 
-    const puts = logState.log.map((put, index)=>{
-        return (
-            <div style={{
-                width : "100%",
-                paddingBottom : DesktopSizes.Padding.standard
-            }}><DappPut setPut={setPut} index={index} put={put}/></div>
-        )
-    })
+    const puts = logState.log.reduce((agg, put, index)=>{
+        return [
+            ...agg,
+            ...put.putType !== "input" ? [
+                (
+                    <DappPut 
+                        end={index > logState.log.length - 2}
+                        setPut={setPut} index={index} put={put}/>
+                )
+            ] : []
+        ]
+    }, [] as React.ReactNode)
 
     const addOutput = (name : string, message : string)=>{
         setDappFunction && setDappFunction({
@@ -190,10 +198,16 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
     contractFunction.errorHandler = handleError;
 
-    const addOracleData = (data : OpenContractFunctionI["oracleData"])=>{
+    const addOracleData = (
+        data : OpenContractFunctionI["oracleData"], 
+        resolve : OpenContractFunctionI["oraclePromiseResolve"],
+        reject : OpenContractFunctionI["oraclePromiseReject"]
+    )=>{
         setDappFunction && setDappFunction({
             ...contractFunction,
-            oracleData : data
+            oracleData : data,
+            oraclePromiseResolve : resolve,
+            oraclePromiseReject : reject
         })
     }
 
@@ -204,43 +218,57 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         })
     }
 
-    const handleCall = async ()=>{
+    const loadOracleData = async () : Promise<{[key : string] : string}>=>{
+        const {
+            owner,
+            repo
+        } = parseGitUrl(dapp.gitUrl)
 
-        if(contractFunction.requiresOracle){
+        const [error, data]= await to(window.githubOracleDownloader(
+            owner || "",
+            repo || "",
+            "main",
+            contractFunction.oracleFolder
+        ));
 
-            const {
-                owner,
-                repo
-            } = parseGitUrl(dapp.gitUrl)
-
-            const [error, data]= await to(window.githubOracleDownloader(
-                owner || "",
-                repo || "",
-                "main",
-                contractFunction.oracleFolder
-            ));
-
+        return new Promise((resolve, reject)=>{
+            addOracleData(
+                data||{} as any,
+                resolve,
+                reject
+            )
             if(error){
                 addError("An error occurred!", "GitHub download failed.");
-                return;
+                reject();
             }
+        })
 
-            addOracleData(data||{} as any)
+    }
 
-            contractFunction.oracleData = data || {} as any;
+    const handleCall = async ()=>{
 
+       return new Promise((resolve, reject)=>{
+            if(contractFunction.requiresOracle){
+
+                if(!contractFunction.oracleData){
+                    addError("No Oracle data!", "Oracle data is required for this function.");
+                }
+
+                contractFunction.call(contractFunction).then((data)=>{
+                    addResult(data);
+                    resolve(data);
+                }).catch((err)=>{
+                    addError("An error occurred!", err.toString());
+                })
+                return;
+            } 
             contractFunction.call(contractFunction).then((data)=>{
                 addResult(data);
+                resolve(data);
             }).catch((err)=>{
                 addError("An error occurred!", err.toString());
             })
-
-        }
-        contractFunction.call(contractFunction).then((data)=>{
-            addResult(data);
-        }).catch((err)=>{
-            addError("An error occurred!", err.toString());
-        })
+       })
 
     }
 
@@ -282,7 +310,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         )
     })
 
-    console.log(logState);
+    
 
     return (
 
@@ -295,10 +323,11 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                     puts={logState.log}
                     setPut={setPut}
                     contractFunction={contractFunction}
-                    handleCall={handleCall}
                 />
                 {puts}
+                <br/>
                 <DappFunctionSubmitState
+                    loadOracleData={loadOracleData}
                     call={handleCall}
                     contractFunction={contractFunction}
                 />

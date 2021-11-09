@@ -122,6 +122,10 @@ declare global {
     
     interface OpenContractFunctionI {
         name : string,
+        oraclePromiseResolve ? : (val : {
+            [key : string] : string
+        })=>void,
+        oraclePromiseReject ? : ()=>void
         description : string,
         stateMutability : string,
         oracleFolder ? : string,
@@ -134,6 +138,8 @@ declare global {
         result ? : any, 
         oracleData ? : {
             [key : string] : string
+        } | {
+            [key : string] : Promise<string>
         },
         call : (state  ? : OracleContractFunctionI)=>Promise<any>,
         submitHandler : (submit : string)=>Promise<any>,

@@ -7,19 +7,23 @@ import { DappOracleputContent } from './DappOracleputContent';
 
 export type DappPutOracleputProps = {
     style ? : React.CSSProperties
-    dappOracleput : DappOracleputI
+    dappOracleput : DappOracleputI,
+    end ? : boolean
 }
 
 export const DappOracleput : FC<DappPutOracleputProps>  = ({
     dappOracleput,
-    style
+    style,
+    end
 }) =>{
 
     return (
 
-        <DappPutLayout style={{
-            background : Colors.deepCyan,
-            border : `1px solid ${Colors.cyan}`,
+        <DappPutLayout 
+        end={end}
+        style={{
+            background : Colors.cyan,
+            border : `1px solid ${Colors.deepCyan}`,
             ...style
         }}>
             <DappPutLayout.Header>

@@ -29,7 +29,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             repo
         } = parseGitUrl(text);
 
-        navigate(`#/${owner}/${repo}`);
+        navigate(`/${owner}/${repo}`);
 
     }
 

@@ -61,7 +61,7 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                                 alignItems : "center",
                             }}>
                                 <div>
-                                    <b>ƒ<sub>x</sub></b>&emsp;
+                                    <b>ƒ<sub>𝑥</sub></b>&emsp;
                                 </div>
                                 <hr style={{
                                     color : Colors.Maintheme

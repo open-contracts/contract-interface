@@ -21,8 +21,9 @@ export const DappResultput : FC<DappPutResultputProps>  = ({
     return (
 
         <DappPutLayout style={{
-            background : Colors.arizonaOrange,
-            color : Colors.primaryTextColor,
+            background : Colors.greenCeramic,
+            color : Colors.forestEdge,
+            border : undefined,
             ...style
         }}>
             <DappPutLayout.Header>

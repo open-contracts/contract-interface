@@ -62,7 +62,7 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
                 setActive(false);
             })
         }
-    })
+    }, [isLoading])
 
 
 
@@ -95,7 +95,7 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             variant={`outline`}
-            disabled={isDisabled||disabled}
+            disabled={isLoading||disabled}
             active={isActive||active}
             size={size}
             onClick={handleClick}

@@ -7,17 +7,21 @@ import { DappOutputContent } from '../DappOutput/DappOutputContent';
 
 export type DappPutOutputProps = {
     style ? : React.CSSProperties
-    dappOutput : DappOutputI
+    dappOutput : DappOutputI,
+    end ? : boolean
 }
 
 export const DappOutput : FC<DappPutOutputProps>  = ({
     style,
-    dappOutput
+    dappOutput,
+    end
 }) =>{
 
     return (
 
-        <DappPutLayout style={{
+        <DappPutLayout 
+        end={end}
+        style={{
             background : Colors.skyBlue,
             border : `1px solid ${Colors.royalBlue}`,
             ...style

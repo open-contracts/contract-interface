@@ -19,7 +19,7 @@ export const Colors = {
     babyBlue : "#4499ab",
     infoYellow : "#faf264",
     arizonaOrange : "#fdd2b5",
-    cyan : "cyan",
-    deepCyan : "#008584",
+    cyan : "#00b5b5",
+    deepCyan : "#004584",
     bloodOrange : "#cc8866"
 } as const

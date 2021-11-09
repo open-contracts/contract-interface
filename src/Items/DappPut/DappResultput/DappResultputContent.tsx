@@ -4,6 +4,7 @@ import { Colors } from '../../../Theme';
 import { DappResultputI } from '../DappPutType';
 import Color from "color";
 import {darkenStandard, lightenStandard} from "../Methods";
+import { result } from 'cypress/types/lodash';
 
 
 export type DappResultputContentProps = {
@@ -25,8 +26,10 @@ export const DappResultputContent : FC<DappResultputContentProps>  = ({
 
     return (
 
-        <div>
-            
+        <div style={{
+            userSelect : "text"
+        }}>
+            &emsp;&emsp;=&emsp;{dappResultput.value||"undefined"}
         </div>
 
     )

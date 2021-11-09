@@ -33,7 +33,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
         setGrid && setGrid(false);
     }
 
-    console.log(grid);
+    
 
     return (
 
@@ -79,7 +79,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                         borderRight : !grid ? `1px solid ${Colors.Maintheme}` : "none"
                     }}
                 >
-                    <b>ƒ<sub>x</sub></b>
+                    <b>ƒ<sub>𝑥</sub></b>
                 </AthenaButton>
             </div>
             <div style={{
