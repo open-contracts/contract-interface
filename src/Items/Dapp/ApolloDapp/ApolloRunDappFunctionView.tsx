@@ -18,7 +18,7 @@ export const ApolloRunDappFunctionView : FC<ApolloRunDappFunctionViewProps>  = (
     return (
 
         <div style={{
-            paddingTop : DesktopSizes.Padding.whitespacePreferred
+            padding: DesktopSizes.Padding.standard
         }}>
             {contractFunction && 
                 <>

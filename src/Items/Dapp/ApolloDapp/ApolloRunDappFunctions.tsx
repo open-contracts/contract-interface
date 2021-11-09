@@ -29,14 +29,14 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
 
         return (
             <div style={{
-                padding : DesktopSizes.Padding.whitespacePreferred
+                padding : DesktopSizes.Padding.standard
             }}>
                 <ApolloDappFunction 
                     style={{
                         width : "100%",
                         height : "0",
                         paddingBottom : "100%",
-                        borderRadius : "10%"
+                        borderRadius : DesktopSizes.BorderRadius.standard
                     }}
                     onClick={onFunctionClick}
                     selected={func.name === which} 

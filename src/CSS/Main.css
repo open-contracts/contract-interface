@@ -11,12 +11,12 @@
 }
 
 html{
-	background: #FAF9F6;
+	background: white;
 	color : #373737;
 }
 
 body {
-	background: #FAF9F6;
+	background: white;
 	color : #373737;
 	scrollbar-width: none;
 	-ms-overflow-style: none; /* IE 11 */

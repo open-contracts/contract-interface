@@ -48,7 +48,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 <AthenaButton
                     onClick={handleGrid}
                     primaryColor={Colors.Maintheme}
-                    secondaryColor={Colors.primaryTextColor}
+                    secondaryColor={Colors.quartenaryTextColor}
                     style={{
                         zIndex : 100,
                         position : "relative",
@@ -57,7 +57,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                         borderBottomLeftRadius : "0px",
                         borderTop : grid ? `1px solid ${Colors.Maintheme}` : "none",
                         borderLeft : grid ? `1px solid ${Colors.Maintheme}` : "none",
-                        borderBottom : grid ? `1px solid ${Colors.primaryTextColor}` : "none",
+                        borderBottom : grid ? `1px solid ${Colors.quartenaryTextColor}` : "none",
                         borderRight : grid ? `1px solid ${Colors.Maintheme}` : "none"
                     }}
                 >
@@ -66,7 +66,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 <AthenaButton
                     onClick={handleSingle}
                     primaryColor={Colors.Maintheme}
-                    secondaryColor={Colors.primaryTextColor}
+                    secondaryColor={Colors.quartenaryTextColor}
                     style={{
                         zIndex : 100,
                         position : "relative",
@@ -75,14 +75,16 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                         borderBottomLeftRadius : "0px",
                         borderTop : !grid ? `1px solid ${Colors.Maintheme}` : "none",
                         borderLeft : !grid ? `1px solid ${Colors.Maintheme}` : "none",
-                        borderBottom : !grid ? `1px solid ${Colors.primaryTextColor}` : "none",
+                        borderBottom : !grid ? `1px solid ${Colors.quartenaryTextColor}` : "none",
                         borderRight : !grid ? `1px solid ${Colors.Maintheme}` : "none"
                     }}
                 >
                     <b>ƒ<sub>x</sub></b>
                 </AthenaButton>
             </div>
-            <div>
+            <div style={{
+                background : Colors.quartenaryTextColor
+            }}>
                 {grid ? Grid : Single}
             </div>
         </div>

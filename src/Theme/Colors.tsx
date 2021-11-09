@@ -3,6 +3,7 @@ export const Colors = {
     primaryTextColor : "#FAF9F6",
     secondaryTextColor : "#515151",
     tertiaryTextColor : "#979797",
+    quartenaryTextColor : "#f1f1f1",
     backgroundColorSecondary : "#D7D7D7",
     logoColor : "#D7D7D7",
     readyGreen : "#11db1e",
