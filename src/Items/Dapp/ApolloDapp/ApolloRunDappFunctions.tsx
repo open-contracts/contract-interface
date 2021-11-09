@@ -6,6 +6,7 @@ import { DappI } from '../Dapp';
 import {ApolloDappFunction} from "./ApolloRunDappFunction";
 import {LeftRightScrollAdorno} from "../../../Components/Scroll/LeftRightScroll";
 import { DesktopSizes } from '../../../Theme';
+import Masonry from "react-masonry-css";
 
 export type ApolloDappFunctionsProps = {
     dapp : DappI,
@@ -34,29 +35,24 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
                 <ApolloDappFunction 
                     style={{
                         width : "100%",
-                        height : "0",
-                        paddingBottom : "100%",
+                        height : "auto",
                         borderRadius : DesktopSizes.BorderRadius.standard
                     }}
                     onClick={onFunctionClick}
                     selected={func.name === which} 
                     dapp={dapp} 
-                    func={func}/>&emsp;
+                    func={func}/>
             </div>
         )
     }) : <></>
 
     return (
 
-        <div style={{
-            alignContent : "center",
-            alignItems : "center",
-            width : "100%",
-            display : "grid",
-            gridTemplateColumns : "1fr 1fr 1fr"
-        }}>
+        <Masonry 
+            className={"masonry"}
+            breakpointCols={3}>
             {funcs}
-        </div>
+        </Masonry>
 
     )
 

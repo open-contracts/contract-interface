@@ -16,19 +16,6 @@ export type MainSegmentProps = {}
 
 export const MainSegment : FC<MainSegmentProps>  = () =>{
 
-    useEffect(()=>{
-
-        getDappName({
-            __isDapp__ : true,
-            gitUrl : "https://github.com/open-contracts/fiat-swap",
-            id : "any"
-        }).then((name)=>{
-            
-        })
-
-    }, [])
-
-
     return (
 
        <div style={{
