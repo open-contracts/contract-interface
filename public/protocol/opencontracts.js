@@ -237,22 +237,9 @@ async function getOraclePys(user, repo, ref) {
 	}
         oracles[contract.abi[i].oraceFolder].functions.push(contract.abi[i].name);
     }
-    
-    const folders = Object.keys(oracleFunctions);
-    
-    var links = await GITHUB_FILES.content_links_json(user, repo, ref, dir);
-    const downloadAsBase64 = async function (link) {
-        const url = new URL(link);
-        const response = await fetch(url);
-        return btoa(new Uint8Array(await response.arrayBuffer()).reduce(
-		(data, byte) => {return data + String.fromCharCode(byte);}, '')
-	);
-    }
-    const downloads = Object.entries(links).map(
-	     ([file, link]) => [file, downloadAsBase64(link)]
-    );
-    return Object.fromEntries(downloads);
+    return oracles;
 }
+
 
 async function OpenContracts() {
     const opencontracts = {};
