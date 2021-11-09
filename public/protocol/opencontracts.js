@@ -224,20 +224,19 @@ async function getOraclePys(user, repo, ref) {
     const response = await fetch(new URL(`https://raw.githubusercontent.com/${user}/${repo}/${ref}/interface.json`));
     var contract = JSON.parse(await response.text());
     var contract = contract[Object.keys(contract)[0]]
-    var oracleFolders = contract.abi.filter(f => f.oracleFolder != undefined).map(f => [f.name, f.oracleFolder]);
-    var oracles = {};
+    var oraclePys = {};
     for (let i = 0; i < contract.abi.length; i++) {
         if (contract.abi[i].oraceFolder == undefined) {continue}
-        if (oracles[contract.abi[i].oraceFolder].functions == undefined) {
-            oracles[contract.abi[i].oraceFolder].functions = [];
+        if (oraclePys[contract.abi[i].oraceFolder].fnames == undefined) {
+            oraclePys[contract.abi[i].oraceFolder].fnames = [];
 	    const response = await fetch(new URL(
-		    `https://raw.githubusercontent.com/${user}/${repo}/${ref}/${contract.abi[i].oraceFolder}/oracle.py`)
-	    );
-            oracles[contract.abi[i].oraceFolder].py = await response.text();
+                `https://raw.githubusercontent.com/${user}/${repo}/${ref}/${contract.abi[i].oraceFolder}/oracle.py`
+	    ));
+            oraclePys[contract.abi[i].oraceFolder].file = await response.text();
 	}
-        oracles[contract.abi[i].oraceFolder].functions.push(contract.abi[i].name);
+        oraclePys[contract.abi[i].oraceFolder].fnames.push(contract.abi[i].name);
     }
-    return oracles;
+    return oraclePys;
 }
 
 
