@@ -18,6 +18,7 @@ export type AthenaButtonProps = {
     invert? : boolean,
     disabled?: boolean,
     active?: boolean,
+    hovered? : boolean,
     loading?: boolean,
     size?: "sm" | "lg" | undefined,
     action? : (e? : React.MouseEvent)=>Promise<void>,
@@ -40,6 +41,7 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
     active=false,
     loading=false,
     size=undefined,
+    hovered,
     action=async (e? : React.MouseEvent)=>{return},
     onClick=(e: React.MouseEvent)=>{},
     onMouseEnter=(e: React.MouseEvent)=>{},
@@ -85,6 +87,8 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
         onMouseLeave(e);
     }
 
+    const _isHovered = isHovered || hovered;
+
     return (
 
         <Button
@@ -97,14 +101,14 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
             onClick={handleClick}
             style={{
                 cursor: "pointer",
-                transition: isHovered? "all .1s ease-in-out" : "",
+                transition: _isHovered? "all .1s ease-in-out" : "",
                 display: "inline-block",
-                color: isHovered? secondaryColor : !invert ? primaryColor : secondaryColor,
+                color: _isHovered? secondaryColor : !invert ? primaryColor : secondaryColor,
                 borderTop: `1px solid ${primaryColor}`,
                 borderLeft: `1px solid ${primaryColor}`,
                 borderBottom: `1px solid ${primaryColor}`,
                 borderRight: `1px solid ${primaryColor}`,
-                backgroundColor: isHovered? primaryColor : invert ? invertedBackground : secondaryColor,
+                backgroundColor: _isHovered? primaryColor : invert ? invertedBackground : secondaryColor,
                 ...style
             }}
         >{label||children}<span style={{display: isLoading||loading ? "inline-block" : "none"}}>&ensp;</span><Spinner

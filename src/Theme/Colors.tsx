@@ -20,5 +20,6 @@ export const Colors = {
     infoYellow : "#faf264",
     arizonaOrange : "#fdd2b5",
     cyan : "cyan",
-    deepCyan : "#008584"
+    deepCyan : "#008584",
+    bloodOrange : "#cc8866"
 } as const

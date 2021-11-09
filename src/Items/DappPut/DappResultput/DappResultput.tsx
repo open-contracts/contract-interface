@@ -21,9 +21,7 @@ export const DappResultput : FC<DappPutResultputProps>  = ({
     return (
 
         <DappPutLayout style={{
-            borderTop : "none",
             background : Colors.arizonaOrange,
-            border : `1px solid ${darkenStandard(Colors.greenCeramic)}`,
             color : Colors.primaryTextColor,
             ...style
         }}>

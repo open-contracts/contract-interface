@@ -30,7 +30,6 @@ export const ApolloRunDappFunctionView : FC<ApolloRunDappFunctionViewProps>  = (
                     }}>
                         {contractFunction.description}
                     </p>
-                    <br/>
                     <DappFunctionAthena
                         dapp={dapp}
                         setDappFunction={setDappFunction}

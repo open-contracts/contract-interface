@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { DappInputHeader } from '../DappPut/DappInput/DappInputHeader';
 import { DappResultput } from '../DappPut/DappResultput';
 import { ArrowReturnRight } from 'react-bootstrap-icons';
+import {DappFunctionLogRunButton} from "./DappFunctionLogRunButton";
 
 export interface OpenContractLogStateI {
     log : any[]
@@ -149,8 +150,9 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     const puts = logState.log.map((put, index)=>{
         return (
             <div style={{
-                width : "100%"
-            }}><DappPut setPut={setPut} index={index} put={put}/><br/></div>
+                width : "100%",
+                paddingBottom : DesktopSizes.Padding.standard
+            }}><DappPut setPut={setPut} index={index} put={put}/></div>
         )
     })
 
@@ -264,7 +266,8 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             <div style={{
                 alignContent : 'center',
                 alignItems : "center",
-                paddingBottom : DesktopSizes.Padding.whitespacePreferred
+                paddingBottom : DesktopSizes.Padding.standard,
+                lineHeight : "18px"
             }}>
                 <DappInputHeader dappInput={input as DappInputI} style={{
                     width : "50px",
@@ -282,47 +285,13 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
         <div style={{
             width : "100%",
-            paddingBottom : DesktopSizes.Padding.whitespacePreferred
+            paddingBottom : DesktopSizes.Padding.standard
         }}>
             {puts}
-            <div style={{
-                position : "relative",
-            }}>
-                <AthenaButton 
-                    style={{
-                        width : "100%",
-                        padding : DesktopSizes.Padding.whitespacePreferred
-                    }}
-                    primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor} onClick={handleCall}>
-                    <div style={{
-                        fontSize : "24px",
-                        textAlign : "left"
-                    }}>
-                        <PlayCircleFill/>&emsp;{contractFunction.name}<sub>x</sub>
-                        <br/>
-                        <br/>
-                        {inputs}
-                    </div>
-                </AthenaButton>
-            </div>
-            <div style={{
-                display : "grid",
-                alignContent : "center",
-                alignItems : "center",
-                gridTemplateColumns : "1fr 9fr"
-            }}>
-                <AthenaButton 
-                onClick={handleCall}
-                primaryColor={Colors.primaryTextColor} secondaryColor={Colors.primaryTextColor}
-                style={{
-                    height : "100%",
-                    width : "100%"
-                }}><ArrowReturnRight style={{
-                    color : Colors.Maintheme
-                }} size={30}/></AthenaButton><DappResultput
-                dappResultput={createResult(contractFunction)}
-                />
-            </div>
+            <DappFunctionLogRunButton
+                contractFunction={contractFunction}
+                handleCall={handleCall}
+            />
         </div>
 
     )
