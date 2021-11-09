@@ -214,9 +214,9 @@ async function githubOracleDownloader(user, repo, ref, dir) {
 	);
     }
     const downloads = Object.entries(links).map(
-	     ([file, link]) => [file, downloadAsBase64(link)]
+	    async ([file, link]) => [file, await downloadAsBase64(link)]
     );
-    return Object.fromEntries(downloads);
+    return Object.fromEntries(await downloads);
 }
 
 
