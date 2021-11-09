@@ -144,7 +144,7 @@ async function enclaveSession(opencontracts, f) {
 	    setTimeout(async () => {await connect(data['ip'])}, 11000);
 	}
     }
-    // wd.onerror(-> distinguish bw cert n/a and enclave n/a)
+
     async function connect(oracleIP) {
 	var ws = new WebSocket("wss://" + oracleIP + ":8080/");
 	var ETHkey = null;
@@ -219,6 +219,40 @@ async function githubOracleDownloader(user, repo, ref, dir) {
     return Object.fromEntries(downloads);
 }
 
+
+async function getOraclePys(user, repo, ref) {
+    const response = await fetch(new URL(`https://raw.githubusercontent.com/${user}/${repo}/${ref}/interface.json`));
+    var contract = JSON.parse(await response.text());
+    var contract = contract[Object.keys(contract)[0]]
+    var oracleFolders = contract.abi.filter(f => f.oracleFolder != undefined).map(f => [f.name, f.oracleFolder]);
+    var oracles = {};
+    for (let i = 0; i < contract.abi.length; i++) {
+        if (contract.abi[i].oraceFolder == undefined) {continue}
+        if (oracles[contract.abi[i].oraceFolder].functions == undefined) {
+            oracles[contract.abi[i].oraceFolder].functions = [];
+	    const response = await fetch(new URL(
+		    `https://raw.githubusercontent.com/${user}/${repo}/${ref}/${contract.abi[i].oraceFolder}/oracle.py`)
+	    );
+            oracles[contract.abi[i].oraceFolder].py = await response.text();
+	}
+        oracles[contract.abi[i].oraceFolder].functions.push(contract.abi[i].name);
+    }
+    
+    const folders = Object.keys(oracleFunctions);
+    
+    var links = await GITHUB_FILES.content_links_json(user, repo, ref, dir);
+    const downloadAsBase64 = async function (link) {
+        const url = new URL(link);
+        const response = await fetch(url);
+        return btoa(new Uint8Array(await response.arrayBuffer()).reduce(
+		(data, byte) => {return data + String.fromCharCode(byte);}, '')
+	);
+    }
+    const downloads = Object.entries(links).map(
+	     ([file, link]) => [file, downloadAsBase64(link)]
+    );
+    return Object.fromEntries(downloads);
+}
 
 async function OpenContracts() {
     const opencontracts = {};
