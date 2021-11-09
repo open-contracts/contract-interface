@@ -226,15 +226,15 @@ async function getOraclePys(user, repo, ref) {
     var contract = contract[Object.keys(contract)[0]]
     var oraclePys = {};
     for (let i = 0; i < contract.abi.length; i++) {
-        if (contract.abi[i].oraceFolder == undefined) {continue}
-        if (oraclePys[contract.abi[i].oraceFolder].fnames == undefined) {
-            oraclePys[contract.abi[i].oraceFolder].fnames = [];
+        if (contract.abi[i].oracleFolder == undefined) {continue}
+        if (oraclePys[contract.abi[i].oracleFolder] == undefined) {
+            oraclePys[contract.abi[i].oracleFolder] = {fnames: []};
 	    const response = await fetch(new URL(
-                `https://raw.githubusercontent.com/${user}/${repo}/${ref}/${contract.abi[i].oraceFolder}/oracle.py`
+                `https://raw.githubusercontent.com/${user}/${repo}/${ref}/${contract.abi[i].oracleFolder}/oracle.py`
 	    ));
-            oraclePys[contract.abi[i].oraceFolder].file = await response.text();
+            oraclePys[contract.abi[i].oracleFolder].file = await response.text();
 	}
-        oraclePys[contract.abi[i].oraceFolder].fnames.push(contract.abi[i].name);
+        oraclePys[contract.abi[i].oracleFolder].fnames.push(contract.abi[i].name);
     }
     return oraclePys;
 }
