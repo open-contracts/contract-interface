@@ -1,11 +1,12 @@
 import React, {FC, ReactElement} from 'react';
-import { DappInputI, DappPutI , DappErrputI, DappDescputI, DappInteractputI, DappOutputI, DappOracleputI} from '../DappPutType';
+import { DappInputI, DappPutI , DappErrputI, DappDescputI, DappInteractputI, DappOutputI, DappOracleputI, DappResultputI} from '../DappPutType';
 import {DappInput} from "../DappInput";
 import {DappOutput} from "../DappOutput";
 import { DappDescput } from '../DappDescput';
 import {DappInteractput} from "../DappInteractput";
 import {DappErrput} from "../DappErrput";
 import {DappOracleput} from "../DappOracleput";
+import { DappResultput } from '../DappResultput';
 
 export type DappPutProps = {
     put : DappPutI,
@@ -67,6 +68,12 @@ export const DappPut : FC<DappPutProps>  = ({
                 <DappOracleput end={end} dappOracleput={put as DappOracleputI}/>
             )
 
+        }
+
+        case ("result") : {
+            return (
+                <DappResultput dappResultput={put as DappResultputI}/>
+            )
         }
 
         default : {
