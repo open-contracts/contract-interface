@@ -29,8 +29,8 @@ export const transformToDappPut = (put : OpenContractFunctionI["inputs"] | OpenC
 
 }
 
-export const createInputs = (contractFunction : OpenContractFunctionI) : DappInputI[]=>{
-    return contractFunction.inputs.map((input)=>{
+export const createInputs = (inputs : OpenContractFunctionI["inputs"]) : DappInputI[]=>{
+    return inputs.map((input)=>{
         return {
             ...input,
             putType : "input"
@@ -38,8 +38,8 @@ export const createInputs = (contractFunction : OpenContractFunctionI) : DappInp
     })
 }
 
-export const createErrors = (contractFunction : OpenContractFunctionI) : DappErrputI[]=>{
-    return contractFunction.errors ? contractFunction.errors.map((error)=>{
+export const createErrors = (errors : OpenContractFunctionI["errors"]) : DappErrputI[]=>{
+    return errors ? errors.map((error)=>{
         return {
             ...error,
             putType : "error"
@@ -47,8 +47,8 @@ export const createErrors = (contractFunction : OpenContractFunctionI) : DappErr
     }) : []
 }
 
-export const createXpras = (contractFunction : OpenContractFunctionI) : DappInteractputI[]=>{
-    return contractFunction.xpras ? contractFunction.xpras.map((xpra)=>{
+export const createXpras = (xpras : OpenContractFunctionI["xpras"]) : DappInteractputI[]=>{
+    return xpras ? xpras.map((xpra)=>{
         return {
             ...xpra,
             putType : "interactive"
@@ -56,10 +56,10 @@ export const createXpras = (contractFunction : OpenContractFunctionI) : DappInte
     }) : []
 }
 
-export const createOutputs = (contractFunction : OpenContractFunctionI) : DappOutputI[]=>{
-    return contractFunction.prints ? contractFunction.prints.map((xpra)=>{
+export const createOutputs = (prints : OpenContractFunctionI["prints"]) : DappOutputI[]=>{
+    return prints ? prints.map((print)=>{
         return {
-            ...xpra,
+            ...print,
             putType : "output"
         } 
     }) : []
@@ -115,10 +115,10 @@ export const aggregateContractFunctionPuts = (
 )=>{
 
     return [
-        ...createInputs(contractFunction),
+       /* ...createInputs(contractFunction),
         ...createErrors(contractFunction),
         ...createXpras(contractFunction),
-        ...createOutputs(contractFunction),
+        ...createOutputs(contractFunction),*/
     ]
 
 }
@@ -135,25 +135,25 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     setDappFunction
 }) =>{
 
-    const logState : OpenContractLogStateI = {
-        log : aggregateContractFunctionPuts(contractFunction)
-    }
-
     const setPut = (put : DappPutI, index : number)=>{
-        logState.log[index] = put;
+        if(!contractFunction.puts){
+            contractFunction.puts = [];
+        }
+        contractFunction.puts[index] = put;
         setDappFunction && setDappFunction({
             ...contractFunction,
-            inputs : getContractFunctionInputs(logState.log)
+            inputs : getContractFunctionInputs(contractFunction.puts)
         })
     }
 
-    const puts = logState.log.reduce((agg, put, index)=>{
+    const inputs = createInputs(contractFunction.inputs);
+    const puts = contractFunction.puts && contractFunction.puts.reduce((agg, put, index)=>{
         return [
             ...agg,
             ...put.putType !== "input" ? [
                 (
                     <DappPut 
-                        end={index > logState.log.length - 2}
+                        end={index > (contractFunction.puts ? contractFunction.puts.length - 2 : -1)}
                         setPut={setPut} index={index} put={put}/>
                 )
             ] : []
@@ -161,16 +161,19 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }, [] as React.ReactNode)
 
     const addOutput = (name : string, message : string)=>{
-        setDappFunction && setDappFunction({
+        const newOutput = {
+            name : name,
+            value : message
+        };
+        const _newFuctionState = {
             ...contractFunction,
             ...contractFunction.requiresOracle ? {
                 result : "Oracle output received! See below."
             } : {},
-            prints : [...contractFunction.prints||[], {
-                name : name,
-                value : message
-            }],
-        })
+            prints : [...contractFunction.prints||[], newOutput],
+            puts : [...contractFunction.puts||[], ...createOutputs([newOutput])]
+        }
+        setDappFunction && setDappFunction(_newFuctionState)
     }
 
     contractFunction.printHandler = async (message : string)=>{
@@ -179,33 +182,36 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const addError = (name : string, e : any)=>{
 
-        setDappFunction && setDappFunction({
-            ...contractFunction,
-            result : (
-                <div style={{
-                    alignContent : 'center',
-                    alignItems : 'center'
+        const newResult = (
+            <div style={{
+                alignContent : 'center',
+                alignItems : 'center'
+            }}>
+                <p>
+                    <span style={{
+                        color : Colors.secondaryTextColor
+                    }}>Previous result:</span> {typeof contractFunction.result === "string" ? contractFunction.result : "No data received."}
+                </p>
+                <p style={{
+                    color : Colors.fadedRed
                 }}>
-                    <p>
-                        <span style={{
-                            color : Colors.secondaryTextColor
-                        }}>Previous result:</span> {typeof contractFunction.result === "string" ? contractFunction.result : "No data received."}
-                    </p>
-                    <p style={{
-                        color : Colors.fadedRed
-                    }}>
-                         <span style={{
-                            color : Colors.secondaryTextColor
-                        }}>Current result:</span> Error
-                    </p>
-                </div>
-            ),
-            errors : [...contractFunction.errors||[], {
-                name : name,
-                description : e
-            }]
-        })
-
+                     <span style={{
+                        color : Colors.secondaryTextColor
+                    }}>Current result:</span> Error
+                </p>
+            </div>
+        )
+        const newError = {
+            name : name,
+            description : e
+        }
+        const _newFunctionState = {
+            ...contractFunction,
+            result : newResult,
+            errors : [...contractFunction.errors||[], newError],
+            puts : [...contractFunction.puts||[], ...createErrors([newError])]
+        }
+        setDappFunction && setDappFunction(_newFunctionState)
     }
 
     const handleError = async (message : string)=>{
@@ -229,9 +235,16 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
 
     const addResult = (data : OpenContractFunctionI["result"])=>{
-        setDappFunction &&  setDappFunction && setDappFunction({
+        const _newFunctionState = {
             ...contractFunction,
-            result : data
+            result : data,
+        }
+        setDappFunction &&  setDappFunction({
+            ..._newFunctionState,
+            puts : [
+                ..._newFunctionState.puts || [],
+                createResult(_newFunctionState)
+            ]
         })
     }
 
@@ -316,18 +329,20 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
 
     const addInteractput = (name : string, targetUrl : string, sessionUrl : string)=>{
-
-        setDappFunction && setDappFunction({
+        const newXpra =  {
+            name : name,
+            description : targetUrl,
+            value : sessionUrl
+        };
+        const _newFuctionState = {
             ...contractFunction,
             ...contractFunction.requiresOracle ? {
                 result : "Oracle output received! See below."
             } : {},
-            xpras : [...contractFunction.xpras||[], {
-                name : name,
-                description : sessionUrl,
-                value : targetUrl
-            }]
-        })
+            xpras : [...contractFunction.xpras||[], newXpra],
+            puts : [...contractFunction.puts||[], ...createXpras([newXpra])]
+        }
+        setDappFunction && setDappFunction(_newFuctionState)
     }
 
     contractFunction.xpraHandler = async (targetUrl, sessionUrl, xpraExit)=>{
@@ -336,27 +351,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     }
 
-    const inputs = contractFunction.inputs.map((input)=>{
-        return (
-            <div style={{
-                alignContent : 'center',
-                alignItems : "center",
-                paddingBottom : DesktopSizes.Padding.standard,
-                lineHeight : "18px"
-            }}>
-                <DappInputHeader dappInput={input as DappInputI} style={{
-                    width : "50px",
-                    fontSize : "16px",
-                }}/>
-                <span style={{
-                    color : Colors.forestEdge,
-                    fontSize : "16px"
-                }}>&emsp;=&ensp;{input.value||"undefined"}</span>
-            </div>
-        )
-    })
-
-    
+    console.log(contractFunction.puts);
 
     return (
 
@@ -366,7 +361,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 paddingBottom : DesktopSizes.Padding.standard,
             }}>
                 <DappFunctionLogRunButton
-                    puts={logState.log}
+                    puts={inputs}
                     setPut={setPut}
                     contractFunction={contractFunction}
                 />

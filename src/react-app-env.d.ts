@@ -130,6 +130,7 @@ declare global {
         stateMutability : string,
         oracleFolder ? : string,
         requiresOracle ? : boolean,
+        puts ? : DappPutI[],
         inputs : PutI[],
         errors ? : any[],
         prints ? : any[],
@@ -142,6 +143,7 @@ declare global {
             [key : string] : Promise<string>
         },
         call : (state  ? : OracleContractFunctionI)=>Promise<any>,
+        callOracle ? : ()=>Promise<string>,
         submitHandler : (submit : string)=>Promise<any>,
         xpraHandler : (targetUrl : string, sessionUrl : string, xpraExit : promise)=>Promise<any>,
         inputHandler : (message : string)=>Promise<any>,
