@@ -112,12 +112,10 @@ export const createDescriptionData = (contractFunction : OpenContractFunctionI) 
 
 export const aggregateContractFunctionPuts = (
     contractFunction : OpenContractFunctionI,
-    setFunc ? : (func : OpenContractFunctionI)=>void
 )=>{
 
     return [
         ...createInputs(contractFunction),
-        ...contractFunction.oracleData ? [createOracleData(contractFunction, setFunc)] : [],
         ...createErrors(contractFunction),
         ...createXpras(contractFunction),
         ...createOutputs(contractFunction),
@@ -126,13 +124,9 @@ export const aggregateContractFunctionPuts = (
 }
 
 export const getContractFunctionInputs = (puts : DappPutI[])=>{
-
-
     return puts.filter((put)=>{
-        
         return put.putType === "input";
-    })
-
+    });
 }
 
 export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
@@ -142,7 +136,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 }) =>{
 
     const logState : OpenContractLogStateI = {
-        log : aggregateContractFunctionPuts(contractFunction, setDappFunction)
+        log : aggregateContractFunctionPuts(contractFunction)
     }
 
     const setPut = (put : DappPutI, index : number)=>{
@@ -379,6 +373,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 {puts}
                 <br/>
                 <DappFunctionSubmitState
+                    setFunc={setDappFunction}
                     loadOracleData={loadOracleData}
                     call={handleCall}
                     contractFunction={contractFunction}

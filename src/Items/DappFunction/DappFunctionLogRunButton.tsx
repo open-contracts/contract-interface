@@ -87,10 +87,6 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
     }
 
     return (
-        <div 
-            onMouseOver={handleMouseOver}
-            onMouseOut={handleMouseOut}
-        >
              <div style={{
                 position : "relative",
             }}>
@@ -100,12 +96,12 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         padding : DesktopSizes.Padding.standard,
                         borderTopLeftRadius : DesktopSizes.BorderRadius.standard,
                         borderTopRightRadius : DesktopSizes.BorderRadius.standard,
-                        borderBottomLeftRadius : "0px",
-                        borderBottom : "none",
+                        borderBottomLeftRadius : DesktopSizes.BorderRadius.standard,
+                        borderBottomRightRadius : DesktopSizes.BorderRadius.standard,
                         borderLeft :`1px solid ${Colors.Maintheme}`,
                         borderRight : `1px solid ${Colors.Maintheme}`,
                         borderTop : `1px solid ${Colors.Maintheme}`,
-                        borderBottomRightRadius : "0px",
+                        borderBottom : `1px solid ${Colors.Maintheme}`,
                         background : 'white'
                     }}>
                     <div style={{
@@ -121,48 +117,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     </div>
                 </div>
             </div>
-            <div style={{
-                display : "grid",
-                alignContent : "center",
-                alignItems : "center",
-                gridTemplateColumns : "1fr 9fr"
-            }}>
-                <div
-                style={{
-                    display : "flex",
-                    alignContent : "center",
-                    alignItems : "center",
-                    justifyContent : "center",
-                    height : "100%",
-                    width : "100%",
-                    borderTopLeftRadius : "0px",
-                    borderTopRightRadius : "0px",
-                    borderBottomRightRadius : "0px",
-                    zIndex : 100,
-                    borderTop : "none",
-                    borderRight : "none",
-                    borderBottom : `1px solid ${Colors.Maintheme}`,
-                    borderLeft : `1px solid ${Colors.Maintheme}`,
-                    background :  "white",
-                    borderBottomLeftRadius : nonInputOutput.length > 0 ? "0px" : DesktopSizes.BorderRadius.standard
-                }}><ArrowReturnRight size={30}/></div>
-                <DappResultput
-                    dappResultput={createResult(contractFunction)}
-                    style={{
-                        borderTopLeftRadius : DesktopSizes.BorderRadius.standard,
-                        borderBottomLeftRadius : "0px",
-                        borderTopRightRadius : "0px",
-                        borderBottomRightRadius : nonInputOutput.length > 0 ? "0px" : DesktopSizes.BorderRadius.standard,
-                        borderLeft : `1px solid ${Colors.Maintheme}`,
-                        borderRight : `1px solid ${Colors.forestEdge}`,
-                        borderTop : `1px solid ${Colors.Maintheme}`,
-                        borderBottom : `1px solid ${Colors.forestEdge}`,
-                        border : undefined
-                    }}
-                />
-    
-            </div>
-        </div>
+       
       
 
     )
