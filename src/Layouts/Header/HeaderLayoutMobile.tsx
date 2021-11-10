@@ -1,5 +1,6 @@
 import React, {FC, ReactElement} from 'react';
 import { generateNamedMember, getComponentMembers } from 'rgfm';
+import { DesktopSizes } from '../../Theme';
 
 const Members = ["Brand", "Nav", "Account"] as const;
 
@@ -22,23 +23,15 @@ const HeaderLayoutMobile : FC<HeaderLayoutMobileProps> & {
     return (
 
         <div style={{
-            height : "100%",
-            width : "100%",
             display : "grid",
             gridTemplateColumns : "1fr",
-            justifyContent : "center",
-            justifyItems : "center"
+            gap : DesktopSizes.Padding.standard,
+            padding : DesktopSizes.Padding.standard
         }}>
-            <div style={{
-                height : "100%",
-                width : "100%"
-            }}>
+            <div>
                 {Brand}
             </div>
-            <div style={{
-                height : "100%",
-                width : "100%"
-            }}>
+            <div>
                 {Nav}
             </div>
         </div>

@@ -4,7 +4,6 @@ import {AthenaButton} from "../../../Components/Buttons/AthenaButton";
 import {Colors, DesktopSizes} from "../../../Theme";
 import { DappInputHeader } from '../../DappPut/DappInput/DappInputHeader';
 import { DappInputI } from '../../DappPut/DappPutType';
-import { InfoCircle } from 'react-bootstrap-icons';
 
 export type ApolloDappFunctionProps = {
     dapp : DappI,
@@ -48,7 +47,7 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                     ...style
                 }}
             
-                primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                primaryColor={Colors.Maintheme} secondaryColor={"white"}>
                        <div style={{
                            overflowX : "scroll",
                            overflowY : "scroll",

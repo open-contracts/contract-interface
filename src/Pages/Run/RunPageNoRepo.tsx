@@ -24,107 +24,43 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
     const [text, setText] = useState("");
 
     const handleSubmit = ()=>{
+
         const {
             owner,
-            repo
+            repo,
+            branch
         } = parseGitUrl(text);
 
-        navigate(`/${owner}/${repo}`);
+        navigate(`/${owner}/${repo}/${branch||"main"}`);
+
+    }
+
+    const handleEnter = (text : string)=>{
+        const {
+            owner,
+            repo,
+            branch
+        } = parseGitUrl(text);
+
+        navigate(`/${owner}/${repo}/${branch||"main"}`);
 
     }
 
     return (
-
-        <MediaResponsive>
-            <MediaResponsive.Desktop>
-                <MainLayoutDesktop>
-                    <MainLayoutDesktop.Header>
-                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
-                    </MainLayoutDesktop.Header>
-                    <MainLayoutDesktop.Content>
-                        <div style={{
-                            display : "flex",
-                            alignContent : "center",
-                            alignItems : "center"
-                        }}>
-                            <TextInputApollo 
-                            placeholder={"Enter repo"}
-                            onTextInput={setText}/>&emsp;<AthenaButton 
-                            onClick={handleSubmit}
-                            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
-                                Submit
-                            </AthenaButton>
-                        </div>
-                    </MainLayoutDesktop.Content>
-                </MainLayoutDesktop>
-            </MediaResponsive.Desktop>
-            <MediaResponsive.Laptop>
-                <MainLayoutDesktop>
-                    <MainLayoutDesktop.Header>
-                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
-                    </MainLayoutDesktop.Header>
-                    <MainLayoutDesktop.Content>
-                    <div style={{
-                            display : "flex",
-                            alignContent : "center",
-                            alignItems : "center"
-                        }}>
-                            <TextInputApollo 
-                            placeholder={"Enter repo"}
-                            onTextInput={setText}/>&emsp;<AthenaButton 
-                            onClick={handleSubmit}
-                            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
-                                Submit
-                            </AthenaButton>
-                        </div>
-                    </MainLayoutDesktop.Content>
-                </MainLayoutDesktop>
-            </MediaResponsive.Laptop>
-            <MediaResponsive.Tablet>
-                <MainLayoutMobile>
-                    <MainLayoutMobile.Header>
-                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
-                    </MainLayoutMobile.Header>
-                    <MainLayoutMobile.Content>
-                    <div style={{
-                            display : "flex",
-                            alignContent : "center",
-                            alignItems : "center"
-                        }}>
-                            <TextInputApollo 
-                            placeholder={"Enter repo"}
-                            onTextInput={setText}/>&emsp;<AthenaButton 
-                            onClick={handleSubmit}
-                            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
-                                Submit
-                            </AthenaButton>
-                        </div>
-                    </MainLayoutMobile.Content>
-                </MainLayoutMobile>
-            </MediaResponsive.Tablet>
-            <MediaResponsive.Mobile>
-                <MainLayoutMobile>
-                    <MainLayoutMobile.Header>
-                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
-                    </MainLayoutMobile.Header>
-                    <MainLayoutMobile.Content>
-                    <div style={{
-                            display : "flex",
-                            alignContent : "center",
-                            alignItems : "center"
-                        }}>
-                            <TextInputApollo 
-                            placeholder={"Enter repo"}
-                            onTextInput={setText}/>&emsp;<AthenaButton 
-                            onClick={handleSubmit}
-                            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
-                                Submit
-                            </AthenaButton>
-                        </div>
-                    </MainLayoutMobile.Content>
-                </MainLayoutMobile>
-            </MediaResponsive.Mobile>
-        </MediaResponsive>
+        <div style={{
+            display : "flex",
+            alignContent : "center",
+            alignItems : "center"
+        }}>
+            <TextInputApollo 
+            onSubmit={handleEnter}
+            placeholder={"Enter repo"}
+            onTextInput={setText}/>&emsp;<AthenaButton 
+            onClick={handleSubmit}
+            primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                Submit
+            </AthenaButton>
+        </div>
 
     )
 

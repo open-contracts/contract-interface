@@ -18,15 +18,11 @@ export const DOCS = "DOCS";
 export const DOCS_PATH = "https://open-contracts.readthedocs.io";
 
 export type HeaderDesktopProps = {
-    crt ? : ReadyT,
-    wallet ? : ReadyT,
-    enclave ? : ReadyT
+    wallet ? : ReadyT
 }
 
 export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
-    crt,
     wallet,
-    enclave
 }) =>{
 
     
@@ -50,7 +46,16 @@ export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
                 </div>
             </HeaderLayoutDesktop.Brand>
             <HeaderLayoutDesktop.Nav>
-                <ConnectionStatus wallet={wallet}/>
+                <div style={{
+                    height : "100%",
+                    display : "flex",
+                    alignItems : 'center',
+                    alignContent : "center",
+                    flexDirection : "row-reverse",
+                    textAlign : "right"
+                }}>
+                    <ConnectionStatus wallet={wallet}/>
+                </div>
             </HeaderLayoutDesktop.Nav>
         </HeaderLayoutDesktop>
 

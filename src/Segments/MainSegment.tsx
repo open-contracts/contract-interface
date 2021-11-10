@@ -16,15 +16,6 @@ export type MainSegmentProps = {}
 
 export const MainSegment : FC<MainSegmentProps>  = () =>{
 
-    return (
-
-       <div style={{
-           background : "white"
-       }}>
-           <MainRouter/>
-       </div>
-
-
-    )
+    return (<MainRouter/>)
 
 }

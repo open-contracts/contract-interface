@@ -32,7 +32,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
     setPut
 }) =>{
 
-    const nonInputOutput = puts.filter(put=>((put.putType !== "input") && (put.putType !== "output")))
+    console.log("Puts received...", puts);
 
     const inputs = puts.reduce((agg, put, index)=>{
         
@@ -67,6 +67,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                            &emsp;<span style={{
                                fontSize : "16px"
                            }}>=&emsp;</span><TextInputApollo
+                            value={put.value ? put.value : ""}
                             onTextInput={onTextInput}
                             style={{
                                 fontSize : "16px"
@@ -77,15 +78,6 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
             ] : []
         ]
     }, [] as React.ReactNode[])
-
-    const [isHovered, setHovered] = useState(false);
-    const handleMouseOver = ()=>{
-        setHovered(true);
-    }
-    const handleMouseOut = ()=>{
-        setHovered(false);
-    }
-
     return (
              <div style={{
                 position : "relative",

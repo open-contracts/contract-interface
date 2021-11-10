@@ -25,30 +25,16 @@ const MainLayoutMobile : FC<MainLayoutMobileProps>  & {
     return (
 
         <div style={{
-            height : "auto",
-            width : "100vw",
-            padding : DesktopSizes.Padding.whitespacePreferred,
-            display : "grid",
-            gridTemplateColumns: "1fr",
-            justifyContent : "center",
-            justifyItems : "center"
+            display : "flex",
+            flexDirection : "column",
+            margin : "0 auto",
+            width : "80vw",
         }}>
-            <div style={{
-                width : "100%",
-            }}>
-                <div style={{
-                    height : "200px",
-                    width : "100%"
-                }}>
-                    {Header}
-                </div>
-                <div style={{
-                    height : "auto",
-                    width : "100%",
-                    overflow : "visible"
-                }}> 
-                    {Content}
-                </div>
+            <div>
+                {Header}
+            </div>
+            <div>
+                {Content}
             </div>
         </div>
 

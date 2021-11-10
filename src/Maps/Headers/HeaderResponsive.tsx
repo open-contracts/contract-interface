@@ -1,29 +1,30 @@
 import React, {FC, ReactElement} from 'react';
 import {MediaResponsive} from "../../Sytems";
 import {HeaderDesktop, HeaderMobile} from ".";
+import { ReadyT } from '../../Components/Ready';
 
 export type HeaderResponsiveProps = {
-    selected : string
+    wallet : ReadyT
 }
 
 export const HeaderResponsive : FC<HeaderResponsiveProps>  = ({
-    selected
+    wallet
 }) =>{
 
     return (
 
        <MediaResponsive>
            <MediaResponsive.Desktop>
-                <HeaderDesktop/>
+                <HeaderDesktop wallet={wallet}/>
            </MediaResponsive.Desktop>
            <MediaResponsive.Laptop>
-                <HeaderDesktop/>
+                <HeaderDesktop wallet={wallet}/>
            </MediaResponsive.Laptop>
            <MediaResponsive.Tablet>
-                <HeaderMobile selected={selected}/>
+                <HeaderMobile wallet={wallet}/>
            </MediaResponsive.Tablet>
            <MediaResponsive.Mobile>
-                <HeaderMobile selected={selected}/>
+                <HeaderMobile wallet={wallet}/>
            </MediaResponsive.Mobile>
        </MediaResponsive>
 

@@ -25,16 +25,22 @@ export const isDapp = (obj : any) : obj is DappI => {
 
 export const parseGitUrl = (url : string) : {
     owner : string |undefined,
-    repo : string | undefined
+    repo : string | undefined,
+    branch : string | undefined
 }=>{
 
+    const _indexCom = url.indexOf(".com");
+    const indexCom = _indexCom > 0 ? _indexCom + 4 : 0;
+    const substr = url.substring(indexCom).trim().replace(/^\/*|-\/*$/, "");
 
-    const split = url.split("/");
+    const split = substr.split("/");
 
+    console.log(split);
 
     return {
-        owner : split[split.length -2],
-        repo : split[split.length - 1]
+        owner : split.length ? split[0] : undefined,
+        repo : split.length > 1 ? split[1] : undefined,
+        branch : split.length > 2 ? split[2] : undefined
     }
     
 
@@ -187,10 +193,11 @@ export const APPTILE = "tile";
 export const imageUriFromRepoAndOwner = (args : {
     owner : string,
     repo : string,
+    branch ? : string
     type : string
 })=>{
 
-    return `https://raw.githubusercontent.com/${args.owner}/${args.repo}/main/${APPTILE}.${args.type}`
+    return `https://raw.githubusercontent.com/${args.owner}/${args.repo}/${args.branch||"main"}/${APPTILE}.${args.type}`
 
 }
 

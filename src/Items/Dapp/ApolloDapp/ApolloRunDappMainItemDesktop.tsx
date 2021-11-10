@@ -8,15 +8,15 @@ import {ApolloRunDappContent} from "./ApolloRunDappContent";
 import { ApolloRunDappFunctionGridView } from './ApolloRunDappFunctionGridView';
 import { ApolloRunDappFunctionView } from './ApolloRunDappFunctionView';
 import { useErrorContext } from '../../../Error/ErrorProvider';
-import { ApolloRunDappMainItemMobileActions } from './ApolloRunDappMainItemMobileActions';
+import { ApolloRunDappMainItemActions } from './ApolloRunDappMainItemActions';
 
 
-export type ApolloRunDappMainItemMobileReadmeProps = {
+export type ApolloRunDappMainItemReadmeProps = {
     style ? : React.CSSProperties,
     readme : string | undefined
 }
 
-export const ApolloRunDappMainItemMobileReadMe : FC<ApolloRunDappMainItemMobileReadmeProps> = ({
+export const ApolloRunDappMainItemReadMe : FC<ApolloRunDappMainItemReadmeProps> = ({
     style,
     readme
 })=>{
@@ -35,14 +35,14 @@ export const ApolloRunDappMainItemMobileReadMe : FC<ApolloRunDappMainItemMobileR
 
 }
 
-export type ApolloRunDappMainItemMobileInternalsProps = {
+export type ApolloRunDappMainItemInternalsProps = {
     dappItem : DappI,
     setDappItem ? : (dappItem : DappI)=>void,
     style? : React.CSSProperties,
     key? : React.Key,
 }
 
-export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobileInternalsProps>  = ({
+export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsProps>  = ({
     dappItem,
     style,
     setDappItem
@@ -96,8 +96,6 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
     return (
 
         <div style={{
-            paddingTop : DesktopSizes.Padding.standard,
-            borderTop : `1px solid ${Colors.Maintheme}`,
             width : "100%",
             paddingBottom : DesktopSizes.Padding.whitespacePreferred,
             ...style
@@ -110,7 +108,7 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
                     <h1>{dappItem.name}</h1>
                 </div>
                 <div>
-                    <ApolloRunDappMainItemMobileActions
+                    <ApolloRunDappMainItemActions
                         dapp={dappItem}
                         gitUrl={dappItem.gitUrl}
                     />
@@ -138,7 +136,7 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
 
 }
 
-export type ApolloRunDappMainItemMobileProps = {
+export type ApolloRunDappMainItemProps = {
     dappItem : DappI,
     style? : React.CSSProperties,
     key? : React.Key,
@@ -146,7 +144,7 @@ export type ApolloRunDappMainItemMobileProps = {
     forceLoad ? : boolean
 }
 
-export const ApolloRunDappMainItemMobile : FC<ApolloRunDappMainItemMobileProps>  = ({
+export const ApolloRunDappMainItemDesktop : FC<ApolloRunDappMainItemProps>  = ({
     dappItem,
     style,
     updateDapp,
@@ -239,7 +237,7 @@ export const ApolloRunDappMainItemMobile : FC<ApolloRunDappMainItemMobileProps> 
 
     return (
 
-        <ApolloRunDappMainItemMobileInternals setDappItem={handleSetDappState} dappItem={dappState} style={style}/>
+        <ApolloRunDappMainItemInternals setDappItem={handleSetDappState} dappItem={dappState} style={style}/>
 
     )
 

@@ -80,7 +80,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
         }
     })
 
-    console.log(contractFunction.requiresOracle && !resolved);
+    console.log(contractFunction.callOracle);
 
     return (
 
@@ -95,8 +95,8 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
                 style={{
                     fontSize : "18px"
                 }}
-                primaryColor={darkenStandard(Colors.cyan)}
-                secondaryColor={"cyan"}>
+                primaryColor={Colors.Maintheme}
+                secondaryColor={"white"}>
                 {
                     !oracleLoad ? 
                     <>
@@ -109,13 +109,14 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
             </AthenaButton>}
             &emsp;
             <AthenaButton
+                invert
                 style={{
                     fontSize : "18px"
                 }}
                 action={call}
                 disabled={contractFunction.requiresOracle && (contractFunction.oracleData === undefined || !resolved)}
-                primaryColor={Colors.forestEdge}
-                secondaryColor={Colors.greenCeramic}
+                primaryColor={Colors.Maintheme}
+                secondaryColor={"white"}
             >
                 Call function
             </AthenaButton>

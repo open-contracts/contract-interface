@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import { AristophanesReady, ReadyT } from '../../Components/Ready/AristophanesReady/AristophanesReady';
+import { AristophanesReady, AristophanesReadyStack, ReadyT } from '../../Components/Ready/AristophanesReady';
 import {ethers} from "ethers";
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -7,10 +7,14 @@ import { Colors } from '../../Theme';
 
 export type ConnectionStatusProps = {
     wallet ? : ReadyT,
+    style ? : React.CSSProperties,
+    stack ? : boolean
 }
 
 export const ConnectionStatus : FC<ConnectionStatusProps>  = ({
     wallet,
+    style,
+    stack
 }) =>{
 
     const [address, setAddress] = useState<string|undefined>(undefined);
@@ -29,21 +33,24 @@ export const ConnectionStatus : FC<ConnectionStatusProps>  = ({
 
     return (
 
-        <div style={{
-            display : "flex",
-            height : "100%",
-            alignContent : "center",
-            alignItems : "center",
-            justifyItems : "right",
-            justifyContent : "right",
-            textAlign : "right"
-        }}>
-
-            <AristophanesReady right label={"Metamask"} ready={wallet} expressions={{
+        <>
+           {stack ?
+            (<AristophanesReadyStack 
+                style={{
+                    ...style
+                }}
+                right label={"Metamask"} ready={wallet} expressions={{
                 ready : address
-            }} />
-              
-        </div>
+            }} />) :
+            (<AristophanesReady 
+                style={{
+                    ...style
+                }}
+                right label={"Metamask"} ready={wallet} expressions={{
+                ready : address
+            }} />)
+           }   
+        </>
 
     )
 

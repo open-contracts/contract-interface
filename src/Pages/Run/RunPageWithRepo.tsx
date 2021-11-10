@@ -12,7 +12,8 @@ export type RunPageWithRepoProps = {
     stepStatus : StepStatusT,
     repo : {
         owner : string,
-        repo : string
+        repo : string,
+        branch : string
     }
 }
 
@@ -23,57 +24,12 @@ export const RunPageWithRepo : FC<RunPageWithRepoProps>  = ({
 
     const dapp : DappI = {
         __isDapp__ : true,
-        gitUrl : `https://github.com/${repo.owner}/${repo.repo}`,
-        id : `${repo.owner}/${repo.repo}`
+        gitUrl : `https://github.com/${repo.owner}/${repo.repo}/${repo.branch}`,
+        id : `${repo.owner}/${repo.repo}/${repo.branch}`
     } 
 
     
 
-    return (
-
-        <MediaResponsive>
-            <MediaResponsive.Desktop>
-                <MainLayoutDesktop>
-                    <MainLayoutDesktop.Header>
-                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
-                    </MainLayoutDesktop.Header>
-                    <MainLayoutDesktop.Content>
-                        <RunBenchDesktop dapp={dapp} />
-                    </MainLayoutDesktop.Content>
-                </MainLayoutDesktop>
-            </MediaResponsive.Desktop>
-            <MediaResponsive.Laptop>
-                <MainLayoutDesktop>
-                    <MainLayoutDesktop.Header>
-                        <HeaderResponsive selected={HOME}/>
-                    </MainLayoutDesktop.Header>
-                    <MainLayoutDesktop.Content>
-                        <RunBenchDesktop dapp={dapp} />
-                    </MainLayoutDesktop.Content>
-                </MainLayoutDesktop>
-            </MediaResponsive.Laptop>
-            <MediaResponsive.Tablet>
-                <MainLayoutMobile>
-                    <MainLayoutMobile.Header>
-                        <HeaderResponsive selected={HOME}/>
-                    </MainLayoutMobile.Header>
-                    <MainLayoutMobile.Content>
-                        <RunBenchDesktop dapp={dapp} />
-                    </MainLayoutMobile.Content>
-                </MainLayoutMobile>
-            </MediaResponsive.Tablet>
-            <MediaResponsive.Mobile>
-                <MainLayoutMobile>
-                    <MainLayoutMobile.Header>
-                        <HeaderResponsive selected={HOME}/>
-                    </MainLayoutMobile.Header>
-                    <MainLayoutMobile.Content>
-                        <RunBenchDesktop dapp={dapp} />
-                    </MainLayoutMobile.Content>
-                </MainLayoutMobile>
-            </MediaResponsive.Mobile>
-        </MediaResponsive>
-
-    )
+    return (<RunBenchDesktop dapp={dapp} />)
 
 }

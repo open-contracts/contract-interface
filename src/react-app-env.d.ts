@@ -144,7 +144,7 @@ declare global {
         },
         call : (state  ? : OracleContractFunctionI)=>Promise<any>,
         callOracle ? : ()=>Promise<string>,
-        submitHandler : (submit : string)=>Promise<any>,
+        submitHandler : (call : ()=>Promise<string>)=>Promise<any>,
         xpraHandler : (targetUrl : string, sessionUrl : string, xpraExit : promise)=>Promise<any>,
         inputHandler : (message : string)=>Promise<any>,
         printHandler : (message : string)=>Promise<any>

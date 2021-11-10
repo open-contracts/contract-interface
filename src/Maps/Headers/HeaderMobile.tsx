@@ -4,9 +4,11 @@ import {HeaderLayoutMobile} from "../../Layouts";
 import { ArchimedesNav } from '../../Components/Navs';
 import { AbleAccountToggle } from '../../Components/AccountToggles';
 import { PersonFill } from 'react-bootstrap-icons';
-import { Colors } from '../../Theme';
+import { Colors, DesktopSizes } from '../../Theme';
 import { useColorStore } from '../../Theme/ColorProvider';
 import { useNavigate } from 'react-router-dom';
+import { ReadyT } from '../../Components/Ready';
+import { ConnectionStatus } from '../ConnectionStatus';
 
 export const HOME = "EXPLORE"
 export const HOME_PATH = "/"
@@ -16,29 +18,22 @@ export const DOCS = "DOCS";
 export const DOCS_PATH = "https://open-contracts.readthedocs.io"
 
 export type HeaderMobileProps = {
-    selected : string
+    wallet : ReadyT
 }
 
 export const HeaderMobile : FC<HeaderMobileProps>  = ({
-    selected
+    wallet
 }) =>{
-
-    const Colors = useColorStore();
-
     const navigate = useNavigate();
-
     const goHome = ()=>{
         navigate(HOME_PATH);
     }
-
     const goAbout = ()=>{
         navigate(ABOUT_PATH);
     }
-
     const goDocs = ()=>{
         window.location.href = DOCS_PATH;
     }
-
     const handleSelect = (item : string)=>{
 
         if(item === ABOUT) {
@@ -50,11 +45,9 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
         }
 
     }
-
     const handleLogo  = ()=>{
         handleSelect("HOME")
     }
-
     return (
 
         <HeaderLayoutMobile>
@@ -74,24 +67,16 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
                 </div>
             </HeaderLayoutMobile.Brand>
             <HeaderLayoutMobile.Nav>
-                <div style={{
-                    height : "100%",
-                    width : "100%",
-                    alignItems : "center",
-                    alignContent : 'center',
-                    justifyItems : "center",
+                <ConnectionStatus
+                stack
+                style={{
+                    fontSize : "12px",
+                    margin : "0 auto",
+                    width : "150px",
                     justifyContent : "center",
-                    display : "grid"
-                }}>
-                    <ArchimedesNav nodeStyle={{
-                        fontSize : "20px"
-                    }}
-                    initSelected={selected}
-                    onSelect={handleSelect}
-                    itemNames={[
-                        HOME, ABOUT, DOCS
-                    ]} />
-                </div>
+                    justifyItems : "center",
+                    paddingBottom : DesktopSizes.Padding.standard
+                }} wallet={wallet}/>
             </HeaderLayoutMobile.Nav>
         </HeaderLayoutMobile>
 

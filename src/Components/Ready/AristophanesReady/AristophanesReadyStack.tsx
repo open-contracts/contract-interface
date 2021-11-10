@@ -13,7 +13,7 @@ export interface StateMapI<T extends any = string> {
     "failed" ? : T
 }
 
-export type AristophanesReadyProps = {
+export type AristophanesReadyStackProps = {
     right ? : boolean
     ready ? : "ready" | "not ready" | "failed",
     label ? : string,
@@ -23,7 +23,7 @@ export type AristophanesReadyProps = {
     colors ? : StateMapI<React.CSSProperties["color"]>,
     style ? : React.CSSProperties,
     lightStyle ? : React.CSSProperties,
-    onClick ?  : (ready : AristophanesReadyProps["ready"])=>void
+    onClick ?  : (ready : AristophanesReadyStackProps["ready"])=>void
 }
 
 export const DefaultExpressions : StateMapI = {
@@ -49,7 +49,7 @@ export const DefaultColors : StateMapI<React.CSSProperties["color"]> = {
  * @param props
  * @returns 
  */
-export const AristophanesReady : FC<AristophanesReadyProps>  = ({
+export const AristophanesReadyStack : FC<AristophanesReadyStackProps>  = ({
     right,
     ready = "not ready",
     label,
@@ -101,32 +101,27 @@ export const AristophanesReady : FC<AristophanesReadyProps>  = ({
                 title={_information[ready]}
                 onClick={handleClick}
                 style={{
-                    display : "flex",
-                    gridTemplateColumns : "1fr 5fr",
-                    justifyContent : "left",
-                    justifyItems : "left",
+                    display : "grid",
+                    gridTemplateColumns : "1fr",
+                    justifyContent : "center",
+                    justifyItems : "center",
                     alignContent : "center",
                     alignItems : "center",
-                    height : "40px",
+                    height : "auto",
                     fontSize : "15px",
                     width : "auto",
                     cursor : "pointer",
                     ...style
                 }}>
-                    {!right && <div style={{
-                        display: "flex",
-                        height : "100%",
-                        alignContent : "center",
-                        alignItems : "center"
-                    }}>
+                  
+                    <div>
                         <Circle 
-                        color={_colors[ready]}
-                        size={"65%"}
-                        style={{
-                            ...lightStyle
-                        }}/>
-                    </div>}
-                    &ensp;
+                            color={_colors[ready]}
+                            size={"18px"}
+                            style={{
+                                ...lightStyle
+                            }}/>
+                    </div>
                     <div style={{
                         display : "flex",
                         height : "100%",
@@ -134,33 +129,22 @@ export const AristophanesReady : FC<AristophanesReadyProps>  = ({
                         gridTemplateRows : "1fr 1fr",
                         verticalAlign : "center",
                         alignContent : "center",
-                        alignItems : "center"
+                        alignItems : "center",
+                        textAlign : "center"
                     }}>
                         <div>
                             <span style={{
                                 color : Colors.Maintheme
                             }}>{label}</span><br/>
                             <span style={{
-                                color : Colors.tertiaryTextColor
+                                color : Colors.tertiaryTextColor,
+                                wordWrap : "break-word",
+                                overflowWrap : "anywhere"
                             }}>
                                 {_expressions[ready]}
                             </span>
                         </div>
                     </div>
-                    &ensp;
-                    {right && <div style={{
-                        display: "flex",
-                        height : "100%",
-                        alignContent : "center",
-                        alignItems : "center"
-                    }}>
-                        <Circle 
-                        color={_colors[ready]}
-                        size={"65%"}
-                        style={{
-                            ...lightStyle
-                        }}/>
-                    </div>}
                 </div>
             </GrowOnEventAchamaenid>
         </ThroughGlassAgathocles>

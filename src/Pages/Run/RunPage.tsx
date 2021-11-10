@@ -6,6 +6,11 @@ import { StepStatusT, AllSteps } from '../../Statics/Steps/Steps';
 import { ethers } from 'ethers';
 import {NotReadyToRun} from "./NotReadyToRun";
 import {ReadyToRun} from "./ReadyToRun";
+import { MainLayoutDesktop } from '../../Layouts';
+import { HeaderDesktop, HeaderResponsive } from '../../Maps/Headers';
+import { HOME } from '../../Maps/Headers';
+import { MediaResponsive } from '../../Sytems';
+import { MainLayoutMobile } from '../../Layouts';
 
 declare global {
     interface Window {
@@ -41,15 +46,53 @@ export const RunPage : FC<RunPageProps>  = () =>{
         setStepStatus(stepStatus);
     }
 
-    if(!readyToRun) {
-        return (
-            <NotReadyToRun setStepStatus={_setStepStatus} stepStatus={stepStatus} handleAllDone={handleAllDone}/>
-        )
-    }
-   
-    return (
+    const page = readyToRun ? 
+    (<ReadyToRun stepStatus={stepStatus}/>) :
+    (<NotReadyToRun setStepStatus={_setStepStatus} stepStatus={stepStatus} handleAllDone={handleAllDone}/>);
 
-       <ReadyToRun stepStatus={stepStatus}/>
+    return (
+        <MediaResponsive>
+           <MediaResponsive.Desktop>
+                <MainLayoutDesktop>
+                    <MainLayoutDesktop.Header>
+                        <HeaderResponsive wallet={stepStatus.wallet}/>
+                    </MainLayoutDesktop.Header>
+                    <MainLayoutDesktop.Content>
+                        {page}
+                    </MainLayoutDesktop.Content>
+                </MainLayoutDesktop>
+            </MediaResponsive.Desktop>
+           <MediaResponsive.Laptop>
+                <MainLayoutDesktop>
+                    <MainLayoutDesktop.Header>
+                        <HeaderResponsive wallet={stepStatus.wallet}/>
+                    </MainLayoutDesktop.Header>
+                    <MainLayoutDesktop.Content>
+                       {page}
+                    </MainLayoutDesktop.Content>
+                </MainLayoutDesktop>
+           </MediaResponsive.Laptop>
+           <MediaResponsive.Tablet>
+                <MainLayoutMobile>
+                    <MainLayoutMobile.Header>
+                        <HeaderResponsive wallet={stepStatus.wallet}/>
+                    </MainLayoutMobile.Header>
+                    <MainLayoutMobile.Content>
+                       {page}
+                    </MainLayoutMobile.Content>
+                </MainLayoutMobile>
+           </MediaResponsive.Tablet>
+           <MediaResponsive.Mobile>
+                <MainLayoutMobile>
+                    <MainLayoutMobile.Header>
+                        <HeaderResponsive wallet={stepStatus.wallet}/>
+                    </MainLayoutMobile.Header>
+                    <MainLayoutMobile.Content>
+                        {page}
+                    </MainLayoutMobile.Content>
+                </MainLayoutMobile>
+           </MediaResponsive.Mobile>
+       </MediaResponsive>
     )
 
 }

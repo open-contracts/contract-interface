@@ -22,7 +22,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
            <MediaResponsive.Desktop>
                 <MainLayoutDesktop>
                     <MainLayoutDesktop.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderResponsive wallet={"not ready"}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
                         <ErrorNotification/>
@@ -32,7 +32,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
            <MediaResponsive.Laptop>
                 <MainLayoutDesktop>
                     <MainLayoutDesktop.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderResponsive wallet={"not ready"}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
                         <ErrorNotification/>
@@ -42,7 +42,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
            <MediaResponsive.Tablet>
                 <MainLayoutMobile>
                     <MainLayoutMobile.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderResponsive wallet={"not ready"}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
                         <ErrorNotification/>
@@ -52,7 +52,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
            <MediaResponsive.Mobile>
                 <MainLayoutMobile>
                     <MainLayoutMobile.Header>
-                        <HeaderResponsive selected={HOME}/>
+                        <HeaderResponsive wallet={"not ready"}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
                         <ErrorNotification/>

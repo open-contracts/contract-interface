@@ -32,51 +32,6 @@ export const NotReadyToRun : FC<NotReadyToRunProps>  = ({
     setStepStatus
 }) =>{
    
-    return (
-
-       <MediaResponsive>
-           <MediaResponsive.Desktop>
-                <MainLayoutDesktop>
-                    <MainLayoutDesktop.Header>
-                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
-                    </MainLayoutDesktop.Header>
-                    <MainLayoutDesktop.Content>
-                        <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>
-                    </MainLayoutDesktop.Content>
-                </MainLayoutDesktop>
-            </MediaResponsive.Desktop>
-           <MediaResponsive.Laptop>
-                <MainLayoutDesktop>
-                    <MainLayoutDesktop.Header>
-                        <HeaderDesktop crt={stepStatus.crt} enclave={stepStatus.enclave} wallet={stepStatus.wallet}/>
-                    </MainLayoutDesktop.Header>
-                    <MainLayoutDesktop.Content>
-                        <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>
-                    </MainLayoutDesktop.Content>
-                </MainLayoutDesktop>
-           </MediaResponsive.Laptop>
-           <MediaResponsive.Tablet>
-                <MainLayoutMobile>
-                    <MainLayoutMobile.Header>
-                        <HeaderResponsive selected={HOME}/>
-                    </MainLayoutMobile.Header>
-                    <MainLayoutMobile.Content>
-                        <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>
-                    </MainLayoutMobile.Content>
-                </MainLayoutMobile>
-           </MediaResponsive.Tablet>
-           <MediaResponsive.Mobile>
-                <MainLayoutMobile>
-                    <MainLayoutMobile.Header>
-                        <HeaderResponsive selected={HOME}/>
-                    </MainLayoutMobile.Header>
-                    <MainLayoutMobile.Content>
-                        <RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>
-                    </MainLayoutMobile.Content>
-                </MainLayoutMobile>
-           </MediaResponsive.Mobile>
-       </MediaResponsive>
-       
-    )
+    return (<RunSteps done={handleAllDone} setStepStatus={setStepStatus} stepStatus={stepStatus}/>);
 
 }

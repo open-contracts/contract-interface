@@ -20,6 +20,7 @@ export interface DappOutputI extends DappPutI {
 }
 
 export interface DappErrputI extends DappPutI {
+    resetArgs : ()=>void,
     putType : "error"
 }
 

@@ -16,11 +16,10 @@ export const DappResultputHeader : FC<DappResultputHeaderProps>  = ({
     return (
 
         <DefaultHeader dappPut={{} as DappResultputI} style={{
-            color : Colors.babyBlue,
-            ...style
+            color : Colors.forestEdge
         }}>
             <DefaultHeader.Pre>
-                𝑦      
+                Result     
             </DefaultHeader.Pre>
         </DefaultHeader>
 

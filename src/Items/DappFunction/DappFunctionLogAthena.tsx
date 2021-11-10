@@ -38,11 +38,12 @@ export const createInputs = (inputs : OpenContractFunctionI["inputs"]) : DappInp
     })
 }
 
-export const createErrors = (errors : OpenContractFunctionI["errors"]) : DappErrputI[]=>{
+export const createErrors = (errors : OpenContractFunctionI["errors"], resetArgs : ()=>void) : DappErrputI[]=>{
     return errors ? errors.map((error)=>{
         return {
             ...error,
-            putType : "error"
+            putType : "error",
+            resetArgs : resetArgs
         }
     }) : []
 }
@@ -129,11 +130,40 @@ export const getContractFunctionInputs = (puts : DappPutI[])=>{
     });
 }
 
+export const resetInputs = (inputs : OpenContractFunctionI["inputs"])=>{
+    return inputs.map((value)=>{
+        return {
+            ...value,
+            value : undefined
+        }
+    })
+}
+
+export const resetInputPuts = (puts : OpenContractFunctionI["puts"])=>{
+    return puts?.map((put)=>{
+        return {
+            ...put,
+            value : put.putType === "input" ? undefined : put.value
+        }
+    })
+}
+
 export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     dapp,
     contractFunction,
     setDappFunction
 }) =>{
+
+    console.log(contractFunction)
+
+    useEffect(()=>{
+
+       setDappFunction && setDappFunction({
+           ...contractFunction,
+           puts : createInputs(contractFunction.inputs)
+       })
+
+    }, [])
 
     const setPut = (put : DappPutI, index : number)=>{
         if(!contractFunction.puts){
@@ -142,19 +172,28 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         contractFunction.puts[index] = put;
         setDappFunction && setDappFunction({
             ...contractFunction,
-            inputs : getContractFunctionInputs(contractFunction.puts)
+           inputs : getContractFunctionInputs(contractFunction.puts)
+        })
+    }
+
+    const resetArgs = ()=>{
+        setDappFunction && setDappFunction({
+            ...contractFunction,
+            inputs : resetInputs(contractFunction.inputs),
+            puts : resetInputPuts(contractFunction.puts)
         })
     }
 
     const inputs = createInputs(contractFunction.inputs);
+    console.log(inputs);
     const puts = contractFunction.puts && contractFunction.puts.reduce((agg, put, index)=>{
         return [
             ...agg,
             ...put.putType !== "input" ? [
                 (
-                    <DappPut 
+                    <><DappPut 
                         end={index > (contractFunction.puts ? contractFunction.puts.length - 2 : -1)}
-                        setPut={setPut} index={index} put={put}/>
+                        setPut={setPut} index={index} put={put}/><br/></>
                 )
             ] : []
         ]
@@ -209,7 +248,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             ...contractFunction,
             result : newResult,
             errors : [...contractFunction.errors||[], newError],
-            puts : [...contractFunction.puts||[], ...createErrors([newError])]
+            puts : [...contractFunction.puts||[], ...createErrors([newError], resetArgs)]
         }
         setDappFunction && setDappFunction(_newFunctionState)
     }
@@ -251,13 +290,14 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     const loadOracleData = async () : Promise<{[key : string] : string}>=>{
         const {
             owner,
-            repo
+            repo,
+            branch
         } = parseGitUrl(dapp.gitUrl)
 
         const [error, data]= await to(window.githubOracleDownloader(
             owner || "",
             repo || "",
-            "main",
+            branch || "main",
             contractFunction.oracleFolder
         ));
 
@@ -288,6 +328,11 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             ]
         })
     }
+
+    const handleSubmit = async (call : ()=>Promise<string>)=>{
+        addOracleCallput(call);
+    }
+    contractFunction.submitHandler = handleSubmit;
 
     const handleCall = async ()=>{
 
@@ -324,8 +369,6 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                         }} animation="border"/>
                         &emsp;Attempting oracle connection...
                     </div>);
-                    console.log("Oracle data received...", data);
-                    addOracleCallput(data);
                     resolve(data);
                 }).catch((err)=>{
                     addError("An error occurred!", err.toString());

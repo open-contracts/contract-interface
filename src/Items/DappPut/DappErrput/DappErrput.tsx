@@ -22,8 +22,9 @@ export const DappErrput : FC<DappPutErrputProps>  = ({
         <DappPutLayout 
         end={end}
         style={{
-            background : Colors.fadedRed,
+            background : "white",
             border : `1px solid ${Colors.failedRed}`,
+            color : Colors.Maintheme,
             ...style
         }}>
             <DappPutLayout.Header>

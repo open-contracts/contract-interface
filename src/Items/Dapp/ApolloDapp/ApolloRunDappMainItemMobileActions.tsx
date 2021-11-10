@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { DappI, parseGitUrl } from '../Dapp';
 import { ethers, providers } from 'ethers';
 
-export type ApolloRunDappMainItemActionsProps = {
+export type ApolloRunDappMainItemMobileActionsProps = {
     gitUrl : string,
     dapp : DappI
 }
 
-export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps>  = ({
+export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobileActionsProps>  = ({
     gitUrl,
     dapp
 }) =>{
@@ -22,7 +22,6 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
 
             const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
             const signerToken =  dapp.contract.OPNtoken.connect(provider.getSigner());
-            console.log(signerToken);
             await signerToken.gimmeSomeMoreOfDemCoins();
         }
     }
@@ -42,38 +41,54 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
             </p>
             <br/>
             <div style={{
-            display : "flex",
+                display  : "grid",
+                gridTemplateColumns : "1fr",
                 alignContent : "center",
-                alignItems : "center"
+                alignItems : "center",
+                gap : DesktopSizes.Padding.standard
             }}>
-                <AthenaButton primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                <AthenaButton 
+                style={{
+                    width : "100%",
+                }}
+                primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
-                        alignItems : "center"
+                        alignItems : "center",
+                        justifyContent : "center",
+                        fontSize : "22px"
                     }}>
                         See on GitHub&emsp;<Github/>
                     </div>
                 </AthenaButton>
-                &emsp;
                 <AthenaButton
+                    style={{
+                        width : "100%"
+                    }}
                     action={getTokens}
                     primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
-                        alignItems : "center"
+                        alignItems : "center",
+                        justifyContent : "center",
+                        fontSize : "22px"
                     }}>
                         Get OPN&emsp;<Coin/>
                     </div>
                 </AthenaButton>
-                &emsp;
                 <AthenaButton 
+                    style={{
+                        width : "100%"
+                    }}
                     primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
-                        alignItems : "center"
+                        alignItems : "center",
+                        justifyContent : "center",
+                        fontSize : "22px"
                     }}>
                         Grant Hub Access&emsp;<PatchCheckFill/>
                     </div>

@@ -20,26 +20,18 @@ export const ReadyToRun : FC<ReadyToRunProps>  = ({
 
     const {
         owner,
-        repo
+        repo,
+        branch
     } = useParams();
 
-    
+    console.log(branch);
 
-
-    if(owner && repo){
-        
-        
-
-        return (<RunPageWithRepo stepStatus={stepStatus} repo={{
-            owner : owner ,
-            repo : repo
-        }}/>)
-    }
-
-    return (
-
-       <RunPageNoRepo stepStatus={stepStatus}/>
-
-    )
+    return (owner && repo) ?
+    (<RunPageWithRepo stepStatus={stepStatus} repo={{
+        owner : owner,
+        repo : repo,
+        branch : branch || "main"
+    }}/>) :
+    (<RunPageNoRepo stepStatus={stepStatus}/>)
 
 }
