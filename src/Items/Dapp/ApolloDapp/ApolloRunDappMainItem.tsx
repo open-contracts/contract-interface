@@ -8,6 +8,7 @@ import {ApolloRunDappContent} from "./ApolloRunDappContent";
 import { ApolloRunDappFunctionGridView } from './ApolloRunDappFunctionGridView';
 import { ApolloRunDappFunctionView } from './ApolloRunDappFunctionView';
 import { useErrorContext } from '../../../Error/ErrorProvider';
+import { ApolloRunDappMainItemActions } from './ApolloRunDappMainItemActions';
 
 
 export type ApolloRunDappMainItemReadmeProps = {
@@ -106,7 +107,12 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
                 }}>
                     <h1>{dappItem.name}</h1>
                 </div>
-                <br/>
+                <div>
+                    <ApolloRunDappMainItemActions
+                        dapp={dappItem}
+                        gitUrl={dappItem.gitUrl}
+                    />
+                </div>
                 <ApolloRunDappContent grid={grid} setGrid={setGrid}>
                     <ApolloRunDappContent.Grid>
                         <ApolloRunDappFunctionGridView

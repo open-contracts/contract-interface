@@ -34,17 +34,9 @@ const DappPutLayout : FC<DappPutInputProps> & {
             paddingBottom : DesktopSizes.Padding.standard,
             paddingLeft : DesktopSizes.Padding.standard,
             paddingRight : DesktopSizes.Padding.standard,
-            borderBottomRightRadius : end ? DesktopSizes.BorderRadius.standard : "0px",
-            borderBottomLeftRadius : end ? DesktopSizes.BorderRadius.standard : "0px",
-            borderTopRightRadius : "0px",
-            borderTopLeftRadius : "0px",
+            borderRadius : DesktopSizes.BorderRadius.standard,
             borderCollapse : "collapse",
             ...style,
-            border : undefined,
-            borderTop : style?.borderTop,
-            borderRight : style?.borderRight || style?.border,
-            borderLeft : style?.borderLeft || style?.border,
-            borderBottom : style?.borderBottom || style?.border
         }}>
             <div>
                 {Header}

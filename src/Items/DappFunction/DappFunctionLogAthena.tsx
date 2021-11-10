@@ -275,6 +275,20 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     }
 
+    const addOracleCallput = (call : ()=>Promise<string>)=>{
+        const _newFunctionState : OpenContractFunctionI = {
+            ...contractFunction,
+            callOracle : call
+        }
+        setDappFunction &&  setDappFunction({
+            ..._newFunctionState,
+            puts : [
+                ..._newFunctionState.puts || [],
+                createResult(_newFunctionState)
+            ]
+        })
+    }
+
     const handleCall = async ()=>{
 
        return new Promise((resolve, reject)=>{
@@ -310,6 +324,8 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                         }} animation="border"/>
                         &emsp;Attempting oracle connection...
                     </div>);
+                    console.log("Oracle data received...", data);
+                    addOracleCallput(data);
                     resolve(data);
                 }).catch((err)=>{
                     addError("An error occurred!", err.toString());
@@ -351,7 +367,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     }
 
-    console.log(contractFunction.puts);
+    console.log(contractFunction.callOracle);
 
     return (
 
@@ -365,7 +381,6 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                     setPut={setPut}
                     contractFunction={contractFunction}
                 />
-                {puts}
                 <br/>
                 <DappFunctionSubmitState
                     setFunc={setDappFunction}
@@ -373,6 +388,9 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                     call={handleCall}
                     contractFunction={contractFunction}
                 />
+                <br/>
+                {puts}
+                <br/>
             </div>
         </>
 
