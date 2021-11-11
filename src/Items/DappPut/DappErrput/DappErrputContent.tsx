@@ -13,7 +13,7 @@ export const DappErrputContent : FC<DappErrputContentProps>  = ({
 }) =>{
 
     const resetArgs = ()=>{
-        dappErrput.resetArgs(dappErrput.contractFunction, dappErrput.setContractFunction);
+        dappErrput.resetArgs(dappErrput.reduceContractFunction);
     }
 
     return (

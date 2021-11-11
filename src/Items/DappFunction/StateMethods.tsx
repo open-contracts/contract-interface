@@ -1,6 +1,9 @@
 import React, {FC, ReactElement, useReducer} from 'react';
 import { DappDescputI, DappOracleInputI, DappErrputI, DappInputI, DappInteractputI, DappOracleputI, DappOutputI, DappPutI, DappResultputI } from '../DappPut/DappPutType';
 
+export interface reduceContractFunctionI {
+    (state : OpenContractFunctionI) : OpenContractFunctionI
+}
 
 export const allPromisesResolved = (obj : any)=>{
     return Object.keys(obj).reduce((agg, key)=>{
@@ -17,13 +20,13 @@ export const countPromisesResolved = (obj : any)=>{
 export const createInputs = (
     inputs : OpenContractFunctionI["inputs"],
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (func : OpenContractFunctionI)=>void,
+    reduceContractFunction ? : (func : reduceContractFunctionI)=>void,
 ) : DappInputI[]=>{
     return inputs.map((input)=>{
         return {
             ...input,
             contractFunction : contractFunction,
-            setContractFunction : setContractFunction,
+            reduceContractFunction : reduceContractFunction,
             putType : "input"
         } as DappInputI
     })
@@ -33,13 +36,13 @@ export const createErrors = (
     errors : OpenContractFunctionI["errors"], 
     resetArgs : DappErrputI["resetArgs"],
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (func : OpenContractFunctionI)=>void,
+    reduceContractFunction ? : (func : reduceContractFunctionI)=>void,
 ) : DappErrputI[]=>{
     return errors ? errors.map((error)=>{
         return {
             ...error,
             contractFunction : contractFunction,
-            setContractFunction : setContractFunction,
+            reduceContractFunction : reduceContractFunction,
             putType : "error",
             resetArgs : resetArgs
         }
@@ -49,13 +52,13 @@ export const createErrors = (
 export const createXpras = (
     xpras : OpenContractFunctionI["xpras"],
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (func : OpenContractFunctionI)=>void,
+    reduceContractFunction ? : (func : reduceContractFunctionI)=>void,
 ) : DappInteractputI[]=>{
     return xpras ? xpras.map((xpra)=>{
         return {
             ...xpra,
             contractFunction : contractFunction,
-            setContractFunction : setContractFunction,
+            reduceContractFunction : reduceContractFunction,
             putType : "interactive"
         } 
     }) : []
@@ -64,13 +67,13 @@ export const createXpras = (
 export const createOutputs = (
     prints : OpenContractFunctionI["prints"],
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (func : OpenContractFunctionI)=>void,
+    reduceContractFunction ? : (func : reduceContractFunctionI)=>void,
 ) : DappOutputI[]=>{
     return prints ? prints.map((print)=>{
         return {
             ...print,
             contractFunction : contractFunction,
-            setContractFunction : setContractFunction,
+            reduceContractFunction : reduceContractFunction,
             putType : "output"
         } 
     }) : []
@@ -81,7 +84,7 @@ export const createOracleInputs = (
     contractFunction : OpenContractFunctionI,
     resolve : (message : string)=>void,
     reject : (message : string)=>void,
-    setContractFunction ? : (func : OpenContractFunctionI)=>void,
+    reduceContractFunction : (func : reduceContractFunctionI)=>void,
 ) : DappOracleInputI[]=>{
     return inputs ? Object.keys(inputs).map((key)=>{
         return {
@@ -92,31 +95,20 @@ export const createOracleInputs = (
             reject : reject,
             putType : "oracle-input",
             contractFunction : contractFunction,
-            setContractFunction : setContractFunction
+            reduceContractFunction : reduceContractFunction
         } 
     }) : []
 }
 
 export const createOracleData = (
     contractFunction : OpenContractFunctionI,
-    setFunc ? : (func : OpenContractFunctionI)=>void
+    setFunc ? : (func : reduceContractFunctionI)=>void
 ) : DappOracleputI=>{
-
-    const setOracleData = (
-        data : OpenContractFunctionI["oracleData"]
-    )=>{
-        setFunc && setFunc({
-            ...contractFunction,
-            oracleData : data,
-            oraclePromiseReject : undefined,
-            oraclePromiseResolve : undefined
-        })
-    }
 
     return {
         name : "Oracle data",
         contractFunction : contractFunction,
-        setContractFunction : setFunc,
+        reduceContractFunction : setFunc,
         putType : "oracle",
     } as DappOracleputI
 
@@ -125,11 +117,11 @@ export const createOracleData = (
 export const createResult = (
     data : any,
     contractFunction : OpenContractFunctionI,
-    setFunc ? : (func : OpenContractFunctionI)=>void
+    setFunc : (func : reduceContractFunctionI)=>void
 ) : DappResultputI=>{
     return {
         contractFunction : contractFunction,
-        setContractFunction : setFunc,
+        reduceContractFunction : setFunc,
         name : contractFunction.name,
         value : data,
         putType : "result"
@@ -190,13 +182,13 @@ export const resetInputPuts = (puts : OpenContractFunctionI["puts"])=>{
 export const produceUpdatedPuts = (
     puts : OpenContractFunctionI["puts"],
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (func : OpenContractFunctionI)=>void
+    reduceContractFunction ? : (func : reduceContractFunctionI)=>void
 ) : DappPutI[]=>{
     return (puts||[]).map((put)=>{
         return {
             ...put,
             contractFunction : contractFunction,
-            setContractFunction : setContractFunction
+            reduceContractFunction : reduceContractFunction
         } as DappPutI
     })
 }

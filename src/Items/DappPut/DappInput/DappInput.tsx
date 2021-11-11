@@ -5,13 +5,14 @@ import {Colors} from "../../../Theme/Colors";
 import { DappInputHeader } from './DappInputHeader';
 import { DappInputContent } from './DappInputContent';
 import { darkenStandard } from '../Methods';
+import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 
 export type DappPutInputProps = {
     style ? : React.CSSProperties
     dappInput : DappInputI,
     setInput ? : (input : DappInputI)=>void,
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
+    reduceContractFunction ? : (contractFunction : reduceContractFunctionI)=>void
 }
 
 export const DappInput : FC<DappPutInputProps>  = ({

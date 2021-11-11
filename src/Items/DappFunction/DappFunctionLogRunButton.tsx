@@ -13,29 +13,32 @@ import {generate} from "shortid";
 
 export type DappFunctionLogRunButtonProps = {
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void,
+    reduceContractFunction : (contractFunction : pure.reduceContractFunctionI)=>void,
 }
 
 export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
     contractFunction,
-    setContractFunction
+    reduceContractFunction
 }) =>{
 
-    console.log(contractFunction);
+    
 
     const inputs = pure.createInputs(
         contractFunction.inputs,
         contractFunction,
-        setContractFunction
+        reduceContractFunction
     ).map((input, index)=>{
 
         const onTextInput = (text : string)=>{
 
-            input.contractFunction.inputs[index] = {
-                ...input.contractFunction.inputs[index],
-                value : text
-            }
-            input.setContractFunction && input.setContractFunction(contractFunction);
+            reduceContractFunction((contractFunction)=>{
+                
+                contractFunction.inputs[index] =  {
+                    ...contractFunction.inputs[index],
+                    value : text
+                }
+                return contractFunction
+            });
         }
         return (
                     <div 

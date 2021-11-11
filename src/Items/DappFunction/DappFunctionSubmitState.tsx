@@ -9,14 +9,13 @@ export type DappFunctionSubmitStateProps = {
     contractFunction : OpenContractFunctionI,
     call : ()=>Promise<any>,
     loadOracleData : ()=>Promise<{[key : string] : string}>,
-    setFunc ? : (func : OpenContractFunctionI)=>void
+
 }
 
 export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
     contractFunction,
     call,
     loadOracleData,
-    setFunc
 }) =>{
 
     const map = contractFunction.oracleData||{};

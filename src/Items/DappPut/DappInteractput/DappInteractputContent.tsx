@@ -18,8 +18,6 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
     dappInteractput
 }) =>{
 
-    const navigate = useNavigate();
-
     return (
 
         <div style={{
@@ -27,18 +25,11 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
         }}>
             <AthenaButton 
                 onClick={()=>{
-                    navigate(dappInteractput.value)
+                    window.open(dappInteractput.value)
                 }}
                 primaryColor={darkenStandard(Colors.lilac)}
-                secondaryColor={lightenStandard(Colors.deepPurple)}>
+                secondaryColor={"white"}>
                     Launch interactive session
-                </AthenaButton>
-                &emsp;
-                <AthenaButton
-                    primaryColor={darkenStandard(Colors.failedRed)}
-                    secondaryColor={lightenStandard(Colors.deepPurple)}
-                >
-                    Reject interactive session
                 </AthenaButton>
         </div>
 

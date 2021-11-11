@@ -5,29 +5,32 @@ import {Colors} from "../../../Theme/Colors";
 import { DappOracleInputHeader } from './DappOracleInputHeader';
 import { DappOracleInputContent } from './DappOracleInputContent';
 import { darkenStandard } from '../Methods';
+import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 
 export type DappPutOracleInputProps = {
     style ? : React.CSSProperties
     dappOracleInput : DappOracleInputI,
     contractFunction : OpenContractFunctionI,
     index : number,
-    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
+    reduceContractFunction ? : (contractFunction : reduceContractFunctionI)=>void
 }
 
 export const DappOracleInput : FC<DappPutOracleInputProps>  = ({
     dappOracleInput,
     contractFunction,
-    setContractFunction,
+    reduceContractFunction,
     index,
     style,
 }) =>{
 
     const setOracleInput = (dappOracleInput : DappOracleInputI)=>{
-        setContractFunction && setContractFunction({
-            ...contractFunction,
-            oracleInputs : {
-                ...contractFunction.oracleInputs,
-                [dappOracleInput.id] : dappOracleInput
+        reduceContractFunction && reduceContractFunction((contractFunction)=>{
+            return {
+                ...contractFunction,
+                oracleInputs : {
+                    ...contractFunction.oracleInputs,
+                    [dappOracleInput.id] : dappOracleInput
+                }
             }
         });
     }

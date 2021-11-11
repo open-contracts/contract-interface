@@ -20,6 +20,8 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
     setOracleInput
 }) =>{
 
+    
+
     const [text, setText] = useState(dappOracleInput.response);
 
     const onTextOracleInput = (text : string)=>{
@@ -48,6 +50,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
         }}>
             <TextInputApollo 
                 value={text||""}
+                placeholder={dappOracleInput.prompt}
                 onTextInput={onTextOracleInput}
                 onSubmit={onTextSubmit}
                 type="text" style={{

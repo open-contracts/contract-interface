@@ -4,13 +4,14 @@ import { DappPutLayout } from '../DappPutLayout';
 import {Colors} from "../../../Theme/Colors";
 import { DappOracleputHeader } from './DappOracleputHeader';
 import { DappOracleputContent } from './DappOracleputContent';
+import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 
 export type DappPutOracleputProps = {
     style ? : React.CSSProperties
     dappOracleput : DappOracleputI,
     end ? : boolean
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
+    reduceContractFunction ? : (contractFunction : reduceContractFunctionI)=>void
 }
 
 export const DappOracleput : FC<DappPutOracleputProps>  = ({

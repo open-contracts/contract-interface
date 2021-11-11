@@ -4,13 +4,14 @@ import { DappPutLayout } from '../DappPutLayout';
 import {Colors} from "../../../Theme/Colors";
 import { DappErrputHeader } from './DappErrputHeader';
 import { DappErrputContent } from './DappErrputContent';
+import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 
 export type DappPutErrputProps = {
     style ? : React.CSSProperties
     dappErrput : DappErrputI,
     end ? : boolean,
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
+    reduceContractFunction ? : (contractFunction : reduceContractFunctionI)=>void
 }
 
 export const DappErrput : FC<DappPutErrputProps>  = ({

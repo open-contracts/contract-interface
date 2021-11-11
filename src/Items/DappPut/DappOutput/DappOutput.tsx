@@ -4,13 +4,14 @@ import { DappPutLayout } from '../DappPutLayout';
 import {Colors} from "../../../Theme/Colors";
 import {DappOutputHeader} from "./DappOutputHeader";
 import { DappOutputContent } from '../DappOutput/DappOutputContent';
+import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 
 export type DappPutOutputProps = {
     style ? : React.CSSProperties
     dappOutput : DappOutputI,
     end ? : boolean,
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
+    reduceContractFunction ? : (contractFunction : reduceContractFunctionI)=>void
 }
 
 export const DappOutput : FC<DappPutOutputProps>  = ({

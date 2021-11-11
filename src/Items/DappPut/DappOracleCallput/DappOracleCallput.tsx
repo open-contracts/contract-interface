@@ -1,11 +1,12 @@
 import React, {FC, ReactElement} from 'react';
 import {AthenaButton} from "../../../Components/Buttons";
 import {Colors} from "../../../Theme";
+import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 
 export type DappOracleCallputProps = {
     call : ()=>Promise<string>,
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
+    reduceContractFunction ? : (contractFunction : reduceContractFunctionI)=>void
 }
 
 export const DappOracleCallput : FC<DappOracleCallputProps>  = ({

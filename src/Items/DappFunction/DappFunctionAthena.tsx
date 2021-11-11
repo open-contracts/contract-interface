@@ -16,7 +16,7 @@ export const DappFunctionAthena : FC<DappFunctionAthenaProps>  = ({
 
     return (
 
-        <DappFunctionLogAthena setDappFunction={setDappFunction} dapp={dapp} contractFunction={contractFunction}/>
+        <DappFunctionLogAthena setFunctionState={setDappFunction} dapp={dapp} contractFunction={contractFunction}/>
 
     )
 

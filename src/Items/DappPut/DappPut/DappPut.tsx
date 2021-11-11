@@ -8,12 +8,13 @@ import {DappErrput} from "../DappErrput";
 import {DappOracleput} from "../DappOracleput";
 import { DappResultput } from '../DappResultput';
 import {DappOracleInput} from "../DappOracleInput";
+import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 
 export type DappPutProps = {
     put : DappPutI,
     index : number,
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
+    reduceContractFunction ? : (reducer : reduceContractFunctionI)=>void
     end ? : boolean
 }
 
@@ -21,7 +22,7 @@ export const DappPut : FC<DappPutProps>  = ({
     put,
     index,
     contractFunction,
-    setContractFunction,
+    reduceContractFunction,
     end
 }) =>{
 
@@ -33,7 +34,7 @@ export const DappPut : FC<DappPutProps>  = ({
                 <DappInput   
                 dappInput={put as DappInputI} 
                 contractFunction={contractFunction}
-                setContractFunction={setContractFunction}/>
+                reduceContractFunction={reduceContractFunction}/>
             )
 
         }
@@ -44,7 +45,7 @@ export const DappPut : FC<DappPutProps>  = ({
                 <DappOutput 
                 dappOutput={put as DappOutputI} 
                 contractFunction={contractFunction}
-                setContractFunction={setContractFunction}/>
+                reduceContractFunction={reduceContractFunction}/>
             )
 
         }
@@ -55,7 +56,7 @@ export const DappPut : FC<DappPutProps>  = ({
                 <DappErrput 
                 dappErrput={put as DappErrputI}
                 contractFunction={contractFunction}
-                setContractFunction={setContractFunction}/>
+                reduceContractFunction={reduceContractFunction}/>
             )
 
         }
@@ -66,7 +67,7 @@ export const DappPut : FC<DappPutProps>  = ({
                 <DappInteractput 
                 dappInteractput={put as DappInteractputI}
                 contractFunction={contractFunction}
-                setContractFunction={setContractFunction}/>
+                reduceContractFunction={reduceContractFunction}/>
             )
 
         }
@@ -77,7 +78,7 @@ export const DappPut : FC<DappPutProps>  = ({
                 <DappOracleput 
                 dappOracleput={put as DappOracleputI}
                 contractFunction={contractFunction}
-                setContractFunction={setContractFunction}/>
+                reduceContractFunction={reduceContractFunction}/>
             )
 
         }
@@ -87,7 +88,7 @@ export const DappPut : FC<DappPutProps>  = ({
                 <DappResultput 
                 dappResultput={put as DappResultputI}
                 contractFunction={contractFunction}
-                setContractFunction={setContractFunction}/>
+                reduceContractFunction={reduceContractFunction}/>
             )
         }
 
@@ -97,7 +98,7 @@ export const DappPut : FC<DappPutProps>  = ({
                 index={index}
                 dappOracleInput={put as DappOracleInputI}
                 contractFunction={contractFunction}
-                setContractFunction={setContractFunction}/>
+                reduceContractFunction={reduceContractFunction}/>
             )
         }
 
@@ -106,7 +107,7 @@ export const DappPut : FC<DappPutProps>  = ({
                 <DappDescput 
                 dappDescput={put as DappDescputI}
                 contractFunction={contractFunction}
-                setContractFunction={setContractFunction}/>
+                reduceContractFunction={reduceContractFunction}/>
             )
         }
 

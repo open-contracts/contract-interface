@@ -1,3 +1,5 @@
+import { reduceContractFunctionI } from "../DappFunction/StateMethods";
+
 export interface DappPutI extends PutI {
     name : string, 
     description ? : string,
@@ -5,7 +7,7 @@ export interface DappPutI extends PutI {
     type ? : InputTypeE,
     putType : string,
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (oracleData : any)=>void
+    reduceContractFunction : (reducer : reduceContractFunctionI)=>void
 }
 
 export interface DappDescputI extends DappPutI {
@@ -22,7 +24,7 @@ export interface DappOutputI extends DappPutI {
 }
 
 export interface DappErrputI extends DappPutI {
-    resetArgs : (contractFunction : OpenContractFunctionI, setContractFunction ? : (c : OpenContractFunctionI)=>void)=>void,
+    resetArgs : (reduceFunctionState : (update : reduceContractFunctionI)=>void)=>void,
     putType : "error"
 }
 

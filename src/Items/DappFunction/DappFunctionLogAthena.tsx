@@ -1,4 +1,4 @@
-import React, {FC, ReactElement, useReducer} from 'react';
+import React, {FC, PureComponent, ReactElement, useReducer} from 'react';
 import { Colors, DesktopSizes } from '../../Theme';
 import { DappI, parseGitUrl } from '../Dapp/Dapp';
 import { DappInput, DappPut } from '../DappPut';
@@ -15,7 +15,7 @@ import * as log from "./StateMethods";
 export type DappFunctionLogAthenaProps = {
     dapp : DappI,
     contractFunction : OpenContractFunctionI,
-    setDappFunction ? : (func : OpenContractFunctionI)=>void
+    setFunctionState ? : (func : OpenContractFunctionI)=>void
 }
 
 
@@ -23,32 +23,31 @@ export type DappFunctionLogAthenaProps = {
 export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     dapp,
     contractFunction,
-    setDappFunction 
+    setFunctionState
 }) =>{
 
+    const [reducedFunctionState, reduceFunctionState] = useReducer(
+        (state : OpenContractFunctionI, update : log.reduceContractFunctionI)=>{
+            console.log("Attempting to reduce...", update(state));
+            setFunctionState && setFunctionState(update(state));
+            return update(state);
+        },
+        contractFunction
+    )
     
-
-    const resetArgs = (
-        oc : OpenContractFunctionI,
-        setOc ? : (oc : OpenContractFunctionI)=>void
-    )=>{
-        setOc && setOc({
-            ...oc,
-            inputs : log.resetInputs(oc.inputs)
+    const resetArgs = (reduceFunctionState : (update : log.reduceContractFunctionI)=>void)=>{
+        reduceFunctionState((oc : OpenContractFunctionI)=>{
+            return {
+                ...oc,
+                inputs : log.resetInputs(oc.inputs)
+            }
         })
     }
-
-    const inputs = log.createInputs(
-        contractFunction.inputs,
-        contractFunction,
-        setDappFunction
-    );
     const updatedPuts = log.produceUpdatedPuts(
         contractFunction.puts,
         contractFunction,
-        setDappFunction
+        reduceFunctionState
     );
-    console.log(updatedPuts);
     const puts = updatedPuts.reduce((agg, put, index)=>{
         return [
             ...agg,
@@ -57,7 +56,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                     <><DappPut 
                         key={generate()}
                         contractFunction={contractFunction}
-                        setContractFunction={setDappFunction}
+                        reduceContractFunction={reduceFunctionState}
                         end={index > (contractFunction.puts ? contractFunction.puts.length - 2 : -1)}
                         index={index} put={put}/><br/></>
                 )
@@ -67,23 +66,25 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
 
     const addOutput = (name : string, message : string)=>{
-        const newOutput = {
-            name : name,
-            value : message
-        };
-        const _newFuctionState = {
-            ...contractFunction,
-            ...contractFunction.requiresOracle ? {
-                result : "Oracle output received! See below."
-            } : {},
-            prints : [...contractFunction.prints||[], newOutput],
-            puts : [...contractFunction.puts||[], ...log.createOutputs(
-                [newOutput],
-                contractFunction,
-                setDappFunction
-            )]
+        const update = (contractFunction : OpenContractFunctionI)=>{
+            const newOutput = {
+                name : name,
+                value : message
+            };
+            return {
+                ...contractFunction,
+                ...contractFunction.requiresOracle ? {
+                    result : "Oracle output received! See below."
+                } : {},
+                prints : [...contractFunction.prints||[], newOutput],
+                puts : [...contractFunction.puts||[], ...log.createOutputs(
+                    [newOutput],
+                    contractFunction,
+                    reduceFunctionState
+                )]
+            }
         }
-        setDappFunction && setDappFunction(_newFuctionState);
+        reduceFunctionState(update);
     }
     contractFunction.printHandler = async (message : string)=>{
         addOutput("Output received!", message)
@@ -94,56 +95,67 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         resolve : (msg : string)=>void,
         reject : (msg : string)=>void
     )=>{
-        const newOracleInput = {
-            prompt : data,
-            response : undefined,
-            id : generate()
+        const update = (contractFunction : OpenContractFunctionI)=>{
+            console.log("Input update!: ", contractFunction);
+            const newOracleInput = {
+                prompt : data,
+                response : undefined,
+                id : generate()
+            }
+            return {
+                ...contractFunction,
+                oracleInputs : {
+                    ...contractFunction.oracleInputs, 
+                    [newOracleInput.id] : newOracleInput
+                },
+                puts : [...contractFunction.puts||[], ...log.createOracleInputs(
+                    {[newOracleInput.id] : newOracleInput},
+                    contractFunction,
+                    resolve,
+                    reject,
+                    reduceFunctionState
+                )]
+            }
         }
-        const _newFunctionState = {
+        reduceFunctionState(update);
+    };
+    useEffect(()=>{
+        setFunctionState && setFunctionState({
             ...contractFunction,
-            oracleInputs : {
-                ...contractFunction.oracleInputs, 
-                [newOracleInput.id] : newOracleInput
-            },
-            puts : [...contractFunction.puts||[], ...log.createOracleInputs(
-                {[newOracleInput.id] : newOracleInput},
-                contractFunction,
-                resolve,
-                reject,
-                setDappFunction
-            )]
+        })
+    }, [contractFunction.puts])
+    useEffect(()=>{
+        contractFunction.inputHandler = async (message : string)=>{
+            console.log(contractFunction);
+            return new Promise((resolve, reject)=>{
+                console.log("Input received!");
+                addOracleInput(message, resolve, reject);
+            })
         }
-        setDappFunction &&  setDappFunction({
-            ..._newFunctionState,
-        })
-    }
-    contractFunction.inputHandler = async (message : string)=>{
-        return new Promise((resolve, reject)=>{
-            addOracleInput(message, resolve, reject);
-        })
-    }
+    })
 
     const addError = (name : string, e : any)=>{
-        const newError = {
-            name : name,
-            description : e
+        const update = (contractFunction : OpenContractFunctionI)=>{
+            const newError = {
+                name : name,
+                description : e
+            }
+            const _newFunctionState = {
+                ...contractFunction,
+                errors : [...contractFunction.errors||[], newError],
+                puts : [...(contractFunction.puts||[]), ...log.createErrors(
+                    [newError], 
+                    resetArgs,
+                    contractFunction,
+                    reduceFunctionState
+                )]
+            }
+            return _newFunctionState;
         }
-        const _newFunctionState = {
-            ...contractFunction,
-            errors : [...contractFunction.errors||[], newError],
-            puts : [...(contractFunction.puts||[]), ...log.createErrors(
-                [newError], 
-                resetArgs,
-                contractFunction,
-                setDappFunction
-            )]
-        }
-        setDappFunction && setDappFunction(_newFunctionState)
+        reduceFunctionState(update);
     }
 
     const handleError = async (message : string)=>{
-
-        
 
         addError("An error occurred!", message);
 
@@ -156,29 +168,33 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         reject : OpenContractFunctionI["oraclePromiseReject"]
     )=>{
         
-        setDappFunction && setDappFunction({
+        reduceFunctionState((contractFunction)=>{
+           return {
             ...contractFunction,
             oracleData : data,
             oraclePromiseResolve : resolve,
             oraclePromiseReject : reject
+           }
         })
+
     }
 
     const addResult = (data : OpenContractFunctionI["result"])=>{
-        console.log("Adding result!...", data);
-        const _newFunctionState = {
-            ...contractFunction,
-            result : data,
-            puts : [...contractFunction.puts||[], log.createResult(
-                data,
-                contractFunction,
-                setDappFunction
-            )]
+
+        const update = (contractFunction : OpenContractFunctionI)=>{
+            const _newFunctionState = {
+                ...contractFunction,
+                result : data,
+                puts : [...contractFunction.puts||[], log.createResult(
+                    data,
+                    contractFunction,
+                    reduceFunctionState
+                )]
+            }
+            return _newFunctionState;
         }
-        setDappFunction &&  setDappFunction({
-            ..._newFunctionState,
-            
-        })
+        reduceFunctionState(update);
+
     }
 
     const [oracleStates, setOracleStates] = useReducer<
@@ -259,14 +275,12 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
 
     const addOracleCallput = (call : ()=>Promise<string>)=>{
-        const _newFunctionState : OpenContractFunctionI = {
-            ...contractFunction,
-            callOracle : call
-        }
-        setDappFunction &&  setDappFunction({
-            ..._newFunctionState,
-
-        });
+        reduceFunctionState((contractFunction)=>{
+            return {
+                ...contractFunction,
+                callOracle : call
+            }
+        })
     }
 
     const handleSubmit = async (call : ()=>Promise<string>)=>{
@@ -276,7 +290,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const handleCall = async ()=>{
 
-        console.log("Calling!");
+        
 
        return new Promise((resolve, reject)=>{
 
@@ -320,10 +334,10 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             } 
             contractFunction.call(contractFunction).then((data)=>{
                 addResult(data);
-                console.log("Data is", data);
+                
                 resolve(data);
             }).catch((err)=>{
-                console.log(err);
+                
                 addError("An error occurred!", err.toString());
                 resolve({});
             })
@@ -332,12 +346,13 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
 
     const addInteractput = (name : string, targetUrl : string, sessionUrl : string)=>{
+      reduceFunctionState((contractFunction)=>{
         const newXpra =  {
             name : name,
             description : targetUrl,
             value : sessionUrl
         };
-        const _newFuctionState = {
+        return {
             ...contractFunction,
             ...contractFunction.requiresOracle ? {
                 result : "Oracle output received! See below."
@@ -346,10 +361,10 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             puts : [...contractFunction.puts||[], ...log.createXpras(
                 [newXpra],
                 contractFunction,
-                setDappFunction
+                reduceFunctionState
             )]
         }
-        setDappFunction && setDappFunction(_newFuctionState);
+      });
 
     }
 
@@ -369,12 +384,11 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 paddingBottom : DesktopSizes.Padding.standard,
             }}>
                 <DappFunctionLogRunButton
-                    setContractFunction={setDappFunction}
+                    reduceContractFunction={reduceFunctionState}
                     contractFunction={contractFunction}
                 />
                 <br/>
                 <DappFunctionSubmitState
-                    setFunc={setDappFunction}
                     loadOracleData={loadOracleData}
                     call={handleCall}
                     contractFunction={contractFunction}

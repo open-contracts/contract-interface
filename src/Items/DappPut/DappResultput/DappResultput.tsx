@@ -6,12 +6,13 @@ import { DappResultputHeader } from './DappResultputHeader';
 import { DappResultputContent } from './DappResultputContent';
 import { darkenStandard } from '../Methods';
 import { DesktopSizes } from '../../../Theme';
+import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 
 export type DappPutResultputProps = {
     style ? : React.CSSProperties
     dappResultput : DappResultputI,
     contractFunction : OpenContractFunctionI,
-    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
+    reduceContractFunction ? : (contractFunction : reduceContractFunctionI)=>void
 }
 
 export const DappResultput : FC<DappPutResultputProps>  = ({
