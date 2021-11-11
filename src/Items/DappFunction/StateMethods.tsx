@@ -131,7 +131,7 @@ export const createResult = (
         contractFunction : contractFunction,
         setContractFunction : setFunc,
         name : contractFunction.name,
-        value : contractFunction.result,
+        value : data,
         putType : "result"
     }
 }

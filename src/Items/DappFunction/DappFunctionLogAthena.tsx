@@ -47,7 +47,8 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         contractFunction.puts,
         contractFunction,
         setDappFunction
-    )
+    );
+    console.log(updatedPuts);
     const puts = updatedPuts.reduce((agg, put, index)=>{
         return [
             ...agg,
@@ -164,6 +165,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
 
     const addResult = (data : OpenContractFunctionI["result"])=>{
+        console.log("Adding result!...", data);
         const _newFunctionState = {
             ...contractFunction,
             result : data,
@@ -274,6 +276,8 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const handleCall = async ()=>{
 
+        console.log("Calling!");
+
        return new Promise((resolve, reject)=>{
 
             /*addResult(<div style={{
@@ -315,9 +319,11 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 return;
             } 
             contractFunction.call(contractFunction).then((data)=>{
-                addResult(data.length ? data : "Success!");
+                addResult(data);
+                console.log("Data is", data);
                 resolve(data);
             }).catch((err)=>{
+                console.log(err);
                 addError("An error occurred!", err.toString());
                 resolve({});
             })
