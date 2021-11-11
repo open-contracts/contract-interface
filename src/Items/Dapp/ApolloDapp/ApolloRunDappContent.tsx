@@ -43,14 +43,15 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 alignContent : "center",
                 alignItems : "center",
                 borderBottom : `1px solid ${Colors.Maintheme}`,
-                position : "relative"
+                position : "relative",
+                overflow  : "visible"
             }}>
                 <AthenaButton
                     onClick={handleGrid}
                     primaryColor={Colors.Maintheme}
                     secondaryColor={Colors.quartenaryTextColor}
                     style={{
-                        zIndex : 100,
+                        zIndex : 1000,
                         position : "relative",
                         top : grid ? "1px" : 0,
                         borderBottomRightRadius : "0px",
@@ -83,6 +84,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 </AthenaButton>
             </div>
             <div style={{
+                zIndex : 0,
                 background : Colors.quartenaryTextColor
             }}>
                 {grid ? Grid : Single}

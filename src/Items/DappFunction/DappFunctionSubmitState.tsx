@@ -9,20 +9,29 @@ export type DappFunctionSubmitStateProps = {
     contractFunction : OpenContractFunctionI,
     call : ()=>Promise<any>,
     loadOracleData : ()=>Promise<{[key : string] : string}>,
-
+    reduceContractFunction :  (contractFunction : pure.reduceContractFunctionI)=>void
 }
 
 export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
     contractFunction,
     call,
     loadOracleData,
+    reduceContractFunction
 }) =>{
 
     const map = contractFunction.oracleData||{};
     const resolved = pure.allPromisesResolved(map);
     const count = pure.countPromisesResolved(map);
     
-    
+    const resetLog = ()=>{
+        reduceContractFunction((state)=>{
+            return {
+                ...state,
+                puts : [],
+                oracleData : undefined
+            }
+        })
+    }
     
 
     return (
@@ -33,6 +42,13 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
             justifyItems : "right",
             fontSize : "18px"
         }}>
+            <AthenaButton
+                onClick={resetLog}
+                primaryColor={Colors.failedRed}
+                secondaryColor={"white"}
+                >
+                    Reset log
+            </AthenaButton>
             {contractFunction.requiresOracle && <AthenaButton
                 action={loadOracleData as unknown as any}
                 style={{

@@ -391,6 +391,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 />
                 <br/>
                 <DappFunctionSubmitState
+                    reduceContractFunction={reduceFunctionState}
                     loadOracleData={loadOracleData}
                     call={handleCall}
                     contractFunction={contractFunction}

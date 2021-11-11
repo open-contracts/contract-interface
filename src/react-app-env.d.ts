@@ -1,6 +1,7 @@
 /// <reference types="react-scripts" />
 
-import {ether, ethers} from "ethers";
+import {ethers} from "ethers";
+import {DappPutI} from  "./Items/DappPut/DappPutType";
 
 
 declare global {
@@ -9,7 +10,7 @@ declare global {
         ethereum : ethers.providers.ExternalProvider
         hexStringtoArray(hexString : string) : number[];
         b64Url2Buff(b64urlstring : string) : Buffer;
-        async githubOracleDownloader(user : string, repo : string, ref : string, folder : OpenContractFunctionI["oracleFolder"])
+        githubOracleDownloader(user : string, repo : string, ref : string, folder : OpenContractFunctionI["oracleFolder"]):Promise<any>;
 
         extractContentIfValid(attestationData : any) : Promise<void>;
 
@@ -50,8 +51,8 @@ declare global {
     
     interface PutI {
         internalType ? : string;
-        name ?:         string;
-        type ? :         InputTypeE;
+        name :         string;
+        type ? :         string;
         indexed?:     boolean;
     }
     
@@ -118,7 +119,7 @@ declare global {
     }
     
     interface OpnTokenI extends ethers.Contract{
-        async gimmeSomeMoreOfDemCoins()
+        getOPN() : Promise<void>
     }
     
     interface OpenContractFunctionI {
@@ -146,14 +147,12 @@ declare global {
             }
         },
         oracleData ? : {
-            [key : string] : string
-        } | {
-            [key : string] : Promise<string>
+            [key : string] : string | Promise<string>
         },
-        call : (state  ? : OracleContractFunctionI)=>Promise<any>,
+        call : (state  ? : OpenContractFunctionI)=>Promise<any>,
         callOracle ? : ()=>Promise<string>,
         submitHandler : (call : ()=>Promise<string>)=>Promise<any>,
-        xpraHandler : (targetUrl : string, sessionUrl : string, xpraExit : promise)=>Promise<any>,
+        xpraHandler : (targetUrl : string, sessionUrl : string, xpraExit : Promise<any>)=>Promise<any>,
         inputHandler : (message : string)=>Promise<any>,
         printHandler : (message : string)=>Promise<any>
         errorHandler : (e : Error)=>Promise<any>

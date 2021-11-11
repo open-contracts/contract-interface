@@ -18,15 +18,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
-.env
-=======
-
 .env
 
-src
-.storybook
-public
-package.json
-tsconfig.json
->>>>>>> 2dc049f (Cleaning up main.)

@@ -50,7 +50,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         lineHeight : "18px"
                     }}>
                         <DappInputHeader dappInput={input} style={{
-                            width : "50px",
+                            // width : "50px",
                             fontSize : "16px",
                         }}/>
                         <br/>

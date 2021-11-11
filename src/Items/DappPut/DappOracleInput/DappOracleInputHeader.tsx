@@ -13,19 +13,10 @@ export const DappOracleInputHeader : FC<DappOracleInputHeaderProps>  = ({
     style
 }) =>{
 
-    const _inputName = dappOracleInput.name.split(" ").map((val, index)=>{
-        const lower = val.toLowerCase();
-        return (lower.length && index > 0) ? `${lower[0].toUpperCase()}${lower.substr(1)}` : lower;
-    }).join("");
-    const inputName = _inputName.replace(/\s|\W/, "");
-    const tempOracleInput = {
-        ...dappOracleInput,
-        name : inputName
-    }
 
     return (
 
-        <DefaultHeader dappPut={tempOracleInput} style={{
+        <DefaultHeader dappPut={dappOracleInput} style={{
             color : Colors.babyBlue,
             ...style
         }}>

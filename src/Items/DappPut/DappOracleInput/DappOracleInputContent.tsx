@@ -53,7 +53,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
         }}>
             <TextInputApollo 
                 value={text}
-                placeholder={dappOracleInput.prompt}
+                placeholder={"Enter value"}
                 onTextInput={onTextOracleInput}
                 onSubmit={onTextSubmit}
               style={{
