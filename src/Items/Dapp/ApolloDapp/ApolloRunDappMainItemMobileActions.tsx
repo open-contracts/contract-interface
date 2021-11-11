@@ -19,12 +19,16 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
 
     const getTokens = async ()=>{
         if(dapp.contract){
-
-            const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-            const signerToken =  dapp.contract.OPNtoken.connect(provider.getSigner());
-            await signerToken.gimmeSomeMoreOfDemCoins();
+            await (dapp.contract as any).getOPN('3')
         }
     }
+
+    const approveHub = async ()=>{
+        if(dapp.contract){
+            await (dapp.contract as any).approveOPN('3')
+        }
+    }
+
 
     return (
 
@@ -48,6 +52,7 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                 gap : DesktopSizes.Padding.standard
             }}>
                 <AthenaButton 
+                onClick={()=>{window.open(gitUrl)}}
                 style={{
                     width : "100%",
                 }}
@@ -79,6 +84,7 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                     </div>
                 </AthenaButton>
                 <AthenaButton 
+                    action={approveHub}
                     style={{
                         width : "100%"
                     }}

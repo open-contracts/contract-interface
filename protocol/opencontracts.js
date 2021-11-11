@@ -1,3 +1,46 @@
+/**
+ * Error type to be thrown when error is in the enclave.
+ */
+const enclaveErrorTypeName = "EnclaveError";
+class EnclaveError extends Error{
+    /**
+     * Constructs an EnclaveError
+     * @param {string} message 
+     */
+    constructor(message){
+        super(message);
+        this.name = enclaveErrorTypeName
+    }
+}
+/**
+ * Error type to be thrown when error is in the registry.
+ */
+ const registryErrorTypeName = "RegistryError";
+ class RegistryError extends Error{
+     /**
+      * Constructs a RegistryError
+      * @param {string} message 
+      */
+     constructor(message){
+         super(message);
+         this.name = registryErrorTypeName
+     }
+ }
+/**
+ * Error type to be thrown when error is on the client.
+ */
+const clientErrorTypeName = "ClientError";
+class ClientError extends Error{
+    /**
+     * Constructs a Client Error.
+     * @param {string} message 
+     */
+    constructor(message){
+        super(message);
+        this.name = clientErrorTypeName
+    }
+}
+
 function hexStringToArray(hexString) {
     var pairs = hexString.match(/[\dA-F]{2}/gi);
     var integers = pairs.map(function(s) {return parseInt(s, 16);});
@@ -124,10 +167,13 @@ async function enclaveSession(opencontracts, f) {
     var timer = setInterval(() => {secondsPassed++; if (secondsPassed>30) {clearInterval(timer)}}, 1000);
     ws.onerror = function(event) {
         if (secondsPassed < 10) {
-            f.errorHandler("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
-	    // throw new Error("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.");
+            f.errorHandler(
+                new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
+            )
 	} else {
-        f.errorHandler("Late WebSocket failure. Probable reason: no registry available at this IP.")
+        f.errorHandler(
+            new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
+        )
 	}
     }; 
     ws.onopen = function () {
@@ -138,7 +184,9 @@ async function enclaveSession(opencontracts, f) {
         if (data['fname'] == 'return_oracle_ip') {
             ws.close();
 	    if (data['ip'].toUpperCase() == "N/A") {
-            f.errorHandler("No enclave available, try again in a bit or try a different registry.");
+            f.errorHandler(
+                new RegistryError("No enclave available, try again in a bit or try a different registry.")
+            );
         }
 	    console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
 	    setTimeout(async () => {await connect(data['ip'])}, 11000);
@@ -164,7 +212,9 @@ async function enclaveSession(opencontracts, f) {
 		ws.send(JSON.stringify(await encrypt(AESkey, f.oracleData)));
 		ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
 	    } else if (data['fname'] == "busy") {
-            f.errorHandler("Oracle is busy. Request a new IP.");
+            f.errorHandler(
+                new EnclaveError("Oracle is busy. Request a new IP.")
+            );
 	    }
 	    if (data['fname'] == 'encrypted') {
 	        data = await decrypt(AESkey, data);
@@ -186,7 +236,9 @@ async function enclaveSession(opencontracts, f) {
 							    data['oracleProvider'], data['registrySignature']);
 		    });
 		} else if (data['fname'] == 'error') {
-		    await f.errorHandler(data['traceback'])
+		    await f.errorHandler(
+                new EnclaveError(data['traceback'])
+            )
 		}
 	    }
 	}
@@ -210,8 +262,8 @@ async function githubOracleDownloader(user, repo, ref, dir) {
         const url = new URL(link);
         const response = await fetch(url);
         return btoa(new Uint8Array(await response.arrayBuffer()).reduce(
-		(data, byte) => {return data + String.fromCharCode(byte);}, '')
-	);
+            (data, byte) => {return data + String.fromCharCode(byte);}, '')
+        );
     }
     const downloads = Object.entries(links).map(
 	     ([file, link]) => [file, downloadAsBase64(link)]
@@ -229,9 +281,9 @@ async function getOraclePys(user, repo, ref) {
         if (contract.abi[i].oracleFolder == undefined) {continue}
         if (oraclePys[contract.abi[i].oracleFolder] == undefined) {
             oraclePys[contract.abi[i].oracleFolder] = {fnames: []};
-	    const response = await fetch(new URL(
+            const response = await fetch(new URL(
                 `https://raw.githubusercontent.com/${user}/${repo}/${ref}/${contract.abi[i].oracleFolder}/oracle.py`
-	    ));
+            ));
             oraclePys[contract.abi[i].oracleFolder].file = await response.text();
 	}
         oraclePys[contract.abi[i].oracleFolder].fnames.push(contract.abi[i].name);
@@ -258,7 +310,7 @@ async function OpenContracts() {
             opencontracts.network = (await opencontracts.provider.getNetwork()).name;
             opencontracts.signer = opencontracts.provider.getSigner();
         } else {
-            throw new Error("No Metamask detected.");
+            throw new ClientError("No Metamask detected.");
         }
     }
     
@@ -266,7 +318,7 @@ async function OpenContracts() {
     opencontracts.parseContracts = function (oc_interface, contract_interface) {
         if (!(opencontracts.network in oc_interface)) {
             var errormsg = "Your Metamask is set to " + opencontracts.network + ", which is not supported by Open Contracts.";
-            throw new Error(errormsg + " Set your Metamask to one of: " +  Object.keys(oc_interface));
+            throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(oc_interface));
         } else {
             const token = oc_interface[opencontracts.network].token;
             opencontracts.OPNtoken = new ethers.Contract(token.address, token.abi, opencontracts.provider);
@@ -274,7 +326,7 @@ async function OpenContracts() {
             opencontracts.OPNforwarder = new ethers.Contract(forwarder.address, forwarder.abi, opencontracts.provider);
             const hub = oc_interface[opencontracts.network].hub;
             opencontracts.OPNhub = new ethers.Contract(hub.address, hub.abi, opencontracts.provider);
-	    opencontracts.getOPN = async function (amountString) {
+            opencontracts.getOPN = async function (amountString) {
                 const amount = ethers.utils.parseEther(amountString);
                 await opencontracts.OPNtoken.connect(opencontracts.signer).mint(amount);
 	    }
@@ -286,7 +338,7 @@ async function OpenContracts() {
         
         if (!(opencontracts.network in contract_interface)) {
             var errormsg = "Your Metamask is set to " + opencontracts.network + ", which is not supported by this contract.";
-            throw new Error(errormsg + " Set your Metamask to one of: " +  Object.keys(contract_interface));
+            throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(contract_interface));
         } else {
             const contract = contract_interface[opencontracts.network];
             opencontracts.contract = new ethers.Contract(contract.address, contract.abi, opencontracts.provider);
@@ -297,29 +349,29 @@ async function OpenContracts() {
                 if (contract.abi[i].type == 'constructor') {continue}
                 const f = {};
                 f.name = contract.abi[i].name;
-		f.description = contract.abi[i].description
+                f.description = contract.abi[i].description
                 f.stateMutability = contract.abi[i].stateMutability;
                 f.oracleFolder = contract.abi[i].oracleFolder;
                 f.requiresOracle = (f.oracleFolder != undefined);
-		if (f.requiresOracle) {
-		    f.printHandler = async function(message) {
+                if (f.requiresOracle) {
+                    f.printHandler = async function(message) {
 			    console.warn(`Warning: using default (popup) printHandler for function ${f.name}`); 
 			    alert(message);
-		    };
-		    f.inputHandler = async function (message) {
+                    };
+                    f.inputHandler = async function (message) {
 			    console.warn(`Warning: using default (popup) inputHandler for function ${f.name}`); 
 			    return prompt(message);
 		    };
-		    f.xpraHandler = async function(targetUrl, sessionUrl, xpraExit) {
-			    console.warn(`Warning: using default (popup) xpraHandler for function ${f.name}`); 
-			    if (window.confirm(`open interactive session to {targetUrl} in new tab?`)) {
-		                var newWin = window.open(sessionUrl,'_blank');
-				xpraExit.then(newWin.close);
-                                if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
-				    alert("Could not open new window. Set your browser to allow popups and click ok.");
-				    f.xpraHandler(targetUrl, sessionUrl);
-				}
-			    }
+                    f.xpraHandler = async function(targetUrl, sessionUrl, xpraExit) {
+                        console.warn(`Warning: using default (popup) xpraHandler for function ${f.name}`); 
+                        if (window.confirm(`open interactive session to {targetUrl} in new tab?`)) {
+                            var newWin = window.open(sessionUrl,'_blank');
+                            xpraExit.then(newWin.close);
+                            if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
+                                alert("Could not open new window. Set your browser to allow popups and click ok.");
+                                f.xpraHandler(targetUrl, sessionUrl);
+                            }
+                        }
 		    };
 		    f.errorHandler = async function (message) {
 			    console.warn(`Warning: using default (popup) errorHandler for function ${f.name}`); 
@@ -346,7 +398,7 @@ async function OpenContracts() {
                     _f = state || f
                     const unspecifiedInputs = _f.inputs.filter(i=>i.value == null).map(i => i.name);
                     if (unspecifiedInputs.length > 0) {
-                        throw new Error(`The following inputs to "${_f.name}" were unspecified:  ${unspecifiedInputs}`);
+                        throw new ClientError(`The following inputs to "${_f.name}" were unspecified:  ${unspecifiedInputs}`);
                     }
                     for (let i = 0; i < _f.inputs.length; i++) {
                         if ((_f.inputs[i].type === "bool") && (typeof _f.inputs[i].value === 'string')) {
@@ -354,10 +406,20 @@ async function OpenContracts() {
                         }
                     }
                     if (_f.requiresOracle) {
-                                if (_f.oracleData == undefined) {
-                                    throw new Error(`No oracleData specified for "${_f.name}".`)
-                                };
-                        return await enclaveSession(opencontracts, _f);
+                        _f.oracleData = await _f.oracleData;
+                        if (_f.oracleData == undefined) {
+                            throw new ClientError(`No oracleData specified for "${_f.name}".`)
+                        } else {
+                            console.log("oracle data: ", _f.oracleData);
+                            files = Object.keys(_f.oracleData);
+                            if (!files.includes("oracle.py")) {throw new Error("No oracle.py in f.oracleData!")}
+                            if (!files.includes("requirements.txt")) {throw new Error("No requirements.txt in oracleData!")}
+                            if (!files.includes("domain_whitelist.txt")) {throw new Error("No domain_whitelist.txt in f.oracleData!")}
+                            for (let i = 0; i < files.length; i++) {
+                                _f.oracleData[files[i]] = await _f.oracleData[files[i]];
+                            }
+                            return await enclaveSession(opencontracts, _f);
+                        }
                     } else {
                         return await ethereumTransaction(opencontracts, _f);
                     }
@@ -369,7 +431,3 @@ async function OpenContracts() {
     
     return opencontracts;
 }
-
-
-
-

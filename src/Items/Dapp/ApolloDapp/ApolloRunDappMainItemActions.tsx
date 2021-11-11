@@ -19,11 +19,13 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
 
     const getTokens = async ()=>{
         if(dapp.contract){
+            await (dapp.contract as any).getOPN('3')
+        }
+    }
 
-            const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-            const signerToken =  dapp.contract.OPNtoken.connect(provider.getSigner());
-            
-            await signerToken.gimmeSomeMoreOfDemCoins();
+    const approveHub = async ()=>{
+        if(dapp.contract){
+            await (dapp.contract as any).approveOPN('3')
         }
     }
 
@@ -46,7 +48,9 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 alignContent : "center",
                 alignItems : "center"
             }}>
-                <AthenaButton primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                <AthenaButton 
+                onClick={()=>{window.open(gitUrl)}}
+                primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -69,6 +73,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 </AthenaButton>
                 &emsp;
                 <AthenaButton 
+                    action={approveHub}
                     primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
                         display : "flex",
