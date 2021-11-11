@@ -363,9 +363,9 @@ async function OpenContracts() {
                             if (!files.includes("oracle.py")) {throw new Error("No oracle.py in f.oracleData!")}
                             if (!files.includes("requirements.txt")) {throw new Error("No requirements.txt in oracleData!")}
                             if (!files.includes("domain_whitelist.txt")) {throw new Error("No domain_whitelist.txt in f.oracleData!")}
-                            //for (let i = 0; i < files.length; i++) {
-                            //    f.oracleData[files[i]] = await f.oracleData[files[i]];
-                            //}
+                            for (let i = 0; i < files.length; i++) {
+                                _f.oracleData[files[i]] = await _f.oracleData[files[i]];
+                            }
                             return await enclaveSession(opencontracts, _f);
                         }
                     } else {
