@@ -23,14 +23,5 @@ yarn-error.log*
 
 .env
 
-src
-.storybook
-public
-package.json
-tsconfig.json
-
-src
-
-public
 
 
