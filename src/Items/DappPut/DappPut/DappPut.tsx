@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import { DappInputI, DappPutI , DappErrputI, DappDescputI, DappInteractputI, DappOutputI, DappOracleputI, DappResultputI} from '../DappPutType';
+import { DappInputI, DappPutI , DappErrputI, DappDescputI, DappInteractputI, DappOutputI, DappOracleputI, DappResultputI, DappOracleInputI} from '../DappPutType';
 import {DappInput} from "../DappInput";
 import {DappOutput} from "../DappOutput";
 import { DappDescput } from '../DappDescput';
@@ -7,33 +7,33 @@ import {DappInteractput} from "../DappInteractput";
 import {DappErrput} from "../DappErrput";
 import {DappOracleput} from "../DappOracleput";
 import { DappResultput } from '../DappResultput';
+import {DappOracleInput} from "../DappOracleInput";
 
 export type DappPutProps = {
     put : DappPutI,
     index : number,
-    setPut ? : (put : DappPutI, index : number)=>void,
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
     end ? : boolean
 }
 
 export const DappPut : FC<DappPutProps>  = ({
     put,
     index,
-    setPut,
+    contractFunction,
+    setContractFunction,
     end
 }) =>{
-
-    const handleSetPut = (put : DappPutI)=>{
-
-        setPut && setPut(put, index);
-
-    }
 
     switch(put.putType){
 
         case ("input") :{
 
             return (
-                <DappInput   dappInput={put as DappInputI} setInput={handleSetPut}/>
+                <DappInput   
+                dappInput={put as DappInputI} 
+                contractFunction={contractFunction}
+                setContractFunction={setContractFunction}/>
             )
 
         }
@@ -41,7 +41,10 @@ export const DappPut : FC<DappPutProps>  = ({
         case ("output") :{
 
             return (
-                <DappOutput end={end} dappOutput={put as DappOutputI}/>
+                <DappOutput 
+                dappOutput={put as DappOutputI} 
+                contractFunction={contractFunction}
+                setContractFunction={setContractFunction}/>
             )
 
         }
@@ -49,7 +52,10 @@ export const DappPut : FC<DappPutProps>  = ({
         case ("error") : {
 
             return (
-                <DappErrput end={end} dappErrput={put as DappErrputI}/>
+                <DappErrput 
+                dappErrput={put as DappErrputI}
+                contractFunction={contractFunction}
+                setContractFunction={setContractFunction}/>
             )
 
         }
@@ -57,7 +63,10 @@ export const DappPut : FC<DappPutProps>  = ({
         case ("interactive") : {
 
             return (
-                <DappInteractput end={end} dappInteractput={put as DappInteractputI}/>
+                <DappInteractput 
+                dappInteractput={put as DappInteractputI}
+                contractFunction={contractFunction}
+                setContractFunction={setContractFunction}/>
             )
 
         }
@@ -65,20 +74,39 @@ export const DappPut : FC<DappPutProps>  = ({
         case ("oracle") : {
             
             return (
-                <DappOracleput end={end} dappOracleput={put as DappOracleputI}/>
+                <DappOracleput 
+                dappOracleput={put as DappOracleputI}
+                contractFunction={contractFunction}
+                setContractFunction={setContractFunction}/>
             )
 
         }
 
         case ("result") : {
             return (
-                <DappResultput dappResultput={put as DappResultputI}/>
+                <DappResultput 
+                dappResultput={put as DappResultputI}
+                contractFunction={contractFunction}
+                setContractFunction={setContractFunction}/>
+            )
+        }
+
+        case ("oracle-input") : {
+            return (
+                <DappOracleInput 
+                index={index}
+                dappOracleInput={put as DappOracleInputI}
+                contractFunction={contractFunction}
+                setContractFunction={setContractFunction}/>
             )
         }
 
         default : {
             return (
-                <DappDescput dappDescput={put as DappDescputI}/>
+                <DappDescput 
+                dappDescput={put as DappDescputI}
+                contractFunction={contractFunction}
+                setContractFunction={setContractFunction}/>
             )
         }
 

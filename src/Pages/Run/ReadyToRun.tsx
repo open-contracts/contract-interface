@@ -24,7 +24,7 @@ export const ReadyToRun : FC<ReadyToRunProps>  = ({
         branch
     } = useParams();
 
-    console.log(branch);
+    
 
     return (owner && repo) ?
     (<RunPageWithRepo stepStatus={stepStatus} repo={{

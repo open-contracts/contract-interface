@@ -15,13 +15,13 @@ export const DappOutputContent : FC<DappOutputContentProps>  = ({
     return (
 
         <div style={{
-            color : Colors.primaryTextColor,
+            color : Colors.Maintheme,
             width : "100%",
             display : "flex",
             alignContent : 'center',
             alignItems : "center"
         }}>
-            <AthenaButton primaryColor={Colors.royalBlue} secondaryColor={Colors.skyBlue} action={async ()=>{
+            <AthenaButton primaryColor={Colors.Maintheme} secondaryColor={"white"} action={async ()=>{
                 navigator.clipboard.writeText(dappOutput.value||"");
             }}>
                <div style={{
@@ -30,9 +30,9 @@ export const DappOutputContent : FC<DappOutputContentProps>  = ({
                    alignItems : "center"
                }}>
                     <Clipboard 
-                    style={{
-                        color : Colors.primaryTextColor
-                    }}/>
+                        style={{
+                            color : Colors.Maintheme
+                        }}/>
                </div>
             </AthenaButton>
             &emsp;

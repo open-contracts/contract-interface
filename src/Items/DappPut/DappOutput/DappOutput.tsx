@@ -8,7 +8,9 @@ import { DappOutputContent } from '../DappOutput/DappOutputContent';
 export type DappPutOutputProps = {
     style ? : React.CSSProperties
     dappOutput : DappOutputI,
-    end ? : boolean
+    end ? : boolean,
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
 }
 
 export const DappOutput : FC<DappPutOutputProps>  = ({
@@ -22,8 +24,8 @@ export const DappOutput : FC<DappPutOutputProps>  = ({
         <DappPutLayout 
         end={end}
         style={{
-            background : Colors.skyBlue,
-            border : `1px solid ${Colors.royalBlue}`,
+            background : "white",
+            border : `1px solid ${Colors.Maintheme}`,
             ...style
         }}>
             <DappPutLayout.Header>

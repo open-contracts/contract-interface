@@ -3,56 +3,50 @@ import { useState } from 'react';
 import { Play, PlayCircleFill, PlayFill } from 'react-bootstrap-icons';
 import { AthenaButton } from '../../Components/Buttons';
 import { Colors, DesktopSizes } from '../../Theme';
-import { DappI, parseGitUrl } from '../Dapp/Dapp';
-import { DappInput, DappPut } from '../DappPut';
-import { DappDescputI, DappErrputI, DappInputI, DappInteractputI, DappOracleputI, DappOutputI, DappPutI, DappResultputI } from '../DappPut/DappPutType';
-import {to} from "await-to-js";
-import { useEffect } from 'react';
 import { DappInputHeader } from '../DappPut/DappInput/DappInputHeader';
 import { DappResultput } from '../DappPut/DappResultput';
 import { ArrowReturnRight } from 'react-bootstrap-icons';
 import { TextInputApollo } from '../../Components/TextInput';
-export const createResult = (contractFunction : OpenContractFunctionI) : DappResultputI=>{
-    return {
-        name : contractFunction.name,
-        value : contractFunction.result,
-        putType : "result"
-    }
-}
+import * as pure from "./StateMethods";
+import {generate} from "shortid";
+
 
 export type DappFunctionLogRunButtonProps = {
     contractFunction : OpenContractFunctionI,
-    puts : DappPutI[],
-    setPut : (put : DappPutI, index : number)=>void
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void,
 }
 
 export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
-    puts,
     contractFunction,
-    setPut
+    setContractFunction
 }) =>{
 
-    console.log("Puts received...", puts);
+    console.log(contractFunction);
 
-    const inputs = puts.reduce((agg, put, index)=>{
-        
+    const inputs = pure.createInputs(
+        contractFunction.inputs,
+        contractFunction,
+        setContractFunction
+    ).map((input, index)=>{
+
         const onTextInput = (text : string)=>{
-            setPut({
-                ...put,
+
+            input.contractFunction.inputs[index] = {
+                ...input.contractFunction.inputs[index],
                 value : text
-            } as DappInputI, index)
+            }
+            input.setContractFunction && input.setContractFunction(contractFunction);
         }
-        return [
-            ...agg,
-            ...put.putType === "input" ? [
-                (
-                    <div style={{
+        return (
+                    <div 
+                    key={`${index}-${input.name}`}
+                    style={{
                         alignContent : 'center',
                         alignItems : "center",
                         paddingBottom : DesktopSizes.Padding.standard,
                         lineHeight : "18px"
                     }}>
-                        <DappInputHeader dappInput={put as DappInputI} style={{
+                        <DappInputHeader dappInput={input} style={{
                             width : "50px",
                             fontSize : "16px",
                         }}/>
@@ -67,7 +61,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                            &emsp;<span style={{
                                fontSize : "16px"
                            }}>=&emsp;</span><TextInputApollo
-                            value={put.value ? put.value : ""}
+                           value={input.value || ""}
                             onTextInput={onTextInput}
                             style={{
                                 fontSize : "16px"
@@ -75,9 +69,8 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         </div>
                     </div>
                 )
-            ] : []
-        ]
-    }, [] as React.ReactNode[])
+         
+    })
     return (
              <div style={{
                 position : "relative",

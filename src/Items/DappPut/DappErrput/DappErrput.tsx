@@ -8,7 +8,9 @@ import { DappErrputContent } from './DappErrputContent';
 export type DappPutErrputProps = {
     style ? : React.CSSProperties
     dappErrput : DappErrputI,
-    end ? : boolean
+    end ? : boolean,
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
 }
 
 export const DappErrput : FC<DappPutErrputProps>  = ({

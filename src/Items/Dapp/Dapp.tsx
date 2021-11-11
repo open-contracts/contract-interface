@@ -35,7 +35,7 @@ export const parseGitUrl = (url : string) : {
 
     const split = substr.split("/");
 
-    console.log(split);
+    
 
     return {
         owner : split.length ? split[0] : undefined,

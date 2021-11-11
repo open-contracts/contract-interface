@@ -8,6 +8,8 @@ import { DappDescputContent } from './DappDescputContent';
 export type DappPutDescputProps = {
     style ? : React.CSSProperties
     dappDescput : DappDescputI
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
 }
 
 export const DappDescput : FC<DappPutDescputProps>  = ({

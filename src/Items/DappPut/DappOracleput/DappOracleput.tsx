@@ -9,6 +9,8 @@ export type DappPutOracleputProps = {
     style ? : React.CSSProperties
     dappOracleput : DappOracleputI,
     end ? : boolean
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
 }
 
 export const DappOracleput : FC<DappPutOracleputProps>  = ({

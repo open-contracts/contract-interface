@@ -12,6 +12,10 @@ export const DappErrputContent : FC<DappErrputContentProps>  = ({
     dappErrput
 }) =>{
 
+    const resetArgs = ()=>{
+        dappErrput.resetArgs(dappErrput.contractFunction, dappErrput.setContractFunction);
+    }
+
     return (
 
         <div style={{
@@ -19,7 +23,7 @@ export const DappErrputContent : FC<DappErrputContentProps>  = ({
         }}>
             {dappErrput.value}
             <AthenaButton
-                    onClick={dappErrput.resetArgs}
+                    onClick={resetArgs}
                     primaryColor={darkenStandard(Colors.failedRed)}
                     secondaryColor={lightenStandard(Colors.fadedRed)}
                 >

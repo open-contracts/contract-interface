@@ -10,6 +10,8 @@ export type DappPutInputProps = {
     style ? : React.CSSProperties
     dappInput : DappInputI,
     setInput ? : (input : DappInputI)=>void,
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
 }
 
 export const DappInput : FC<DappPutInputProps>  = ({

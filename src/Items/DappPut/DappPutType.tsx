@@ -3,7 +3,9 @@ export interface DappPutI extends PutI {
     description ? : string,
     value : string,
     type ? : InputTypeE,
-    putType : string
+    putType : string,
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (oracleData : any)=>void
 }
 
 export interface DappDescputI extends DappPutI {
@@ -20,7 +22,7 @@ export interface DappOutputI extends DappPutI {
 }
 
 export interface DappErrputI extends DappPutI {
-    resetArgs : ()=>void,
+    resetArgs : (contractFunction : OpenContractFunctionI, setContractFunction ? : (c : OpenContractFunctionI)=>void)=>void,
     putType : "error"
 }
 
@@ -29,11 +31,18 @@ export interface DappInteractputI extends DappPutI {
 }
 
 export interface DappOracleputI extends DappPutI {
-    contractFunction : OpenContractFunctionI,
-    setOracleData : (oracleData : any)=>void
     putType : "oracle"
 }
 
 export interface DappResultputI extends DappPutI {
     putType : "result"
+}
+
+export interface DappOracleInputI extends DappPutI {
+    response ? : string,
+    resolve : (data : string)=>void,
+    reject : (data : string)=>void,
+    id : string,
+    prompt : string,
+    putType : "oracle-input"
 }

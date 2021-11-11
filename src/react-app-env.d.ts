@@ -137,6 +137,13 @@ declare global {
         xpras ? : any[],
         submits ? : any[],
         result ? : any, 
+        oracleInputs ? : {
+            [key : string] : {
+                prompt : string,
+                id : string,
+                response ? : string
+            }
+        },
         oracleData ? : {
             [key : string] : string
         } | {

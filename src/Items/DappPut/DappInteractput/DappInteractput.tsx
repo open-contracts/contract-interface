@@ -8,7 +8,9 @@ import {DappInteractputContent} from "./DappInteractputContent";
 export type DappPutInteractputProps = {
     style ? : React.CSSProperties
     dappInteractput : DappInteractputI,
-    end ? : boolean
+    end ? : boolean,
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
 }
 
 export const DappInteractput : FC<DappPutInteractputProps>  = ({

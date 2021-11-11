@@ -3,7 +3,9 @@ import {AthenaButton} from "../../../Components/Buttons";
 import {Colors} from "../../../Theme";
 
 export type DappOracleCallputProps = {
-    call : ()=>Promise<string>
+    call : ()=>Promise<string>,
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
 }
 
 export const DappOracleCallput : FC<DappOracleCallputProps>  = ({

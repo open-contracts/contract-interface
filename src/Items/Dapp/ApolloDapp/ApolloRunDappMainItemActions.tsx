@@ -22,7 +22,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
 
             const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
             const signerToken =  dapp.contract.OPNtoken.connect(provider.getSigner());
-            console.log(signerToken);
+            
             await signerToken.gimmeSomeMoreOfDemCoins();
         }
     }

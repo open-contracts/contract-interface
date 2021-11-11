@@ -17,13 +17,6 @@ export const DappResultputContent : FC<DappResultputContentProps>  = ({
     setResultput
 }) =>{
 
-    const onTextResultput = (text : string)=>{
-        setResultput && setResultput({
-            ...dappResultput,
-            value : text
-        })
-    }
-
     return (
 
         <div style={{

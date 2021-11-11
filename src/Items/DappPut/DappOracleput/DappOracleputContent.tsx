@@ -87,9 +87,9 @@ export const DappOracleputContent : FC<DappOracleputContentProps>  = ({
             && oracleStates  
             && dappOracleput.contractFunction.oraclePromiseResolve
         ){
-            dappOracleput.setOracleData(
+           /* dappOracleput.setOracleData(
                 oracleStates
-            );
+            );*/
             dappOracleput.contractFunction.oraclePromiseResolve(
                 oracleStates as {[key : string] : string}
             );

@@ -10,13 +10,13 @@ import { DesktopSizes } from '../../../Theme';
 export type DappPutResultputProps = {
     style ? : React.CSSProperties
     dappResultput : DappResultputI,
-    setResultput ? : (Resultput : DappResultputI)=>void,
+    contractFunction : OpenContractFunctionI,
+    setContractFunction ? : (contractFunction : OpenContractFunctionI)=>void
 }
 
 export const DappResultput : FC<DappPutResultputProps>  = ({
     dappResultput,
     style,
-    setResultput
 }) =>{
 
     return (
@@ -33,7 +33,7 @@ export const DappResultput : FC<DappPutResultputProps>  = ({
                 <DappResultputHeader dappResultput={dappResultput} />
             </DappPutLayout.Header>
             <DappPutLayout.Content>
-                <DappResultputContent setResultput={setResultput} dappResultput={dappResultput}/>
+                <DappResultputContent dappResultput={dappResultput}/>
             </DappPutLayout.Content>
         </DappPutLayout>
 
