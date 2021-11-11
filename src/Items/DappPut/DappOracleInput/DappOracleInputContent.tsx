@@ -22,14 +22,17 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
 
     
 
-    const [text, setText] = useState(dappOracleInput.response);
+   // const [text, setText] = useState(dappOracleInput.response);
+   const text = dappOracleInput.contractFunction.oracleInputs ? 
+   dappOracleInput.contractFunction.oracleInputs[dappOracleInput.id].response||"" :
+   "";
 
     const onTextOracleInput = (text : string)=>{
-        setText(text);
-       /* setOracleInput && setOracleInput({
+        //setText(text);
+       setOracleInput && setOracleInput({
             ...dappOracleInput,
-            value : text
-        })*/
+            response : text
+        })
     }
 
     const onTextSubmit = (text : string)=>{
@@ -37,7 +40,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
     }
 
     const onButtonSumbit = ()=>{
-        dappOracleInput.resolve(text||"");
+        dappOracleInput.resolve(text);
     }
 
     return (
@@ -49,11 +52,11 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
             gap : DesktopSizes.Padding.standard
         }}>
             <TextInputApollo 
-                value={text||""}
+                value={text}
                 placeholder={dappOracleInput.prompt}
                 onTextInput={onTextOracleInput}
                 onSubmit={onTextSubmit}
-                type="text" style={{
+              style={{
                 background : "white",
                 color : Colors.Maintheme,
                 border : `1px solid ${Colors.Maintheme}`

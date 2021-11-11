@@ -183,6 +183,7 @@ async function enclaveSession(opencontracts, f) {
 		    userInput = await f.inputHandler(data['message']);
 		    ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
 		} else if (data['fname'] == 'submit') {
+            console.log("Submission received in protocol!")
 		    await f.submitHandler(async function() {
 		        return await requestHubTransaction(opencontracts, data['nonce'], data['calldata'], data['oracleSignature'],
 							    data['oracleProvider'], data['registrySignature']);

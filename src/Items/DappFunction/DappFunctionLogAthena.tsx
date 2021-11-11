@@ -34,7 +34,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         },
         contractFunction
     )
-    
+
     const resetArgs = (reduceFunctionState : (update : log.reduceContractFunctionI)=>void)=>{
         reduceFunctionState((oc : OpenContractFunctionI)=>{
             return {
@@ -54,7 +54,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             ...put.putType !== "input" ? [
                 (
                     <><DappPut 
-                        key={generate()}
+                        key={index}
                         contractFunction={contractFunction}
                         reduceContractFunction={reduceFunctionState}
                         end={index > (contractFunction.puts ? contractFunction.puts.length - 2 : -1)}
@@ -284,6 +284,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
 
     const handleSubmit = async (call : ()=>Promise<string>)=>{
+        console.log("Submission received!");
         addOracleCallput(call);
     }
     contractFunction.submitHandler = handleSubmit;

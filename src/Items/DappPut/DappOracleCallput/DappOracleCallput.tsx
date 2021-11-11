@@ -4,7 +4,7 @@ import {Colors} from "../../../Theme";
 import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 
 export type DappOracleCallputProps = {
-    call : ()=>Promise<string>,
+    call : ()=>Promise<any>,
     contractFunction : OpenContractFunctionI,
     reduceContractFunction ? : (contractFunction : reduceContractFunctionI)=>void
 }
@@ -16,6 +16,7 @@ export const DappOracleCallput : FC<DappOracleCallputProps>  = ({
     return (
 
         <AthenaButton 
+            action={call}
             primaryColor={Colors.primaryTextColor}
             secondaryColor={Colors.Maintheme}
         >
