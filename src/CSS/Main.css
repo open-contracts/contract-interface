@@ -1,0 +1,39 @@
+.ninety {
+	width : 90%;
+}
+
+.two-hundre {
+	width : 200px;
+}
+
+* {
+	overflow: auto;
+	-ms-overflow-style: none; /* IE 11 */
+	scrollbar-width: none; /* Firefox 64 */
+}
+::-webkit-scrollbar { display: none; }
+
+html{
+	height: 100vh;
+	background: white;
+	color : #373737;
+	overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
+}
+
+body {
+	background: white;
+	color : #373737;
+	text-rendering: geometricPrecision;
+	transition: all .2s ease-in-out;
+}
+
+.grow {
+	transition: all .2s ease-in-out;
+	transform: scale(1.05);
+}
+
+.anti-grow {
+	transition: all .2s ease-in-out;
+	transform: scale(1.00);
+}
