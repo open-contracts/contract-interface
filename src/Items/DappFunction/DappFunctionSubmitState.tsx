@@ -49,6 +49,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
                 >
                     Reset log
             </AthenaButton>
+            &emsp;
             {contractFunction.requiresOracle && <AthenaButton
                 action={loadOracleData as unknown as any}
                 style={{
