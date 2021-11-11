@@ -2,4 +2,4 @@
 # todo: add
 
 # push build to main
-git subptree push --prefix build origin gh-pages
+git subtree push --prefix build origin gh-pages
