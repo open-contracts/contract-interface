@@ -5,6 +5,7 @@ import {ether, ethers} from "ethers";
 
 declare global {
     interface Window {
+        ClientError : (msg : string)=>Error;
         ethereum : ethers.providers.ExternalProvider
         hexStringtoArray(hexString : string) : number[];
         b64Url2Buff(b64urlstring : string) : Buffer;
@@ -155,9 +156,10 @@ declare global {
         xpraHandler : (targetUrl : string, sessionUrl : string, xpraExit : promise)=>Promise<any>,
         inputHandler : (message : string)=>Promise<any>,
         printHandler : (message : string)=>Promise<any>
-        errorHandler : (message : string)=>Promise<any>
+        errorHandler : (e : Error)=>Promise<any>
     }
-    
+
+
     interface OpenContractI {
         
         parseContracts(

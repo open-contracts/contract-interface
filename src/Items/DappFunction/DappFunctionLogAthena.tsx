@@ -12,6 +12,8 @@ import { useState } from 'react';
 import {generate} from "shortid";
 import * as log from "./StateMethods";
 
+declare class ClientError extends Error{};
+
 export type DappFunctionLogAthenaProps = {
     dapp : DappI,
     contractFunction : OpenContractFunctionI,
@@ -134,11 +136,11 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         }
     })
 
-    const addError = (name : string, e : any)=>{
+    const addError = (e : Error)=>{
         const update = (contractFunction : OpenContractFunctionI)=>{
             const newError = {
-                name : name,
-                description : e
+                ...e,
+                description : e.message
             }
             const _newFunctionState = {
                 ...contractFunction,
@@ -155,9 +157,9 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         reduceFunctionState(update);
     }
 
-    const handleError = async (message : string)=>{
+    const handleError = async (e : Error)=>{
 
-        addError("An error occurred!", message);
+        addError(e);
 
     }
     contractFunction.errorHandler = handleError;
@@ -242,8 +244,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
         if(error){
             addError(
-                "Oracle data unavailable.",
-                `We were unable to fetch oracle data at ${owner}/${repo}/${branch}.`
+                new ClientError("Oracle data unavailable."),
             )
         }
         return new Promise((resolve, reject)=>{
@@ -267,7 +268,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 reject
             );
             if(error){
-                addError("An error occurred!", "GitHub download failed.");
+                addError(new ClientError("GitHub download failed."));
                 reject();
             }
         })
@@ -310,7 +311,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             if(contractFunction.requiresOracle){
 
                 if(!contractFunction.oracleData){
-                    addError("No Oracle data!", "Oracle data is required for this function.");
+                    addError(new ClientError("Oracle data is required for this function."));
                     resolve({});
                 }
 
@@ -328,7 +329,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                     </div>)*/;
                     resolve(data);
                 }).catch((err)=>{
-                    addError("An error occurred!", err.toString());
+                    addError(err);
                     resolve({});
                 })
                 return;
@@ -339,7 +340,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 resolve(data);
             }).catch((err)=>{
                 
-                addError("An error occurred!", err.toString());
+                addError(err);
                 resolve({});
             })
        })
