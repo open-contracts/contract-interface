@@ -309,7 +309,6 @@ async function OpenContracts() {
     }
     async function init() {
         const {ethereum} = window;
-        ethereum.enable();
         if (ethereum && ethereum.isMetaMask) {
             ethereum.request({method: 'eth_requestAccounts'});
             ethereum.on('chainChanged', (_chainId) => window.location.reload());
