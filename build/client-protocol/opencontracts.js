@@ -310,8 +310,8 @@ async function OpenContracts() {
     async function init() {
         const {ethereum} = window;
         if (ethereum && ethereum.isMetaMask) {
-            window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
             window.ethereum.request({method: 'eth_requestAccounts'});
+            window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
             opencontracts.provider = new ethers.providers.Web3Provider(ethereum, 'any');
             opencontracts.network = (await opencontracts.provider.getNetwork()).name;
             opencontracts.signer = opencontracts.provider.getSigner();
