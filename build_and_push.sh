@@ -1,5 +1,4 @@
 # run and commit build in main
-​git subtree pull --prefix build gh-pages
 git submodule update --recursive --remote
 yarn run build
 git rm -r build/client-protocol
@@ -11,4 +10,5 @@ git commit -m "Built Page"
 git push
 
 # push build to gh-pages
+git push origin --delete gh-pages
 git subtree push --prefix build origin gh-pages
