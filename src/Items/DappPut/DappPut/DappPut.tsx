@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import { DappInputI, DappPutI , DappErrputI, DappDescputI, DappInteractputI, DappOutputI, DappOracleputI, DappResultputI, DappOracleInputI} from '../DappPutType';
+import { DappInputI, DappPutI , DappErrputI, DappDescputI, DappInteractputI, DappOutputI, DappOracleputI, DappResultputI, DappOracleInputI, DappCallputI} from '../DappPutType';
 import {DappInput} from "../DappInput";
 import {DappOutput} from "../DappOutput";
 import { DappDescput } from '../DappDescput';
@@ -9,6 +9,7 @@ import {DappOracleput} from "../DappOracleput";
 import { DappResultput } from '../DappResultput';
 import {DappOracleInput} from "../DappOracleInput";
 import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
+import { DappOracleCallput } from '../DappOracleCallput';
 
 export type DappPutProps = {
     put : DappPutI,
@@ -59,6 +60,16 @@ export const DappPut : FC<DappPutProps>  = ({
                 reduceContractFunction={reduceContractFunction}/>
             )
 
+        }
+
+        case ("callput") : {
+            return (
+                <DappOracleCallput
+                    dappOracleCallput={put as DappCallputI}
+                    contractFunction={contractFunction}
+                    reduceContractFunction={reduceContractFunction}
+                />
+            )
         }
 
         case ("interactive") : {

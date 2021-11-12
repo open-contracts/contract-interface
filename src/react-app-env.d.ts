@@ -150,8 +150,8 @@ declare global {
             [key : string] : string | Promise<string>
         },
         call : (state  ? : OpenContractFunctionI)=>Promise<any>,
-        callOracle ? : ()=>Promise<string>,
-        submitHandler : (call : ()=>Promise<string>)=>Promise<any>,
+        callOracle ? : ()=>Promise<void>,
+        submitHandler : (call : ()=>Promise<void>)=>Promise<any>,
         xpraHandler : (targetUrl : string, sessionUrl : string, xpraExit : Promise<any>)=>Promise<any>,
         inputHandler : (message : string)=>Promise<any>,
         printHandler : (message : string)=>Promise<any>

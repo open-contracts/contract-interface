@@ -10,6 +10,11 @@ export interface DappPutI extends PutI {
     reduceContractFunction : (reducer : reduceContractFunctionI)=>void
 }
 
+export interface DappCallputI extends DappPutI {
+    call : ()=>Promise<void>,
+    putType : "callput"
+}
+
 export interface DappDescputI extends DappPutI {
     putType : "description"
 }

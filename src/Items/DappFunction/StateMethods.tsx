@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, useReducer} from 'react';
-import { DappDescputI, DappOracleInputI, DappErrputI, DappInputI, DappInteractputI, DappOracleputI, DappOutputI, DappPutI, DappResultputI } from '../DappPut/DappPutType';
+import { DappDescputI, DappOracleInputI, DappErrputI, DappInputI, DappInteractputI, DappOracleputI, DappOutputI, DappPutI, DappResultputI, DappCallputI } from '../DappPut/DappPutType';
 
 export interface reduceContractFunctionI {
     (state : OpenContractFunctionI) : OpenContractFunctionI
@@ -112,6 +112,21 @@ export const createOracleData = (
         putType : "oracle",
     } as DappOracleputI
 
+}
+
+export const createOracleCallPut = (
+    call : DappCallputI["call"],
+    contractFunction : OpenContractFunctionI,
+    setFunc : (func : reduceContractFunctionI)=>void
+) : DappCallputI=>{
+    return {
+        call : call,
+        contractFunction : contractFunction,
+        reduceContractFunction : setFunc,
+        name : contractFunction.name,
+        putType : "callput",
+        value : ""
+    }
 }
 
 export const createResult = (

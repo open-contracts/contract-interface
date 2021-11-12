@@ -2,26 +2,41 @@ import React, {FC, ReactElement} from 'react';
 import {AthenaButton} from "../../../Components/Buttons";
 import {Colors} from "../../../Theme";
 import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
+import { DappCallputI } from '../DappPutType';
 
 export type DappOracleCallputProps = {
-    call : ()=>Promise<any>,
+    dappOracleCallput : DappCallputI,
     contractFunction : OpenContractFunctionI,
     reduceContractFunction ? : (contractFunction : reduceContractFunctionI)=>void
 }
 
 export const DappOracleCallput : FC<DappOracleCallputProps>  = ({
-    call
+    dappOracleCallput
 }) =>{
 
     return (
 
-        <AthenaButton 
-            action={call}
-            primaryColor={Colors.primaryTextColor}
-            secondaryColor={Colors.Maintheme}
-        >
-            Execute oracle
-        </AthenaButton>
+        <div style={{
+            display : "flex",
+            justifyContent : "right",
+            justifyItems : "right",
+            width : "100%"
+        }}>
+            <AthenaButton 
+                invert
+                style={{
+                    fontSize : "16px",
+                    justifySelf : "right"
+                }}
+                action={dappOracleCallput.call}
+                primaryColor={Colors.Maintheme}
+                secondaryColor={"white"}
+            >
+                <span style={{
+                    fontSize : "18px"
+                }}>Call hub</span>
+            </AthenaButton>
+        </div>
 
     )
 
