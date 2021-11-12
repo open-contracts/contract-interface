@@ -1,15 +1,11 @@
-name: Build website and deploy to 'gh-pages' branch
-
-on:
-  push:
-    branches: 
-      - main
+on: [push]
 
 jobs:
-  buildit:
+  build:
+    name: Build and push
     runs-on: ubuntu-latest
-
     steps:
-      - name: Run Build
-        run: |
-          ls
+    - uses: actions/checkout@v2
+    - name: Running build_and_push.sh script
+      run: |
+        sh build_and_push.sh
