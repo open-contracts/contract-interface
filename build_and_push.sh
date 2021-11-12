@@ -8,4 +8,4 @@ git add .
 git commit -m "Building"
 
 # push build to main
-git subtree push --prefix build origin gh-pages
+git subtree push --force --prefix build origin gh-pages
