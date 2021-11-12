@@ -8,5 +8,5 @@ git add .
 git commit -m "Building"
 
 # push build to main
-git subtree push --prefix build origin gh-pages
-# git push origin `git subtree split --prefix build main`:gh-pages --force 
+# git subtree push --prefix build origin gh-pages
+git push origin `git subtree split --prefix build main`:gh-pages --force 
