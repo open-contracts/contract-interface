@@ -184,7 +184,7 @@ async function enclaveSession(opencontracts, f) {
         ws.send(JSON.stringify({fname: 'get_oracle_ip'}));
     }
     ws.onmessage = async function (event) {
-        const data = JSON.parse(event.data);
+        var data = JSON.parse(event.data);
         if (data['fname'] == 'return_oracle_ip') {
             ws.close();
         if (data['ip'].toUpperCase() == "N/A") {
