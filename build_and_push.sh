@@ -11,5 +11,5 @@ git commit -m "Built Page"
 git push
 
 # push build to gh-pages
-git push origin --delete gh-pages
-git subtree push --prefix build origin gh-pages
+# git push origin --delete gh-pages
+# git subtree push --prefix build origin gh-pages
