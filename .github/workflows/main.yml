@@ -12,4 +12,6 @@ jobs:
     steps:
       - name: Run Build
         run: |
+          ls
+          cat build_and_push.sh
           sh ./build_and_push.sh
