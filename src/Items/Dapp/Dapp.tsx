@@ -319,7 +319,7 @@ export const getDappInterface = async (
 
 }
 
-export const ocInterfacePath = "/protocol/opencontracts_interface.json"
+export const ocInterfacePath = "/client-protocol/opencontracts_interface.json"
 export const getOpenContractsInterface = async (
     onGet ? : (dappInterface : OpenContractsInterfaceI)=>void
 ) : Promise<OpenContractsInterfaceI>=>{
