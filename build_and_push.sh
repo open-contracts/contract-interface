@@ -2,8 +2,8 @@ git submodule update --recursive --remote
 yarn run build
 git rm -r build/client-protocol
 rm -rf .git/modules/build/client-protocol
-rm -rf build/client-protocol
-cp public/client-protocol build/client-protcol
+cp -r public/client-protocol build/client-protcol
+rm -r build/client-protocol/.git
 git add .
 git commit -m "Building"
 
