@@ -10,7 +10,7 @@ jobs:
       run: |
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
-        sh build_and_push.sh
+        sh build.sh
   
     - name: Deploy
       uses: s0/git-publish-subdir-action@develop
