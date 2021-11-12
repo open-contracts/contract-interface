@@ -1,3 +1,5 @@
+git config --global user.email "actions@github.com"
+git config --global user.name "GitHub Actions"
 git submodule update --recursive --remote
 yarn run build
 git rm -r build/client-protocol
@@ -8,6 +10,4 @@ git add .
 git commit -m "Building"
 
 # push build to main
-git config user.email "actions@github.com"
-git config user.name "GitHub Actions - update submodules"
 git subtree push --force --prefix build origin gh-pages
