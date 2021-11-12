@@ -8,4 +8,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Running build_and_push.sh script
       run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
         sh build_and_push.sh
