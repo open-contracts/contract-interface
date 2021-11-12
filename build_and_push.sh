@@ -3,7 +3,7 @@ yarn run build
 git rm -r build/client-protocol
 rm -rf .git/modules/build/client-protocol
 rm -rf build/client-protocol
-git clone https://github.com/open-contracts/client-protocol build/client-protocol
+cp public/client-protocol build/client-protcol
 git add .
 git commit -m "Building"
 
