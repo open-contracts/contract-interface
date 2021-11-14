@@ -107,7 +107,8 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
                     textAlign : "left",
                     color : Colors.Maintheme
                 }}>
-                    <h1>{dappItem.name}</h1>
+                    <h1>{dappItem.contract ? dappItem.contract.contractName : ""}</h1>
+                    <p>{dappItem.contract ? dappItem.contract.contractDescription : ""}</p>
                 </div>
                 <div>
                     <ApolloRunDappMainItemMobileActions

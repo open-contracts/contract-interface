@@ -165,7 +165,10 @@ declare global {
             ocInterface : OpenContractsInterfaceI,
             contractInterface : OpenContractInterfaceI
         ) : void
-    
+            
+        contractName : string,
+        contractDescription : string,
+
         OPNtoken : OpnTokenI,
         OPNhub : ethers.Contract,
         OPNforwarder : ethers.Contract,
