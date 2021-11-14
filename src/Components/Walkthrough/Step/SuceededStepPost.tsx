@@ -29,7 +29,7 @@ export const SucceededStepPost : FC<SucceededStepPostProps>  = ({
             }}
             transition={{
                 ease : "easeInOut",
-                duration : 2.0
+                duration : .8
             }}
         >
            {children}
@@ -43,7 +43,7 @@ export const SucceededStepPost : FC<SucceededStepPostProps>  = ({
                 }}
                 transition={{
                     ease : "easeInOut",
-                    duration : .75
+                    duration : .2
                 }}
             >
                 <Check size={60}/>

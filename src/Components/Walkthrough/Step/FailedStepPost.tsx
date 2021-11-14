@@ -32,7 +32,7 @@ export const FailedStepPost : FC<FailedStepPostProps>  = ({
                 }}
                 transition={{
                     ease : "easeInOut",
-                    duration : .5
+                    duration : .4
                 }}
             >
                 <X size={60}/>
@@ -49,7 +49,7 @@ export const FailedStepPost : FC<FailedStepPostProps>  = ({
                 }}
                 transition={{
                     ease : "easeInOut",
-                    duration : .75
+                    duration : .8
                 }}
             >
                 <AthenaButton 

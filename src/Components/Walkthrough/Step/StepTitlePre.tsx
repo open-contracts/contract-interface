@@ -46,7 +46,7 @@ const StepPre : FC<StepPreProps> & {
                     }}
                     transition={{
                         ease : "easeInOut",
-                        duration : 1
+                        duration : 1.0
                     }}
                 >
                     <h1 style={{

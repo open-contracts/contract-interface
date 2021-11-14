@@ -54,7 +54,7 @@ const StepPost : FC<StepPostProps> & {
                         }}
                         transition={{
                             ease : "easeInOut",
-                            duration : 1
+                            duration : .8
                         }}
                     >
                         <h1 style={{
@@ -67,7 +67,7 @@ const StepPost : FC<StepPostProps> & {
                     }}
                     transition={{
                         ease : "easeInOut",
-                        duration : 1
+                        duration : .8
                     }}
                 >
                     <p style={{
