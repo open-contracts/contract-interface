@@ -4,7 +4,7 @@ import { Colors, DesktopSizes } from '../../../Theme';
 import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus } from 'react-bootstrap-icons';
 import { PlayFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
-import { DappI, parseGitUrl } from '../Dapp';
+import { DappI, } from '../Dapp';
 import { ethers, providers } from 'ethers';
 
 export type ApolloRunDappMainItemMobileActionsProps = {
@@ -16,6 +16,10 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
     gitUrl,
     dapp
 }) =>{
+
+    const handleGitHub = ()=>{
+        window.open(`https://github.com/${dapp.owner}/${dapp.repo}/tree/${dapp.branch}`);
+    }
 
     const getTokens = async ()=>{
         if(dapp.contract){
@@ -52,7 +56,7 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                 gap : DesktopSizes.Padding.standard
             }}>
                 <AthenaButton 
-                onClick={()=>{window.open(gitUrl)}}
+                onClick={handleGitHub}
                 style={{
                     width : "100%",
                 }}

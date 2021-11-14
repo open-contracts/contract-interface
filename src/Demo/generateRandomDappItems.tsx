@@ -15,7 +15,10 @@ export const generateRandomDappItem = () : DappI=>{
     return {
         __isDapp__ : true,
         id : `${owner}/${repo}`,
-        gitUrl : url
+        gitUrl : url,
+        owner : owner || "",
+        repo : repo || "",
+        branch : "main" 
     }
 }
 

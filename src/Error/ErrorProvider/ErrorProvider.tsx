@@ -77,17 +77,19 @@ export const ErrorProvider : FC<ErrorProviderProps>  = ({
 
     useEffect(()=>{
 
+        console.log(state.error);
+
         if(state.error){
             navigate("/error");
             dispatch((state)=>{
                 return {
                     ...state,
-                    error : undefined
+                    error : state.error
                 }
             })
         }
 
-    })
+    }, [state.error])
 
     return (
 

@@ -14,7 +14,10 @@ export interface DappDataI {
 export interface DappI extends Partial<DappDataI>{
     __isDapp__ : true
     id : string
-    gitUrl : string
+    gitUrl : string,
+    owner : string,
+    repo : string,
+    branch : string
 }
 
 export const isDapp = (obj : any) : obj is DappI => {

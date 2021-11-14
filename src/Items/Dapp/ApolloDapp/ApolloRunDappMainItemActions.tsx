@@ -17,6 +17,10 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
     dapp
 }) =>{
 
+    const handleGitHub = ()=>{
+        window.open(`https://github.com/${dapp.owner}/${dapp.repo}/tree/${dapp.branch}`);
+    }
+
     const getTokens = async ()=>{
         if(dapp.contract){
             await (dapp.contract as any).getOPN('3')
@@ -49,7 +53,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 alignItems : "center"
             }}>
                 <AthenaButton 
-                onClick={()=>{window.open(gitUrl)}}
+                onClick={handleGitHub}
                 primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
                     <div style={{
                         display : "flex",

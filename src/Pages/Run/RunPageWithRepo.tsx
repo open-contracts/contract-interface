@@ -25,7 +25,10 @@ export const RunPageWithRepo : FC<RunPageWithRepoProps>  = ({
     const dapp : DappI = {
         __isDapp__ : true,
         gitUrl : `https://github.com/${repo.owner}/${repo.repo}/${repo.branch}`,
-        id : `${repo.owner}/${repo.repo}/${repo.branch}`
+        id : `${repo.owner}/${repo.repo}/${repo.branch}`,
+        owner : repo.owner,
+        repo : repo.repo,
+        branch : repo.branch
     } 
 
     

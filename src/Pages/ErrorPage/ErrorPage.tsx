@@ -10,10 +10,17 @@ import { HOME } from '../../Maps/Headers';
 import { MediaResponsive } from '../../Sytems';
 import { MainLayoutMobile } from '../../Layouts';
 import {ErrorNotification} from "../../Error";
+import { useErrorContext } from '../../Error/ErrorProvider';
 
 export type ErrorPageProps = {}
 
 export const ErrorPage : FC<ErrorPageProps>  = () =>{
+
+    const {
+        error
+    } = useErrorContext();
+
+    const errorText = `${error?.name}: ${error?.message}`;
 
 
     return (
@@ -25,7 +32,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
                         <HeaderResponsive wallet={"not ready"}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <ErrorNotification/>
+                        <ErrorNotification errorText={errorText}/>
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
             </MediaResponsive.Desktop>
@@ -35,7 +42,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
                         <HeaderResponsive wallet={"not ready"}/>
                     </MainLayoutDesktop.Header>
                     <MainLayoutDesktop.Content>
-                        <ErrorNotification/>
+                        <ErrorNotification errorText={errorText}/>
                     </MainLayoutDesktop.Content>
                 </MainLayoutDesktop>
            </MediaResponsive.Laptop>
@@ -45,7 +52,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
                         <HeaderResponsive wallet={"not ready"}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <ErrorNotification/>
+                        <ErrorNotification errorText={errorText}/>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
            </MediaResponsive.Tablet>
@@ -55,7 +62,7 @@ export const ErrorPage : FC<ErrorPageProps>  = () =>{
                         <HeaderResponsive wallet={"not ready"}/>
                     </MainLayoutMobile.Header>
                     <MainLayoutMobile.Content>
-                        <ErrorNotification/>
+                        <ErrorNotification errorText={errorText}/>
                     </MainLayoutMobile.Content>
                 </MainLayoutMobile>
            </MediaResponsive.Mobile>

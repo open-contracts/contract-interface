@@ -30,10 +30,6 @@ export const ErrorNotification : FC<ErrorNotificationProps>  = ({
                     height : "300px",
                     margin : "auto",
                 }}/>
-            </div>
-            <div style={{
-                color : Colors.primaryTextColor
-            }}>
                 <h6>{errorText.toUpperCase()}</h6>
             </div>
         </div>

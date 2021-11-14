@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react';
-import { DappI, getDappName, getDappSolidityContract, getDappOracle, getDappImageUri, getDappReadMe, parseGitUrl, getDappContract } from '../Dapp';
+import { DappI, } from '../Dapp';
 import {ApolloRunDappMainItemMobile} from "./ApolloRunDappMainItemMobile";
 import {ApolloRunDappMainItemDesktop} from "./ApolloRunDappMainItemDesktop";
 import { useErrorContext } from '../../../Error/ErrorProvider';

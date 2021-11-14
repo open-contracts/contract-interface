@@ -229,16 +229,11 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }, [oracleStates])
 
     const loadOracleData = async () : Promise<{[key : string] : string}>=>{
-        const {
-            owner,
-            repo,
-            branch
-        } = parseGitUrl(dapp.gitUrl)
 
         const [error, data]= await to<{[key : string] : Promise<string>}>(window.githubOracleDownloader(
-            owner || "",
-            repo || "",
-            branch || "main",
+            dapp.owner || "",
+            dapp.repo || "",
+            dapp.branch || "main",
             contractFunction.oracleFolder
         ));
 
