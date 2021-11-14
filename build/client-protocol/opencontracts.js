@@ -184,7 +184,7 @@ async function enclaveSession(opencontracts, f) {
         ws.send(JSON.stringify({fname: 'get_oracle_ip'}));
     }
     ws.onmessage = async function (event) {
-        data = JSON.parse(event.data);
+        const data = JSON.parse(event.data);
         if (data['fname'] == 'return_oracle_ip') {
             ws.close();
         if (data['ip'].toUpperCase() == "N/A") {
@@ -197,7 +197,7 @@ async function enclaveSession(opencontracts, f) {
     }
     }
 
-    async function connect(oracleIP) {
+async function connect(oracleIP) {
     var ws = new WebSocket("wss://" + oracleIP + ":8080/");
     var ETHkey = null;
     var AESkey = null;
@@ -205,16 +205,15 @@ async function enclaveSession(opencontracts, f) {
     var xpraFinished = null;
     ws.onopen = function(event) {ws.send(JSON.stringify({fname: 'get_attestation'}))};
     ws.onmessage = async function (event) {
-            data = JSON.parse(event.data);
+        var data = JSON.parse(event.data);
         if (data['fname'] == "attestation") {
-                [ETHkey, AESkey, encryptedAESkey] = await extractContentIfValid(data['attestation']);
-        ws.send(JSON.stringify({fname: 'submit_AES', encrypted_AES: encryptedAESkey}));
-        const signThis = ethers.utils.arrayify("0x" + data['signThis']);
-        ws.send(JSON.stringify({fname: 'submit_signature',
-                    signature: await opencontracts.signer.signMessage(signThis)}));
-        f.oracleData.fname = 'submit_oracle';
-        ws.send(JSON.stringify(await encrypt(AESkey, f.oracleData)));
-        ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
+            [ETHkey, AESkey, encryptedAESkey] = await extractContentIfValid(data['attestation']);
+            ws.send(JSON.stringify({fname: 'submit_AES', encrypted_AES: encryptedAESkey}));
+            const signThis = ethers.utils.arrayify("0x" + data['signThis']);
+            ws.send(JSON.stringify({fname: 'submit_signature', signature: await opencontracts.signer.signMessage(signThis)}));
+            f.oracleData.fname = 'submit_oracle';
+            ws.send(JSON.stringify(await encrypt(AESkey, f.oracleData)));
+            ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
         } else if (data['fname'] == "busy") {
             f.errorHandler(
                 new EnclaveError("Oracle is busy. Request a new IP.")
@@ -227,30 +226,28 @@ async function enclaveSession(opencontracts, f) {
         } else if (data['fname'] == "xpra") {
             xpraFinished = false;
             const xpraExit = new Promise((resolve, reject) => {setInterval(()=> {if (xpraFinished) {resolve(true)}}, 1000)});
-                setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
+            setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
         } else if (data["fname"] == 'xpra_finished') {
-                    console.warn("xpra finished.");		
+            console.warn("xpra finished.");		
             xpraFinished = true;
         } else if (data['fname'] == 'user_input') {
             userInput = await f.inputHandler(data['message']);
             ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
         } else if (data['fname'] == 'submit') {
-            const _data = Object.assign({}, data); 
             await f.submitHandler(async function() { 
                 return await requestHubTransaction(
-                    opencontracts, 
-                    _data['nonce'], _data['calldata'], 
-                    _data['oracleSignature'], _data['oracleProvider'],
-                     _data['registrySignature'] ); 
+                    opencontracts, data['nonce'], data['calldata'], 
+                    data['oracleSignature'], data['oracleProvider'], 
+                    data['registrySignature']); 
             });
         } else if (data['fname'] == 'error') {
             await f.errorHandler(
                 new EnclaveError(data['traceback'])
-            )
+            );
         }
-        }
+      }
     }
-    }
+  }
 }
 
 async function ethereumTransaction(opencontracts, f) {
@@ -312,8 +309,8 @@ async function OpenContracts() {
     async function init() {
         const {ethereum} = window;
         if (ethereum && ethereum.isMetaMask) {
-            window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
-            window.ethereum.request({method: 'eth_requestAccounts'});
+            ethereum.request({method: 'eth_requestAccounts'});
+            ethereum.on('chainChanged', (_chainId) => window.location.reload());
             opencontracts.provider = new ethers.providers.Web3Provider(ethereum, 'any');
             opencontracts.network = (await opencontracts.provider.getNetwork()).name;
             opencontracts.signer = opencontracts.provider.getSigner();
