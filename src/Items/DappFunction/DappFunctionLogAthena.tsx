@@ -30,7 +30,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const [reducedFunctionState, reduceFunctionState] = useReducer(
         (state : OpenContractFunctionI, update : log.reduceContractFunctionI)=>{
-            console.log("Attempting to reduce...", update(state));
+            
             setFunctionState && setFunctionState(update(state));
             return update(state);
         },
@@ -98,7 +98,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         reject : (msg : string)=>void
     )=>{
         const update = (contractFunction : OpenContractFunctionI)=>{
-            console.log("Input update!: ", contractFunction);
+            
             const newOracleInput = {
                 prompt : data,
                 response : undefined,
@@ -128,9 +128,9 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }, [contractFunction.puts])
     useEffect(()=>{
         contractFunction.inputHandler = async (message : string)=>{
-            console.log(contractFunction);
+            
             return new Promise((resolve, reject)=>{
-                console.log("Input received!");
+                
                 addOracleInput(message, resolve, reject);
             })
         }
@@ -290,7 +290,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
 
     const handleSubmit = async (call : ()=>Promise<void>)=>{
-        console.log("Submission received in client!");
+        
         addOracleCallput(call);
     }
     contractFunction.submitHandler = handleSubmit;

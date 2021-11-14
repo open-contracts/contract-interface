@@ -7,7 +7,7 @@ import { ethers } from 'ethers';
 
 export const checkMetaMaskAvail =  async () : Promise<StepStatusT>=>{
 
-    console.log("Checking!")
+    
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     return new Promise((resolve, reject)=>{

@@ -19,9 +19,6 @@ export const DappInputHeader : FC<DappInputHeaderProps>  = ({
             color : Colors.babyBlue,
             ...style
         }}>
-            <DefaultHeader.Pre>
-                𝑥
-            </DefaultHeader.Pre>
             <DefaultHeader.Post>
                 &emsp;<i style={{
                     color : Colors.secondaryTextColor

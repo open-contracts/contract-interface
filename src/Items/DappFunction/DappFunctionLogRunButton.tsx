@@ -96,7 +96,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         fontSize : "24px",
                         textAlign : "left"
                     }}>
-                        <p><PlayCircleFill/>&emsp;{contractFunction.name}<sub>𝑥</sub></p>
+                        <p>𝑥&emsp;{contractFunction.name}</p>
                         <div style={{
                             paddingLeft : DesktopSizes.Padding.whitespacePreferred
                         }}>
