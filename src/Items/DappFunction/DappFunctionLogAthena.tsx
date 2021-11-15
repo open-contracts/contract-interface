@@ -12,15 +12,15 @@ import { useState } from 'react';
 import {generate} from "shortid";
 import * as log from "./StateMethods";
 
-declare class ClientError extends Error{};
-
 export type DappFunctionLogAthenaProps = {
     dapp : DappI,
     contractFunction : OpenContractFunctionI,
     setFunctionState ? : (func : OpenContractFunctionI)=>void
 }
 
-
+export class ClientError extends Error {
+    
+}
 
 export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     dapp,

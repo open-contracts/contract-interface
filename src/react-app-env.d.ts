@@ -3,10 +3,12 @@
 import {ethers} from "ethers";
 import {DappPutI} from  "./Items/DappPut/DappPutType";
 
+export class ClientError extends Error {
+    
+}
 
 declare global {
     interface Window {
-        ClientError : (msg : string)=>Error;
         ethereum : ethers.providers.ExternalProvider
         hexStringtoArray(hexString : string) : number[];
         b64Url2Buff(b64urlstring : string) : Buffer;
