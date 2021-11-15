@@ -29,7 +29,9 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
 
 
         return (
-            <div style={{
+            <div 
+            key={func.name}
+            style={{
                 padding : DesktopSizes.Padding.standard
             }}>
                 <ApolloDappFunction 

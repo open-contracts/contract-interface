@@ -29,7 +29,9 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
     }
 
     const inputs = func.inputs.map((input)=>{
-        return (<DappInputHeader dappInput={input as DappInputI} style={{
+        return (<DappInputHeader
+            key={input.name}
+            dappInput={input as DappInputI} style={{
             //width : "50px",
             fontSize : "16px"
         }}/>)
