@@ -55,6 +55,7 @@
     "ws": "^8.2.3"
   },
   "devDependencies": {
+    "@babel/plugin-transform-typescript": "^7.16.1",
     "@cypress/react": "^5.10.1",
     "@cypress/webpack-dev-server": "^1.7.0",
     "@storybook/addon-actions": "^6.3.12",
@@ -69,12 +70,12 @@
     "typedoc": "^0.22.5"
   },
   "scripts": {
-    "deploy": "sh build_and_push.sh",
+    "deploy": "sh build.sh",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build-app" : "sh",
+    "build-app": "sh",
     "docs": "rm -fr docs/* && npx typedoc src --categorizeByGroup false && http-server ./docs",
     "perf": "jest --verbose --coverage --maxWorkers=50% --testRegex 'src/(?:.*)\\.perf\\.(tsx|ts)'",
     "storybook": "start-storybook -p 6006 -s public",
