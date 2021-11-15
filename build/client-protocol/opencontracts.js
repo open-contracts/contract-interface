@@ -204,6 +204,7 @@ async function connect(oracleIP) {
     var encryptedAESkey = null;
     var xpraFinished = null;
     ws.onopen = function(event) {ws.send(JSON.stringify({fname: 'get_attestation'}))};
+    ws.onerror = function(event) {f.errorHandler(new EnclaveError(event.type))};
     ws.onmessage = async function (event) {
         var data = JSON.parse(event.data);
         if (data['fname'] == "attestation") {
