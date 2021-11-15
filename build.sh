@@ -1,6 +1,7 @@
 # run and commit build in main
 git submodule update --init --recursive
 git submodule update --recursive --remote
+yarn list react-scripts
 yarn install
 yarn run build
 git rm -r build/client-protocol
