@@ -10,6 +10,7 @@ const Members = ["Single", "Grid"]
 export type ApolloRunDappContentProps = {
     grid ? : boolean,
     setGrid ? : (grid : boolean)=>void
+    which ? : string
 }
 
 const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
@@ -18,7 +19,8 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
 }  = ({
     children,
     grid,
-    setGrid
+    setGrid,
+    which
 }) =>{
 
     const {
@@ -80,7 +82,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                         borderRight : !grid ? `1px solid ${Colors.Maintheme}` : "none"
                     }}
                 >
-                    <b>ƒ<sub>𝑥</sub></b>
+                    <b>ƒ<sub>𝑥</sub>&ensp;{which}</b>
                 </AthenaButton>
             </div>
             <div style={{

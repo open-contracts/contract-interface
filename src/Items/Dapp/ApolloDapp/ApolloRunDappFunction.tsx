@@ -32,7 +32,6 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
         return (<DappInputHeader
             key={input.name}
             dappInput={input as DappInputI} style={{
-            //width : "50px",
             fontSize : "16px"
         }}/>)
     })

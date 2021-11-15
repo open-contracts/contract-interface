@@ -114,7 +114,9 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
                         gitUrl={dappItem.gitUrl}
                     />
                 </div>
-                <ApolloRunDappContent grid={grid} setGrid={setGrid}>
+                <ApolloRunDappContent 
+                    which={selectedFunc ? selectedFunc.name : ""}
+                    grid={grid} setGrid={setGrid}>
                     <ApolloRunDappContent.Grid>
                         <ApolloRunDappFunctionGridView
                             dapp={dappItem}
