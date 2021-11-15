@@ -10,7 +10,18 @@ jobs:
       run: |
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
-        sh build.sh
+        git submodule update --init --recursive
+        git submodule update --recursive --remote
+        yarn install
+        yarn run build
+        git rm -r build/client-protocol
+        rm -rf .git/modules/build/client-protocol
+        cp -r public/client-protocol build/client-protocol
+        rm -r build/client-protocol/.git
+        git add .
+        git commit -m "Built Page"
+        git push
+ #       sh build.sh
   
     - name: Deploy
       uses: s0/git-publish-subdir-action@develop
