@@ -6,6 +6,7 @@ export type TextInputApolloProps = FormControlProps & {
     onTextInput ? : (text : string)=>void,
     onSubmit ? : (text : string)=>void,
     placeholder ? : string,
+    defaultValue ? : string
 }
 
 export const TextInputApollo : FC<TextInputApolloProps>  = (props) =>{
@@ -27,6 +28,7 @@ export const TextInputApollo : FC<TextInputApolloProps>  = (props) =>{
     }
     return (
         <Form.Control
+            defaultValue={props.defaultValue}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             {...rest}

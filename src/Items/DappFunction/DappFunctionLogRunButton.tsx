@@ -64,7 +64,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                            &emsp;<span style={{
                                fontSize : "16px"
                            }}>=&emsp;</span><TextInputApollo
-                           value={input.value || ""}
+                           defaultValue={input.value || ""}
                             onTextInput={onTextInput}
                             style={{
                                 fontSize : "16px"

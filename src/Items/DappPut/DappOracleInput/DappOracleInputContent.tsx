@@ -52,7 +52,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
             gap : DesktopSizes.Padding.standard
         }}>
             <TextInputApollo 
-                value={text}
+                defaultValue={text}
                 placeholder={"Enter value"}
                 onTextInput={onTextOracleInput}
                 onSubmit={onTextSubmit}
