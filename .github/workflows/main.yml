@@ -17,7 +17,7 @@ jobs:
         yarn run build
         git rm -r build/client-protocol
         rm -rf .git/modules/build/client-protocol
-        cp -r public/client-protocol build/client-protocol
+        cp -r public/client-protocol build
         rm -r build/client-protocol/.git
         git add .
         git commit -m "Built Page"
