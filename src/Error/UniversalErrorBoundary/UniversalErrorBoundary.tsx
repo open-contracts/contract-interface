@@ -21,13 +21,13 @@ export class UniversalErrorBoundary extends React.Component<UniversalErrorBounda
   
     static getDerivedStateFromError(error : Error) {
       // Update state so the next render will show the fallback UI.
-      console.log(error);
+      
       return { error: error };
     }
   
     render() {
 
-      console.log(this.state.error);
+      
 
       if (this.state.error) {
 

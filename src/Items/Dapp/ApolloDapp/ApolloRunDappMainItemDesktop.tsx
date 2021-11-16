@@ -40,15 +40,21 @@ export type ApolloRunDappMainItemInternalsProps = {
     setDappItem ? : (dappItem : DappI)=>void,
     style? : React.CSSProperties,
     key? : React.Key,
+    grid ? : boolean,
+    setGrid ? : (grid : boolean)=>void,
+    which ? : string,
+    setWhich ? : (which : string)=>void
 }
 
 export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsProps>  = ({
     dappItem,
     style,
-    setDappItem
+    setDappItem,
+    grid,
+    setGrid, 
+    which,
+    setWhich
 }) =>{
-
-    const [which, setWhich] = useState<string|undefined>(undefined);
 
     const _selectedFunc = dappItem.contract && dappItem.contract.contractFunctions ? 
                             dappItem.contract.contractFunctions.filter((func)=>{
@@ -73,8 +79,6 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
                 ]
             }, [] as OpenContractFunctionI[])
 
-        
-    
             setDappItem({
                 ...dappItem,
                 contract : {
@@ -87,10 +91,9 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
 
     }
 
-    const [grid, setGrid] = useState(true);
     const handleWhich = (which : string)=>{
-        setGrid(false);
-        setWhich(which);
+        setGrid && setGrid(false);
+        setWhich && setWhich(which);
     }
 
     return (
@@ -144,103 +147,33 @@ export type ApolloRunDappMainItemProps = {
     style? : React.CSSProperties,
     key? : React.Key,
     updateDapp ? : (dapp : DappI)=>void,
-    forceLoad ? : boolean
+    forceLoad ? : boolean,
+    grid ? : boolean,
+    setGrid ? : (grid : boolean)=>void,
+    which ? : string,
+    setWhich ? : (which : string)=>void
 }
 
 export const ApolloRunDappMainItemDesktop : FC<ApolloRunDappMainItemProps>  = ({
     dappItem,
     style,
     updateDapp,
-    forceLoad = false
+    grid,
+    setGrid,
+    setWhich,
+    which
 }) =>{
 
-    const {
-        dispatch
-    } = useErrorContext();
-
-    const [dappState, setDappState] = useState(dappItem);
-    useEffect(()=>{
-
-        if((dappState !== dappItem) && updateDapp){
-            
-            updateDapp(dappState)
-        }
-
-    })
-
-    const [nameLoad, setNameLoad] = useState<string|undefined>(undefined);
-    useEffect(()=>{
-
-        if(!nameLoad){
-            getDappName(
-                dappItem,
-                (name : string)=>setNameLoad(name)
-            ).catch((err)=>{
-                dispatch((state)=>{
-                    return {
-                        ...state,
-                        error : err
-                    }
-                })
-            })
-        }
-
-    }, [])
-    useEffect(()=>{
-
-        if(dappState.name !== nameLoad){
-            setDappState({
-                ...dappState,
-                name : nameLoad
-            })
-        }
-
-    })
-
-    const [contractLoad, setContractLoad] = useState<OpenContractI|undefined>(undefined);
-    const [contractLoaded, setContracLoaded] = useState(false);
-    useEffect(()=>{
-
-        if(!contractLoad){
-            getDappContract(
-                dappItem,
-                (contract : OpenContractI)=>{
-                    
-                    setContractLoad(contract)
-                }
-            ).catch((err)=>{
-                dispatch((state)=>{
-                    return {
-                        ...state,
-                        error : err
-                    }
-                })
-            })
-        }
-
-    }, [])
-    useEffect(()=>{
-
-        if(contractLoad && (dappState.contract !== contractLoad) && !contractLoaded){
-            setDappState({
-                ...dappState,
-                contract : contractLoad
-            })
-            setContracLoaded(true);
-        }
-
-    })
-
-    const handleSetDappState = (dapp :DappI)=>{
-        
-        
-        setDappState(dapp);
-    }
-    
+   
 
     return (
 
-        <ApolloRunDappMainItemInternals setDappItem={handleSetDappState} dappItem={dappState} style={style}/>
+        <ApolloRunDappMainItemInternals 
+            setWhich={setWhich}
+            which={which}
+            grid={grid}
+            setGrid={setGrid}
+            setDappItem={updateDapp} dappItem={dappItem} style={style}/>
 
     )
 

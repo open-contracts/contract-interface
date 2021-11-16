@@ -3,30 +3,31 @@ import { DappI } from '../../Items';
 import { ApolloRunDappMainItem } from '../../Items/Dapp/ApolloDapp/ApolloRunDappMainItem';
 
 export type RunBenchDesktopProps = {
-    dapp ? : DappI
+    dapp  : DappI,
+    setDapp : (dapp : DappI)=>void,
+    grid ? : boolean,
+    setGrid ? : (grid : boolean)=>void,
+    which ? : string,
+    setWhich ? : (which : string)=>void
 }
 
 export const RunBenchDesktop : FC<RunBenchDesktopProps>  = ({
-    dapp
+    dapp, 
+    setDapp,
+    grid,
+    setGrid,
+    which,
+    setWhich
 }) =>{
 
-    const [dappState, setDappState] = useState<DappI|undefined>(dapp);
-
-    const handleUpdate = (dapp  : DappI)=>{
-
-        
-        setDappState(dapp);
-
-    }
-
-
     return (
-
-        <>{dappState  ? 
-            <ApolloRunDappMainItem dappItem={dappState} updateDapp={handleUpdate} />
-            : "No dapp"
-        }</>
-
+            <ApolloRunDappMainItem 
+            grid={grid}
+            setGrid={setGrid}
+            which={which}
+            setWhich={setWhich}
+            dappItem={dapp} updateDapp={setDapp} />
+       
     )
 
 }

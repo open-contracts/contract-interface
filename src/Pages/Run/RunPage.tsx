@@ -11,6 +11,8 @@ import { HeaderDesktop, HeaderResponsive } from '../../Maps/Headers';
 import { HOME } from '../../Maps/Headers';
 import { MediaResponsive } from '../../Sytems';
 import { MainLayoutMobile } from '../../Layouts';
+import {useParams} from "react-router-dom";
+import { DappI } from '../../Items';
 
 declare global {
     interface Window {
@@ -46,8 +48,37 @@ export const RunPage : FC<RunPageProps>  = () =>{
         setStepStatus(stepStatus);
     }
 
+    const {
+        owner,
+        repo,
+        branch
+    } = useParams();
+
+    const [dapp, setDapp] = useState<DappI>({
+        __isDapp__ : true,
+        gitUrl : `https://github.com/${owner}/${repo}/${branch}`,
+        id : `${owner}/${repo}/${branch||"main"}`,
+        owner : owner || "",
+        repo : repo || "", 
+        branch : branch || "main"
+    } )
+
+    useEffect(()=>{
+        console.log("First dapp: ", dapp)
+    }, [])
+
+    console.log(dapp);
+
+    const [grid, setGrid] = useState(true);
+    const [which, setWhich] = useState<string|undefined>(undefined)
+
     const page = readyToRun ? 
-    (<ReadyToRun stepStatus={stepStatus}/>) :
+    (<ReadyToRun 
+        grid={grid}
+        setGrid={setGrid}
+        which={which}
+        setWhich={setWhich}
+        stepStatus={stepStatus} dapp={dapp} setDapp={setDapp}/>) :
     (<NotReadyToRun setStepStatus={_setStepStatus} stepStatus={stepStatus} handleAllDone={handleAllDone}/>);
 
     return (

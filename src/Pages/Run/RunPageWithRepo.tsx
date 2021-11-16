@@ -9,30 +9,28 @@ import { RunBenchDesktop } from '../../Benches';
 import { DappI } from '../../Items';
 
 export type RunPageWithRepoProps = {
-    stepStatus : StepStatusT,
-    repo : {
-        owner : string,
-        repo : string,
-        branch : string
-    }
+    dapp : DappI,
+    setDapp : (dapp : DappI)=>void
+    grid ? : boolean,
+    setGrid ? : (grid : boolean)=>void,
+    which ? : string,
+    setWhich ? : (which : string)=>void
 }
 
 export const RunPageWithRepo : FC<RunPageWithRepoProps>  = ({
-    stepStatus,
-    repo
+    dapp,
+    setDapp,
+    grid,
+    setGrid,
+    which,
+    setWhich
 }) =>{
 
-    const dapp : DappI = {
-        __isDapp__ : true,
-        gitUrl : `https://github.com/${repo.owner}/${repo.repo}/${repo.branch}`,
-        id : `${repo.owner}/${repo.repo}/${repo.branch}`,
-        owner : repo.owner,
-        repo : repo.repo,
-        branch : repo.branch
-    } 
-
-    
-
-    return (<RunBenchDesktop dapp={dapp} />)
+    return (<RunBenchDesktop 
+        grid={grid}
+        setGrid={setGrid}
+        which={which}
+        setWhich={setWhich}
+        dapp={dapp} setDapp={setDapp}/>)
 
 }
