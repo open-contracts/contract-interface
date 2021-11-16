@@ -59,6 +59,7 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                                 justifyContent : "left",
                                 alignContent : "center",
                                 alignItems : "center",
+                                fontSize : "24px"
                             }}>
                                 <div>
                                     <b>ƒ<sub>𝑥</sub></b>&emsp;

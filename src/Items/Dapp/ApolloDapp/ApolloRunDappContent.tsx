@@ -64,7 +64,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                         borderRight : grid ? `1px solid ${Colors.Maintheme}` : "none"
                     }}
                 >
-                    <Grid3x3GapFill/>
+                    <Grid3x3GapFill size={36}/>
                 </AthenaButton>
                 <AthenaButton
                     onClick={handleSingle}
@@ -79,7 +79,8 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                         borderTop : !grid ? `1px solid ${Colors.Maintheme}` : "none",
                         borderLeft : !grid ? `1px solid ${Colors.Maintheme}` : "none",
                         borderBottom : !grid ? `1px solid ${Colors.quartenaryTextColor}` : "none",
-                        borderRight : !grid ? `1px solid ${Colors.Maintheme}` : "none"
+                        borderRight : !grid ? `1px solid ${Colors.Maintheme}` : "none",
+                        fontSize : "24px"
                     }}
                 >
                     <b>ƒ<sub>𝑥</sub>&ensp;{which}</b>
