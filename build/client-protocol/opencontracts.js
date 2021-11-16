@@ -314,7 +314,7 @@ async function OpenContracts() {
         await init()
     } else {
         window.addEventListener('ethereum#initialized', init, {once: true});
-        setTimeout(init, 5000);
+        setTimeout(init, 3000);
     }
     async function init() {
         const {ethereum} = window;
