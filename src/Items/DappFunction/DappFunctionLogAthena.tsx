@@ -389,7 +389,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 contractFunction={contractFunction}
                 reduceContractFunction={reduceFunctionState}
                     dappDescput={{
-                        name : "Info",
+                        name : "Description",
                         description : contractFunction.description,
                         value : contractFunction.description,
                         putType : "description",
