@@ -8,21 +8,22 @@ jobs:
     - uses: actions/checkout@v2
     - name: Running build logic
       run: |
+        rm -rf build/
+        git rm -rf --cached --ignore-unmatch build/client-protocol/
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
         git submodule update --init --recursive
         git submodule update --recursive --remote
         yarn install
         yarn run build
-        git rm -r build/client-protocol
-        rm -rf .git/modules/build/client-protocol
+        git rm -rf --cached --ignore-unmatch build/client-protocol/
         rm -rf build/client-protocol
-        cp -r public/client-protocol/ build/
-        rm -r build/client-protocol/.git
+        mkdir -p build/client-protocol
+        cp -r public/client-protocol/* build/client-protocol/
         git add .
-        git commit -m "Built Page"
+        git commit --allow-empty -m "Built Page"
         git push
- #       sh build.sh
+
   
     - name: Deploy
       uses: s0/git-publish-subdir-action@develop
