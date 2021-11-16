@@ -11,11 +11,12 @@ export const checkMetaMaskAvail =  async () : Promise<StepStatusT>=>{
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     return new Promise(async (resolve, reject)=>{
-        provider.listAccounts().then((accounts)=>{
-            console.log(accounts);
-            resolve(accounts.length > 0 ? {
+        window.OpenContracts().then(()=>{
+            resolve({
                 wallet : "ready"
-            } : {
+            })
+        }).catch(()=>{
+            reject({
                 wallet : "failed"
             })
         })
