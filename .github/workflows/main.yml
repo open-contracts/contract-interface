@@ -17,7 +17,7 @@ jobs:
         git rm -r build/client-protocol
         rm -rf .git/modules/build/client-protocol
         rm -rf build/client-protocol
-        mkdir -p build/client-protocol
+        mkdir -p build/client-protocol/
         cp -r public/client-protocol/* build/client-protocol/
         rm -r build/client-protocol/.git
         git add .
