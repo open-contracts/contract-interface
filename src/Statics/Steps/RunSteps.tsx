@@ -4,27 +4,30 @@ import { useState } from 'react';
 import {Steps, AllSteps, StepStatusT} from "./Steps";
 import { simulateNetworkRequest } from './simulateNetworkRequest';
 import { ethers } from 'ethers';
-import Web3 from "web3";
 
 export const checkMetaMaskAvail =  async () : Promise<StepStatusT>=>{
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    return new Promise((resolve, reject)=>{
 
-    return new Promise(async (resolve, reject)=>{
-        window.OpenContracts().then(()=>{
-            resolve({
-                wallet : "ready"
+        window.OpenContracts().then(async (data)=>{
+
+            (data as any).provider.listAccounts().then((accounts : any[])=>{
+                if(accounts.length > 0){
+                    resolve({
+                        wallet : "ready"
+                    })
+                    return;
+                } 
+                resolve({
+                    wallet : "failed"
+                })
             })
+
         }).catch(()=>{
             reject({
                 wallet : "failed"
             })
         })
-        setTimeout(()=>{
-            resolve({
-                wallet : "failed"
-            })
-        }, 10000)
     })
 }
 
