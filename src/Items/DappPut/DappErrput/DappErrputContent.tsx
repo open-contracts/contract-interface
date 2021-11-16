@@ -22,13 +22,6 @@ export const DappErrputContent : FC<DappErrputContentProps>  = ({
             color : Colors.primaryTextColor
         }}>
             {dappErrput.value}
-            <AthenaButton
-                    onClick={resetArgs}
-                    primaryColor={darkenStandard(Colors.failedRed)}
-                    secondaryColor={lightenStandard(Colors.fadedRed)}
-                >
-                    Reset args
-                </AthenaButton>
         </div>
 
     )

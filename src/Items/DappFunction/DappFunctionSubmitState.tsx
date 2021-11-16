@@ -28,6 +28,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
         reduceContractFunction((state)=>{
             return {
                 ...state,
+                inputs : pure.resetInputs(state.inputs),
                 puts : [],
                 oracleData : undefined
             }
@@ -53,7 +54,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
                 primaryColor={Colors.failedRed}
                 secondaryColor={"white"}
                 >
-                    Reset log
+                    Reset
             </AthenaButton>
             &emsp;
             {contractFunction.requiresOracle && <AthenaButton
