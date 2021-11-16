@@ -300,6 +300,9 @@ async function getOraclePys(user, repo, ref) {
 
 async function OpenContracts() {
     const opencontracts = {};
+    var initialized = false;
+    const initialization = new Promise((resolve, reject) => {setInterval(()=> {if (initialized) {resolve(true)}}, 100)});
+    
     // detect metamask
     if (window.ethereum) {
         await init()
@@ -315,6 +318,7 @@ async function OpenContracts() {
             opencontracts.provider = new ethers.providers.Web3Provider(ethereum, 'any');
             opencontracts.network = (await opencontracts.provider.getNetwork()).name;
             opencontracts.signer = opencontracts.provider.getSigner();
+            initialized = true;
         } else {
             throw new ClientError("No Metamask detected.");
         }
@@ -435,5 +439,6 @@ async function OpenContracts() {
         }
     }
     
+    await initialization;
     return opencontracts;
 }
