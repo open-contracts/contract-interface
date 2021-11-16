@@ -20,7 +20,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
     setOracleInput
 }) =>{
 
-    
+    const [disabled, setDisabled] = useState(false);
 
    // const [text, setText] = useState(dappOracleInput.response);
    const text = dappOracleInput.contractFunction.oracleInputs ? 
@@ -37,10 +37,12 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
 
     const onTextSubmit = (text : string)=>{
         dappOracleInput.resolve(text);
+        setDisabled(true);
     }
 
     const onButtonSumbit = ()=>{
         dappOracleInput.resolve(text);
+        setDisabled(true);
     }
 
     return (
@@ -52,7 +54,8 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
             gap : DesktopSizes.Padding.standard
         }}>
             <TextInputApollo 
-                defaultValue={text}
+                disabled={disabled}
+                value={text}
                 placeholder={"Enter value"}
                 onTextInput={onTextOracleInput}
                 onSubmit={onTextSubmit}

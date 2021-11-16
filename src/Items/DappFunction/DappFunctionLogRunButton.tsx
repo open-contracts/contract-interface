@@ -40,6 +40,9 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                 return contractFunction
             });
         }
+
+        console.log(input.value);
+
         return (
                     <div 
                     key={`${index}-${input.name}`}
@@ -64,7 +67,8 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                            &emsp;<span style={{
                                fontSize : "16px"
                            }}>=&emsp;</span><TextInputApollo
-                           defaultValue={input.value || ""}
+                           defaultValue={input.value}
+                           value={input.value||""}
                             onTextInput={onTextInput}
                             style={{
                                 fontSize : "16px"
