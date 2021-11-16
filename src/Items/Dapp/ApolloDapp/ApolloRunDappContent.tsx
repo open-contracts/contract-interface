@@ -39,7 +39,11 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
 
     return (
 
-        <div>
+        <div 
+        style={{
+            display : "flex",
+            flexDirection : "column"
+        }}>
             <div style={{
                 display : "flex",
                 alignContent : "center",
@@ -87,8 +91,11 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 </AthenaButton>
             </div>
             <div style={{
+                flexGrow : 1,
                 zIndex : 0,
-                background : Colors.quartenaryTextColor
+                background : Colors.quartenaryTextColor,
+                borderRight : `1px solid ${Colors.Maintheme}`,
+                borderLeft : `1px solid ${Colors.Maintheme}`,
             }}>
                 {grid ? Grid : Single}
             </div>

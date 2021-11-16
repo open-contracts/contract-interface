@@ -97,7 +97,7 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
 
         <div style={{
             width : "100%",
-            paddingBottom : DesktopSizes.Padding.whitespacePreferred,
+            // paddingBottom : DesktopSizes.Padding.whitespacePreferred,
             ...style
         }}>
             <div>
