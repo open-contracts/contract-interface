@@ -1,7 +1,7 @@
 import React, {FC, PureComponent, ReactElement, useReducer} from 'react';
 import { Colors, DesktopSizes } from '../../Theme';
 import { DappI, parseGitUrl } from '../Dapp/Dapp';
-import { DappInput, DappPut } from '../DappPut';
+import { DappDescput, DappInput, DappPut } from '../DappPut';
 import { DappDescputI, DappOracleInputI, DappErrputI, DappInputI, DappInteractputI, DappOracleputI, DappOutputI, DappPutI, DappResultputI } from '../DappPut/DappPutType';
 import {to} from "await-to-js";
 import { useEffect } from 'react';
@@ -385,6 +385,19 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 width : "100%",
                 paddingBottom : DesktopSizes.Padding.standard,
             }}>
+                <DappDescput
+                contractFunction={contractFunction}
+                reduceContractFunction={reduceFunctionState}
+                    dappDescput={{
+                        name : "Info",
+                        description : contractFunction.description,
+                        value : contractFunction.description,
+                        putType : "description",
+                        contractFunction : contractFunction,
+                        reduceContractFunction : reduceFunctionState
+                    }}
+                />
+                <br/>
                 {contractFunction.inputs.length > 0 && <DappFunctionLogRunButton
                     reduceContractFunction={reduceFunctionState}
                     contractFunction={contractFunction}

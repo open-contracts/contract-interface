@@ -1,7 +1,8 @@
 import React, {FC, ReactElement} from 'react';
 import { DappDescputI } from '../DappPutType';
 import { DefaultHeader } from '../Standards/DefaultHeader';
-import {ExclamationCircleFill} from "react-bootstrap-icons";
+import {ExclamationCircleFill, InfoCircleFill} from "react-bootstrap-icons";
+import { Colors } from '../../../Theme';
 
 export type DappDescputHeaderProps = {
     dappDescput : DappDescputI
@@ -14,9 +15,13 @@ export const DappDescputHeader : FC<DappDescputHeaderProps>  = ({
     return (
 
         <DefaultHeader
+            style={{
+                color : Colors.Maintheme,
+                fontSize : "24px"
+            }}
             dappPut={dappDescput}>
                 <DefaultHeader.Pre>
-                    <b>ƒ<sub>𝑥</sub></b>
+                    <InfoCircleFill/>
                 </DefaultHeader.Pre>
             </DefaultHeader>
 
