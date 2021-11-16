@@ -42,7 +42,8 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
         <div 
         style={{
             display : "flex",
-            flexDirection : "column"
+            flexDirection : "column",
+            flexGrow : 1
         }}>
             <div style={{
                 display : "flex",
@@ -91,6 +92,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 </AthenaButton>
             </div>
             <div style={{
+                paddingBottom : "40vh",
                 flexGrow : 1,
                 zIndex : 0,
                 background : Colors.quartenaryTextColor,

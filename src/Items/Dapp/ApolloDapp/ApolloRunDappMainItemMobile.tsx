@@ -99,7 +99,7 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
             paddingTop : DesktopSizes.Padding.standard,
             borderTop : `1px solid ${Colors.Maintheme}`,
             width : "100%",
-            paddingBottom : DesktopSizes.Padding.whitespacePreferred,
+            // paddingBottom : DesktopSizes.Padding.whitespacePreferred,
             ...style
         }}>
             <div>
