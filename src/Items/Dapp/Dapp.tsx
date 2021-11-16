@@ -299,15 +299,11 @@ export const getDappInterface = async (
     onGet ? : (dappInterface : OpenContractInterfaceI)=>void
 ) : Promise<OpenContractInterfaceI>=>{
 
-    const {
-        owner,
-        repo 
-    } = parseGitUrl(dapp.gitUrl);
-
-    const dappInterface = (owner && repo) ? JSON.parse(
+    const dappInterface = (dapp.owner && dapp.repo) ? JSON.parse(
         await getFileText({
-            owner : owner,
-            repo : repo,
+            owner : dapp.owner,
+            repo : dapp.repo,
+            branch : dapp.branch,
             path : jsonInterfacePath
         })
     ) : undefined

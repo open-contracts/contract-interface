@@ -51,11 +51,12 @@ function b64DecodeUnicode(str : string) {
 export const getFileText = async (args : {
     owner : string,
     repo : string,
+    branch ? : string
     path : string
 }) : Promise<string>=> {
 
     const [error, text] = await to(
-        (await fetch(`https://raw.githubusercontent.com/${args.owner}/${args.repo}/main/${args.path}`)).text()
+        (await fetch(`https://raw.githubusercontent.com/${args.owner}/${args.repo}/${args.branch||"main"}/${args.path}`)).text()
     )
 
     if(error){
