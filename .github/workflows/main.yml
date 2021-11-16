@@ -9,17 +9,17 @@ jobs:
     - name: Running build logic
       run: |
         rm -rf build/
+        git rm -rf --cached --ignore-unmatch build/client-protocol/
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
         git submodule update --init --recursive
         git submodule update --recursive --remote
         yarn install
         yarn run build
-        git rm  -rf --cached build/client-protocol
+        git rm -rf --cached --ignore-unmatch build/client-protocol/
         rm -rf build/client-protocol
         mkdir -p build/client-protocol
         cp -r public/client-protocol/* build/client-protocol/
-        cp build/clien
         git add .
         git commit -m "Built Page"
         git push x
