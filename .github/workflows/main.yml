@@ -14,6 +14,8 @@ jobs:
         git submodule update --recursive --remote
         yarn install
         yarn run build
+        git submodule --init --recursive
+        git submodule update --recursive --remote
         git add .
         git commit -m "Built Page"
         git push
