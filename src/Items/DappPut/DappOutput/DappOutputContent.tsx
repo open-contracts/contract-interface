@@ -27,7 +27,8 @@ export const DappOutputContent : FC<DappOutputContentProps>  = ({
                <div style={{
                    display : "flex",
                    alignContent : "center",
-                   alignItems : "center"
+                   alignItems : "center",
+                   userSelect : "text"
                }}>
                     <Clipboard 
                         style={{
