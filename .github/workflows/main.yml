@@ -8,7 +8,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Running build logic
       run: |
-        git rm build/client-protocol
         rm -rf build/
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
@@ -16,11 +15,14 @@ jobs:
         git submodule update --recursive --remote
         yarn install
         yarn run build
-        git submodule update --init --recursive
-        git submodule update --recursive --remote
+        git rm --cached build/client-protocol
+        rm -rf build/client-protocol
+        mkdir -p build/client-protocol
+        cp -r public/client-protocol/* build/client-protocol/
+        cp build/clien
         git add .
         git commit -m "Built Page"
-        git push
+        git push x
 #        git rm -r build/client-protocol
 #        rm -rf .git/modules/build/client-protocol
 #        rm -rf build/client-protocol
