@@ -21,7 +21,7 @@ jobs:
         mkdir -p build/client-protocol
         cp -r public/client-protocol/* build/client-protocol/
         git add .
-        git commit -m "Built Page"
+        git commit --allow-empty -m "Built Page"
         git push
 
   
