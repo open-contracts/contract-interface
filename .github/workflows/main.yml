@@ -15,7 +15,7 @@ jobs:
         git submodule update --recursive --remote
         yarn install
         yarn run build
-        git rm --cached build/client-protocol
+        git rm  -rf --cached build/client-protocol
         rm -rf build/client-protocol
         mkdir -p build/client-protocol
         cp -r public/client-protocol/* build/client-protocol/
