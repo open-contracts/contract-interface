@@ -24,6 +24,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
     const count = pure.countPromisesResolved(map);
     
     const resetLog = ()=>{
+        setCalled(false);
         reduceContractFunction((state)=>{
             return {
                 ...state,
@@ -33,6 +34,11 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
         })
     }
     
+    const [called, setCalled] = useState(false);
+    const handleCall = async ()=>{
+        setCalled(true);
+        return await call();
+    }
 
     return (
 
@@ -73,8 +79,8 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
                 style={{
                     fontSize : "18px"
                 }}
-                action={call}
-                disabled={contractFunction.requiresOracle && (contractFunction.oracleData === undefined || !resolved)}
+                action={handleCall}
+                disabled={called || (contractFunction.requiresOracle && (contractFunction.oracleData === undefined || !resolved))}
                 primaryColor={Colors.Maintheme}
                 secondaryColor={"white"}
             >
