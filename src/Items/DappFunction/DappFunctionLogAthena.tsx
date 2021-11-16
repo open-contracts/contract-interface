@@ -385,7 +385,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 width : "100%",
                 paddingBottom : DesktopSizes.Padding.standard,
             }}>
-                <DappDescput
+                {contractFunction.description && <DappDescput
                 contractFunction={contractFunction}
                 reduceContractFunction={reduceFunctionState}
                     dappDescput={{
@@ -396,7 +396,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                         contractFunction : contractFunction,
                         reduceContractFunction : reduceFunctionState
                     }}
-                />
+                />}
                 <br/>
                 {contractFunction.inputs.length > 0 && <DappFunctionLogRunButton
                     reduceContractFunction={reduceFunctionState}
