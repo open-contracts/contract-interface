@@ -197,15 +197,14 @@ async function enclaveSession(opencontracts, f) {
                     new RegistryError("No oracle enclaves available right now. Try again in a bit - or become an enclave provider!")
                 );
             } else {
-                console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
                 f.waitHandler(11, "Connecting to Oracle...");
-                setTimeout(async () => {await connect(data['ip'], f)}, 11000);
+                setTimeout(async () => {await connect(opencontracts, f, data['ip'])}, 11000);
             }
         }
     }
 }
 
-async function connect(oracleIP, f) {
+async function connect(opencontracts, f, oracleIP) {
     var ws = new WebSocket("wss://" + oracleIP + ":8080/");
     var ETHkey = null;
     var AESkey = null;
