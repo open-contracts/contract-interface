@@ -170,6 +170,7 @@ async function enclaveSession(opencontracts, f) {
     var secondsPassed = 0;
     var timer = setInterval(() => {secondsPassed++; if (secondsPassed>30) {clearInterval(timer)}}, 1000);
     ws.onerror = function(event) {
+        waiting = false;
         if (secondsPassed < 10) {
             f.errorHandler(
                 new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
@@ -180,10 +181,14 @@ async function enclaveSession(opencontracts, f) {
             )
         }
     }; 
+    var waiting = false;
     ws.onopen = function () {
+        waiting = true;
         ws.send(JSON.stringify({fname: 'get_oracle_ip'}));
     }
+    setTimeout(()=> {if (waiting) {f.waitHandler(30, "Oracle booting up...")}}, 3000);
     ws.onmessage = async function (event) {
+        waiting = false;
         const data = JSON.parse(event.data);
         if (data['fname'] == 'return_oracle_ip') {
             ws.close();
@@ -193,6 +198,7 @@ async function enclaveSession(opencontracts, f) {
                 );
             } else {
                 console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
+                f.waitHandler(11, "Connecting to Oracle...");
                 setTimeout(async () => {await connect(data['ip'], f)}, 11000);
             }
         }
@@ -229,6 +235,7 @@ async function connect(oracleIP, f) {
             } else if (data['fname'] == "xpra") {
                 xpraFinished = false;
                 const xpraExit = new Promise((resolve, reject) => {setInterval(()=> {if (xpraFinished) {resolve(true)}}, 1000)});
+                f.waitHandler(5, "Preparing interactive session...");
                 setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
             } else if (data["fname"] == 'xpra_finished') {
                 console.warn("xpra finished.");		
@@ -373,13 +380,16 @@ async function OpenContracts() {
                 f.requiresOracle = (f.oracleFolder != undefined);
                 if (f.requiresOracle) {
                     f.printHandler = async function(message) {
-                console.warn(`Warning: using default (popup) printHandler for function ${f.name}`); 
-                alert(message);
+                        console.warn(`Warning: using default (popup) printHandler for function ${f.name}`); 
+                        alert(message);
+                    };
+                    f.waitHandler = async function(seconds, message) {
+                        console.warn(`Expect to wait ${seconds} seconds: ${message}`); 
                     };
                     f.inputHandler = async function (message) {
-                console.warn(`Warning: using default (popup) inputHandler for function ${f.name}`); 
-                return prompt(message);
-            };
+                        console.warn(`Warning: using default (popup) inputHandler for function ${f.name}`); 
+                        return prompt(message);
+                    };
                     f.xpraHandler = async function(targetUrl, sessionUrl, xpraExit) {
                         console.warn(`Warning: using default (popup) xpraHandler for function ${f.name}`); 
                         if (window.confirm(`open interactive session to {targetUrl} in new tab?`)) {
@@ -390,18 +400,18 @@ async function OpenContracts() {
                                 f.xpraHandler(targetUrl, sessionUrl);
                             }
                         }
-            };
-            f.errorHandler = async function (message) {
-                console.warn(`Warning: using default (popup) errorHandler for function ${f.name}`); 
-                alert("Error in enclave. Traceback:\n" + message);
-            };
-            f.submitHandler = async function (submit) {
-                console.warn(`Warning: using default (popup) submitHandler for function ${f.name}`); 
-                message = "Oracle execution completed. Starting final transaction. ";
-                alert(message + "It will fail if you did not grant enough $OPN to the hub.");
-                await submit()
-            };
-        }
+                    };
+                    f.errorHandler = async function (message) {
+                        console.warn(`Warning: using default (popup) errorHandler for function ${f.name}`); 
+                        alert("Error in enclave. Traceback:\n" + message);
+                    };
+                    f.submitHandler = async function (submit) {
+                        console.warn(`Warning: using default (popup) submitHandler for function ${f.name}`); 
+                        message = "Oracle execution completed. Starting final transaction. ";
+                        alert(message + "It will fail if you did not grant enough $OPN to the hub.");
+                        await submit()
+                    };
+                }
                 f.inputs = [];
                 if (f.stateMutability == "payable") {
                     f.inputs.push({name: "messageValue", type: "uint256", value: null});
