@@ -191,9 +191,10 @@ async function enclaveSession(opencontracts, f) {
                 f.errorHandler(
                     new RegistryError("No oracle enclaves available right now. Try again in a bit - or become an enclave provider!")
                 );
-             }
-            console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
-            setTimeout(async () => {await connect(data['ip'], f)}, 11000);
+            } else {
+                console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
+                setTimeout(async () => {await connect(data['ip'], f)}, 11000);
+            }
         }
     }
 }
