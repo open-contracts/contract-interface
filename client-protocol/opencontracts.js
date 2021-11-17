@@ -448,7 +448,7 @@ async function OpenContracts() {
                             return await enclaveSession(opencontracts, _f);
                         }
                     } else {
-                        return await ethereumTransaction(opencontracts, _f);
+                        return String(await ethereumTransaction(opencontracts, _f));
                     }
                 }
                 opencontracts.contractFunctions.push(f);
