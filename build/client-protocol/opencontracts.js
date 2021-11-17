@@ -174,11 +174,11 @@ async function enclaveSession(opencontracts, f) {
             f.errorHandler(
                 new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
             )
-    } else {
-        f.errorHandler(
-            new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
-        )
-    }
+        } else {
+            f.errorHandler(
+                new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
+            )
+        }
     }; 
     ws.onopen = function () {
         ws.send(JSON.stringify({fname: 'get_oracle_ip'}));
@@ -187,17 +187,18 @@ async function enclaveSession(opencontracts, f) {
         const data = JSON.parse(event.data);
         if (data['fname'] == 'return_oracle_ip') {
             ws.close();
-        if (data['ip'].toUpperCase() == "N/A") {
-            f.errorHandler(
-                new RegistryError("No enclave available, try again in a bit or try a different registry.")
-            );
+            if (data['ip'].toUpperCase() == "N/A") {
+                f.errorHandler(
+                    new RegistryError("No oracle enclaves available right now. Try again in a bit - or become an enclave provider!")
+                );
+             }
+            console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
+            setTimeout(async () => {await connect(data['ip'], f)}, 11000);
         }
-        console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
-        setTimeout(async () => {await connect(data['ip'])}, 11000);
     }
-    }
+}
 
-async function connect(oracleIP) {
+async function connect(oracleIP, f) {
     var ws = new WebSocket("wss://" + oracleIP + ":8080/");
     var ETHkey = null;
     var AESkey = null;
