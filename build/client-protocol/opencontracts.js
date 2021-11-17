@@ -223,33 +223,32 @@ async function connect(oracleIP, f) {
         }
         if (data['fname'] == 'encrypted') {
             data = await decrypt(AESkey, data);
-        if (data['fname'] == "print") {
-            await f.printHandler(data['string']);
-        } else if (data['fname'] == "xpra") {
-            xpraFinished = false;
-            const xpraExit = new Promise((resolve, reject) => {setInterval(()=> {if (xpraFinished) {resolve(true)}}, 1000)});
-            setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
-        } else if (data["fname"] == 'xpra_finished') {
-            console.warn("xpra finished.");		
-            xpraFinished = true;
-        } else if (data['fname'] == 'user_input') {
-            userInput = await f.inputHandler(data['message']);
-            ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
-        } else if (data['fname'] == 'submit') {
-            await f.submitHandler(async function() { 
-                return await requestHubTransaction(
-                    opencontracts, data['nonce'], data['calldata'], 
-                    data['oracleSignature'], data['oracleProvider'], 
-                    data['registrySignature']); 
-            });
-        } else if (data['fname'] == 'error') {
-            await f.errorHandler(
-                new EnclaveError(data['traceback'])
-            );
+            if (data['fname'] == "print") {
+                await f.printHandler(data['string']);
+            } else if (data['fname'] == "xpra") {
+                xpraFinished = false;
+                const xpraExit = new Promise((resolve, reject) => {setInterval(()=> {if (xpraFinished) {resolve(true)}}, 1000)});
+                setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
+            } else if (data["fname"] == 'xpra_finished') {
+                console.warn("xpra finished.");		
+                xpraFinished = true;
+            } else if (data['fname'] == 'user_input') {
+                userInput = await f.inputHandler(data['message']);
+                ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
+            } else if (data['fname'] == 'submit') {
+                await f.submitHandler(async function() { 
+                    return await requestHubTransaction(
+                        opencontracts, data['nonce'], data['calldata'], 
+                        data['oracleSignature'], data['oracleProvider'], 
+                        data['registrySignature']); 
+                });
+            } else if (data['fname'] == 'error') {
+                await f.errorHandler(
+                    new EnclaveError(data['traceback'])
+                );
+            }
         }
-      }
     }
-  }
 }
 
 async function ethereumTransaction(opencontracts, f) {
