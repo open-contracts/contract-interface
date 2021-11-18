@@ -478,9 +478,9 @@ async function OpenContracts() {
                     } else {
                         var success = true;
                         var txReturn = await ethereumTransaction(opencontracts, _f)
-                        .then(tx => {window.tx = tx; return tx})
-                        .then(tx => {if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
-                        .then(tx => {if (tx.hash != undefined) {return "Transaction Confirmed."} else {return tx}})
+                        .then(function(tx){window.tx = tx; return tx})
+                        .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
+                        .then(function(tx){if (tx.hash != undefined) {return "Transaction Confirmed."} else {return tx}})
                         .catch(error => {
                             success=false;
                             if (error.error != undefined) {
