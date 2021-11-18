@@ -89,7 +89,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         reduceFunctionState(update);
     }
     contractFunction.printHandler = async (message : string)=>{
-        addOutput("Output received!", message)
+        addOutput("Notification.", message)
     }
 
     const addOracleInput = (
