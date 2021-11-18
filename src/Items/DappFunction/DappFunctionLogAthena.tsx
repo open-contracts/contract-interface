@@ -356,7 +356,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     contractFunction.xpraHandler = async (targetUrl, sessionUrl, xpraExit)=>{
 
         
-        addInteractput("Interactive session requested.", targetUrl, sessionUrl, xpraExit);
+        addInteractput("Interactive session started.", targetUrl, sessionUrl, xpraExit);
 
     }
 
