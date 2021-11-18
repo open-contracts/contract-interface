@@ -26,7 +26,7 @@ export const DappOracleInputHeader : FC<DappOracleInputHeaderProps>  = ({
             <DefaultHeader.Post>
                 &emsp;<i style={{
                     color : Colors.secondaryTextColor
-                }}>oracleInput</i>
+                }}> </i>
             </DefaultHeader.Post>
         </DefaultHeader>
 
