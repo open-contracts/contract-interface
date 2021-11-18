@@ -253,7 +253,7 @@ async function connect(opencontracts, f, oracleIP) {
                             data['oracleSignature'], data['oracleProvider'], 
                             data['registrySignature']); 
                     } catch (error) {
-                        if (error.error != undefined) {error = error.error}
+                        if (error.error != undefined) {error = new ClientError(`Ethereum error: ${error.error}`)}
                         f.errorHandler(error);
                     }
                 });
@@ -458,8 +458,8 @@ async function OpenContracts() {
                     } else {
                         try {
                             return String(await ethereumTransaction(opencontracts, _f));
-                        } catch(error) {
-                            if (error.error != undefined) {error = error.error}
+                        } catch (error) {
+                            if (error.error != undefined) {error = new ClientError(`Ethereum error: ${error.error}`)}
                             _f.errorHandler(error);
                         }
                     }
