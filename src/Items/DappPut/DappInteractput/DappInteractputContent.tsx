@@ -37,7 +37,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                 }}
                 primaryColor={darkenStandard(Colors.lilac)}
                 secondaryColor={"white"}>
-                    Launch interactive session
+                    Open interactive session
                 </AthenaButton>
             {failedWindow && 
             <p>Failed to open a new window at <a href={dappInteractput.sessionUrl}>{dappInteractput.sessionUrl}</a>
