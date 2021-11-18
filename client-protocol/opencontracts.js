@@ -43,6 +43,21 @@ class ClientError extends Error{
     }
 }
 
+/**
+ * Error type to be thrown when error is on the client.
+ */
+const ethereumErrorTypeName = "EthereumError";
+class EthereumError extends Error{
+    /**
+     * Constructs an Ethereum Error.
+     * @param {string} message 
+     */
+    constructor(message){
+        super(message);
+        this.name = ethereumErrorTypeName
+    }
+}
+
 function hexStringToArray(hexString) {
     var pairs = hexString.match(/[\dA-F]{2}/gi);
     var integers = pairs.map(function(s) {return parseInt(s, 16);});
@@ -253,7 +268,7 @@ async function connect(opencontracts, f, oracleIP) {
                             data['oracleSignature'], data['oracleProvider'], 
                             data['registrySignature']); 
                     } catch (error) {
-                        if (error.error != undefined) {error = new ClientError(`Ethereum error: ${error.error}`)}
+                        if (error.error != undefined) {error = new EthereumError(error.error.message)}
                         f.errorHandler(error);
                     }
                 });
@@ -385,9 +400,9 @@ async function OpenContracts() {
                 f.stateMutability = contract.abi[i].stateMutability;
                 f.oracleFolder = contract.abi[i].oracleFolder;
                 f.requiresOracle = (f.oracleFolder != undefined);
-                f.errorHandler = async function (message) {
+                f.errorHandler = async function (error) {
                     console.warn(`Warning: using default (popup) errorHandler for function ${f.name}`); 
-                    alert("Error in enclave. Traceback:\n" + message);
+                    alert(error);
                 };
                 if (f.requiresOracle) {
                     f.printHandler = async function(message) {
@@ -459,7 +474,7 @@ async function OpenContracts() {
                         try {
                             return String(await ethereumTransaction(opencontracts, _f));
                         } catch (error) {
-                            if (error.error != undefined) {error = new ClientError(`Ethereum error: ${error.error}`)}
+                            if (error.error != undefined) {error = new EthereumError(error.error.message)}
                             _f.errorHandler(error);
                         }
                     }
