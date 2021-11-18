@@ -43,6 +43,21 @@ class ClientError extends Error{
     }
 }
 
+/**
+ * Error type to be thrown when error is on the client.
+ */
+const ethereumErrorTypeName = "EthereumError";
+class EthereumError extends Error{
+    /**
+     * Constructs an Ethereum Error.
+     * @param {string} message 
+     */
+    constructor(message){
+        super(message);
+        this.name = ethereumErrorTypeName
+    }
+}
+
 function hexStringToArray(hexString) {
     var pairs = hexString.match(/[\dA-F]{2}/gi);
     var integers = pairs.map(function(s) {return parseInt(s, 16);});
@@ -170,34 +185,41 @@ async function enclaveSession(opencontracts, f) {
     var secondsPassed = 0;
     var timer = setInterval(() => {secondsPassed++; if (secondsPassed>30) {clearInterval(timer)}}, 1000);
     ws.onerror = function(event) {
+        waiting = false;
         if (secondsPassed < 10) {
             f.errorHandler(
                 new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
             )
-    } else {
-        f.errorHandler(
-            new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
-        )
-    }
+        } else {
+            f.errorHandler(
+                new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
+            )
+        }
     }; 
+    var waiting = false;
     ws.onopen = function () {
+        waiting = true;
         ws.send(JSON.stringify({fname: 'get_oracle_ip'}));
     }
+    setTimeout(()=> {if (waiting) {f.waitHandler(55, "Oracle booting up...")}}, 3000);
     ws.onmessage = async function (event) {
+        waiting = false;
         const data = JSON.parse(event.data);
         if (data['fname'] == 'return_oracle_ip') {
             ws.close();
-        if (data['ip'].toUpperCase() == "N/A") {
-            f.errorHandler(
-                new RegistryError("No enclave available, try again in a bit or try a different registry.")
-            );
+            if (data['ip'].toUpperCase() == "N/A") {
+                f.errorHandler(
+                    new RegistryError("No oracle enclaves available right now. Try again in a bit - or become an enclave provider!")
+                );
+            } else {
+                f.waitHandler(11, "Connecting to Oracle...");
+                setTimeout(async () => {await connect(opencontracts, f, data['ip'])}, 11000);
+            }
         }
-        console.warn(`Received oracle IP ${data['ip']} from registry. Waiting 11s for it to get ready, then connecting...`);
-        setTimeout(async () => {await connect(data['ip'])}, 11000);
     }
-    }
+}
 
-async function connect(oracleIP) {
+async function connect(opencontracts, f, oracleIP) {
     var ws = new WebSocket("wss://" + oracleIP + ":8080/");
     var ETHkey = null;
     var AESkey = null;
@@ -211,7 +233,10 @@ async function connect(oracleIP) {
             [ETHkey, AESkey, encryptedAESkey] = await extractContentIfValid(data['attestation']);
             ws.send(JSON.stringify({fname: 'submit_AES', encrypted_AES: encryptedAESkey}));
             const signThis = ethers.utils.arrayify("0x" + data['signThis']);
-            ws.send(JSON.stringify({fname: 'submit_signature', signature: await opencontracts.signer.signMessage(signThis)}));
+            ws.send(JSON.stringify({
+                fname: 'submit_signature',
+                signature: await opencontracts.signer.signMessage(signThis).catch((error) => {f.errorHandler(error)})
+            }));
             f.oracleData.fname = 'submit_oracle';
             ws.send(JSON.stringify(await encrypt(AESkey, f.oracleData)));
             ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
@@ -222,33 +247,42 @@ async function connect(oracleIP) {
         }
         if (data['fname'] == 'encrypted') {
             data = await decrypt(AESkey, data);
-        if (data['fname'] == "print") {
-            await f.printHandler(data['string']);
-        } else if (data['fname'] == "xpra") {
-            xpraFinished = false;
-            const xpraExit = new Promise((resolve, reject) => {setInterval(()=> {if (xpraFinished) {resolve(true)}}, 1000)});
-            setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
-        } else if (data["fname"] == 'xpra_finished') {
-            console.warn("xpra finished.");		
-            xpraFinished = true;
-        } else if (data['fname'] == 'user_input') {
-            userInput = await f.inputHandler(data['message']);
-            ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
-        } else if (data['fname'] == 'submit') {
-            await f.submitHandler(async function() { 
-                return await requestHubTransaction(
-                    opencontracts, data['nonce'], data['calldata'], 
-                    data['oracleSignature'], data['oracleProvider'], 
-                    data['registrySignature']); 
-            });
-        } else if (data['fname'] == 'error') {
-            await f.errorHandler(
-                new EnclaveError(data['traceback'])
-            );
+            if (data['fname'] == "print") {
+                await f.printHandler(data['string']);
+            } else if (data['fname'] == "xpra") {
+                xpraFinished = false;
+                const xpraExit = new Promise((resolve, reject) => {setInterval(()=> {if (xpraFinished) {resolve(true)}}, 1000)});
+                f.waitHandler(5, "Preparing interactive session...");
+                setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
+            } else if (data["fname"] == 'xpra_finished') {
+                console.warn("xpra finished.");		
+                xpraFinished = true;
+            } else if (data['fname'] == 'user_input') {
+                userInput = await f.inputHandler(data['message']);
+                ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
+            } else if (data['fname'] == 'submit') {
+                await f.submitHandler(async function() { 
+                    try {
+                        return await requestHubTransaction(
+                            opencontracts, data['nonce'], data['calldata'], 
+                            data['oracleSignature'], data['oracleProvider'], 
+                            data['registrySignature']); 
+                    } catch (error) {
+                        if (error.error != undefined) {
+                            error = new EthereumError(error.error.message);
+                        } else if (error.message != undefined) {
+                            error = new EthereumError(error.message);
+                        }
+                        f.errorHandler(error);
+                    }
+                });
+            } else if (data['fname'] == 'error') {
+                await f.errorHandler(
+                    new EnclaveError(data['traceback'])
+                );
+            }
         }
-      }
     }
-  }
 }
 
 async function ethereumTransaction(opencontracts, f) {
@@ -370,15 +404,22 @@ async function OpenContracts() {
                 f.stateMutability = contract.abi[i].stateMutability;
                 f.oracleFolder = contract.abi[i].oracleFolder;
                 f.requiresOracle = (f.oracleFolder != undefined);
+                f.errorHandler = async function (error) {
+                    console.warn(`Warning: using default (popup) errorHandler for function ${f.name}`); 
+                    alert(error);
+                };
                 if (f.requiresOracle) {
                     f.printHandler = async function(message) {
-                console.warn(`Warning: using default (popup) printHandler for function ${f.name}`); 
-                alert(message);
+                        console.warn(`Warning: using default (popup) printHandler for function ${f.name}`); 
+                        alert(message);
+                    };
+                    f.waitHandler = async function(seconds, message) {
+                        console.warn(`Expect to wait around ${seconds} seconds: ${message}`); 
                     };
                     f.inputHandler = async function (message) {
-                console.warn(`Warning: using default (popup) inputHandler for function ${f.name}`); 
-                return prompt(message);
-            };
+                        console.warn(`Warning: using default (popup) inputHandler for function ${f.name}`); 
+                        return prompt(message);
+                    };
                     f.xpraHandler = async function(targetUrl, sessionUrl, xpraExit) {
                         console.warn(`Warning: using default (popup) xpraHandler for function ${f.name}`); 
                         if (window.confirm(`open interactive session to {targetUrl} in new tab?`)) {
@@ -389,18 +430,14 @@ async function OpenContracts() {
                                 f.xpraHandler(targetUrl, sessionUrl);
                             }
                         }
-            };
-            f.errorHandler = async function (message) {
-                console.warn(`Warning: using default (popup) errorHandler for function ${f.name}`); 
-                alert("Error in enclave. Traceback:\n" + message);
-            };
-            f.submitHandler = async function (submit) {
-                console.warn(`Warning: using default (popup) submitHandler for function ${f.name}`); 
-                message = "Oracle execution completed. Starting final transaction. ";
-                alert(message + "It will fail if you did not grant enough $OPN to the hub.");
-                await submit()
-            };
-        }
+                    };
+                    f.submitHandler = async function (submit) {
+                        console.warn(`Warning: using default (popup) submitHandler for function ${f.name}`); 
+                        message = "Oracle execution completed. Starting final transaction. ";
+                        alert(message + "It will fail if you did not grant enough $OPN to the hub.");
+                        await submit()
+                    };
+                }
                 f.inputs = [];
                 if (f.stateMutability == "payable") {
                     f.inputs.push({name: "messageValue", type: "uint256", value: null});
@@ -412,7 +449,7 @@ async function OpenContracts() {
                     }
                 }
                 f.call = async function (state) { // option to provide inputs is useful for frameworks like React where state may have been cloned
-                    _f = state || f
+                    var _f = state || f;
                     const unspecifiedInputs = _f.inputs.filter(i=>i.value == null).map(i => i.name);
                     if (unspecifiedInputs.length > 0) {
                         throw new ClientError(`The following inputs to "${_f.name}" were unspecified:  ${unspecifiedInputs}`);
@@ -438,7 +475,16 @@ async function OpenContracts() {
                             return await enclaveSession(opencontracts, _f);
                         }
                     } else {
-                        return await ethereumTransaction(opencontracts, _f);
+                        try {
+                            return String(await ethereumTransaction(opencontracts, _f));
+                        } catch (error) {
+                            if (error.error != undefined) {
+                                error = new EthereumError(error.error.message);
+                            } else if (error.message != undefined) {
+                                error = new EthereumError(error.message);
+                            }
+                            _f.errorHandler(error);
+                        }
                     }
                 }
                 opencontracts.contractFunctions.push(f);

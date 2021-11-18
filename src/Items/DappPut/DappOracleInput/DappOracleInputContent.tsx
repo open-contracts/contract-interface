@@ -56,6 +56,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
         }}>
             <TextInputApollo 
                 disabled={disabled}
+                defaultValue={text}
                 placeholder={"Enter value"}
                 onTextInput={onTextOracleInput}
                 onSubmit={onTextSubmit}
