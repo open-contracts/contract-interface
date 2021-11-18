@@ -268,7 +268,11 @@ async function connect(opencontracts, f, oracleIP) {
                             data['oracleSignature'], data['oracleProvider'], 
                             data['registrySignature']); 
                     } catch (error) {
-                        if (error.error != undefined) {error = new EthereumError(error.error.message)}
+                        if (error.error != undefined) {
+                            error = new EthereumError(error.error.message);
+                        } else if (error.message != undefined) {
+                            error = new EthereumError(error.message);
+                        }
                         f.errorHandler(error);
                     }
                 });
@@ -474,7 +478,11 @@ async function OpenContracts() {
                         try {
                             return String(await ethereumTransaction(opencontracts, _f));
                         } catch (error) {
-                            if (error.error != undefined) {error = new EthereumError(error.error.message)}
+                            if (error.error != undefined) {
+                                error = new EthereumError(error.error.message);
+                            } else if (error.message != undefined) {
+                                error = new EthereumError(error.message);
+                            }
                             _f.errorHandler(error);
                         }
                     }
