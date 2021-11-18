@@ -296,18 +296,6 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
        return new Promise((resolve, reject)=>{
 
-            /*addResult(<div style={{
-                display : 'flex',
-                alignContent : "center",
-                alignItems : "center"
-            }}>
-                <Spinner style={{
-                    height : "10px",
-                    width : "10px"
-                }} animation="border"/>
-                &emsp;Pending...
-            </div>)*/
-
             if(contractFunction.requiresOracle){
 
                 if(!contractFunction.oracleData){
@@ -316,17 +304,6 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 }
 
                 contractFunction.call(contractFunction).then((data)=>{
-                    /*addOutput(data ? data : <div style={{
-                        display : 'flex',
-                        alignContent : "center",
-                        alignItems : "center"
-                    }}>
-                        <Spinner style={{
-                            height : "10px",
-                            width : "10px"
-                        }} animation="border"/>
-                        &emsp;Attempting oracle connection...
-                    </div>)*/;
                     resolve(data);
                 }).catch((err)=>{
                     addError(err);

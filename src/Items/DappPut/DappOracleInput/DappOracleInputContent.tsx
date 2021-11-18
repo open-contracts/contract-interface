@@ -26,9 +26,10 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
    const text = dappOracleInput.contractFunction.oracleInputs ? 
    dappOracleInput.contractFunction.oracleInputs[dappOracleInput.id].response||"" :
    "";
+   console.log(text);
 
     const onTextOracleInput = (text : string)=>{
-        //setText(text);
+        console.log(text);
        setOracleInput && setOracleInput({
             ...dappOracleInput,
             response : text
@@ -55,7 +56,6 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
         }}>
             <TextInputApollo 
                 disabled={disabled}
-                value={text}
                 placeholder={"Enter value"}
                 onTextInput={onTextOracleInput}
                 onSubmit={onTextSubmit}

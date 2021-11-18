@@ -25,8 +25,6 @@ export const DappOracleInput : FC<DappPutOracleInputProps>  = ({
 
     const setOracleInput = (dappOracleInput : DappOracleInputI)=>{
 
-        
-
         reduceContractFunction && reduceContractFunction((contractFunction)=>{
             return {
                 ...contractFunction,
