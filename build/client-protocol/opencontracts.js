@@ -270,7 +270,7 @@ async function connect(opencontracts, f, oracleIP) {
                             data['registrySignature'])
                         .then(tx => {if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                         .then(tx => {if (tx.hash != undefined) {return "Transaction Confirmed."} else {return tx}})
-                        .catch(e => {success=false; _f.errorHandler(new EthereumError(e.reason + " (Check your MetaMask for details)"))};
+                        .catch(e => {success=false; _f.errorHandler(new EthereumError(e.reason + " (Check your MetaMask for details)"))});
                         if (success) {return String(txReturn);}
                     } catch (error) {
                         if (error.error != undefined) {
@@ -485,7 +485,7 @@ async function OpenContracts() {
                             var txReturn = await ethereumTransaction(opencontracts, _f)
                             .then(tx => {if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                             .then(tx => {if (tx.hash != undefined) {return "Transaction Confirmed."} else {return tx}})
-                            .catch(e=> {success=false; _f.errorHandler(new EthereumError(e.reason + " (Check your MetaMask for details)"))};
+                            .catch(e=> {success=false; _f.errorHandler(new EthereumError(e.reason + " (Check your MetaMask for details)"))});
                             if (success) {return String(txReturn);}
                         } catch (error) {
                             if (error.error != undefined) {
