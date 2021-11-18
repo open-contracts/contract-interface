@@ -274,7 +274,7 @@ async function connect(opencontracts, f, oracleIP) {
                             error = new EthereumError(error.message  + " (Check your MetaMask for details)");
                         }
                         _f.errorHandler(error);
-                    }
+                    });
                     if (success) {return String(txReturn)};
                 });
             } else if (data['fname'] == 'error') {
@@ -488,7 +488,7 @@ async function OpenContracts() {
                                 error = new EthereumError(error.message  + " (Check your MetaMask for details)");
                             }
                             _f.errorHandler(error);
-                        }
+                        });
                         if (success) {return String(txReturn)};
                     }
                 }
