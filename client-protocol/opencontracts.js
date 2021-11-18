@@ -244,10 +244,14 @@ async function connect(opencontracts, f, oracleIP) {
                 ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
             } else if (data['fname'] == 'submit') {
                 await f.submitHandler(async function() { 
-                    return await requestHubTransaction(
-                        opencontracts, f, data['nonce'], data['calldata'], 
-                        data['oracleSignature'], data['oracleProvider'], 
-                        data['registrySignature']); 
+                    try {
+                        return await requestHubTransaction(
+                            opencontracts, f, data['nonce'], data['calldata'], 
+                            data['oracleSignature'], data['oracleProvider'], 
+                            data['registrySignature']); 
+                    } catch (error) {
+                        f.errorHandler(error);
+                    }
                 });
             } else if (data['fname'] == 'error') {
                 await f.errorHandler(
@@ -422,7 +426,7 @@ async function OpenContracts() {
                     }
                 }
                 f.call = async function (state) { // option to provide inputs is useful for frameworks like React where state may have been cloned
-                    _f = state || f
+                    var _f = state || f;
                     const unspecifiedInputs = _f.inputs.filter(i=>i.value == null).map(i => i.name);
                     if (unspecifiedInputs.length > 0) {
                         throw new ClientError(`The following inputs to "${_f.name}" were unspecified:  ${unspecifiedInputs}`);
@@ -448,7 +452,11 @@ async function OpenContracts() {
                             return await enclaveSession(opencontracts, _f);
                         }
                     } else {
-                        return String(await ethereumTransaction(opencontracts, _f));
+                        try {
+                            return String(await ethereumTransaction(opencontracts, _f));
+                        } catch(error) {
+                            _f.errorHandler(error);
+                        }
                     }
                 }
                 opencontracts.contractFunctions.push(f);
