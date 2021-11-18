@@ -477,6 +477,7 @@ async function OpenContracts() {
                     } else {
                         try {
                             const txReturn = await ethereumTransaction(opencontracts, _f);
+                            window.txReturn = txReturn;
                             console.log("TxReturn:", txReturn);
                             return String(txReturn);
                         } catch (error) {
