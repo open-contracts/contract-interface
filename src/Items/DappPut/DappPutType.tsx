@@ -34,6 +34,9 @@ export interface DappErrputI extends DappPutI {
 }
 
 export interface DappInteractputI extends DappPutI {
+    targetUrl : string,
+    xpraExit : Promise<void>,
+    sessionUrl : string,
     putType : "interactive"
 }
 

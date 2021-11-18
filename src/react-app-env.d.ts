@@ -124,6 +124,12 @@ declare global {
         getOPN() : Promise<void>
     }
     
+    interface XrpaI {
+        targetUrl : string,
+        xpraExit : Promise<void>,
+        sessionUrl : string,
+    }
+
     interface OpenContractFunctionI {
         name : string,
         oraclePromiseResolve ? : (val : {
@@ -138,7 +144,7 @@ declare global {
         inputs : PutI[],
         errors ? : any[],
         prints ? : any[],
-        xpras ? : any[],
+        xpras ? : XpraI[],
         submits ? : any[],
         result ? : any, 
         oracleInputs ? : {

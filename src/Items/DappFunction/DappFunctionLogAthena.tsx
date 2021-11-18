@@ -324,12 +324,18 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     }
 
-    const addInteractput = (name : string, targetUrl : string, sessionUrl : string)=>{
+    const addInteractput = (name : string, targetUrl : string, sessionUrl : string, xpraExit : Promise<void>)=>{
       reduceFunctionState((contractFunction)=>{
-        const newXpra =  {
+        const newXpra : DappInteractputI =  {
             name : name,
+            targetUrl : targetUrl,
+            sessionUrl : sessionUrl,
+            xpraExit : xpraExit,
             description : targetUrl,
-            value : sessionUrl
+            value : sessionUrl,
+            putType : "interactive",
+            contractFunction : contractFunction,
+            reduceContractFunction : reduceFunctionState
         };
         return {
             ...contractFunction,
@@ -349,7 +355,8 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     contractFunction.xpraHandler = async (targetUrl, sessionUrl, xpraExit)=>{
 
-        addInteractput("Interactive session requested.", targetUrl, sessionUrl);
+        
+        addInteractput("Interactive session requested.", targetUrl, sessionUrl, xpraExit);
 
     }
 
