@@ -261,25 +261,21 @@ async function connect(opencontracts, f, oracleIP) {
                 userInput = await f.inputHandler(data['message']);
                 ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
             } else if (data['fname'] == 'submit') {
-                await f.submitHandler(async function() { 
-                    try {
-                        var success = true;
-                        var txReturn = await requestHubTransaction(
-                            opencontracts, data['nonce'], data['calldata'], 
-                            data['oracleSignature'], data['oracleProvider'], 
-                            data['registrySignature'])
-                        .then(tx => {if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
-                        .then(tx => {if (tx.hash != undefined) {return "Transaction Confirmed."} else {return tx}})
-                        .catch(e => {success=false; _f.errorHandler(new EthereumError(e.reason + " (Check your MetaMask for details)"))});
-                        if (success) {return String(txReturn);}
-                    } catch (error) {
+                await f.submitHandler(async function() {
+                    var success = true;
+                    var txReturn = await ethereumTransaction(opencontracts, _f)
+                    .then(tx => {if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
+                    .then(tx => {if (tx.hash != undefined) {return "Transaction Confirmed."} else {return tx}})
+                    .catch(error => {
+                        success=false;
                         if (error.error != undefined) {
                             error = new EthereumError(error.error.message);
                         } else if (error.message != undefined) {
-                            error = new EthereumError(error.message);
+                            error = new EthereumError(error.message  + " (Check your MetaMask for details)");
                         }
-                        f.errorHandler(error);
+                        _f.errorHandler(error);
                     }
+                    if (success) {return String(txReturn)};
                 });
             } else if (data['fname'] == 'error') {
                 await f.errorHandler(
@@ -480,21 +476,20 @@ async function OpenContracts() {
                             return await enclaveSession(opencontracts, _f);
                         }
                     } else {
-                        try {
-                            var success = true;
-                            var txReturn = await ethereumTransaction(opencontracts, _f)
-                            .then(tx => {if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
-                            .then(tx => {if (tx.hash != undefined) {return "Transaction Confirmed."} else {return tx}})
-                            .catch(e=> {success=false; _f.errorHandler(new EthereumError(e.reason + " (Check your MetaMask for details)"))});
-                            if (success) {return String(txReturn);}
-                        } catch (error) {
+                        var success = true;
+                        var txReturn = await ethereumTransaction(opencontracts, _f)
+                        .then(tx => {if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
+                        .then(tx => {if (tx.hash != undefined) {return "Transaction Confirmed."} else {return tx}})
+                        .catch(error => {
+                            success=false;
                             if (error.error != undefined) {
                                 error = new EthereumError(error.error.message);
                             } else if (error.message != undefined) {
-                                error = new EthereumError(error.message);
+                                error = new EthereumError(error.message  + " (Check your MetaMask for details)");
                             }
                             _f.errorHandler(error);
                         }
+                        if (success) {return String(txReturn)};
                     }
                 }
                 opencontracts.contractFunctions.push(f);
