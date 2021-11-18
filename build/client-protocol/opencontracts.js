@@ -122,7 +122,7 @@ async function extractContentIfValid(attestation_data) {
 
 
 
-async function requestHubTransaction(opencontracts, f, nonce, calldata, oracleSignature, oracleProvider, registrySignature) {
+async function requestHubTransaction(opencontracts, nonce, calldata, oracleSignature, oracleProvider, registrySignature) {
     fn = Object.getOwnPropertyNames(opencontracts.contract.interface.functions).filter(
         sig => opencontracts.contract.interface.getSighash(sig) == calldata.slice(0,10)
     )[0];
@@ -131,17 +131,17 @@ async function requestHubTransaction(opencontracts, f, nonce, calldata, oracleSi
         "forwardCall(address,bytes4,bytes,bytes,address,bytes)"
     ](
         opencontracts.contract.address, nonce, calldata, oracleSignature, oracleProvider, registrySignature
-    ).catch((error) => {f.errorHandler(error)});
+    );
     //estimateForwarder = await opencontracts.OPNforwarder.estimateGas["forwardCall(address,bytes)"](
     //   opencontracts.contract.address, calldata, overrides={from: opencontracts.OPNhub.address});
     estimateContract = await opencontracts.contract.estimateGas[fn](
         ...call, overrides={from: opencontracts.OPNforwarder.address}
-    ).catch((error) => {f.errorHandler(error)});
+    );
     estimateTotal = estimateHub.add(estimateContract);
     opencontracts.OPNhub.connect(opencontracts.signer).forwardCall(
         opencontracts.contract.address, nonce, calldata, oracleSignature,
         oracleProvider, registrySignature, overrides={gasLimit: estimateTotal}
-    ).catch((error) => {f.errorHandler(error)});
+    );
 }
 
 async function encrypt(AESkey, json) {
@@ -249,10 +249,11 @@ async function connect(opencontracts, f, oracleIP) {
                 await f.submitHandler(async function() { 
                     try {
                         return await requestHubTransaction(
-                            opencontracts, f, data['nonce'], data['calldata'], 
+                            opencontracts, data['nonce'], data['calldata'], 
                             data['oracleSignature'], data['oracleProvider'], 
                             data['registrySignature']); 
                     } catch (error) {
+                        if (error.error != undefined) {error = error.error}
                         f.errorHandler(error);
                     }
                 });
@@ -272,7 +273,7 @@ async function ethereumTransaction(opencontracts, f) {
         const msgValue = ethers.utils.parseEther(args.shift());
         args.push({value: msgValue});
     }
-    return await opencontracts.contract.connect(opencontracts.signer).functions[f.name].apply(this, args).catch((error) => {console.log(error); f.errorHandler(error)});
+    return await opencontracts.contract.connect(opencontracts.signer).functions[f.name].apply(this, args);
 }
 
 
@@ -458,6 +459,7 @@ async function OpenContracts() {
                         try {
                             return String(await ethereumTransaction(opencontracts, _f));
                         } catch(error) {
+                            if (error.error != undefined) {error = error.error}
                             _f.errorHandler(error);
                         }
                     }
