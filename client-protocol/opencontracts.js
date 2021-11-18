@@ -263,10 +263,14 @@ async function connect(opencontracts, f, oracleIP) {
             } else if (data['fname'] == 'submit') {
                 await f.submitHandler(async function() { 
                     try {
-                        return await requestHubTransaction(
+                        var txReturn = await requestHubTransaction(
                             opencontracts, data['nonce'], data['calldata'], 
                             data['oracleSignature'], data['oracleProvider'], 
                             data['registrySignature']); 
+                        if (txReturn.wait != undefined) {var txReturn = await txReturn.wait(1)}
+                        if (txReturn.hash != undefined) {var txReturn = "Transaction Confirmed."}
+                        window.txReturn = txReturn;
+                        return String(txReturn);
                     } catch (error) {
                         if (error.error != undefined) {
                             error = new EthereumError(error.error.message);
@@ -476,7 +480,9 @@ async function OpenContracts() {
                         }
                     } else {
                         try {
-                            const txReturn = await ethereumTransaction(opencontracts, _f);
+                            var txReturn = await ethereumTransaction(opencontracts, _f);
+                            if (txReturn.wait != undefined) {var txReturn = await txReturn.wait(1)}
+                            if (txReturn.hash != undefined) {var txReturn = "Transaction Confirmed."}
                             window.txReturn = txReturn;
                             console.log("TxReturn:", txReturn);
                             return String(txReturn);
