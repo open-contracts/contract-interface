@@ -266,11 +266,19 @@ async function connect(opencontracts, f, oracleIP) {
                         var txReturn = await requestHubTransaction(
                             opencontracts, data['nonce'], data['calldata'], 
                             data['oracleSignature'], data['oracleProvider'], 
-                            data['registrySignature']); 
-                        if (txReturn.wait != undefined) {var txReturn = await txReturn.wait(1)}
-                        if (txReturn.hash != undefined) {var txReturn = "Transaction Confirmed."}
+                            data['registrySignature'])
+                        .catch(e=> _f.errorHandler(e.reason + " (Check your MetaMask for details)")); 
                         window.txReturn = txReturn;
-                        return String(txReturn);
+                        if (txReturn.wait != undefined) {
+                            var success = false;    
+                            var txReturn = await txReturn.wait(1)
+                            .then(tx=>{success=True; return tx})
+                            .catch(e=> _f.errorHandler(e.reason + " (Check your MetaMask for details)"));
+                            if (success) {return String(txReturn)}
+                        } else {
+                            if (txReturn.hash != undefined) {var txReturn = "Transaction Confirmed."}
+                            return String(txReturn);
+                        }
                     } catch (error) {
                         if (error.error != undefined) {
                             error = new EthereumError(error.error.message);
@@ -480,12 +488,19 @@ async function OpenContracts() {
                         }
                     } else {
                         try {
-                            var txReturn = await ethereumTransaction(opencontracts, _f);
-                            if (txReturn.wait != undefined) {var txReturn = await txReturn.wait(1)}
-                            if (txReturn.hash != undefined) {var txReturn = "Transaction Confirmed."}
+                            var txReturn = await ethereumTransaction(opencontracts, _f)
+                            .catch(e=> _f.errorHandler(e.reason + " (Check your MetaMask for details)"));
                             window.txReturn = txReturn;
-                            console.log("TxReturn:", txReturn);
-                            return String(txReturn);
+                            if (txReturn.wait != undefined) {
+                                var success = false;    
+                                var txReturn = await txReturn.wait(1)
+                                .then(tx=>{success=True; return tx})
+                                .catch(e=> _f.errorHandler(e.reason + " (Check your MetaMask for details)"));
+                                if (success) {return String(txReturn)}
+                            } else {
+                                if (txReturn.hash != undefined) {var txReturn = "Transaction Confirmed."}
+                                return String(txReturn);
+                            }
                         } catch (error) {
                             if (error.error != undefined) {
                                 error = new EthereumError(error.error.message);
