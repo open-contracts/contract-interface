@@ -131,17 +131,17 @@ async function requestHubTransaction(opencontracts, f, nonce, calldata, oracleSi
         "forwardCall(address,bytes4,bytes,bytes,address,bytes)"
     ](
         opencontracts.contract.address, nonce, calldata, oracleSignature, oracleProvider, registrySignature
-    ).catch((error) => {f.errorHandler(error)});
+    ).catch((error) => {f.errorHandler(error.message)});
     //estimateForwarder = await opencontracts.OPNforwarder.estimateGas["forwardCall(address,bytes)"](
     //   opencontracts.contract.address, calldata, overrides={from: opencontracts.OPNhub.address});
     estimateContract = await opencontracts.contract.estimateGas[fn](
         ...call, overrides={from: opencontracts.OPNforwarder.address}
-    ).catch((error) => {f.errorHandler(error)});
+    ).catch((error) => {f.errorHandler(error.message)});
     estimateTotal = estimateHub.add(estimateContract);
     opencontracts.OPNhub.connect(opencontracts.signer).forwardCall(
         opencontracts.contract.address, nonce, calldata, oracleSignature,
         oracleProvider, registrySignature, overrides={gasLimit: estimateTotal}
-    ).catch((error) => {f.errorHandler(error)});
+    ).catch((error) => {f.errorHandler(error.message)});
 }
 
 async function encrypt(AESkey, json) {
@@ -218,7 +218,10 @@ async function connect(opencontracts, f, oracleIP) {
             [ETHkey, AESkey, encryptedAESkey] = await extractContentIfValid(data['attestation']);
             ws.send(JSON.stringify({fname: 'submit_AES', encrypted_AES: encryptedAESkey}));
             const signThis = ethers.utils.arrayify("0x" + data['signThis']);
-            ws.send(JSON.stringify({fname: 'submit_signature', signature: await opencontracts.signer.signMessage(signThis)}));
+            ws.send(JSON.stringify({
+                fname: 'submit_signature',
+                signature: await opencontracts.signer.signMessage(signThis).catch((error) => {f.errorHandler(error.message)})
+            }));
             f.oracleData.fname = 'submit_oracle';
             ws.send(JSON.stringify(await encrypt(AESkey, f.oracleData)));
             ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
@@ -250,7 +253,7 @@ async function connect(opencontracts, f, oracleIP) {
                             data['oracleSignature'], data['oracleProvider'], 
                             data['registrySignature']); 
                     } catch (error) {
-                        f.errorHandler(error);
+                        f.errorHandler(error.message);
                     }
                 });
             } else if (data['fname'] == 'error') {
@@ -269,7 +272,7 @@ async function ethereumTransaction(opencontracts, f) {
         const msgValue = ethers.utils.parseEther(args.shift());
         args.push({value: msgValue});
     }
-    return await opencontracts.contract.connect(opencontracts.signer).functions[f.name].apply(this, args).catch((error) => {f.errorHandler(error)});
+    return await opencontracts.contract.connect(opencontracts.signer).functions[f.name].apply(this, args).catch((error) => {f.errorHandler(error.message)});
 }
 
 
