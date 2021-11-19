@@ -153,7 +153,7 @@ async function requestHubTransaction(opencontracts, nonce, calldata, oracleSigna
         ...call, overrides={from: opencontracts.OPNforwarder.address}
     );
     estimateTotal = estimateHub.add(estimateContract);
-    opencontracts.OPNhub.connect(opencontracts.signer).forwardCall(
+    return opencontracts.OPNhub.connect(opencontracts.signer).functions.forwardCall(
         opencontracts.contract.address, nonce, calldata, oracleSignature,
         oracleProvider, registrySignature, overrides={gasLimit: estimateTotal}
     );
@@ -264,7 +264,7 @@ async function connect(opencontracts, f, oracleIP) {
                 await f.submitHandler(async function() {
                     var success = true;
                     var txReturn = await ethereumTransaction(opencontracts, _f)
-                    .then(tx => {if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
+                    .then(tx => {if (tx.wait != undefined) {return tx.wait(0)} else {return tx}})
                     .then(tx => {if (tx.blockHash != undefined) {return "Transaction Confirmed."} else {return tx}})
                     .catch(error => {
                         success=false;
@@ -478,8 +478,8 @@ async function OpenContracts() {
                     } else {
                         var success = true;
                         var txReturn = await ethereumTransaction(opencontracts, _f)
-                        .then(function(tx){window.tx = tx; return tx})
-                        .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
+                        .then(function(tx){window.tx = tx; console.warn(tx); return tx})
+                        .then(function(tx){if (tx.wait != undefined) {return tx.wait(0)} else {return tx}})
                         .then(function(tx){if (tx.blockHash != undefined) {return "Transaction Confirmed."} else {return tx}})
                         .catch(error => {
                             success=false;
