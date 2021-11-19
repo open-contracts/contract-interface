@@ -76,7 +76,7 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = (props) =
               })
           }
   
-      }, [props.dappItem.contract])
+      }, [props.dappItem.contract?.contractName])
       useEffect(()=>{
   
           if(contractLoad && (props.dappItem.contract !== contractLoad)){
