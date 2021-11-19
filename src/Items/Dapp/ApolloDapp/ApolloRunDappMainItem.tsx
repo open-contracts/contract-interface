@@ -46,7 +46,7 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = (props) =
               })
           }
   
-      }, [])
+      }, [props.dappItem.name])
       useEffect(()=>{
   
           if(props.dappItem.name !== nameLoad){
@@ -59,14 +59,11 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = (props) =
       })
   
       const [contractLoad, setContractLoad] = useState<OpenContractI|undefined>(undefined);
-      const [contractLoaded, setContracLoaded] = useState(false);
       useEffect(()=>{
-  
-          if(!props.dappItem.contract &&  !contractLoad){
+          if(!props.dappItem.contract){
               getDappContract(
                   props.dappItem,
                   (contract : OpenContractI)=>{
-                      
                       setContractLoad(contract)
                   }
               ).catch((err)=>{
@@ -79,18 +76,17 @@ export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = (props) =
               })
           }
   
-      }, [])
+      }, [props.dappItem.contract])
       useEffect(()=>{
   
-          if(contractLoad && (props.dappItem.contract !== contractLoad) && !contractLoaded){
+          if(contractLoad && (props.dappItem.contract !== contractLoad)){
               props.updateDapp && props.updateDapp({
                   ...props.dappItem,
                   contract : contractLoad
               })
-              setContracLoaded(true);
           }
   
-      })
+      }, [contractLoad])
 
 
 

@@ -42,7 +42,8 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             id : `${owner}/${repo}/${branch||"main"}`,
             owner : owner || "",
             repo : repo || "", 
-            branch : branch || "main"
+            branch : branch || "main",
+            // loaded : false
         })
 
         navigate(`/${owner}/${repo}/${branch||"main"}`);
@@ -62,7 +63,8 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             id : `${owner}/${repo}/${branch||"main"}`,
             owner : owner || "",
             repo : repo || "", 
-            branch : branch || "main"
+            branch : branch || "main",
+            // loaded : false
         })
 
         navigate(`/${owner}/${repo}/${branch||"main"}`);

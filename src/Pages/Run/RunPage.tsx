@@ -60,8 +60,25 @@ export const RunPage : FC<RunPageProps>  = () =>{
         id : `${owner}/${repo}/${branch||"main"}`,
         owner : owner || "",
         repo : repo || "", 
-        branch : branch || "main"
+        branch : branch || "main",
+        // loaded : false
     } )
+
+    const [loc, setLoc] = useState<string>(window.location.hash);
+    useEffect(()=>{
+        if(loc !== window.location.hash){
+            setDapp({
+                __isDapp__ : true,
+                gitUrl : `https://github.com/${owner}/${repo}/${branch}`,
+                id : `${owner}/${repo}/${branch||"main"}`,
+                owner : owner || "",
+                repo : repo || "", 
+                branch : branch || "main",
+                // loaded : false
+            });
+            setLoc(window.location.hash);
+        }
+    }, [window.location.hash])
 
     const [grid, setGrid] = useState(true);
     const [which, setWhich] = useState<string|undefined>(undefined)

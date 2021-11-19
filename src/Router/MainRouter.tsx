@@ -13,12 +13,12 @@ export const MainRouter : FC<MainRouterProps>  = () =>{
         <HashRouter>
             <IntegratedErrorBoundary>
                 <Routes>
-                    <Route path="/" element={<RunPage/>}/>
-                    <Route path="/:owner/:repo" element={<RunPage/>}/>
-                    <Route path="/:owner/:repo/error" element={<RunPage/>}/>
-                    <Route path="/:owner/:repo/:branch" element={<RunPage/>}/>
                     <Route path="/:owner/:repo/:/branch/error" element={<ErrorPage/>}/>
+                    <Route path="/:owner/:repo/:branch" element={<RunPage/>}/>
+                    <Route path="/:owner/:repo/error" element={<RunPage/>}/>
+                    <Route path="/:owner/:repo" element={<RunPage/>}/>
                     <Route path="/error" element={<ErrorPage/>}/>
+                    <Route path="/" element={<RunPage/>}/>
                 </Routes>
             </IntegratedErrorBoundary>
         </HashRouter>
