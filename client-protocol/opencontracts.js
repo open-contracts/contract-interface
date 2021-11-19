@@ -264,7 +264,8 @@ async function connect(opencontracts, f, oracleIP) {
                 await f.submitHandler(async function() {
                     var success = true;
                     var txReturn = await ethereumTransaction(opencontracts, _f)
-                    .then(tx => {if (tx.wait != undefined) {return tx.wait(0)} else {return tx}})
+                    .then(function(tx){window.tx = tx; return tx})
+                    .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                     .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
                     .catch(error => {
                         success=false;
@@ -478,8 +479,8 @@ async function OpenContracts() {
                     } else {
                         var success = true;
                         var txReturn = await ethereumTransaction(opencontracts, _f)
-                        .then(function(tx){window.tx = tx; console.warn(tx); return tx})
-                        .then(function(tx){if (tx.wait != undefined) {return tx.wait(0)} else {return tx}})
+                        .then(function(tx){window.tx = tx; return tx})
+                        .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                         .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
                         .catch(error => {
                             success=false;
