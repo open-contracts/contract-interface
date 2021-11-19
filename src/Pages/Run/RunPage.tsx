@@ -63,12 +63,6 @@ export const RunPage : FC<RunPageProps>  = () =>{
         branch : branch || "main"
     } )
 
-    useEffect(()=>{
-        console.log("First dapp: ", dapp)
-    }, [])
-
-    console.log(dapp);
-
     const [grid, setGrid] = useState(true);
     const [which, setWhich] = useState<string|undefined>(undefined)
 
@@ -79,7 +73,9 @@ export const RunPage : FC<RunPageProps>  = () =>{
         which={which}
         setWhich={setWhich}
         stepStatus={stepStatus} dapp={dapp} setDapp={setDapp}/>) :
-    (<NotReadyToRun setStepStatus={_setStepStatus} stepStatus={stepStatus} handleAllDone={handleAllDone}/>);
+    (<NotReadyToRun 
+        
+        setStepStatus={_setStepStatus} stepStatus={stepStatus} handleAllDone={handleAllDone}/>);
 
     return (
         <MediaResponsive>

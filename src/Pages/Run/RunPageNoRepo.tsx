@@ -10,14 +10,19 @@ import { useNavigate } from 'react-router-dom';
 import { AthenaButton } from '../../Components/Buttons';
 import { Colors } from '../../Theme';
 import { parseGitUrl } from '../../Items';
+import { DappI } from '../../Items';
 
 export type RunPageNoRepoProps = {
-    stepStatus : StepStatusT
+    stepStatus : StepStatusT,
+    dapp : DappI,
+    setDapp : (dapp : DappI)=>void,
 }
 
 
 export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
-    stepStatus
+    stepStatus,
+    dapp,
+    setDapp
 }) =>{
 
     const navigate = useNavigate();
@@ -31,6 +36,15 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             branch
         } = parseGitUrl(text);
 
+        setDapp({
+            __isDapp__ : true,
+            gitUrl : `https://github.com/${owner}/${repo}/${branch}`,
+            id : `${owner}/${repo}/${branch||"main"}`,
+            owner : owner || "",
+            repo : repo || "", 
+            branch : branch || "main"
+        })
+
         navigate(`/${owner}/${repo}/${branch||"main"}`);
 
     }
@@ -41,6 +55,15 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             repo,
             branch
         } = parseGitUrl(text);
+
+        setDapp({
+            __isDapp__ : true,
+            gitUrl : `https://github.com/${owner}/${repo}/${branch}`,
+            id : `${owner}/${repo}/${branch||"main"}`,
+            owner : owner || "",
+            repo : repo || "", 
+            branch : branch || "main"
+        })
 
         navigate(`/${owner}/${repo}/${branch||"main"}`);
 

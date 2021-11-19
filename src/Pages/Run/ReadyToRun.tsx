@@ -38,6 +38,9 @@ export const ReadyToRun : FC<ReadyToRunProps>  = ({
         which={which}
         setWhich={setWhich}
         dapp={dapp} setDapp={setDapp}/>) :
-    (<RunPageNoRepo stepStatus={stepStatus}/>)
+    (<RunPageNoRepo 
+        dapp={dapp}
+        setDapp={setDapp}
+        stepStatus={stepStatus}/>)
 
 }
