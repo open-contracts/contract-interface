@@ -32,7 +32,9 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
             <div 
             key={func.name}
             style={{
-                padding : DesktopSizes.Padding.standard
+                overflow : "visible",
+                padding : DesktopSizes.Padding.standard,
+                width : "100%"
             }}>
                 <ApolloDappFunction 
                     style={{
@@ -51,6 +53,9 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
     return (
 
         <Masonry 
+            style={{
+                overflow : "visible"
+            }}
             className={"masonry"}
             breakpointCols={3}>
             {funcs}

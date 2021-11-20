@@ -49,14 +49,13 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 display : "flex",
                 alignContent : "center",
                 alignItems : "center",
-                borderBottom : `1px solid ${Colors.Maintheme}`,
                 position : "relative",
                 overflow  : "visible"
             }}>
                 <AthenaButton
                     onClick={handleGrid}
                     primaryColor={Colors.Maintheme}
-                    secondaryColor={Colors.quartenaryTextColor}
+                    secondaryColor={grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
                         height : "50px",
                         width : "60px",
@@ -65,10 +64,10 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                         top : grid ? "1px" : 0,
                         borderBottomRightRadius : "0px",
                         borderBottomLeftRadius : "0px",
-                        borderTop : grid ? `1px solid ${Colors.Maintheme}` : "none",
-                        borderLeft : grid ? `1px solid ${Colors.Maintheme}` : "none",
-                        borderBottom : grid ? `1px solid ${Colors.quartenaryTextColor}` : "none",
-                        borderRight : grid ? `1px solid ${Colors.Maintheme}` : "none"
+                        borderTop :  "none",
+                        borderLeft : "none",
+                        borderBottom : grid ? `1px solid ${Colors.jonasGray}` : "none",
+                        borderRight :  "none"
                     }}
                 >
                     <Grid3x3GapFill size={24}/>
@@ -76,17 +75,17 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 <AthenaButton
                     onClick={handleSingle}
                     primaryColor={Colors.Maintheme}
-                    secondaryColor={Colors.quartenaryTextColor}
+                    secondaryColor={!grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
                         zIndex : 100,
                         position : "relative",
                         top : !grid ? "1px" : 0,
                         borderBottomRightRadius : "0px",
                         borderBottomLeftRadius : "0px",
-                        borderTop : !grid ? `1px solid ${Colors.Maintheme}` : "none",
-                        borderLeft : !grid ? `1px solid ${Colors.Maintheme}` : "none",
-                        borderBottom : !grid ? `1px solid ${Colors.quartenaryTextColor}` : "none",
-                        borderRight : !grid ? `1px solid ${Colors.Maintheme}` : "none",
+                        borderTop :  "none",
+                        borderLeft : "none",
+                        borderBottom : !grid ? `1px solid ${Colors.jonasGray}` : "none",
+                        borderRight :  "none",
                         fontSize : "24px"
                     }}
                 >
@@ -97,9 +96,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 paddingBottom : "40vh",
                 flexGrow : 1,
                 zIndex : 0,
-                background : Colors.quartenaryTextColor,
-                borderRight : `1px solid ${Colors.Maintheme}`,
-                borderLeft : `1px solid ${Colors.Maintheme}`,
+                background : Colors.jonasGray,
             }}>
                 {grid ? Grid : Single}
             </div>
