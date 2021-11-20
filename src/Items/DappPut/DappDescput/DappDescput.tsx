@@ -22,8 +22,6 @@ export const DappDescput : FC<DappPutDescputProps>  = ({
 
         <DappPutLayout style={{
             background : "white",
-            border : `1px solid ${Colors.Maintheme}`,
-            color : Colors.Maintheme,
             userSelect : "text",
             ...style
         }}>

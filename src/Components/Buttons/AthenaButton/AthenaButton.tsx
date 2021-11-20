@@ -1,6 +1,7 @@
 import Color from "color";
 import React, { FC, useEffect, useState } from 'react';
 import {Button, Spinner } from "react-bootstrap";
+import { Colors, Shadows } from "../../../Theme";
 
 
 /**
@@ -94,7 +95,7 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
     return (
 
         <Button
-            className={className ? className : "shadow"}
+            // className={className ? className : "shadow-sm"}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             variant={`outline`}
@@ -103,14 +104,11 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
             size={size}
             onClick={handleClick}
             style={{
+                boxShadow : Shadows.defaultShadow,
                 cursor: "pointer",
                 transition: _isHovered? "all .1s ease-in-out" : "",
                 display: "inline-block",
                 color: _isHovered? secondaryColor : !invert ? primaryColor : secondaryColor,
-                borderTop: `1px solid ${primaryColor}`,
-                borderLeft: `1px solid ${primaryColor}`,
-                borderBottom: `1px solid ${primaryColor}`,
-                borderRight: `1px solid ${primaryColor}`,
                 backgroundColor: _isHovered? primaryColor : invert ? invertedBackground : secondaryColor,
                 ...style
             }}

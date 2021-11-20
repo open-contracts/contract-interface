@@ -26,7 +26,6 @@ export const DappOracleput : FC<DappPutOracleputProps>  = ({
         end={end}
         style={{
             background : "white",
-            border : `1px solid ${Colors.deepCyan}`,
             ...style
         }}>
             <DappPutLayout.Header>

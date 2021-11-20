@@ -63,11 +63,13 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
             display : "flex",
                 alignContent : "center",
                 alignItems : "center",
-                overflow : "visible"
             }}>
                 <AthenaButton 
+                style={{
+                    border : "none",
+                }}
                 onClick={handleGitHub}
-                primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                primaryColor={Colors.Maintheme} secondaryColor={"white"}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -78,8 +80,11 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 </AthenaButton>
                 &emsp;
                 <AthenaButton
+                    style={{
+                        border : "none",
+                    }}
                     action={getTokens}
-                    primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                    primaryColor={Colors.Maintheme} secondaryColor={"white"}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -90,8 +95,11 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 </AthenaButton>
                 &emsp;
                 <AthenaButton 
+                    style={{
+                        border : "none",
+                    }}
                     action={approveHub}
-                    primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                    primaryColor={Colors.Maintheme} secondaryColor={"white"}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",

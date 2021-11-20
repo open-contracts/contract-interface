@@ -1,9 +1,14 @@
 .App {
   text-align: center;
   user-select: text;
+  background: #F9F9FB;
 }
 p {
   user-select: text;
+}
+
+html {
+  background: #F9F9FB;
 }
 
 .App-logo {

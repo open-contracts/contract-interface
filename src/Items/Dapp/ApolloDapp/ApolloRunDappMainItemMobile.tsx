@@ -102,7 +102,6 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
 
         <div style={{
             paddingTop : DesktopSizes.Padding.standard,
-            borderTop : `1px solid ${Colors.Maintheme}`,
             width : "100%",
             // paddingBottom : DesktopSizes.Padding.whitespacePreferred,
             ...style

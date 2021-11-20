@@ -58,6 +58,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                     primaryColor={Colors.Maintheme}
                     secondaryColor={grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
+                        boxShadow : "none",
                         height : "50px",
                         width : "60px",
                         zIndex : 1000,
@@ -71,7 +72,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                         borderRight :  "none"
                     }}
                 >
-                    <Grid3x3GapFill size={24}/>
+                    <Grid3x3GapFill size={20}/>
                 </AthenaButton>
                 <AthenaButton
                     className="none"
@@ -79,6 +80,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                     primaryColor={Colors.Maintheme}
                     secondaryColor={!grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
+                        boxShadow : "none",
                         zIndex : 100,
                         position : "relative",
                         top : !grid ? "1px" : 0,

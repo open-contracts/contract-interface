@@ -44,7 +44,7 @@ const MainLayoutDesktop : FC<MainLayoutDesktopProps>  & {
                 <div style={{
                     height : "auto",
                     width : "100%",
-                    overflow : "auto"
+                    // overflow : "auto",
                 }}> 
                     {Content}
                 </div>

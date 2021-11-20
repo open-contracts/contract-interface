@@ -26,7 +26,6 @@ export const DappOutput : FC<DappPutOutputProps>  = ({
         end={end}
         style={{
             background : "white",
-            border : `1px solid ${Colors.Maintheme}`,
             ...style
         }}>
             <DappPutLayout.Header>

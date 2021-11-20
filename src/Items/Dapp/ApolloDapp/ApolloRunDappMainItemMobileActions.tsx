@@ -71,8 +71,9 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                 onClick={handleGitHub}
                 style={{
                     width : "100%",
+                    border : "none"
                 }}
-                primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                primaryColor={Colors.Maintheme} secondaryColor={"white"}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -85,10 +86,11 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                 </AthenaButton>
                 <AthenaButton
                     style={{
-                        width : "100%"
+                        width : "100%",
+                        border : "none"
                     }}
                     action={getTokens}
-                    primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                    primaryColor={Colors.Maintheme} secondaryColor={"white"}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",
@@ -102,9 +104,10 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                 <AthenaButton 
                     action={approveHub}
                     style={{
-                        width : "100%"
+                        width : "100%",
+                        border : "none"
                     }}
-                    primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
+                    primaryColor={Colors.Maintheme} secondaryColor={"white"}>
                     <div style={{
                         display : "flex",
                         alignContent : "center",

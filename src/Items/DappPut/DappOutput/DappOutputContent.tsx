@@ -22,6 +22,10 @@ export const DappOutputContent : FC<DappOutputContentProps>  = ({
             alignItems : "center"
         }}>
             <AthenaButton 
+            style={{
+                border : `1px solid ${Colors.Maintheme}`,
+                boxShadow : "none"
+            }}
              primaryColor={Colors.Maintheme}
              secondaryColor={"white"}
              action={async ()=>{
@@ -33,7 +37,7 @@ export const DappOutputContent : FC<DappOutputContentProps>  = ({
                    alignItems : "center",
                    userSelect : "text"
                }}>
-                    <Clipboard />
+                    <Clipboard size={14}/>
                </div>
             </AthenaButton>
             &emsp;

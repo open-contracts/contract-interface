@@ -25,7 +25,6 @@ export const DappWaitingPut : FC<DappPutWaitingPutProps>  = ({
 
         <DappPutLayout style={{
             background : "white",
-            border : `1px solid ${Colors.Maintheme}`
         }}>
             <DappPutLayout.Header>
                 <DappWaitingPutHeader

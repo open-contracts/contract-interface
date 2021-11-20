@@ -2,7 +2,7 @@ import React, {FC, ReactElement} from 'react';
 import { useState } from 'react';
 import { Play, PlayCircleFill, PlayFill } from 'react-bootstrap-icons';
 import { AthenaButton } from '../../Components/Buttons';
-import { Colors, DesktopSizes } from '../../Theme';
+import { Colors, DesktopSizes, Shadows } from '../../Theme';
 import { DappInputHeader } from '../DappPut/DappInput/DappInputHeader';
 import { DappResultput } from '../DappPut/DappResultput';
 import { ArrowReturnRight } from 'react-bootstrap-icons';
@@ -88,11 +88,8 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         borderTopRightRadius : DesktopSizes.BorderRadius.standard,
                         borderBottomLeftRadius : DesktopSizes.BorderRadius.standard,
                         borderBottomRightRadius : DesktopSizes.BorderRadius.standard,
-                        borderLeft :`1px solid ${Colors.Maintheme}`,
-                        borderRight : `1px solid ${Colors.Maintheme}`,
-                        borderTop : `1px solid ${Colors.Maintheme}`,
-                        borderBottom : `1px solid ${Colors.Maintheme}`,
-                        background : 'white'
+                        background : 'white',
+                        boxShadow : Shadows.defaultShadow
                     }}>
                     <div style={{
                         color : Colors.Maintheme

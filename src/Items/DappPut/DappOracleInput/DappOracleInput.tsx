@@ -41,7 +41,6 @@ export const DappOracleInput : FC<DappPutOracleInputProps>  = ({
         <DappPutLayout style={{
             color : Colors.Maintheme,
             background : "white",
-            border : `1px solid ${Colors.Maintheme}`
         }}>
             <DappPutLayout.Header>
                 <DappOracleInputHeader dappOracleInput={dappOracleInput}/>

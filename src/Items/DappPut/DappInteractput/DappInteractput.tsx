@@ -26,7 +26,6 @@ export const DappInteractput : FC<DappPutInteractputProps>  = ({
         end={end}
         style={{
             background : "white",
-            border : `1px solid ${Colors.lilac}`,
             ...style
         }}>
             <DappPutLayout.Header>

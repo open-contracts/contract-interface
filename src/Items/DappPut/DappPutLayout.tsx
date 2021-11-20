@@ -1,6 +1,6 @@
 import React, {FC, ReactElement} from 'react';
 import {generateNamedMember, getComponentMembers} from "rgfm";
-import { DesktopSizes } from '../../Theme';
+import { Colors, DesktopSizes, Shadows } from '../../Theme';
 
 const Members = ["Content", "Header"];
 
@@ -36,6 +36,8 @@ const DappPutLayout : FC<DappPutInputProps> & {
             paddingRight : DesktopSizes.Padding.standard,
             borderRadius : DesktopSizes.BorderRadius.standard,
             borderCollapse : "collapse",
+            border : "none",
+            boxShadow : Shadows.defaultShadow,
             ...style,
         }}>
             <div style={{

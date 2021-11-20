@@ -31,9 +31,6 @@ export const DappResultput : FC<DappPutResultputProps>  = ({
         !ethereumError && dappResultput.value ? <DappPutLayout style={{
             background : Colors.greenCeramic,
             color : Colors.forestEdge,
-            borderTop : `1px solid ${Colors.forestEdge}`,
-            border : `1px solid ${Colors.forestEdge}`,
-            borderRadius : DesktopSizes.BorderRadius.standard,
             ...style
         }}>
             <DappPutLayout.Header>

@@ -66,6 +66,10 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
                 border : `1px solid ${Colors.Maintheme}`
             }}/>
             <AthenaButton 
+                style={{
+                    border : `1px solid ${Colors.Maintheme}`,
+                    boxShadow : "none"
+                }}
                 onClick={onButtonSumbit}
                 primaryColor={Colors.Maintheme} secondaryColor={"white"}>
                 Submit
