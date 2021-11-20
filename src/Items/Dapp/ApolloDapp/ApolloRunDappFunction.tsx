@@ -78,7 +78,7 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                                 textAlign : "left"
                             }}>
                                 {func.requiresOracle && <i style={{
-                                    color : Colors.deepCyan,
+                                    color : Colors.cyan,
                                     fontSize : "16px",
                                     textAlign : "left"
                                 }}>

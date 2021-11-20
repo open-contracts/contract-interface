@@ -20,9 +20,15 @@ export const DappResultput : FC<DappPutResultputProps>  = ({
     style,
 }) =>{
 
+    const ethereumError = dappResultput.contractFunction.errors?.map((error)=>{
+        return error.name === "EthereumError";
+    }).length || -1 > 0
+
+    console.log(ethereumError, dappResultput.value)
+
     return (
 
-        <DappPutLayout style={{
+        !ethereumError && dappResultput.value ? <DappPutLayout style={{
             background : Colors.greenCeramic,
             color : Colors.forestEdge,
             borderTop : `1px solid ${Colors.forestEdge}`,
@@ -36,7 +42,7 @@ export const DappResultput : FC<DappPutResultputProps>  = ({
             <DappPutLayout.Content>
                 <DappResultputContent dappResultput={dappResultput}/>
             </DappPutLayout.Content>
-        </DappPutLayout>
+        </DappPutLayout> : <></>
 
     )
 

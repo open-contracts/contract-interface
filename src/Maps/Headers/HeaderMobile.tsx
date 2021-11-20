@@ -75,7 +75,7 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
                     width : "150px",
                     justifyContent : "center",
                     justifyItems : "center",
-                    paddingBottom : DesktopSizes.Padding.standard
+                    padding : DesktopSizes.Padding.standard
                 }} wallet={wallet}/>
             </HeaderLayoutMobile.Nav>
         </HeaderLayoutMobile>

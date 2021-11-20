@@ -32,7 +32,7 @@ export const ProgressBarAlan : FC<ProgressBarAlanProps>  = ({
                 }}
                 animate = {{
                     width : ["0%", "100%"],
-                    background : Colors.readyGreen
+                    background : [`${Colors.readyGreen}44`, Colors.readyGreen]
                 }}
                 transition={{
                     ease : "easeInOut",

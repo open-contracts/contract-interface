@@ -24,7 +24,7 @@ export const DappResultputContent : FC<DappResultputContentProps>  = ({
             display : "flex",
             color : Colors.babyBlue
         }}>
-            &emsp;&emsp;<b>𝑦</b>&emsp;=&emsp;{dappResultput.value||"No return value yet."}
+            {dappResultput.value||"No return value yet."}
         </div>
 
     )

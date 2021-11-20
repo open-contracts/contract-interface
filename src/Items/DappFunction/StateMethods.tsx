@@ -140,7 +140,7 @@ export const createResult = (
     return {
         contractFunction : contractFunction,
         reduceContractFunction : setFunc,
-        name : contractFunction.name,
+        name : "Result",
         value : data,
         putType : "result"
     }

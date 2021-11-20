@@ -46,12 +46,16 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             }
         })
     }
+
+    console.log(contractFunction.puts);
+
     const updatedPuts = log.produceUpdatedPuts(
-        contractFunction.puts,
-        contractFunction,
+        reducedFunctionState.puts,
+        reducedFunctionState,
         reduceFunctionState
     );
     const puts = updatedPuts.reduce((agg, put, index)=>{
+
         return [
             ...agg,
             ...put.putType !== "input" ? [
@@ -191,9 +195,12 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const addResult = (data : OpenContractFunctionI["result"])=>{
 
+        console.log(data);
+
         const update = (contractFunction : OpenContractFunctionI)=>{
             const _newFunctionState = {
                 ...contractFunction,
+                name : "Result",
                 result : data,
                 puts : [...contractFunction.puts||[], log.createResult(
                     data,
@@ -201,6 +208,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                     reduceFunctionState
                 )]
             }
+            console.log(_newFunctionState)
             return _newFunctionState;
         }
         reduceFunctionState(update);
@@ -320,9 +328,10 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 })
                 return;
             } 
+
             contractFunction.call(contractFunction).then((data)=>{
+                console.log(data);
                 addResult(data);
-                
                 resolve(data);
             }).catch((err)=>{
                 

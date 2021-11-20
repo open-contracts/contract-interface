@@ -25,8 +25,8 @@ const HeaderLayoutMobile : FC<HeaderLayoutMobileProps> & {
         <div style={{
             display : "grid",
             gridTemplateColumns : "1fr",
-            gap : DesktopSizes.Padding.standard,
-            padding : DesktopSizes.Padding.standard
+            gap : DesktopSizes.Padding.whitespacePreferred,
+            padding : DesktopSizes.Padding.whitespacePreferred
         }}>
             <div>
                 {Brand}
