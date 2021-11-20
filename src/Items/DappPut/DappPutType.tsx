@@ -4,7 +4,7 @@ export interface DappPutI extends PutI {
     name : string, 
     description ? : string,
     value : string,
-    type ? : InputTypeE,
+    type ? : string,
     putType : string,
     contractFunction : OpenContractFunctionI,
     reduceContractFunction : (reducer : reduceContractFunctionI)=>void
@@ -55,4 +55,9 @@ export interface DappOracleInputI extends DappPutI {
     id : string,
     prompt : string,
     putType : "oracle-input"
+}
+
+export interface DappWaitingPutI extends DappPutI {
+    duration : number
+    type : "waiting"
 }
