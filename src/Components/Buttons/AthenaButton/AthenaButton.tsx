@@ -12,6 +12,7 @@ import {Button, Spinner } from "react-bootstrap";
  * @description
  */
 export type AthenaButtonProps = {
+    className ? : string,
     label?: string,
     primaryColor: React.CSSProperties["color"],
     secondaryColor: React.CSSProperties["color"],
@@ -32,6 +33,7 @@ export type AthenaButtonProps = {
  * @description 
  */
 export const AthenaButton : FC<AthenaButtonProps>  = ({
+    className,
     label, 
     primaryColor, 
     secondaryColor,
@@ -92,6 +94,7 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
     return (
 
         <Button
+            className={className ? className : "shadow"}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             variant={`outline`}

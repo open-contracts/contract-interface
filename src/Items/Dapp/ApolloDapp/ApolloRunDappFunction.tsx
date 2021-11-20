@@ -51,7 +51,11 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
     return (
 
      
-        <ThroughGlassAgathocles glass={isHovered} glassOpacity={.7}>
+        <ThroughGlassAgathocles 
+            style={{
+                overflow : "visible"
+            }}
+            glass={isHovered} glassOpacity={.7}>
             <GrowOnEventAchamaenid grow={isHovered}>
             <AthenaButton 
                 onMouseEnter={handleMouseOver}
@@ -61,6 +65,7 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                         wordWrap : "normal",
                         width : "auto",
                         fontSize : "18px",
+                        border : "none",
                         ...style
                     }}
                 

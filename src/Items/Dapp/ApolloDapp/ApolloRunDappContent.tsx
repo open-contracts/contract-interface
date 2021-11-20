@@ -53,6 +53,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 overflow  : "visible"
             }}>
                 <AthenaButton
+                    className="none"
                     onClick={handleGrid}
                     primaryColor={Colors.Maintheme}
                     secondaryColor={grid ? Colors.jonasGray : Colors.quartenaryTextColor}
@@ -73,6 +74,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                     <Grid3x3GapFill size={24}/>
                 </AthenaButton>
                 <AthenaButton
+                    className="none"
                     onClick={handleSingle}
                     primaryColor={Colors.Maintheme}
                     secondaryColor={!grid ? Colors.jonasGray : Colors.quartenaryTextColor}

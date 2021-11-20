@@ -62,7 +62,8 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
             <div style={{
             display : "flex",
                 alignContent : "center",
-                alignItems : "center"
+                alignItems : "center",
+                overflow : "visible"
             }}>
                 <AthenaButton 
                 onClick={handleGitHub}
