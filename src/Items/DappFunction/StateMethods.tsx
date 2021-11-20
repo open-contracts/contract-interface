@@ -39,6 +39,9 @@ export const createErrors = (
     reduceContractFunction ? : (func : reduceContractFunctionI)=>void,
 ) : DappErrputI[]=>{
     return errors ? errors.map((error)=>{
+
+        console.log(error.value);
+
         return {
             ...error,
             contractFunction : contractFunction,
@@ -219,6 +222,7 @@ export const createWaitingPut = (
         reduceContractFunction : setFunc,
         name : contractFunction.name,
         value : message,
+        message : message,
         duration : seconds,
         putType : "waiting",
         type : "waiting"

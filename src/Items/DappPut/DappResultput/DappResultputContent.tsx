@@ -22,8 +22,7 @@ export const DappResultputContent : FC<DappResultputContentProps>  = ({
         <div style={{
             userSelect : "text",
             display : "flex",
-            color : Colors.babyBlue,
-            fontSize : "16px"
+            color : Colors.babyBlue
         }}>
             &emsp;&emsp;<b>𝑦</b>&emsp;=&emsp;{dappResultput.value||"No return value yet."}
         </div>

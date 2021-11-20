@@ -9,6 +9,7 @@ import { ArrowReturnRight } from 'react-bootstrap-icons';
 import { TextInputApollo } from '../../Components/TextInput';
 import * as pure from "./StateMethods";
 import {generate} from "shortid";
+import { DefaultHeader } from '../DappPut/Standards';
 
 
 export type DappFunctionLogRunButtonProps = {
@@ -40,8 +41,6 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                 return contractFunction
             });
         }
-
-        console.log(input.value);
 
         return (
                     <div 
@@ -96,10 +95,19 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         background : 'white'
                     }}>
                     <div style={{
-                        fontSize : "24px",
-                        textAlign : "left"
+                        color : Colors.Maintheme
                     }}>
-                        <p>𝑥&emsp;Inputs</p>
+                        <DefaultHeader dappPut={{
+                            name : "Inputs",
+                            putType : "Inputs",
+                            value : "any",
+                            contractFunction : {} as OpenContractFunctionI,
+                            reduceContractFunction : ()=>{} 
+                        }}>
+                            <DefaultHeader.Pre>
+                            𝑥
+                            </DefaultHeader.Pre>
+                        </DefaultHeader>
                         <div style={{
                             paddingLeft : DesktopSizes.Padding.whitespacePreferred
                         }}>

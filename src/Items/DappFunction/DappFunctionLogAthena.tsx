@@ -140,10 +140,13 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     })
 
     const addError = (e : Error)=>{
+
+        console.log(e.message);
+
         const update = (contractFunction : OpenContractFunctionI)=>{
             const newError = {
                 ...e,
-                description : e.message
+                value : e.message
             }
             const _newFunctionState = {
                 ...contractFunction,
@@ -367,6 +370,9 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
 
     const addWaitingPut = (seconds : number, message : string)=>{
+
+        log.removeWaitingPut(reduceFunctionState);
+
         reduceFunctionState((state)=>{
             return {
                 ...state,
@@ -408,7 +414,6 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 reduceContractFunction={reduceFunctionState}
                     dappDescput={{
                         name : "Description",
-                        description : contractFunction.description,
                         value : contractFunction.description,
                         putType : "description",
                         contractFunction : contractFunction,

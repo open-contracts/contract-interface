@@ -26,6 +26,7 @@ export const DappWaitingPutContent : FC<DappWaitingPutContentProps>  = ({
     return (
 
         <div>
+            <p>{dappWaitingPut.value}</p>
             <ProgressBarAlan duration={duration}/>
         </div>
 

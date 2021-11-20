@@ -16,12 +16,11 @@ export const DappDescputHeader : FC<DappDescputHeaderProps>  = ({
 
         <DefaultHeader
             style={{
-                color : Colors.Maintheme,
-                fontSize : "24px"
+                color : Colors.Maintheme
             }}
             dappPut={dappDescput}>
                 <DefaultHeader.Pre>
-                    <InfoCircleFill/>
+                    <InfoCircleFill size={14}/>
                 </DefaultHeader.Pre>
             </DefaultHeader>
 

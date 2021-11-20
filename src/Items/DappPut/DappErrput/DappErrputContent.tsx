@@ -12,15 +12,13 @@ export const DappErrputContent : FC<DappErrputContentProps>  = ({
     dappErrput
 }) =>{
 
-    const resetArgs = ()=>{
+    /*const resetArgs = ()=>{
         dappErrput.resetArgs(dappErrput.reduceContractFunction);
-    }
+    }*/
 
     return (
 
-        <div style={{
-            color : Colors.primaryTextColor
-        }}>
+        <div>
             {dappErrput.value}
         </div>
 

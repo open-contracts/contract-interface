@@ -14,9 +14,8 @@ export const DappDescputContent : FC<DappDescputContentProps>  = ({
 
     return (
 
-        <div style={{
-            color : Colors.primaryTextColor
-        }}>
+        <div>
+            {dappDescput.value}
         </div>
 
     )

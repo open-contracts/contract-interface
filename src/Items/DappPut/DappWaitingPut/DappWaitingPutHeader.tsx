@@ -21,7 +21,7 @@ export const DappWaitingPutHeader : FC<DappWaitingPutHeaderProps>  = ({
             ...style
         }}>
             <DefaultHeader.Pre>
-                <ClockFill/>
+                <ClockFill size={16}/>
             </DefaultHeader.Pre>
             <DefaultHeader.Post>
                 &emsp;<i style={{

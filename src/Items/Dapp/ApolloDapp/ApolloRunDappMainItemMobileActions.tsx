@@ -41,9 +41,21 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
             <p style={{
                 textAlign : "left"
             }}>
-                <InfoCircle size={22}/>&emsp;If this is your first time here, you may need to&nbsp;<a href="" style={{
+                <InfoCircle size={18}/>&emsp;If this is your first time here, you may need to&nbsp;<a
+                href="#" 
+                onClick={(e)=>{
+                    e.preventDefault();
+                    getTokens();
+                }}
+                style={{
                     color : "#99aacc"
-                }}>get some OPN</a>&nbsp;and&nbsp;<a href="" style={{
+                }}>get some OPN</a>&nbsp;and&nbsp;<a
+                href="#" 
+                onClick={(e)=>{
+                    e.preventDefault();
+                    approveHub();
+                }}
+                style={{
                     color : "#99aacc"
                 }}>grant access to the Open Contracts hub</a>.
             </p>

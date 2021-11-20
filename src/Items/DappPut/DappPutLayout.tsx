@@ -38,10 +38,14 @@ const DappPutLayout : FC<DappPutInputProps> & {
             borderCollapse : "collapse",
             ...style,
         }}>
-            <div>
+            <div style={{
+                fontSize : "24px",
+            }}>
                 {Header}
             </div>
-            <div>
+            <div style={{
+                fontSize : "18px"
+            }}>
                 {Content}
             </div>
         </div>

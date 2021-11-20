@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import { Colors } from '../../../Theme';
+import { Colors, DesktopSizes } from '../../../Theme';
 import { DappPutI } from '../DappPutType';
 import { generateNamedMember, getComponentMembers } from 'rgfm';
 
@@ -26,21 +26,34 @@ const DefaultHeader : FC<DefaultHeaderProps> & {
 
     return (
 
-        <div>
+        <div style={{
+            paddingBottom : DesktopSizes.Padding.standard
+        }}>
             <div style={{
-                display :"flex",
+                display :"grid",
+                gridTemplateColumns : "30px auto",
                 alignContent : "center",
                 alignItems : "center",
-                fontSize : "18px",
-                color : Colors.primaryTextColor,
+                fontSize : "20px",
+                color : Colors.Maintheme,
+                textAlign : "left",
                 ...style
-            }}><b>{Pre}&emsp;</b>{dappPut.name}{Post}</div>
-            {dappPut.description && <><br/>
-            <p style={{
-                color : Colors.secondaryTextColor
             }}>
-            {dappPut.description}
-            </p></>}
+                <div>
+                    <b>{Pre}</b>
+                </div>
+                <div>
+                    {dappPut.name}{Post}
+                </div>
+            </div>
+            <div>
+                {dappPut.description && <><br/>
+                <p style={{
+                    color : Colors.secondaryTextColor
+                }}>
+                {dappPut.description}
+                </p></>}
+            </div>
         </div>
 
     )
