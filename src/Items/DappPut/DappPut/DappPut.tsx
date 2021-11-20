@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import { DappInputI, DappPutI , DappErrputI, DappDescputI, DappInteractputI, DappOutputI, DappOracleputI, DappResultputI, DappOracleInputI, DappCallputI} from '../DappPutType';
+import { DappInputI, DappPutI , DappWaitingPutI, DappErrputI, DappDescputI, DappInteractputI, DappOutputI, DappOracleputI, DappResultputI, DappOracleInputI, DappCallputI} from '../DappPutType';
 import {DappInput} from "../DappInput";
 import {DappOutput} from "../DappOutput";
 import { DappDescput } from '../DappDescput';
@@ -10,6 +10,7 @@ import { DappResultput } from '../DappResultput';
 import {DappOracleInput} from "../DappOracleInput";
 import { reduceContractFunctionI } from '../../DappFunction/StateMethods';
 import { DappOracleCallput } from '../DappOracleCallput';
+import { DappWaitingPut } from '../DappWaitingPut';
 
 export type DappPutProps = {
     put : DappPutI,
@@ -110,6 +111,16 @@ export const DappPut : FC<DappPutProps>  = ({
                 dappOracleInput={put as DappOracleInputI}
                 contractFunction={contractFunction}
                 reduceContractFunction={reduceContractFunction}/>
+            )
+        }
+
+        case ("waiting") : {
+            return (
+                <DappWaitingPut
+                    dappWaitingPut={put as DappWaitingPutI}
+                    contractFunction={contractFunction}
+                    reduceContractFunction={reduceContractFunction}
+                />
             )
         }
 

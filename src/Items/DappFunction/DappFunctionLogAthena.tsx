@@ -11,6 +11,7 @@ import { Spinner } from 'react-bootstrap';
 import { useState } from 'react';
 import {generate} from "shortid";
 import * as log from "./StateMethods";
+import { FailedStepPost } from '../../Components/Walkthrough/Step/FailedStepPost';
 
 export type DappFunctionLogAthenaProps = {
     dapp : DappI,
@@ -78,6 +79,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 ...contractFunction.requiresOracle ? {
                     result : "Oracle output received! See below."
                 } : {},
+                waiting : false,
                 prints : [...contractFunction.prints||[], newOutput],
                 puts : [...contractFunction.puts||[], ...log.createOutputs(
                     [newOutput],
@@ -106,6 +108,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             }
             return {
                 ...contractFunction,
+                waiting : false,
                 oracleInputs : {
                     ...contractFunction.oracleInputs, 
                     [newOracleInput.id] : newOracleInput
@@ -144,6 +147,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             }
             const _newFunctionState = {
                 ...contractFunction,
+                waiting : false,
                 errors : [...contractFunction.errors||[], newError],
                 puts : [...(contractFunction.puts||[]), ...log.createErrors(
                     [newError], 
@@ -173,6 +177,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         reduceFunctionState((contractFunction)=>{
            return {
             ...contractFunction,
+            waiting : false,
             oracleData : data,
             oraclePromiseResolve : resolve,
             oraclePromiseReject : reject
@@ -274,6 +279,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         reduceFunctionState((contractFunction)=>{
             return {
                 ...contractFunction,
+                waiting : false,
                 callOracle : call,
                 puts : [...contractFunction.puts||[], log.createOracleCallPut(
                     call,
@@ -342,6 +348,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             ...contractFunction.requiresOracle ? {
                 result : "Oracle output received! See below."
             } : {},
+            waiting : false,
             xpras : [...contractFunction.xpras||[], newXpra],
             puts : [...contractFunction.puts||[], ...log.createXpras(
                 [newXpra],
@@ -355,10 +362,37 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     contractFunction.xpraHandler = async (targetUrl, sessionUrl, xpraExit)=>{
 
-        
         addInteractput("Interactive session started.", targetUrl, sessionUrl, xpraExit);
 
     }
+
+    const addWaitingPut = (seconds : number, message : string)=>{
+        reduceFunctionState((state)=>{
+            return {
+                ...state,
+                waiting : true,
+                puts : [...state.puts||[], log.createWaitingPut(
+                    seconds, 
+                    message,
+                    contractFunction,
+                    reduceFunctionState
+                )]
+            }
+        })
+    }
+
+    // console.log(contractFunction.waitHandler)
+
+    contractFunction.waitHandler = async (seconds, message)=>{
+        console.log("Waiting: ", seconds, message);
+        addWaitingPut(seconds, message);
+    }
+
+    useEffect(()=>{
+        if(!contractFunction.waiting){
+            log.removeWaitingPut(reduceFunctionState);
+        }
+    }, [contractFunction.waiting])
 
     
 

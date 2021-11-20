@@ -140,6 +140,7 @@ declare global {
         stateMutability : string,
         oracleFolder ? : string,
         requiresOracle ? : boolean,
+        waiting ? : boolean,
         puts ? : DappPutI[],
         inputs : PutI[],
         errors ? : any[],
@@ -164,6 +165,7 @@ declare global {
         inputHandler : (message : string)=>Promise<any>,
         printHandler : (message : string)=>Promise<any>
         errorHandler : (e : Error)=>Promise<any>
+        waitHandler : (seconds : number, message : string)=>Promise<any>
     }
 
 

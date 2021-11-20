@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, useReducer} from 'react';
-import { DappDescputI, DappOracleInputI, DappErrputI, DappInputI, DappInteractputI, DappOracleputI, DappOutputI, DappPutI, DappResultputI, DappCallputI } from '../DappPut/DappPutType';
+import { DappDescputI, DappOracleInputI, DappErrputI, DappInputI, DappInteractputI, DappOracleputI, DappOutputI, DappPutI, DappResultputI, DappCallputI, DappWaitingPutI } from '../DappPut/DappPutType';
 
 export interface reduceContractFunctionI {
     (state : OpenContractFunctionI) : OpenContractFunctionI
@@ -206,4 +206,36 @@ export const produceUpdatedPuts = (
             reduceContractFunction : reduceContractFunction
         } as DappPutI
     })
+}
+
+export const createWaitingPut = (
+    seconds : number,
+    message : string,
+    contractFunction : OpenContractFunctionI,
+    setFunc : (func : reduceContractFunctionI)=>void
+) : DappWaitingPutI=>{
+    return {
+        contractFunction : contractFunction,
+        reduceContractFunction : setFunc,
+        name : contractFunction.name,
+        value : message,
+        duration : seconds,
+        putType : "waiting",
+        type : "waiting"
+    }
+}
+
+export const removeWaitingPut = (
+    reduceContractFunction ? : (func : reduceContractFunctionI)=>void
+)=>{
+
+    reduceContractFunction&& reduceContractFunction((state)=>{
+        return {
+            ...state,
+            puts : state.puts?.filter((put)=>{
+                return put.putType !== "waiting"
+            })
+        }
+    })
+
 }

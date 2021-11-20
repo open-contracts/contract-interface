@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from 'react';
+import React, {FC, ReactElement, useState} from 'react';
 import {Form} from "react-bootstrap";
 import { Colors } from '../../../Theme';
 import { DappWaitingPutI } from '../DappPutType';
@@ -19,10 +19,14 @@ export const DappWaitingPutContent : FC<DappWaitingPutContentProps>  = ({
     setInput
 }) =>{
 
+    console.log(dappWaitingPut.duration);
+
+    const [duration, setDuration] = useState(dappWaitingPut.duration);
+
     return (
 
         <div>
-            <ProgressBarAlan duration={dappWaitingPut.duration}/>
+            <ProgressBarAlan duration={duration}/>
         </div>
 
     )

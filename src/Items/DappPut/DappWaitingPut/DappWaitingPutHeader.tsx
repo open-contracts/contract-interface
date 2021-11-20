@@ -1,4 +1,5 @@
 import React, {FC, ReactElement} from 'react';
+import { ClockFill } from 'react-bootstrap-icons';
 import { Colors } from '../../../Theme';
 import { DappWaitingPutI } from '../DappPutType';
 import {DefaultHeader} from "../Standards";
@@ -19,6 +20,9 @@ export const DappWaitingPutHeader : FC<DappWaitingPutHeaderProps>  = ({
             color : Colors.babyBlue,
             ...style
         }}>
+            <DefaultHeader.Pre>
+                <ClockFill/>
+            </DefaultHeader.Pre>
             <DefaultHeader.Post>
                 &emsp;<i style={{
                     color : Colors.secondaryTextColor
