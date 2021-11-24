@@ -26,12 +26,14 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
     const resetLog = ()=>{
         setCalled(false);
         reduceContractFunction((state)=>{
-            return {
+            const _state = {
                 ...state,
                 inputs : pure.resetInputs(state.inputs),
                 puts : [],
                 oracleData : undefined
             }
+            console.log(_state);
+            return _state;
         })
     }
     

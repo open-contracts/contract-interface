@@ -18,11 +18,10 @@ export const countPromisesResolved = (obj : any)=>{
 }
 
 export const createInputs = (
-    inputs : OpenContractFunctionI["inputs"],
     contractFunction : OpenContractFunctionI,
     reduceContractFunction ? : (func : reduceContractFunctionI)=>void,
 ) : DappInputI[]=>{
-    return inputs.map((input)=>{
+    return contractFunction.inputs.map((input)=>{
         return {
             ...input,
             contractFunction : contractFunction,

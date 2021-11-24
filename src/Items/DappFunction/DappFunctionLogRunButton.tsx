@@ -10,6 +10,7 @@ import { TextInputApollo } from '../../Components/TextInput';
 import * as pure from "./StateMethods";
 import {generate} from "shortid";
 import { DefaultHeader } from '../DappPut/Standards';
+import { text } from 'stream/consumers';
 
 
 export type DappFunctionLogRunButtonProps = {
@@ -22,10 +23,13 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
     reduceContractFunction
 }) =>{
 
+    console.log(
+        "Contract function received...",
+        contractFunction
+    )
     
 
     const inputs = pure.createInputs(
-        contractFunction.inputs,
         contractFunction,
         reduceContractFunction
     ).map((input, index)=>{
@@ -34,13 +38,22 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
 
             reduceContractFunction((contractFunction)=>{
                 
-                contractFunction.inputs[index] =  {
+                const newInput =  {
                     ...contractFunction.inputs[index],
                     value : text
                 }
-                return contractFunction
+                return {
+                    ...contractFunction,
+                    inputs : [
+                        ...contractFunction.inputs.slice(0, index),
+                        newInput,
+                        ...contractFunction.inputs.slice(index + 1)
+                    ]
+                }
             });
         }
+
+        console.log("Input received...", input.value);
 
         return (
                     <div 
@@ -65,8 +78,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                            &emsp;<span style={{
                                fontSize : "16px"
                            }}>=&emsp;</span><TextInputApollo
-                           defaultValue={input.value}
-                           value={input.value||""}
+                            value={input.value||""}
                             onTextInput={onTextInput}
                             style={{
                                 fontSize : "16px"
@@ -75,7 +87,8 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     </div>
                 )
          
-    })
+    });
+
     return (
              <div style={{
                 position : "relative",

@@ -432,14 +432,14 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 <br/>
                 {contractFunction.inputs.length > 0 && <DappFunctionLogRunButton
                     reduceContractFunction={reduceFunctionState}
-                    contractFunction={contractFunction}
+                    contractFunction={reducedFunctionState}
                 />}
                 <br/>
                 <DappFunctionSubmitState
                     reduceContractFunction={reduceFunctionState}
                     loadOracleData={loadOracleData}
                     call={handleCall}
-                    contractFunction={contractFunction}
+                    contractFunction={reducedFunctionState}
                 />
                 <br/>
                 {puts}
