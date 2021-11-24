@@ -1,7 +1,7 @@
 import React, {FC, ReactElement, useState} from 'react';
 import {generateNamedMember, getComponentMembers} from "rgfm";
 import {AthenaButton} from "../../../Components/Buttons";
-import {Colors} from "../../../Theme";
+import {Colors, Shadows} from "../../../Theme";
 import {Grid3x3GapFill} from "react-bootstrap-icons";
 
 const Members = ["Single", "Grid"]
@@ -58,7 +58,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                     primaryColor={Colors.Maintheme}
                     secondaryColor={grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
-                        boxShadow : "none",
+                        boxShadow : grid ? `0px -5px 8px 2px ${Colors.Maintheme}66` : "none",
                         height : "50px",
                         width : "60px",
                         zIndex : 1000,
@@ -97,7 +97,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 </AthenaButton>
             </div>
             <div style={{
-                paddingBottom : "40vh",
+                boxShadow : Shadows.defaultShadow,
                 flexGrow : 1,
                 zIndex : 0,
                 background : Colors.jonasGray,
