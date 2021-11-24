@@ -25,7 +25,7 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
     }
 
 
-    const funcs = dapp.contract && dapp.contract ? dapp.contract.contractFunctions.map((func)=>{
+    const funcs = dapp.contract && dapp.contract ? dapp.contract.contractFunctions.map((func, index)=>{
 
 
         return (
@@ -33,7 +33,8 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
             key={func.name}
             style={{
                 overflow : "visible",
-                padding : DesktopSizes.Padding.standard,
+                paddingRight : DesktopSizes.Padding.standard,
+                paddingBottom : DesktopSizes.Padding.standard,
                 width : "100%"
             }}>
                 <ApolloDappFunction 
@@ -52,14 +53,19 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
 
     return (
 
-        <Masonry 
-            style={{
-                overflow : "visible"
-            }}
-            className={"masonry"}
-            breakpointCols={3}>
-            {funcs}
-        </Masonry>
+        <div style={{
+            paddingLeft : DesktopSizes.Padding.standard,
+            paddingTop : DesktopSizes.Padding.standard
+        }}>
+            <Masonry 
+                style={{
+                    overflow : "visible"
+                }}
+                className={"masonry"}
+                breakpointCols={3}>
+                {funcs}
+            </Masonry>
+        </div>
 
     )
 

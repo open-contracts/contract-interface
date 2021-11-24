@@ -30,10 +30,7 @@ const DappPutLayout : FC<DappPutInputProps> & {
         <div style={{
             textAlign : "left",
             overflowWrap : "anywhere",
-            paddingTop : DesktopSizes.Padding.standard,
-            paddingBottom : DesktopSizes.Padding.standard,
-            paddingLeft : DesktopSizes.Padding.standard,
-            paddingRight : DesktopSizes.Padding.standard,
+            padding : "20px",
             borderRadius : DesktopSizes.BorderRadius.standard,
             borderCollapse : "collapse",
             border : "none",

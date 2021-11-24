@@ -26,8 +26,12 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
             display : "flex"
         }}>
             <AthenaButton 
+                style={{
+                    boxShadow : "none",
+                    border : `1px solid ${Colors.lilac}`
+                }}
                 onClick={()=>{
-                    const newWindow = window.open(dappInteractput.value);
+                    const newWindow = window.open(dappInteractput.sessionUrl);
                     dappInteractput.xpraExit.then(()=>{
                         newWindow?.close();
                     })

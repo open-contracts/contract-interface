@@ -60,12 +60,16 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             ...agg,
             ...put.putType !== "input" ? [
                 (
-                    <div key={index}><DappPut 
+                    <div 
+                        style={{
+                            paddingBottom : DesktopSizes.Padding.standard
+                        }}
+                        key={index}><DappPut 
                         key={index}
                         contractFunction={contractFunction}
                         reduceContractFunction={reduceFunctionState}
                         end={index > (contractFunction.puts ? contractFunction.puts.length - 2 : -1)}
-                        index={index} put={put}/><br/></div>
+                        index={index} put={put}/></div>
                 )
             ] : []
         ]
@@ -349,8 +353,8 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             targetUrl : targetUrl,
             sessionUrl : sessionUrl,
             xpraExit : xpraExit,
-            description : targetUrl,
-            value : sessionUrl,
+            description : "",
+            value : "",
             putType : "interactive",
             contractFunction : contractFunction,
             reduceContractFunction : reduceFunctionState
@@ -418,30 +422,38 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 width : "100%",
                 paddingBottom : DesktopSizes.Padding.standard,
             }}>
-                {contractFunction.description && <DappDescput
-                contractFunction={contractFunction}
-                reduceContractFunction={reduceFunctionState}
-                    dappDescput={{
-                        name : "Description",
-                        value : contractFunction.description,
-                        putType : "description",
-                        contractFunction : contractFunction,
-                        reduceContractFunction : reduceFunctionState
-                    }}
-                />}
-                <br/>
-                {contractFunction.inputs.length > 0 && <DappFunctionLogRunButton
+                {contractFunction.description && <div style={{
+                    paddingBottom : DesktopSizes.Padding.standard
+                }}>
+                    <DappDescput
+                        contractFunction={contractFunction}
+                        reduceContractFunction={reduceFunctionState}
+                            dappDescput={{
+                                name : "Description",
+                                value : contractFunction.description,
+                                putType : "description",
+                                contractFunction : contractFunction,
+                                reduceContractFunction : reduceFunctionState
+                            }}
+                        />    
+                </div>}
+                {contractFunction.inputs.length > 0 && <div style={{
+                    paddingBottom : DesktopSizes.Padding.standard
+                }}>
+                    <DappFunctionLogRunButton
                     reduceContractFunction={reduceFunctionState}
                     contractFunction={reducedFunctionState}
-                />}
-                <br/>
-                <DappFunctionSubmitState
-                    reduceContractFunction={reduceFunctionState}
-                    loadOracleData={loadOracleData}
-                    call={handleCall}
-                    contractFunction={reducedFunctionState}
-                />
-                <br/>
+                /></div>}
+                <div style={{
+                    paddingBottom : DesktopSizes.Padding.standard
+                }}>
+                    <DappFunctionSubmitState
+                        reduceContractFunction={reduceFunctionState}
+                        loadOracleData={loadOracleData}
+                        call={handleCall}
+                        contractFunction={reducedFunctionState}
+                    />
+                </div>
                 {puts}
                 <br/>
             </div>

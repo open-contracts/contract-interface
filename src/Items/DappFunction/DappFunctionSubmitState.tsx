@@ -49,7 +49,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
             display : "flex",
             justifyContent : "right",
             justifyItems : "right",
-            fontSize : "18px"
+            fontSize : "18px",
         }}>
             <AthenaButton
                 onClick={resetLog}

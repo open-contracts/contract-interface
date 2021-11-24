@@ -30,7 +30,7 @@ export const ApolloDappFunctionMobiles : FC<ApolloDappFunctionMobilesProps>  = (
 
         return (
             <div style={{
-                padding : DesktopSizes.Padding.standard,
+                padding : DesktopSizes.Padding.whitespacePreferred,
                 overflow : "visible"
             }}>
                 <ApolloDappFunction 

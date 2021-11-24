@@ -96,13 +96,13 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                 <div
                     style={{
                         width : "100%",
-                        padding : DesktopSizes.Padding.standard,
                         borderTopLeftRadius : DesktopSizes.BorderRadius.standard,
                         borderTopRightRadius : DesktopSizes.BorderRadius.standard,
                         borderBottomLeftRadius : DesktopSizes.BorderRadius.standard,
                         borderBottomRightRadius : DesktopSizes.BorderRadius.standard,
                         background : 'white',
-                        boxShadow : Shadows.defaultShadow
+                        boxShadow : Shadows.defaultShadow,
+                        padding :  "20px"
                     }}>
                     <div style={{
                         color : Colors.Maintheme

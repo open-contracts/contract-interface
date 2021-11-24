@@ -17,34 +17,37 @@ export const DappOutputContent : FC<DappOutputContentProps>  = ({
         <div style={{
             color : Colors.Maintheme,
             width : "100%",
-            display : "flex",
+            display : "grid",
+            gridTemplateColumns : "6fr 1fr",
             alignContent : 'center',
-            alignItems : "center"
+            alignItems : "center",
         }}>
-            <AthenaButton 
-            style={{
-                border : `1px solid ${Colors.Maintheme}`,
-                boxShadow : "none"
-            }}
-             primaryColor={Colors.Maintheme}
-             secondaryColor={"white"}
-             action={async ()=>{
-                navigator.clipboard.writeText(dappOutput.value||"");
-            }}>
-               <div style={{
-                   display : "flex",
-                   alignContent : "center",
-                   alignItems : "center",
-                   userSelect : "text"
-               }}>
-                    <Clipboard size={14}/>
-               </div>
-            </AthenaButton>
-            &emsp;
             <div style={{
-                color : Colors.secondaryTextColor
+                color : Colors.secondaryTextColor,
+                textAlign : "left"
             }}>
                 {dappOutput.value}
+            </div>
+            <div style={{
+                width : "100%",
+                display : "grid",
+                gridTemplateColumns : "1fr",
+                justifyContent : "center"
+            }}>
+                <AthenaButton 
+                style={{
+                    width : "100%",
+                    border : `1px solid ${Colors.Maintheme}`,
+                    boxShadow : "none"
+                }}
+                primaryColor={Colors.Maintheme}
+                secondaryColor={"white"}
+                action={async ()=>{
+                    navigator.clipboard.writeText(dappOutput.value||"");
+                }}>
+                   
+                            <Clipboard size={16}/>
+                </AthenaButton>
             </div>
         </div>
 

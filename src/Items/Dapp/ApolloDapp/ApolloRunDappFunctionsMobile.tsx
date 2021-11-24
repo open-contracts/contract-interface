@@ -25,12 +25,15 @@ export const ApolloDappFunctionsMobile : FC<ApolloDappFunctionsMobileProps>  = (
     }
 
 
-    const funcs = dapp.contract && dapp.contract ? dapp.contract.contractFunctions.map((func)=>{
+    const funcs = dapp.contract && dapp.contract ? dapp.contract.contractFunctions.map((func, index)=>{
 
 
         return (
             <div style={{
-                padding : DesktopSizes.Padding.standard,
+                paddingTop : index === 0 ? DesktopSizes.Padding.standard : 0,
+                paddingLeft : DesktopSizes.Padding.standard,
+                paddingRight : DesktopSizes.Padding.standard,
+                paddingBottom : DesktopSizes.Padding.standard,
                 overflow : "visible"
             }}>
                 <ApolloDappFunction 
