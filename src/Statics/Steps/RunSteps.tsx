@@ -61,6 +61,8 @@ export const RunSteps : FC<RunStepsProps>  = ({
 
        checkMetaMaskAvail().then((data)=>{
             setStepStatus && setStepStatus(data)
+        }).catch((data)=>{
+            setStepStatus && setStepStatus(data);
         })
 
     }, [])
