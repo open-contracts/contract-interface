@@ -60,5 +60,6 @@ export interface DappOracleInputI extends DappPutI {
 export interface DappWaitingPutI extends DappPutI {
     duration : number,
     message : string,
+    timeStarted : Date,
     type : "waiting"
 }

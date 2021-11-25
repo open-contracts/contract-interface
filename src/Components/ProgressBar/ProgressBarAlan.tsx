@@ -1,19 +1,24 @@
 import React, {FC, ReactElement} from 'react';
 import {motion} from "framer-motion";
 import {Colors, DesktopSizes} from "../../Theme";
+import { useState } from 'react';
 
 export type ProgressBarAlanProps = {
     style ? : React.CSSProperties,
     innerStyle ? : React.CSSProperties
-    duration : number
+    duration : number,
+    progress ? : number
 }
 
 export const ProgressBarAlan : FC<ProgressBarAlanProps>  = ({
     style,
-    duration
+    duration,
+    progress
 }) =>{
 
-    console.log(duration);
+    const [_duration, _setDuration] = useState(duration);
+    
+    const opac = Math.floor((parseInt('44', 16) + (progress||0) * (255 - parseInt('44', 16)))).toString(16);
 
     return (
 
@@ -31,12 +36,12 @@ export const ProgressBarAlan : FC<ProgressBarAlanProps>  = ({
                     height : "100%"
                 }}
                 animate = {{
-                    width : ["0%", "100%"],
-                    background : [`${Colors.readyGreen}44`, Colors.readyGreen]
+                    width : [(progress ? `${progress * 100}%` : "0%"), "100%"],
+                    background : [`${Colors.readyGreen}${opac}`, Colors.readyGreen]
                 }}
                 transition={{
                     ease : "easeInOut",
-                    duration : duration
+                    duration : _duration
                 }}>
 
             </motion.div>

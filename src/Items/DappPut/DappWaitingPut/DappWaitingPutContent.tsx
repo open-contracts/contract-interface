@@ -23,11 +23,13 @@ export const DappWaitingPutContent : FC<DappWaitingPutContentProps>  = ({
 
     const [duration, setDuration] = useState(dappWaitingPut.duration);
 
+    const progress = (new Date().getSeconds() - dappWaitingPut.timeStarted.getSeconds())/dappWaitingPut.duration + 0.000001
+
     return (
 
         <div>
             <p>{dappWaitingPut.value}</p>
-            <ProgressBarAlan duration={duration}/>
+            <ProgressBarAlan duration={duration} progress={progress}/>
         </div>
 
     )

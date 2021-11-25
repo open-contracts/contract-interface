@@ -224,7 +224,8 @@ export const createWaitingPut = (
         message : message,
         duration : seconds,
         putType : "waiting",
-        type : "waiting"
+        type : "waiting",
+        timeStarted : new Date()
     }
 }
 
