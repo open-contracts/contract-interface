@@ -23,7 +23,7 @@ export const DappWaitingPutContent : FC<DappWaitingPutContentProps>  = ({
 
     const [duration, setDuration] = useState(dappWaitingPut.duration);
 
-    const progress = (new Date().getSeconds() - dappWaitingPut.timeStarted.getSeconds())/dappWaitingPut.duration + 0.000001
+    const progress = (new Date().getSeconds() - dappWaitingPut.timeStarted.getSeconds())/(dappWaitingPut.duration + 0.000001)
 
     return (
 
