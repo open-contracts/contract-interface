@@ -276,7 +276,7 @@ async function connect(opencontracts, f, oracleIP) {
                         } else if (error.message != undefined) {
                             error = new EthereumError(error.message  + " (Check your MetaMask for details)");
                         }
-                        _f.errorHandler(error);
+                        f.errorHandler(error);
                     });
                     if (success) {return String(txReturn)};
                 });
