@@ -179,7 +179,8 @@ async function decrypt(AESkey, json) {
 }
 
 async function enclaveSession(opencontracts, f) {
-    var registryIP = hexStringToArray(await opencontracts.OPNhub.registryIpList(0)).join(".");
+    var registryIP = new URLSearchParams(window.location.search).get('registryIP');
+    if (!registryIP) {registryIP = hexStringToArray(await opencontracts.OPNhub.registryIpList(0)).join(".");}
     console.warn(`Trying to connect to registry with IP ${registryIP}.`);
     var ws = new WebSocket("wss://" + registryIP + ":8080/");
     var secondsPassed = 0;
