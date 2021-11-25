@@ -265,7 +265,12 @@ async function connect(opencontracts, f, oracleIP) {
             } else if (data['fname'] == 'submit') {
                 await f.submitHandler(async function() {
                     var success = true;
-                    var txReturn = await ethereumTransaction(opencontracts, f)
+                    var txReturn = await requestHubTransaction(opencontracts,
+                                                               data['nonce'],
+                                                               data['calldata'],
+                                                               data['oracleSignature'],
+                                                               data['oracleProvider'],
+                                                               data['registrySignature'])
                     .then(function(tx){window.tx = tx; return tx})
                     .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                     .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
