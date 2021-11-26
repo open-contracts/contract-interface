@@ -227,8 +227,10 @@ async function connect(opencontracts, f, oracleIP) {
     var AESkey = null;
     var encryptedAESkey = null;
     var xpraFinished = null;
+    var sessionFinished = false;
     ws.onopen = function(event) {ws.send(JSON.stringify({fname: 'get_attestation'}))};
     ws.onerror = function(event) {f.errorHandler(new EnclaveError(event.type))};
+    ws.onclose = function(event) {if (!sessionFinished) {f.errorHandler(new EnclaveError("Enclave closed connection."))}};
     ws.onmessage = async function (event) {
         var data = JSON.parse(event.data);
         if (data['fname'] == "attestation") {
@@ -264,6 +266,7 @@ async function connect(opencontracts, f, oracleIP) {
                 ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
             } else if (data['fname'] == 'submit') {
                 await f.submitHandler(async function() {
+                    sessionFinished = true;
                     var success = true;
                     var txReturn = await requestHubTransaction(opencontracts,
                                                                data['nonce'],
