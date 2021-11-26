@@ -296,7 +296,7 @@ async function connect(opencontracts, f, oracleIP) {
 
 async function ethereumTransaction(opencontracts, f) {
     args = [];
-    for (let i = 0; i < f.inputs.length; i++) {args.push(f.inputs[i].value)}
+    for (let i = 0; i < f.inputs.length; i++) {args.push(f.inputs[i].value); console.warn(args[i])}
     if (f.stateMutability == 'payable') {
         const msgValue = ethers.utils.parseEther(args.shift());
         args.push({value: msgValue});
@@ -473,7 +473,6 @@ async function OpenContracts() {
                         if (_f.oracleData == undefined) {
                             throw new ClientError(`No oracleData specified for "${_f.name}".`)
                         } else {
-                            console.log("oracle data: ", _f.oracleData);
                             files = Object.keys(_f.oracleData);
                             if (!files.includes("oracle.py")) {throw new Error("No oracle.py in f.oracleData!")}
                             if (!files.includes("requirements.txt")) {throw new Error("No requirements.txt in oracleData!")}
