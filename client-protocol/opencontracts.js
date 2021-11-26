@@ -449,7 +449,7 @@ async function OpenContracts() {
                 }
                 f.inputs = [];
                 if (f.stateMutability == "payable") {
-                    f.inputs.push({name: "messageValue", type: "uint256", value: null});
+                    f.inputs.push({name: "transactionValue", type: "ETH", value: null});
                 }
                 if (!f.requiresOracle) {
                     for (let j = 0; j < contract.abi[i].inputs.length; j++) {
