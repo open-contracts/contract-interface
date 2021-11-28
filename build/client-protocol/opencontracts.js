@@ -245,6 +245,11 @@ async function connect(opencontracts, f, oracleIP) {
             }));
             f.oracleData.fname = 'submit_oracle';
             ws.send(JSON.stringify(await encrypt(AESkey, f.oracleData)));
+            const requirements = atob(f.oracleData['requirements.txt']); 
+            if (requirements.startsWith('# estimated seconds to install:')) {
+                const estimate = parseInt(requirements.split('\n')[0].split(':')[1]);
+                f.waitHandler(estimate, 'Installing oracle dependencies inside enclave...');
+            }
             ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
         } else if (data['fname'] == "busy") {
             f.errorHandler(
