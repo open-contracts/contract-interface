@@ -238,7 +238,7 @@ async function connect(opencontracts, f, oracleIP) {
     var xpraFinished = null;
     var sessionFinished = false;
     ws.onopen = function(event) {ws.send(JSON.stringify({fname: 'get_attestation'}))};
-    ws.onerror = function(event) {f.errorHandler(new EnclaveError(event.type))};
+    ws.onerror = function(event) {console.warn(event); f.errorHandler(new EnclaveError(event.type))};
     ws.onclose = function(event) {setTimeout(() => {
         if (!sessionFinished) {f.errorHandler(new EnclaveError("Enclave closed connection."))}
     }, 3000);};
