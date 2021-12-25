@@ -31,4 +31,4 @@ jobs:
         REPO: self
         BRANCH: gh-pages
         FOLDER: build
-        GITHUB_TOKEN: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
