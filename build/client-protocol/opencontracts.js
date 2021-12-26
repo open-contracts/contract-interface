@@ -433,34 +433,34 @@ async function OpenContracts() {
                 f.oracleFolder = contract.abi[i].oracleFolder;
                 f.requiresOracle = (f.oracleFolder != undefined);
                 f.errorHandler = async function (error) {
-                    console.warn(`Warning: using default (popup) errorHandler for function ${f.name}`); 
+                    console.warn(`Warning: using default (popup) errorHandler for function ${this.name}`); 
                     alert(error);
                 };
                 if (f.requiresOracle) {
                     f.printHandler = async function(message) {
-                        console.warn(`Warning: using default (popup) printHandler for function ${f.name}`); 
+                        console.warn(`Warning: using default (popup) printHandler for function ${this.name}`); 
                         alert(message);
                     };
                     f.waitHandler = async function(seconds, message) {
                         console.warn(`Expect to wait around ${seconds} seconds: ${message}`); 
                     };
                     f.inputHandler = async function (message) {
-                        console.warn(`Warning: using default (popup) inputHandler for function ${f.name}`); 
+                        console.warn(`Warning: using default (popup) inputHandler for function ${this.name}`); 
                         return prompt(message);
                     };
                     f.xpraHandler = async function(targetUrl, sessionUrl, xpraExit) {
-                        console.warn(`Warning: using default (popup) xpraHandler for function ${f.name}`); 
+                        console.warn(`Warning: using default (popup) xpraHandler for function ${this.name}`); 
                         if (window.confirm(`open interactive session to {targetUrl} in new tab?`)) {
                             var newWin = window.open(sessionUrl,'_blank');
                             xpraExit.then(newWin.close);
                             if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
                                 alert("Could not open new window. Set your browser to allow popups and click ok.");
-                                f.xpraHandler(targetUrl, sessionUrl);
+                                this.xpraHandler(targetUrl, sessionUrl);
                             }
                         }
                     };
                     f.submitHandler = async function (submit) {
-                        console.warn(`Warning: using default (popup) submitHandler for function ${f.name}`); 
+                        console.warn(`Warning: using default (popup) submitHandler for function ${this.name}`); 
                         message = "Oracle execution completed. Starting final transaction. ";
                         alert(message + "It will fail if you did not grant enough $OPN to the hub.");
                         await submit()
@@ -476,32 +476,32 @@ async function OpenContracts() {
                         f.inputs.push({name: input.name, type: input.type, value: null});
                     }
                 }
-                f.call = async function (state) { // option to provide inputs is useful for frameworks like React where state may have been cloned
-                    var _f = state || f;
-                    const unspecifiedInputs = _f.inputs.filter(i=>i.value == null).map(i => i.name);
+                f.call = async function (state) {
+                    if (state) {state.call(); return}; // for backwards compatibility, will be removed asap
+                    const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
                     if (unspecifiedInputs.length > 0) {
-                        throw new ClientError(`The following inputs to "${_f.name}" were unspecified:  ${unspecifiedInputs}`);
+                        throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
                     }
-                    for (let i = 0; i < _f.inputs.length; i++) {
-                        if ((_f.inputs[i].type === "bool") && (typeof _f.inputs[i].value === 'string')) {
-                            _f.inputs[i].value = JSON.parse(_f.inputs[i].value.toLowerCase());
+                    for (let i = 0; i < this.inputs.length; i++) {
+                        if ((this.inputs[i].type === "bool") && (typeof this.inputs[i].value === 'string')) {
+                            this.inputs[i].value = JSON.parse(this.inputs[i].value.toLowerCase());
                         }
                     }
-                    if (_f.requiresOracle) {
-                        _f.oracleData = await _f.oracleData;
-                        if (_f.oracleData == undefined) {
-                            throw new ClientError(`No oracleData specified for "${_f.name}".`)
+                    if (this.requiresOracle) {
+                        this.oracleData = await this.oracleData;
+                        if (this.oracleData == undefined) {
+                            throw new ClientError(`No oracleData specified for "${this.name}".`)
                         } else {
-                            files = Object.keys(_f.oracleData);
+                            files = Object.keys(this.oracleData);
                             if (!files.includes("oracle.py")) {throw new Error("No oracle.py in f.oracleData!")}
                             for (let i = 0; i < files.length; i++) {
-                                _f.oracleData[files[i]] = await _f.oracleData[files[i]];
+                                this.oracleData[files[i]] = await this.oracleData[files[i]];
                             }
-                            return await enclaveSession(opencontracts, _f);
+                            return await enclaveSession(opencontracts, this);
                         }
                     } else {
                         var success = true;
-                        var txReturn = await ethereumTransaction(opencontracts, _f)
+                        var txReturn = await ethereumTransaction(opencontracts, this)
                         .then(function(tx){window.tx = tx; return tx})
                         .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                         .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
@@ -512,7 +512,7 @@ async function OpenContracts() {
                             } else if (error.message != undefined) {
                                 error = new EthereumError(error.message  + " (Check your MetaMask for details)");
                             }
-                            _f.errorHandler(error);
+                            this.errorHandler(error);
                         });
                         if (success) {return String(txReturn)};
                     }
