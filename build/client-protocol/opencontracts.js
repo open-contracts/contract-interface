@@ -476,8 +476,8 @@ async function OpenContracts() {
                         f.inputs.push({name: input.name, type: input.type, value: null});
                     }
                 }
-                f.call = async function (state) {
-                    if (state) {state.call(); return}; // for backwards compatibility, will be removed asap
+                f.call = async function (_f) {
+                    if (_f) {_f.call(); return}; // for backwards compatibility, will be removed asap
                     const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
                     if (unspecifiedInputs.length > 0) {
                         throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
