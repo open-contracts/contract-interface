@@ -252,8 +252,9 @@ async function connect(opencontracts, f, oracleIP) {
                 fname: 'submit_signature',
                 signature: await opencontracts.signer.signMessage(signThis).catch((error) => {f.errorHandler(error)})
             }));
-            f.oracleData.fname = 'submit_oracle';
-            ws.send(JSON.stringify(await encrypt(AESkey, f.oracleData)));
+            var oracleData = f.oracleData;
+            oracleData.fname = 'submit_oracle';
+            ws.send(JSON.stringify(await encrypt(AESkey, oracleData)));
             const requirements = atob(f.oracleData['requirements.txt']); 
             if (requirements.startsWith('# estimated seconds to install:')) {
                 const estimate = parseInt(requirements.split('\n')[0].split(':')[1]);
