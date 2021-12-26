@@ -281,8 +281,6 @@ async function connect(opencontracts, f, oracleIP) {
             } else if (data['fname'] == 'user_input') {
                 userInput = await f.inputHandler(data['message']);
                 ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
-            } else if (data['fname'] == 'expect_delay') {
-                f.waitHandler(data['seconds'], data['reason']);
             } else if (data['fname'] == 'submit') {
                 await f.submitHandler(async function() {
                     sessionFinished = true;
