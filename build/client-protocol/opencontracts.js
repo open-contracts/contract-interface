@@ -396,35 +396,35 @@ async function OpenContracts() {
     
     // instantiates the contracts
     opencontracts.parseContracts = function (oc_interface, contract_interface) {
-        if (!(opencontracts.network in oc_interface)) {
-            var errormsg = "Your Metamask is set to " + opencontracts.network + ", which is not supported by Open Contracts.";
+        if (!(this.network in oc_interface)) {
+            var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by Open Contracts yet.";
             throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(oc_interface));
         } else {
-            const token = oc_interface[opencontracts.network].token;
-            opencontracts.OPNtoken = new ethers.Contract(token.address, token.abi, opencontracts.provider);
-            const forwarder = oc_interface[opencontracts.network].forwarder;
-            opencontracts.OPNforwarder = new ethers.Contract(forwarder.address, forwarder.abi, opencontracts.provider);
-            const hub = oc_interface[opencontracts.network].hub;
-            opencontracts.OPNhub = new ethers.Contract(hub.address, hub.abi, opencontracts.provider);
-            opencontracts.getOPN = async function (amountString) {
+            const token = oc_interface[this.network].token;
+            this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
+            const forwarder = oc_interface[this.network].forwarder;
+            this.OPNforwarder = new ethers.Contract(forwarder.address, forwarder.abi, this.provider);
+            const hub = oc_interface[this.network].hub;
+            this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
+            this.getOPN = async function (amountString) {
                 const amount = ethers.utils.parseEther(amountString);
-                await opencontracts.OPNtoken.connect(opencontracts.signer).mint(amount);
-        }
-        opencontracts.approveOPN = async function (amountString) {
-        const amount = ethers.utils.parseEther(amountString);
-        await opencontracts.OPNtoken.connect(opencontracts.signer).approve(opencontracts.OPNhub.address, amount);
-        }
+                await this.OPNtoken.connect(this.signer).mint(amount);
+            }
+            this.approveOPN = async function (amountString) {
+                const amount = ethers.utils.parseEther(amountString);
+                await this.OPNtoken.connect(this.signer).approve(this.OPNhub.address, amount);
+            }
         }
         
-        if (!(opencontracts.network in contract_interface)) {
-            var errormsg = "Your Metamask is set to " + opencontracts.network + ", which is not supported by this contract.";
+        if (!(this.network in contract_interface)) {
+            var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by this contract.";
             throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(contract_interface));
         } else {
-            const contract = contract_interface[opencontracts.network];
-            opencontracts.contract = new ethers.Contract(contract.address, contract.abi, opencontracts.provider);
-            opencontracts.contractName = contract.name;
-            opencontracts.contractDescription = contract.description;
-            opencontracts.contractFunctions = [];
+            const contract = contract_interface[this.network];
+            this.contract = new ethers.Contract(contract.address, contract.abi, this.provider);
+            this.contractName = contract.name;
+            this.contractDescription = contract.description;
+            this.contractFunctions = [];
             for (let i = 0; i < contract.abi.length; i++) {
                 if (contract.abi[i].type == 'constructor') {continue}
                 const f = {};
