@@ -1,5 +1,5 @@
 # [open-contracts.github.io](https://open-contracts.github.io)
-The OpenContracts WebApp
+The OpenContracts Interface
 
 ## Local 
 ### `run`
@@ -7,3 +7,5 @@ The OpenContracts WebApp
 
 ### `docs`
 `yarn run docs`
+
+

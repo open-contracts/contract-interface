@@ -20,7 +20,9 @@ jobs:
         rm -rf build/client-protocol
         mkdir -p build/client-protocol
         cp -r public/client-protocol/* build/client-protocol/
-        git add .
+        git rm -rf --cached --ignore-unmatch build/public/
+        rm -rf build/public/
+        git add build
         git commit --allow-empty -m "Built Page"
         git push
 
@@ -31,4 +33,4 @@ jobs:
         REPO: self
         BRANCH: gh-pages
         FOLDER: build
-        GITHUB_TOKEN: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

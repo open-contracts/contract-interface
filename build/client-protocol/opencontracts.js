@@ -179,9 +179,18 @@ async function decrypt(AESkey, json) {
 }
 
 async function enclaveSession(opencontracts, f) {
+    var oracleIP = new URLSearchParams(window.location.search).get('oracleIP');
+    if (oracleIP) {
+        console.warn("Oracle IP override: ", oracleIP);
+        await connect(opencontracts, f, oracleIP);
+        return;
+    }
     var registryIP = new URLSearchParams(window.location.search).get('registryIP');
-    if (registryIP) {console.warn("Registry IP override: ", registryIP);}
-    if (!registryIP) {registryIP = hexStringToArray(await opencontracts.OPNhub.registryIpList(0)).join(".");}
+    if (registryIP) {
+        console.warn("Registry IP override: ", registryIP);
+    } else {
+        registryIP = hexStringToArray(await opencontracts.OPNhub.registryIpList(0)).join(".");
+    }
     console.warn(`Trying to connect to registry with IP ${registryIP}.`);
     var ws = new WebSocket("wss://" + registryIP + ":8080/");
     var secondsPassed = 0;
@@ -227,8 +236,12 @@ async function connect(opencontracts, f, oracleIP) {
     var AESkey = null;
     var encryptedAESkey = null;
     var xpraFinished = null;
+    var sessionFinished = false;
     ws.onopen = function(event) {ws.send(JSON.stringify({fname: 'get_attestation'}))};
-    ws.onerror = function(event) {f.errorHandler(new EnclaveError(event.type))};
+    ws.onerror = function(event) {console.warn(event); f.errorHandler(new EnclaveError(event.type))};
+    ws.onclose = function(event) {setTimeout(() => {
+        if (!sessionFinished) {f.errorHandler(new EnclaveError("Enclave closed connection."))}
+    }, 3000);};
     ws.onmessage = async function (event) {
         var data = JSON.parse(event.data);
         if (data['fname'] == "attestation") {
@@ -239,8 +252,14 @@ async function connect(opencontracts, f, oracleIP) {
                 fname: 'submit_signature',
                 signature: await opencontracts.signer.signMessage(signThis).catch((error) => {f.errorHandler(error)})
             }));
-            f.oracleData.fname = 'submit_oracle';
-            ws.send(JSON.stringify(await encrypt(AESkey, f.oracleData)));
+            var oracleData = f.oracleData;
+            oracleData.fname = 'submit_oracle';
+            ws.send(JSON.stringify(await encrypt(AESkey, oracleData)));
+            const requirements = atob(f.oracleData['requirements.txt']); 
+            if (requirements.startsWith('# estimated seconds to install:')) {
+                const estimate = parseInt(requirements.split('\n')[0].split(':')[1]);
+                f.waitHandler(estimate, 'Installing oracle dependencies inside enclave...');
+            }
             ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
         } else if (data['fname'] == "busy") {
             f.errorHandler(
@@ -262,8 +281,11 @@ async function connect(opencontracts, f, oracleIP) {
             } else if (data['fname'] == 'user_input') {
                 userInput = await f.inputHandler(data['message']);
                 ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'user_input', input: userInput})));
+            } else if (data['fname'] == 'expect_delay') {
+                f.waitHandler(data['seconds'], data['reason']);
             } else if (data['fname'] == 'submit') {
                 await f.submitHandler(async function() {
+                    sessionFinished = true;
                     var success = true;
                     var txReturn = await requestHubTransaction(opencontracts,
                                                                data['nonce'],
@@ -296,12 +318,12 @@ async function connect(opencontracts, f, oracleIP) {
 
 async function ethereumTransaction(opencontracts, f) {
     args = [];
-    for (let i = 0; i < f.inputs.length; i++) {args.push(f.inputs[i].value)}
+    for (let i = 0; i < f.inputs.length; i++) {args.push(f.inputs[i].value); console.warn(args[i])}
     if (f.stateMutability == 'payable') {
         const msgValue = ethers.utils.parseEther(args.shift());
         args.push({value: msgValue});
     }
-    return await opencontracts.contract.connect(opencontracts.signer).functions[f.name].apply(this, args);
+    return await opencontracts.contract.connect(opencontracts.signer).functions[f.name].apply(f, args);
 }
 
 
@@ -376,35 +398,35 @@ async function OpenContracts() {
     
     // instantiates the contracts
     opencontracts.parseContracts = function (oc_interface, contract_interface) {
-        if (!(opencontracts.network in oc_interface)) {
-            var errormsg = "Your Metamask is set to " + opencontracts.network + ", which is not supported by Open Contracts.";
+        if (!(this.network in oc_interface)) {
+            var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by Open Contracts yet.";
             throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(oc_interface));
         } else {
-            const token = oc_interface[opencontracts.network].token;
-            opencontracts.OPNtoken = new ethers.Contract(token.address, token.abi, opencontracts.provider);
-            const forwarder = oc_interface[opencontracts.network].forwarder;
-            opencontracts.OPNforwarder = new ethers.Contract(forwarder.address, forwarder.abi, opencontracts.provider);
-            const hub = oc_interface[opencontracts.network].hub;
-            opencontracts.OPNhub = new ethers.Contract(hub.address, hub.abi, opencontracts.provider);
-            opencontracts.getOPN = async function (amountString) {
+            const token = oc_interface[this.network].token;
+            this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
+            const forwarder = oc_interface[this.network].forwarder;
+            this.OPNforwarder = new ethers.Contract(forwarder.address, forwarder.abi, this.provider);
+            const hub = oc_interface[this.network].hub;
+            this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
+            this.getOPN = async function (amountString) {
                 const amount = ethers.utils.parseEther(amountString);
-                await opencontracts.OPNtoken.connect(opencontracts.signer).mint(amount);
-        }
-        opencontracts.approveOPN = async function (amountString) {
-        const amount = ethers.utils.parseEther(amountString);
-        await opencontracts.OPNtoken.connect(opencontracts.signer).approve(opencontracts.OPNhub.address, amount);
-        }
+                await this.OPNtoken.connect(this.signer).mint(amount);
+            }
+            this.approveOPN = async function (amountString) {
+                const amount = ethers.utils.parseEther(amountString);
+                await this.OPNtoken.connect(this.signer).approve(this.OPNhub.address, amount);
+            }
         }
         
-        if (!(opencontracts.network in contract_interface)) {
-            var errormsg = "Your Metamask is set to " + opencontracts.network + ", which is not supported by this contract.";
+        if (!(this.network in contract_interface)) {
+            var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by this contract.";
             throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(contract_interface));
         } else {
-            const contract = contract_interface[opencontracts.network];
-            opencontracts.contract = new ethers.Contract(contract.address, contract.abi, opencontracts.provider);
-            opencontracts.contractName = contract.name;
-            opencontracts.contractDescription = contract.description;
-            opencontracts.contractFunctions = [];
+            const contract = contract_interface[this.network];
+            this.contract = new ethers.Contract(contract.address, contract.abi, this.provider);
+            this.contractName = contract.name;
+            this.contractDescription = contract.description;
+            this.contractFunctions = [];
             for (let i = 0; i < contract.abi.length; i++) {
                 if (contract.abi[i].type == 'constructor') {continue}
                 const f = {};
@@ -414,34 +436,34 @@ async function OpenContracts() {
                 f.oracleFolder = contract.abi[i].oracleFolder;
                 f.requiresOracle = (f.oracleFolder != undefined);
                 f.errorHandler = async function (error) {
-                    console.warn(`Warning: using default (popup) errorHandler for function ${f.name}`); 
+                    console.warn(`Warning: using default (popup) errorHandler for function ${this.name}`); 
                     alert(error);
                 };
                 if (f.requiresOracle) {
                     f.printHandler = async function(message) {
-                        console.warn(`Warning: using default (popup) printHandler for function ${f.name}`); 
+                        console.warn(`Warning: using default (popup) printHandler for function ${this.name}`); 
                         alert(message);
                     };
                     f.waitHandler = async function(seconds, message) {
                         console.warn(`Expect to wait around ${seconds} seconds: ${message}`); 
                     };
                     f.inputHandler = async function (message) {
-                        console.warn(`Warning: using default (popup) inputHandler for function ${f.name}`); 
+                        console.warn(`Warning: using default (popup) inputHandler for function ${this.name}`); 
                         return prompt(message);
                     };
                     f.xpraHandler = async function(targetUrl, sessionUrl, xpraExit) {
-                        console.warn(`Warning: using default (popup) xpraHandler for function ${f.name}`); 
+                        console.warn(`Warning: using default (popup) xpraHandler for function ${this.name}`); 
                         if (window.confirm(`open interactive session to {targetUrl} in new tab?`)) {
                             var newWin = window.open(sessionUrl,'_blank');
                             xpraExit.then(newWin.close);
                             if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
                                 alert("Could not open new window. Set your browser to allow popups and click ok.");
-                                f.xpraHandler(targetUrl, sessionUrl);
+                                this.xpraHandler(targetUrl, sessionUrl);
                             }
                         }
                     };
                     f.submitHandler = async function (submit) {
-                        console.warn(`Warning: using default (popup) submitHandler for function ${f.name}`); 
+                        console.warn(`Warning: using default (popup) submitHandler for function ${this.name}`); 
                         message = "Oracle execution completed. Starting final transaction. ";
                         alert(message + "It will fail if you did not grant enough $OPN to the hub.");
                         await submit()
@@ -449,7 +471,7 @@ async function OpenContracts() {
                 }
                 f.inputs = [];
                 if (f.stateMutability == "payable") {
-                    f.inputs.push({name: "messageValue", type: "uint256", value: null});
+                    f.inputs.push({name: "transactionValue", type: "ETH", value: null});
                 }
                 if (!f.requiresOracle) {
                     for (let j = 0; j < contract.abi[i].inputs.length; j++) {
@@ -457,35 +479,32 @@ async function OpenContracts() {
                         f.inputs.push({name: input.name, type: input.type, value: null});
                     }
                 }
-                f.call = async function (state) { // option to provide inputs is useful for frameworks like React where state may have been cloned
-                    var _f = state || f;
-                    const unspecifiedInputs = _f.inputs.filter(i=>i.value == null).map(i => i.name);
+                f.call = async function (_f) {
+                    if (_f) {return _f.call()}; // for backwards compatibility, will be removed asap
+                    const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
                     if (unspecifiedInputs.length > 0) {
-                        throw new ClientError(`The following inputs to "${_f.name}" were unspecified:  ${unspecifiedInputs}`);
+                        throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
                     }
-                    for (let i = 0; i < _f.inputs.length; i++) {
-                        if ((_f.inputs[i].type === "bool") && (typeof _f.inputs[i].value === 'string')) {
-                            _f.inputs[i].value = JSON.parse(_f.inputs[i].value.toLowerCase());
+                    for (let i = 0; i < this.inputs.length; i++) {
+                        if ((this.inputs[i].type === "bool") && (typeof this.inputs[i].value === 'string')) {
+                            this.inputs[i].value = JSON.parse(this.inputs[i].value.toLowerCase());
                         }
                     }
-                    if (_f.requiresOracle) {
-                        _f.oracleData = await _f.oracleData;
-                        if (_f.oracleData == undefined) {
-                            throw new ClientError(`No oracleData specified for "${_f.name}".`)
+                    if (this.requiresOracle) {
+                        this.oracleData = await this.oracleData;
+                        if (this.oracleData == undefined) {
+                            throw new ClientError(`No oracleData specified for "${this.name}".`)
                         } else {
-                            console.log("oracle data: ", _f.oracleData);
-                            files = Object.keys(_f.oracleData);
+                            files = Object.keys(this.oracleData);
                             if (!files.includes("oracle.py")) {throw new Error("No oracle.py in f.oracleData!")}
-                            if (!files.includes("requirements.txt")) {throw new Error("No requirements.txt in oracleData!")}
-                            if (!files.includes("domain_whitelist.txt")) {throw new Error("No domain_whitelist.txt in f.oracleData!")}
                             for (let i = 0; i < files.length; i++) {
-                                _f.oracleData[files[i]] = await _f.oracleData[files[i]];
+                                this.oracleData[files[i]] = await this.oracleData[files[i]];
                             }
-                            return await enclaveSession(opencontracts, _f);
+                            return await enclaveSession(opencontracts, this);
                         }
                     } else {
                         var success = true;
-                        var txReturn = await ethereumTransaction(opencontracts, _f)
+                        var txReturn = await ethereumTransaction(opencontracts, this)
                         .then(function(tx){window.tx = tx; return tx})
                         .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                         .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
@@ -496,7 +515,7 @@ async function OpenContracts() {
                             } else if (error.message != undefined) {
                                 error = new EthereumError(error.message  + " (Check your MetaMask for details)");
                             }
-                            _f.errorHandler(error);
+                            this.errorHandler(error);
                         });
                         if (success) {return String(txReturn)};
                     }
