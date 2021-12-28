@@ -21,7 +21,7 @@ export type ApolloRunDappMainItemProps = {
 export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = (props) =>{
 
      useEffect(()=>{
-          console.log("First load...")
+          
      }, [])
 
      const {

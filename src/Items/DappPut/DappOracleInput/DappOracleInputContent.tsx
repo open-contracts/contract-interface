@@ -26,10 +26,10 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
    const text = dappOracleInput.contractFunction.oracleInputs ? 
    dappOracleInput.contractFunction.oracleInputs[dappOracleInput.id].response||"" :
    "";
-   console.log(text);
+   
 
     const onTextOracleInput = (text : string)=>{
-        console.log(text);
+        
        setOracleInput && setOracleInput({
             ...dappOracleInput,
             response : text

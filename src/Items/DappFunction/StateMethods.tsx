@@ -39,7 +39,7 @@ export const createErrors = (
 ) : DappErrputI[]=>{
     return errors ? errors.map((error)=>{
 
-        console.log(error.value);
+        
 
         return {
             ...error,

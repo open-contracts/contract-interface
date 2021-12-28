@@ -19,7 +19,7 @@ export const DappWaitingPutContent : FC<DappWaitingPutContentProps>  = ({
     setInput
 }) =>{
 
-    console.log(dappWaitingPut.duration);
+    
 
     const [duration, setDuration] = useState(dappWaitingPut.duration);
 

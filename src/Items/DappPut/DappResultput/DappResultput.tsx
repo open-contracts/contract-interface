@@ -24,7 +24,7 @@ export const DappResultput : FC<DappPutResultputProps>  = ({
         return error.name === "EthereumError";
     }).length || -1 > 0
 
-    console.log(ethereumError, dappResultput.value)
+    
 
     return (
 

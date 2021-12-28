@@ -19,9 +19,7 @@ export type DappFunctionLogAthenaProps = {
     setFunctionState ? : (func : OpenContractFunctionI)=>void
 }
 
-export class ClientError extends Error {
-    
-}
+export class ClientError extends Error {}
 
 export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     dapp,
@@ -46,8 +44,6 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
             }
         })
     }
-
-    console.log(contractFunction.puts);
 
     const updatedPuts = log.produceUpdatedPuts(
         reducedFunctionState.puts,
@@ -149,7 +145,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const addError = (e : Error)=>{
 
-        console.log(e.message);
+        
 
         const update = (contractFunction : OpenContractFunctionI)=>{
             const newError = {
@@ -199,7 +195,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const addResult = (data : OpenContractFunctionI["result"])=>{
 
-        console.log(data);
+        
 
         const update = (contractFunction : OpenContractFunctionI)=>{
             const _newFunctionState = {
@@ -212,7 +208,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                     reduceFunctionState
                 )]
             }
-            console.log(_newFunctionState)
+            
             return _newFunctionState;
         }
         reduceFunctionState(update);
@@ -313,7 +309,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const handleCall = async ()=>{
 
-        
+        contractFunction.inputs = reducedFunctionState.inputs;
 
        return new Promise((resolve, reject)=>{
 
@@ -324,7 +320,7 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                     resolve({});
                 }
 
-                contractFunction.call(contractFunction).then((data)=>{
+                contractFunction.call().then((data)=>{
                     resolve(data);
                 }).catch((err)=>{
                     addError(err);
@@ -332,13 +328,13 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
                 })
                 return;
             } 
+            
 
-            contractFunction.call(contractFunction).then((data)=>{
-                console.log(data);
+            contractFunction.call().then((data)=>{
+                
                 addResult(data);
                 resolve(data);
             }).catch((err)=>{
-                
                 addError(err);
                 resolve({});
             })
@@ -384,8 +380,6 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const addWaitingPut = (seconds : number, message : string)=>{
 
-        log.removeWaitingPut(reduceFunctionState);
-
         reduceFunctionState((state)=>{
             return {
                 ...state,
@@ -400,10 +394,8 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
         })
     }
 
-    // console.log(contractFunction.waitHandler)
-
     contractFunction.waitHandler = async (seconds, message)=>{
-        console.log("Waiting: ", seconds, message);
+        
         addWaitingPut(seconds, message);
     }
 

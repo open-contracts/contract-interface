@@ -23,11 +23,6 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
     reduceContractFunction
 }) =>{
 
-    console.log(
-        "Contract function received...",
-        contractFunction
-    )
-    
 
     const inputs = pure.createInputs(
         contractFunction,
@@ -53,7 +48,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
             });
         }
 
-        console.log("Input received...", input.value);
+        
 
         return (
                     <div 

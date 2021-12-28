@@ -32,7 +32,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
                 puts : [],
                 oracleData : undefined
             }
-            console.log(_state);
+            
             return _state;
         })
     }
