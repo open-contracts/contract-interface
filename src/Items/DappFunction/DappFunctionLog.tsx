@@ -13,7 +13,7 @@ import {generate} from "shortid";
 import * as log from "./StateMethods";
 import { FailedStepPost } from '../../Components/Walkthrough/Step/FailedStepPost';
 
-export type DappFunctionLogAthenaProps = {
+export type DappFunctionLogProps = {
     dapp : DappI,
     contractFunction : OpenContractFunctionI,
     setFunctionState ? : (func : OpenContractFunctionI)=>void
@@ -21,7 +21,7 @@ export type DappFunctionLogAthenaProps = {
 
 export class ClientError extends Error {}
 
-export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
+export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
     dapp,
     contractFunction,
     setFunctionState
@@ -380,6 +380,8 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
 
     const addWaitingPut = (seconds : number, message : string)=>{
 
+        log.removeWaitingPut(reduceFunctionState);
+
         reduceFunctionState((state)=>{
             return {
                 ...state,
@@ -395,7 +397,6 @@ export const DappFunctionLogAthena : FC<DappFunctionLogAthenaProps>  = ({
     }
 
     contractFunction.waitHandler = async (seconds, message)=>{
-        
         addWaitingPut(seconds, message);
     }
 

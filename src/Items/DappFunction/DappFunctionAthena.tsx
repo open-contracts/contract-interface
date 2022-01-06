@@ -1,6 +1,6 @@
 import React, {FC, ReactElement} from 'react';
 import {DappI} from "../Dapp";
-import { DappFunctionLogAthena } from './DappFunctionLogAthena';
+import { DappFunctionLog } from './DappFunctionLog';
 
 export type DappFunctionAthenaProps = {
     dapp : DappI,
@@ -16,7 +16,7 @@ export const DappFunctionAthena : FC<DappFunctionAthenaProps>  = ({
 
     return (
 
-        <DappFunctionLogAthena setFunctionState={setDappFunction} dapp={dapp} contractFunction={contractFunction}/>
+        <DappFunctionLog setFunctionState={setDappFunction} dapp={dapp} contractFunction={contractFunction}/>
 
     )
 

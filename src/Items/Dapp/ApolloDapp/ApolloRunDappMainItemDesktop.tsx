@@ -7,7 +7,6 @@ import { Colors, DesktopSizes } from '../../../Theme';
 import {ApolloRunDappContent} from "./ApolloRunDappContent";
 import { ApolloRunDappFunctionGridView } from './ApolloRunDappFunctionGridView';
 import { ApolloRunDappFunctionView } from './ApolloRunDappFunctionView';
-import { useErrorContext } from '../../../Error/ErrorProvider';
 import { ApolloRunDappMainItemActions } from './ApolloRunDappMainItemActions';
 
 
@@ -67,8 +66,6 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
 
     const setFunc = (contractFunction : OpenContractFunctionI)=>{
 
-        
-
         if(dappItem.contract && setDappItem){
 
             const newContractFunctions = dappItem.contract.contractFunctions.reduce((agg, oldContractFunction)=>{
@@ -100,7 +97,6 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
 
         <div style={{
             width : "100%",
-            // paddingBottom : DesktopSizes.Padding.whitespacePreferred,
             ...style
         }}>
             <div>
