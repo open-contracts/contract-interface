@@ -171,10 +171,10 @@ declare global {
 
     interface OpenContractI {
         
-        parseContracts(
+        parseContracts : (
             ocInterface : OpenContractsInterfaceI,
             contractInterface : OpenContractInterfaceI
-        ) : void
+        )=> void
             
         contractName : string,
         contractDescription : string,

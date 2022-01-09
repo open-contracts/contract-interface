@@ -36,7 +36,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                 const newInput =  {
                     ...contractFunction.inputs[index],
                     value : text
-                }
+                };
                 return {
                     ...contractFunction,
                     inputs : [

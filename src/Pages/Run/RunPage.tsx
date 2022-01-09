@@ -1,52 +1,24 @@
-import React, {FC, ReactElement} from 'react';
+import React, {FC, ReactElement, useReducer} from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import {RunSteps} from "../../Statics/Steps/RunSteps";
 import { StepStatusT, AllSteps } from '../../Statics/Steps/Steps';
-import { ethers } from 'ethers';
-import {NotReadyToRun} from "./NotReadyToRun";
 import {ReadyToRun} from "./ReadyToRun";
 import { MainLayoutDesktop } from '../../Layouts';
 import { HeaderDesktop, HeaderResponsive } from '../../Maps/Headers';
-import { HOME } from '../../Maps/Headers';
 import { MediaResponsive } from '../../Sytems';
 import { MainLayoutMobile } from '../../Layouts';
 import {useParams} from "react-router-dom";
-import { DappI } from '../../Items';
-
-declare global {
-    interface Window {
-        ethereum : ethers.providers.ExternalProvider
-    }
-}
+import { useErrorContext } from '../../Error/ErrorProvider';
+import { DappI, getDappName,  getDappContract } from "../../Items";
 
 export type RunPageProps = {
+    stepStatus : StepStatusT,
+    setStepStatus : (status : StepStatusT)=>void
 }
 
-export const simulateNetworkRequest =  async <T extends any>(value : T, upperBound : number = 5000) : Promise<T> =>{
-    return new Promise((resolve, reject)=>{
-        setTimeout(()=>{
-            resolve(value);
-        }, Math.random() * upperBound)
-    })
-}
-
-export const RunPage : FC<RunPageProps>  = () =>{
-
-
-    const [stepStatus, setStepStatus] = useState<StepStatusT>({
-        wallet : "not ready",
-    });
-
-    const [readyToRun, setReadyToRun] = useState(false);
-    const handleAllDone = ()=>{
-        setReadyToRun(true);
-    }
-
-    const _setStepStatus = (stepStatus : StepStatusT)=>{
-        
-        setStepStatus(stepStatus);
-    }
+export const RunPage : FC<RunPageProps>  = ({
+    stepStatus
+}) =>{
 
     const {
         owner,
@@ -54,45 +26,114 @@ export const RunPage : FC<RunPageProps>  = () =>{
         branch
     } = useParams();
 
-    const [dapp, setDapp] = useState<DappI>({
-        __isDapp__ : true,
-        gitUrl : `https://github.com/${owner}/${repo}/${branch}`,
-        id : `${owner}/${repo}/${branch||"main"}`,
-        owner : owner || "",
-        repo : repo || "", 
-        branch : branch || "main",
-        // loaded : false
-    } )
+    const [dapp, setDapp] = useReducer(
+        (dapp : DappI, set :(dapp : DappI)=>DappI)=>set(dapp),
+        {
+            __isDapp__ : true,
+            gitUrl : `https://github.com/${owner}/${repo}/${branch}`,
+            id : `${owner}/${repo}/${branch||"main"}`,
+            owner : owner || "",
+            repo : repo || "", 
+            branch : branch || "main",
+        } 
+    )
 
     const [loc, setLoc] = useState<string>(window.location.hash);
     useEffect(()=>{
         if(loc !== window.location.hash){
-            setDapp({
+            setDapp(()=>({
                 __isDapp__ : true,
                 gitUrl : `https://github.com/${owner}/${repo}/${branch}`,
                 id : `${owner}/${repo}/${branch||"main"}`,
                 owner : owner || "",
                 repo : repo || "", 
-                branch : branch || "main",
-                // loaded : false
-            });
+                branch : branch || "main"
+            }));
             setLoc(window.location.hash);
         }
-    }, [window.location.hash])
+    }, [window.location.hash]); // I don't believe this dep array actually does anything.
 
     const [grid, setGrid] = useState(true);
-    const [which, setWhich] = useState<string|undefined>(undefined)
+    const [which, setWhich] = useState<string>("");
 
-    const page = readyToRun ? 
-    (<ReadyToRun 
-        grid={grid}
-        setGrid={setGrid}
-        which={which}
-        setWhich={setWhich}
-        stepStatus={stepStatus} dapp={dapp} setDapp={setDapp}/>) :
-    (<NotReadyToRun 
-        
-        setStepStatus={_setStepStatus} stepStatus={stepStatus} handleAllDone={handleAllDone}/>);
+    // Logic for loading the contract
+    const {
+        dispatch
+    } = useErrorContext();
+
+
+    const [nameLoad, setNameLoad] = useState<string|undefined>(undefined);
+    useEffect(()=>{
+
+        if(!nameLoad && dapp.owner.length && dapp.repo.length){
+            getDappName(
+                dapp,
+                (name : string)=>setNameLoad(name)
+            ).catch((err)=>{
+                dispatch((state)=>{
+                    return {
+                        ...state,
+                        error : err
+                    }
+                })
+            })
+        }
+
+    }, [dapp.name])
+    useEffect(()=>{
+
+        if(dapp.name !== nameLoad){
+            setDapp((dapp)=>{
+                return {
+                    ...dapp,
+                    name : nameLoad
+                }
+            })
+        }
+
+    })
+
+    const [contractLoad, setContractLoad] = useState<OpenContractI|undefined>(undefined);
+    useEffect(()=>{
+
+        if(!dapp.contract && dapp.owner.length && dapp.repo.length){
+            console.log("Loading contract...")
+            getDappContract(
+                dapp,
+                (contract : OpenContractI)=>{
+                    setContractLoad(contract);
+                    setWhich(contract.contractFunctions[0].name);
+                }
+            ).catch((err)=>{
+                dispatch((state)=>{
+                    return {
+                        ...state,
+                        error : err
+                    }
+                })
+            })
+        }
+
+    }, [dapp.contract?.contractName])
+    useEffect(()=>{
+
+        if(contractLoad && (dapp.contract !== contractLoad)){
+            setDapp(()=>({
+                ...dapp,
+                contract : contractLoad
+            }))
+        }
+
+    }, [contractLoad])
+
+
+    const page = (<ReadyToRun 
+    grid={grid}
+    setGrid={setGrid}
+    which={which}
+    setWhich={setWhich}
+    dapp={dapp} 
+    setDapp={setDapp}/>);
 
     return (
         <MediaResponsive>

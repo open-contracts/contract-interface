@@ -1,9 +1,4 @@
 import React, {FC, ReactElement, useState} from 'react';
-import { MainLayoutDesktop } from '../../Layouts';
-import { HeaderDesktop, HeaderResponsive } from '../../Maps/Headers';
-import { HOME } from '../../Maps/Headers';
-import { MediaResponsive } from '../../Sytems';
-import { MainLayoutMobile } from '../../Layouts';
 import { StepStatusT } from '../../Statics/Steps/Steps';
 import { TextInputApollo } from '../../Components/TextInput';
 import { useNavigate } from 'react-router-dom';
@@ -11,17 +6,14 @@ import { AthenaButton } from '../../Components/Buttons';
 import { Colors } from '../../Theme';
 import { parseGitUrl } from '../../Items';
 import { DappI } from '../../Items';
+import { OpenContractReducer } from '../../Types';
 
 export type RunPageNoRepoProps = {
-    stepStatus : StepStatusT,
-    dapp : DappI,
-    setDapp : (dapp : DappI)=>void,
+    setDapp : OpenContractReducer,
 }
 
 
 export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
-    stepStatus,
-    dapp,
     setDapp
 }) =>{
 
@@ -36,7 +28,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             branch
         } = parseGitUrl(text);
 
-        setDapp({
+        setDapp(()=>({
             __isDapp__ : true,
             gitUrl : `https://github.com/${owner}/${repo}/${branch}`,
             id : `${owner}/${repo}/${branch||"main"}`,
@@ -44,7 +36,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             repo : repo || "", 
             branch : branch || "main",
             // loaded : false
-        })
+        }));
 
         navigate(`/${owner}/${repo}/${branch||"main"}`);
 
@@ -57,7 +49,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             branch
         } = parseGitUrl(text);
 
-        setDapp({
+        setDapp(()=>({
             __isDapp__ : true,
             gitUrl : `https://github.com/${owner}/${repo}/${branch}`,
             id : `${owner}/${repo}/${branch||"main"}`,
@@ -65,7 +57,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
             repo : repo || "", 
             branch : branch || "main",
             // loaded : false
-        })
+        }));
 
         navigate(`/${owner}/${repo}/${branch||"main"}`);
 

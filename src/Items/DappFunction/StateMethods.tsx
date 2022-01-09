@@ -13,7 +13,7 @@ export const allPromisesResolved = (obj : any)=>{
 
 export const countPromisesResolved = (obj : any)=>{
     return Object.keys(obj).reduce((agg, key)=>{
-        return agg + ((typeof obj[key] === "string" ? 1 : 0) * 1)
+        return agg + (typeof obj[key] === "string" ? 1 : 0)
     }, 0)
 }
 

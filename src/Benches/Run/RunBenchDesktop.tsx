@@ -1,14 +1,15 @@
 import React, {FC, ReactElement, useState} from 'react';
 import { DappI } from '../../Items';
 import { ApolloRunDappMainItem } from '../../Items/Dapp/ApolloDapp/ApolloRunDappMainItem';
+import { OpenContractReducer } from '../../Types';
 
 export type RunBenchDesktopProps = {
     dapp  : DappI,
-    setDapp : (dapp : DappI)=>void,
-    grid ? : boolean,
-    setGrid ? : (grid : boolean)=>void,
-    which ? : string,
-    setWhich ? : (which : string)=>void
+    setDapp : OpenContractReducer,
+    grid : boolean,
+    setGrid : (grid : boolean)=>void,
+    which : string,
+    setWhich : (which : string)=>void
 }
 
 export const RunBenchDesktop : FC<RunBenchDesktopProps>  = ({

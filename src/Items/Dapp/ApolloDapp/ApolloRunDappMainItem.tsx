@@ -5,90 +5,19 @@ import { useErrorContext } from '../../../Error/ErrorProvider';
 import { ApolloRunDappMainItemActions } from './ApolloRunDappMainItemActions';
 import { MediaResponsive } from '../../../Sytems';
 import { DappI, getDappName,  getDappContract } from '../Dapp';
+import { OpenContractReducer } from '../../../Types';
 
 export type ApolloRunDappMainItemProps = {
     dappItem : DappI,
     style? : React.CSSProperties,
-    key? : React.Key,
-    updateDapp ? : (dapp : DappI)=>void,
-    forceLoad ? : boolean,
-    grid ? : boolean,
-    setGrid ? : (grid : boolean)=>void,
-    which ? : string,
-    setWhich ? : (which : string)=>void
+    updateDapp : OpenContractReducer,
+    grid : boolean,
+    setGrid : (grid : boolean)=>void,
+    which : string,
+    setWhich : (which : string)=>void
 }
 
 export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = (props) =>{
-
-     useEffect(()=>{
-          
-     }, [])
-
-     const {
-          dispatch
-      } = useErrorContext();
-
-  
-      const [nameLoad, setNameLoad] = useState<string|undefined>(undefined);
-      useEffect(()=>{
-  
-          if(!nameLoad){
-              getDappName(
-                  props.dappItem,
-                  (name : string)=>setNameLoad(name)
-              ).catch((err)=>{
-                  dispatch((state)=>{
-                      return {
-                          ...state,
-                          error : err
-                      }
-                  })
-              })
-          }
-  
-      }, [props.dappItem.name])
-      useEffect(()=>{
-  
-          if(props.dappItem.name !== nameLoad){
-              props.updateDapp && props.updateDapp({
-                  ...props.dappItem,
-                  name : nameLoad
-              })
-          }
-  
-      })
-  
-      const [contractLoad, setContractLoad] = useState<OpenContractI|undefined>(undefined);
-      useEffect(()=>{
-          if(!props.dappItem.contract){
-              getDappContract(
-                  props.dappItem,
-                  (contract : OpenContractI)=>{
-                      setContractLoad(contract)
-                  }
-              ).catch((err)=>{
-                  dispatch((state)=>{
-                      return {
-                          ...state,
-                          error : err
-                      }
-                  })
-              })
-          }
-  
-      }, [props.dappItem.contract?.contractName])
-      useEffect(()=>{
-  
-          if(contractLoad && (props.dappItem.contract !== contractLoad)){
-              props.updateDapp && props.updateDapp({
-                  ...props.dappItem,
-                  contract : contractLoad
-              })
-          }
-  
-      }, [contractLoad])
-
-
 
     return (
 

@@ -8,6 +8,9 @@ import {ApolloRunDappContent} from "./ApolloRunDappContent";
 import { ApolloRunDappFunctionGridView } from './ApolloRunDappFunctionGridView';
 import { ApolloRunDappFunctionView } from './ApolloRunDappFunctionView';
 import { ApolloRunDappMainItemActions } from './ApolloRunDappMainItemActions';
+import { useMemo } from 'react';
+import { OpenContractReducer, OpenContractFunctionReducer } from '../../../Types';
+
 
 
 export type ApolloRunDappMainItemReadmeProps = {
@@ -36,7 +39,7 @@ export const ApolloRunDappMainItemReadMe : FC<ApolloRunDappMainItemReadmeProps> 
 
 export type ApolloRunDappMainItemInternalsProps = {
     dappItem : DappI,
-    setDappItem ? : (dappItem : DappI)=>void,
+    setDappItem : OpenContractReducer,
     style? : React.CSSProperties,
     key? : React.Key,
     grid ? : boolean,
@@ -64,29 +67,21 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
         dappItem.contract?.contractFunctions[0]
     )
 
-    const setFunc = (contractFunction : OpenContractFunctionI)=>{
-
-        if(dappItem.contract && setDappItem){
-
-            const newContractFunctions = dappItem.contract.contractFunctions.reduce((agg, oldContractFunction)=>{
-
-                return [
+    const setFunc = (set : (
+        contractFunction : OpenContractFunctionI
+    )=>OpenContractFunctionI)=>setDappItem(()=>{
+        return {
+            ...dappItem,
+            contract : dappItem.contract && {
+                ...dappItem.contract,
+                contractFunctions :  dappItem.contract.contractFunctions.reduce((agg, oldContractFunction)=>[
                     ...agg,
-                    ...(contractFunction.name === oldContractFunction.name) ? [contractFunction] : [oldContractFunction]
-                ]
-            }, [] as OpenContractFunctionI[])
-
-            setDappItem({
-                ...dappItem,
-                contract : {
-                    ...dappItem.contract,
-                    contractFunctions : newContractFunctions
-                }
-            })
-
+                    ...(which === oldContractFunction.name) ? [set(oldContractFunction)] : [oldContractFunction]
+                ], [] as OpenContractFunctionI[])
+            }
         }
+    })
 
-    }
 
     const handleWhich = (which : string)=>{
         setGrid && setGrid(false);
@@ -142,7 +137,7 @@ export type ApolloRunDappMainItemProps = {
     dappItem : DappI,
     style? : React.CSSProperties,
     key? : React.Key,
-    updateDapp ? : (dapp : DappI)=>void,
+    updateDapp : OpenContractReducer,
     forceLoad ? : boolean,
     grid ? : boolean,
     setGrid ? : (grid : boolean)=>void,
@@ -160,16 +155,14 @@ export const ApolloRunDappMainItemDesktop : FC<ApolloRunDappMainItemProps>  = ({
     which
 }) =>{
 
-   
-
     return (
 
         <ApolloRunDappMainItemInternals 
-            setWhich={setWhich}
-            which={which}
-            grid={grid}
-            setGrid={setGrid}
-            setDappItem={updateDapp} dappItem={dappItem} style={style}/>
+        setWhich={setWhich}
+        which={which}
+        grid={grid}
+        setGrid={setGrid}
+        setDappItem={updateDapp} dappItem={dappItem} style={style}/>
 
     )
 
