@@ -5,6 +5,8 @@ import { DappResultputI } from '../DappPutType';
 import Color from "color";
 import {darkenStandard, lightenStandard} from "../Methods";
 import { result } from 'cypress/types/lodash';
+import remarkGfm from 'remark-gfm';
+import ReactMarkdown from "react-markdown";
 
 
 export type DappResultputContentProps = {
@@ -24,7 +26,11 @@ export const DappResultputContent : FC<DappResultputContentProps>  = ({
             display : "flex",
             color : Colors.babyBlue
         }}>
-            {dappResultput.value||"No return value yet."}
+            <ReactMarkdown plugins={[
+                remarkGfm
+            ]}>
+                {dappResultput.value||"No return value yet."}
+            </ReactMarkdown>
         </div>
 
     )
