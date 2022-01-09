@@ -46,35 +46,53 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
         setDisabled(true);
     }
 
-    return (
+    const handleKeyDown : React.KeyboardEventHandler= (e)=>{
+        if(e.key === "Enter") onButtonSumbit();
+    }
 
+    return (
         <div style={{
             paddingTop : DesktopSizes.Padding.standard,
-            display : "grid",
-            gridTemplateColumns : "6fr 1fr",
-            gap : DesktopSizes.Padding.standard
         }}>
-            <TextInputApollo 
-                disabled={disabled}
-                value={text}
-                placeholder={"Enter value"}
-                onTextInput={onTextOracleInput}
-                onSubmit={onTextSubmit}
-              style={{
-                background : "white",
-                color : Colors.Maintheme,
-                border : `1px solid ${Colors.Maintheme}`
-            }}/>
-            <AthenaButton 
-                style={{
-                    border : `1px solid ${Colors.Maintheme}`,
-                    boxShadow : "none"
-                }}
-                onClick={onButtonSumbit}
-                primaryColor={Colors.Maintheme} secondaryColor={"white"}>
-                Submit
-            </AthenaButton>
+            <table style={{
+                width : "100%"
+            }}>
+                <colgroup>
+                    <col span={1} style={{
+                        width : "80%"
+                    }}/>
+                    <col span={1} style={{
+                        width : "20%"
+                    }}/>
+                </colgroup>
+                <tr onKeyDown={handleKeyDown}>
+                    <td> <TextInputApollo 
+                        disabled={disabled}
+                        value={text}
+                        placeholder={"Enter value"}
+                        onTextInput={onTextOracleInput}
+                        onSubmit={onTextSubmit}
+                    style={{
+                        background : "white",
+                        color : Colors.Maintheme,
+                        border : `1px solid ${Colors.Maintheme}`
+                    }}/></td>
+                    <td><AthenaButton 
+                    style={{
+                        border : `1px solid ${Colors.Maintheme}`,
+                        boxShadow : "none",
+                        width : "100%"
+                    }}
+                    onClick={onButtonSumbit}
+                    primaryColor={Colors.Maintheme} secondaryColor={"white"}>
+                    Submit
+                </AthenaButton></td>
+                </tr>
+            </table>
         </div>
+
+        
+        
 
     )
 

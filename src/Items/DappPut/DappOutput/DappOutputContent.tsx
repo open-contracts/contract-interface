@@ -18,37 +18,51 @@ export const DappOutputContent : FC<DappOutputContentProps>  = ({
             color : Colors.Maintheme,
             width : "100%",
             display : "grid",
-            gridTemplateColumns : "6fr 1fr",
             alignContent : 'center',
             alignItems : "center",
         }}>
-            <div style={{
-                color : Colors.secondaryTextColor,
-                textAlign : "left"
-            }}>
-                {dappOutput.value}
-            </div>
-            <div style={{
-                width : "100%",
-                display : "grid",
-                gridTemplateColumns : "1fr",
-                justifyContent : "center"
-            }}>
-                <AthenaButton 
-                style={{
-                    width : "100%",
-                    border : `1px solid ${Colors.Maintheme}`,
-                    boxShadow : "none"
-                }}
-                primaryColor={Colors.Maintheme}
-                secondaryColor={"white"}
-                action={async ()=>{
-                    navigator.clipboard.writeText(dappOutput.value||"");
-                }}>
-                   
-                            <Clipboard size={16}/>
-                </AthenaButton>
-            </div>
+            <table>
+                <colgroup>
+                    <col span={1} style={{
+                        width : "80%"
+                    }}/>
+                    <col span={1} style={{
+                        width : "20%"
+                    }}/>
+                </colgroup>
+                <tr>
+                    <td>
+                        <div style={{
+                            color : Colors.secondaryTextColor,
+                            textAlign : "left"
+                        }}>
+                            {dappOutput.value}
+                        </div>
+                    </td>
+                    <td>
+                        <div style={{
+                            width : "100%",
+                            display : "grid",
+                            gridTemplateColumns : "1fr",
+                            justifyContent : "center"
+                        }}>
+                            <AthenaButton 
+                            style={{
+                                width : "100%",
+                                border : `1px solid ${Colors.Maintheme}`,
+                                boxShadow : "none"
+                            }}
+                            primaryColor={Colors.Maintheme}
+                            secondaryColor={"white"}
+                            action={async ()=>{
+                                navigator.clipboard.writeText(dappOutput.value||"");
+                            }}>
+                                <Clipboard size={16}/>
+                            </AthenaButton>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
 
     )
