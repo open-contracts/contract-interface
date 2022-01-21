@@ -223,8 +223,8 @@ async function enclaveSession(opencontracts, f) {
                     new RegistryError("No oracle enclaves available right now. Try again in a bit - or become an enclave provider!")
                 );
             } else {
-                f.waitHandler(11, "Connecting to Oracle...");
-                setTimeout(async () => {await connect(opencontracts, f, data['ip'])}, 11000);
+                f.waitHandler(10, "Connecting to Oracle...");
+                setTimeout(async () => {await connect(opencontracts, f, data['ip'])}, 10000);
             }
         }
     }
@@ -254,7 +254,7 @@ async function connect(opencontracts, f, oracleIP) {
             }));
             var oracleData = f.oracleData;
             oracleData.fname = 'submit_oracle';
-            ws.send(JSON.stringify(await encrypt(AESkey, {fname: "download_github_oracle",
+            ws.send(JSON.stringify(await encrypt(AESkey, {fname: "run_github_oracle",
                                                           user: "open-contracts",
                                                           repo: "weather-insurance",
                                                           folder: f.oracleFolder,
