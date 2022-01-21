@@ -28,7 +28,6 @@ export const RunPage : FC<RunPageProps>  = ({
 
     const [dapp, setDapp] = useReducer(
         (dapp : DappI, set :(dapp : DappI)=>DappI)=>{
-            console.log("Setting dapp from...", dapp, set(dapp))
             return set(dapp);
         },
         {
@@ -100,7 +99,7 @@ export const RunPage : FC<RunPageProps>  = ({
     useEffect(()=>{
 
         if(!dapp.contract && dapp.owner.length && dapp.repo.length){
-            console.log("Loading contract...")
+            
             getDappContract(
                 dapp,
                 (contract : OpenContractI)=>{

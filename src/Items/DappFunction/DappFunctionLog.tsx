@@ -9,7 +9,6 @@ import {DappFunctionLogRunButton} from "./DappFunctionLogRunButton";
 import {DappFunctionSubmitState} from "./DappFunctionSubmitState";
 import {generate} from "shortid";
 import * as log from "./StateMethods";
-import { FailedStepPost } from '../../Components/Walkthrough/Step/FailedStepPost';
 import { OpenContractFunctionReducer } from '../../Types';
 
 
@@ -29,8 +28,6 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
     contractFunction,
     setFunctionState
 }) =>{
-
-    console.log(contractFunction.puts);
 
     const [tick, forceUpdate] = useReducer(x=>x+1, 0);
 
@@ -182,6 +179,8 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
     }
 
     const addResult = (data : OpenContractFunctionI["result"])=>{
+
+        
 
         setFunctionState((contractFunction : OpenContractFunctionI)=>{
             return {

@@ -65,28 +65,30 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
                         width : "20%"
                     }}/>
                 </colgroup>
-                <tr onKeyDown={handleKeyDown}>
-                    <td> <TextInputApollo 
-                        value={text}
-                        placeholder={"Enter value"}
-                        onTextInput={onTextOracleInput}
-                        onSubmit={onTextSubmit}
-                    style={{
-                        background : "white",
-                        color : Colors.Maintheme,
-                        border : `1px solid ${Colors.Maintheme}`
-                    }}/></td>
-                    <td><AthenaButton 
-                    style={{
-                        border : `1px solid ${Colors.Maintheme}`,
-                        boxShadow : "none",
-                        width : "100%"
-                    }}
-                    onClick={onButtonSumbit}
-                    primaryColor={Colors.Maintheme} secondaryColor={"white"}>
-                    Submit
-                </AthenaButton></td>
-                </tr>
+                <tbody>
+                    <tr onKeyDown={handleKeyDown}>
+                        <td> <TextInputApollo 
+                            value={text}
+                            placeholder={"Enter value"}
+                            onTextInput={onTextOracleInput}
+                            onSubmit={onTextSubmit}
+                        style={{
+                            background : "white",
+                            color : Colors.Maintheme,
+                            border : `1px solid ${Colors.Maintheme}`
+                        }}/></td>
+                        <td><AthenaButton 
+                        style={{
+                            border : `1px solid ${Colors.Maintheme}`,
+                            boxShadow : "none",
+                            width : "100%"
+                        }}
+                        onClick={onButtonSumbit}
+                        primaryColor={Colors.Maintheme} secondaryColor={"white"}>
+                        Submit
+                    </AthenaButton></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 

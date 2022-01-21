@@ -1,16 +1,10 @@
 import React, {FC, ReactElement} from 'react';
-import { useState } from 'react';
-import { Play, PlayCircleFill, PlayFill } from 'react-bootstrap-icons';
-import { AthenaButton } from '../../Components/Buttons';
 import { Colors, DesktopSizes, Shadows } from '../../Theme';
 import { DappInputHeader } from '../DappPut/DappInput/DappInputHeader';
-import { DappResultput } from '../DappPut/DappResultput';
-import { ArrowReturnRight } from 'react-bootstrap-icons';
 import { TextInputApollo } from '../../Components/TextInput';
 import * as pure from "./StateMethods";
-import {generate} from "shortid";
 import { DefaultHeader } from '../DappPut/Standards';
-import { text } from 'stream/consumers';
+
 
 
 export type DappFunctionLogRunButtonProps = {
@@ -51,7 +45,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
         
 
         return (
-                    <div 
+                    <><div 
                     key={`${index}-${input.name}`}
                     style={{
                         alignContent : 'center',
@@ -62,7 +56,6 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         <DappInputHeader dappInput={input} style={{
                             fontSize : "16px",
                         }}/>
-                        <br/>
                         <div style={{
                             display : "flex",
                             color : Colors.secondaryTextColor,
@@ -79,7 +72,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                                 fontSize : "16px"
                            }}/>
                         </div>
-                    </div>
+                    </div><br/></>
                 )
          
     });
