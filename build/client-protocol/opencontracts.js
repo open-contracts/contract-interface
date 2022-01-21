@@ -265,7 +265,7 @@ async function connect(opencontracts, f, oracleIP) {
                 const estimate = parseInt(requirements.split('\n')[0].split(':')[1]);
                 f.waitHandler(estimate, 'Installing oracle dependencies inside enclave...');
             }
-            ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
+            // ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
         } else if (data['fname'] == "busy") {
             f.errorHandler(
                 new EnclaveError("Oracle is busy. Request a new IP.")
@@ -518,7 +518,7 @@ async function OpenContracts() {
                             if (error.error != undefined) {
                                 error = new EthereumError(error.error.message);
                             } else if (error.message != undefined) {
-                                error = new EthereumError(error.message  + " (Check your MetaMask for details)");
+                                error = new EthereumError(error.message);
                             }
                             this.errorHandler(error);
                         });
