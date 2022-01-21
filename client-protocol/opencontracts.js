@@ -328,7 +328,7 @@ async function githubOracleDownloader(user, repo, ref, dir) {
     var links = await GITHUB_FILES.content_links_json(user, repo, ref, dir);
     const downloadAsBase64 = async function (link) {
         const url = new URL(link);
-        const response = await fetch(url);
+        const response = ""; // await fetch(url);
         return btoa(new Uint8Array(await response.arrayBuffer()).reduce(
             (data, byte) => {return data + String.fromCharCode(byte);}, '')
         );
