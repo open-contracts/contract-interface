@@ -67,7 +67,6 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
                 </colgroup>
                 <tr onKeyDown={handleKeyDown}>
                     <td> <TextInputApollo 
-                        disabled={disabled}
                         value={text}
                         placeholder={"Enter value"}
                         onTextInput={onTextOracleInput}

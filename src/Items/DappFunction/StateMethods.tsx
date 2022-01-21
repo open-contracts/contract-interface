@@ -145,33 +145,6 @@ export const createResult = (
     }
 }
 
-/*export const createDescriptionData = (
-    contractFunction : OpenContractFunctionI
-    ) : DappDescputI[]=>{
-    return [
-        {
-            name : contractFunction.name,
-            description : contractFunction.description,
-            putType : "description",
-            value : contractFunction.name,
-
-        }
-    ]
-}*/
-
-export const aggregateContractFunctionPuts = (
-    contractFunction : OpenContractFunctionI,
-)=>{
-
-    return [
-       /* ...createInputs(contractFunction),
-        ...createErrors(contractFunction),
-        ...createXpras(contractFunction),
-        ...createOutputs(contractFunction),*/
-    ]
-
-}
-
 export const getContractFunctionInputs = (puts : DappPutI[])=>{
     return puts.filter((put)=>{
         return put.putType === "input";
@@ -236,7 +209,7 @@ export const removeWaitingPut = (
     reduceContractFunction&& reduceContractFunction((state)=>{
         return {
             ...state,
-            puts : state.puts?.filter((put)=>{
+            puts : state.puts && state.puts.filter((put)=>{
                 return put.putType !== "waiting"
             })
         }

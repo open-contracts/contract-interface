@@ -27,7 +27,10 @@ export const RunPage : FC<RunPageProps>  = ({
     } = useParams();
 
     const [dapp, setDapp] = useReducer(
-        (dapp : DappI, set :(dapp : DappI)=>DappI)=>set(dapp),
+        (dapp : DappI, set :(dapp : DappI)=>DappI)=>{
+            console.log("Setting dapp from...", dapp, set(dapp))
+            return set(dapp);
+        },
         {
             __isDapp__ : true,
             gitUrl : `https://github.com/${owner}/${repo}/${branch}`,

@@ -68,7 +68,7 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
 
     const setFunc = (set : (
         contractFunction : OpenContractFunctionI
-    )=>OpenContractFunctionI)=>setDappItem(()=>{
+    )=>OpenContractFunctionI)=>setDappItem((dappItem)=>{
         return {
             ...dappItem,
             contract : dappItem.contract && {

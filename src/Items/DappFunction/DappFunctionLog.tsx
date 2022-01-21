@@ -30,6 +30,8 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
     setFunctionState
 }) =>{
 
+    console.log(contractFunction.puts);
+
     const [tick, forceUpdate] = useReducer(x=>x+1, 0);
 
     const resetArgs = (setFunctionState : (update : log.reduceContractFunctionI)=>void)=>{
@@ -39,15 +41,15 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
                 inputs : log.resetInputs(oc.inputs)
             }
         })
-    }
+    };
 
     const updatedPuts = log.produceUpdatedPuts(
         contractFunction.puts,
         contractFunction,
         setFunctionState
     );
-    const puts = updatedPuts.reduce((agg, put, index)=>{
 
+    const puts = updatedPuts.reduce((agg, put, index)=>{
         return [
             ...agg,
             ...put.putType !== "input" ? [
@@ -70,26 +72,25 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
 
 
     const addOutput = (name : string, message : string)=>{
-        const update = (contractFunction : OpenContractFunctionI)=>{
+        setFunctionState((contractFunctionState)=>{
             const newOutput = {
                 name : name,
                 value : message
             };
             return {
-                ...contractFunction,
-                ...contractFunction.requiresOracle ? {
+                ...contractFunctionState,
+                ...contractFunctionState.requiresOracle ? {
                     result : "Oracle output received! See below."
                 } : {},
                 waiting : false,
-                prints : [...contractFunction.prints||[], newOutput],
-                puts : [...contractFunction.puts||[], ...log.createOutputs(
+                prints : [...contractFunctionState.prints||[], newOutput],
+                puts : [...contractFunctionState.puts||[], ...log.createOutputs(
                     [newOutput],
                     contractFunction,
                     setFunctionState
                 )]
             }
-        }
-        setFunctionState(update);
+        });
     }
     contractFunction.printHandler = async (message : string)=>{
         addOutput("Notification.", message)
@@ -100,7 +101,7 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
         resolve : (msg : string)=>void,
         reject : (msg : string)=>void
     )=>{
-        const update = (contractFunction : OpenContractFunctionI)=>{
+        setFunctionState((contractFunction : OpenContractFunctionI)=>{
             
             const newOracleInput = {
                 prompt : data,
@@ -115,21 +116,20 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
                     [newOracleInput.id] : newOracleInput
                 },
                 puts : [...contractFunction.puts||[], ...log.createOracleInputs(
-                    {[newOracleInput.id] : newOracleInput},
+                    {
+                        [newOracleInput.id] : newOracleInput
+                    },
                     contractFunction,
                     resolve,
                     reject,
                     setFunctionState
                 )]
             }
-        }
-        setFunctionState(update);
+        });
     };
     useEffect(()=>{
         contractFunction.inputHandler = async (message : string)=>{
-            
             return new Promise((resolve, reject)=>{
-                
                 addOracleInput(message, resolve, reject);
                 forceUpdate();
             })
@@ -137,15 +137,12 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
     })
 
     const addError = (e : Error)=>{
-
-        
-
-        const update = (contractFunction : OpenContractFunctionI)=>{
+        setFunctionState((contractFunction : OpenContractFunctionI)=>{
             const newError = {
                 ...e,
                 value : e.message
             }
-            const _newFunctionState = {
+            return {
                 ...contractFunction,
                 waiting : false,
                 errors : [...contractFunction.errors||[], newError],
@@ -156,25 +153,18 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
                     setFunctionState
                 )]
             }
-            return _newFunctionState;
-        }
-        setFunctionState(update);
+        });
     }
 
-    const handleError = async (e : Error)=>{
-
+    contractFunction.errorHandler = async (e : Error)=>{
         addError(e);
-
-    }
-    contractFunction.errorHandler = handleError;
+    };
 
     const addOracleData = (
         data : OpenContractFunctionI["oracleData"], 
         resolve : OpenContractFunctionI["oraclePromiseResolve"],
         reject : OpenContractFunctionI["oraclePromiseReject"]
     )=>{
-
-        console.log(data);
         
         setFunctionState((contractFunction)=>{
            return {
@@ -193,8 +183,8 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
 
     const addResult = (data : OpenContractFunctionI["result"])=>{
 
-        const update = (contractFunction : OpenContractFunctionI)=>{
-            const _newFunctionState = {
+        setFunctionState((contractFunction : OpenContractFunctionI)=>{
+            return {
                 ...contractFunction,
                 name : "Result",
                 result : data,
@@ -204,10 +194,7 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
                     setFunctionState
                 )]
             }
-            
-            return _newFunctionState;
-        }
-        setFunctionState(update);
+        });
 
     }
 
@@ -403,16 +390,15 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
                     paddingBottom : DesktopSizes.Padding.standard
                 }}>
                     <DappDescput
-                        contractFunction={contractFunction}
-                        reduceContractFunction={setFunctionState}
-                            dappDescput={{
-                                name : "Description",
-                                value : contractFunction.description,
-                                putType : "description",
-                                contractFunction : contractFunction,
-                                reduceContractFunction : setFunctionState
-                            }}
-                        />    
+                    contractFunction={contractFunction}
+                    reduceContractFunction={setFunctionState}
+                    dappDescput={{
+                        name : "Description",
+                        value : contractFunction.description,
+                        putType : "description",
+                        contractFunction : contractFunction,
+                        reduceContractFunction : setFunctionState
+                    }}/>    
                 </div>}
                 {contractFunction.inputs.length > 0 && <div style={{
                     paddingBottom : DesktopSizes.Padding.standard
