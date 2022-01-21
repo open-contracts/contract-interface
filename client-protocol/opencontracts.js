@@ -252,8 +252,8 @@ async function connect(opencontracts, f, oracleIP) {
                 fname: 'submit_signature',
                 signature: await opencontracts.signer.signMessage(signThis).catch((error) => {f.errorHandler(error)})
             }));
-            var oracleData = f.oracleData;
-            oracleData.fname = 'submit_oracle';
+            //var oracleData = f.oracleData;
+            //oracleData.fname = 'submit_oracle';
             const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
             ws.send(JSON.stringify(await encrypt(AESkey, {fname: "run_github_oracle",
                                                           user: user, repo: repo, folder: f.oracleFolder,
