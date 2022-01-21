@@ -260,11 +260,11 @@ async function connect(opencontracts, f, oracleIP) {
                                                           folder: f.oracleFolder,
                                                           branch:"main"})));
             // ws.send(JSON.stringify(await encrypt(AESkey, oracleData)));
-            const requirements = atob(f.oracleData['requirements.txt']); 
-            if (requirements.startsWith('# estimated seconds to install:')) {
-                const estimate = parseInt(requirements.split('\n')[0].split(':')[1]);
-                f.waitHandler(estimate, 'Installing oracle dependencies inside enclave...');
-            }
+            //const requirements = atob(f.oracleData['requirements.txt']); 
+            //if (requirements.startsWith('# estimated seconds to install:')) {
+            //    const estimate = parseInt(requirements.split('\n')[0].split(':')[1]);
+            //    f.waitHandler(estimate, 'Installing oracle dependencies inside enclave...');
+            //}
             // ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
         } else if (data['fname'] == "busy") {
             f.errorHandler(
@@ -484,8 +484,7 @@ async function OpenContracts() {
                         f.inputs.push({name: input.name, type: input.type, value: null});
                     }
                 }
-                f.call = async function (_f) {
-                    if (_f) {return _f.call()}; // for backwards compatibility, will be removed asap
+                f.call = async function () {
                     const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
                     if (unspecifiedInputs.length > 0) {
                         throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
@@ -496,17 +495,17 @@ async function OpenContracts() {
                         }
                     }
                     if (this.requiresOracle) {
-                        this.oracleData = await this.oracleData;
-                        if (this.oracleData == undefined) {
-                            throw new ClientError(`No oracleData specified for "${this.name}".`)
-                        } else {
-                            files = Object.keys(this.oracleData);
-                            if (!files.includes("oracle.py")) {throw new Error("No oracle.py in f.oracleData!")}
-                            for (let i = 0; i < files.length; i++) {
-                                this.oracleData[files[i]] = await this.oracleData[files[i]];
-                            }
-                            return await enclaveSession(opencontracts, this);
-                        }
+                        //this.oracleData = await this.oracleData;
+                        //if (this.oracleData == undefined) {
+                        //    throw new ClientError(`No oracleData specified for "${this.name}".`)
+                        //} else {
+                        //    files = Object.keys(this.oracleData);
+                        //    if (!files.includes("oracle.py")) {throw new Error("No oracle.py in f.oracleData!")}
+                        //    for (let i = 0; i < files.length; i++) {
+                        //        this.oracleData[files[i]] = await this.oracleData[files[i]];
+                        //    }  
+                        //}
+                        return await enclaveSession(opencontracts, this);
                     } else {
                         var success = true;
                         var txReturn = await ethereumTransaction(opencontracts, this)
