@@ -254,18 +254,10 @@ async function connect(opencontracts, f, oracleIP) {
             }));
             var oracleData = f.oracleData;
             oracleData.fname = 'submit_oracle';
+            const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
             ws.send(JSON.stringify(await encrypt(AESkey, {fname: "run_github_oracle",
-                                                          user: "open-contracts",
-                                                          repo: "weather-insurance",
-                                                          folder: f.oracleFolder,
-                                                          branch:"main"})));
-            // ws.send(JSON.stringify(await encrypt(AESkey, oracleData)));
-            //const requirements = atob(f.oracleData['requirements.txt']); 
-            //if (requirements.startsWith('# estimated seconds to install:')) {
-            //    const estimate = parseInt(requirements.split('\n')[0].split(':')[1]);
-            //    f.waitHandler(estimate, 'Installing oracle dependencies inside enclave...');
-            //}
-            // ws.send(JSON.stringify(await encrypt(AESkey, {fname: 'run_oracle'})));
+                                                          user: user, repo: repo, folder: f.oracleFolder,
+                                                          branch: branch || "main"})));
         } else if (data['fname'] == "busy") {
             f.errorHandler(
                 new EnclaveError("Oracle is busy. Request a new IP.")
