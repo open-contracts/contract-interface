@@ -254,7 +254,12 @@ async function connect(opencontracts, f, oracleIP) {
             }));
             var oracleData = f.oracleData;
             oracleData.fname = 'submit_oracle';
-            ws.send(JSON.stringify(await encrypt(AESkey, oracleData)));
+            ws.send(JSON.stringify(await encrypt(AESkey, {fname: "download_github_oracle",
+                                                          user: "open-contracts",
+                                                          repo: "weather-insurance",
+                                                          folder: f.oracleFolder,
+                                                          branch:"main"})));
+            // ws.send(JSON.stringify(await encrypt(AESkey, oracleData)));
             const requirements = atob(f.oracleData['requirements.txt']); 
             if (requirements.startsWith('# estimated seconds to install:')) {
                 const estimate = parseInt(requirements.split('\n')[0].split(':')[1]);
