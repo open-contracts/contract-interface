@@ -8,7 +8,6 @@ import {ApolloRunDappContent} from "./ApolloRunDappContent";
 import { ApolloRunDappFunctionGridView } from './ApolloRunDappFunctionGridView';
 import { ApolloRunDappFunctionView } from './ApolloRunDappFunctionView';
 import { ApolloRunDappMainItemActions } from './ApolloRunDappMainItemActions';
-import { useMemo } from 'react';
 import { OpenContractReducer, OpenContractFunctionReducer } from '../../../Types';
 
 

@@ -186,7 +186,6 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
         setFunctionState((contractFunction : OpenContractFunctionI)=>{
             return {
                 ...contractFunction,
-                name : "Result",
                 result : data,
                 puts : [...contractFunction.puts||[], log.createResult(
                     data,
