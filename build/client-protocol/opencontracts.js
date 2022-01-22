@@ -64,6 +64,13 @@ function hexStringToArray(hexString) {
     return new Uint8Array(integers);
 }
 
+function ArrayToHexString(byteArray) {
+  return Array.from(byteArray, function(byte) {
+    return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+  }).join('')
+}
+
+
 function b64Url2Buff(b64urlstring) {
   return new Uint8Array(atob(b64urlstring.replace(/-/g, '+').replace(/_/g, '/')).split('').map(
       val => {return val.charCodeAt(0);}
@@ -118,7 +125,9 @@ async function extractContentIfValid(attestation_data) {
 
     // extracts hash + pubkeys
     const hash = attestation_doc['pcrs'][0];
-    console.warn("------->UNCHECKED< ENCLAVE HASH:--------", hash);
+    const hashHex = ArrayToHexString(hash);
+    const oracleHash = "381a182d47216082b15f5827e6c96c6f68e2313d073dd1ecee496eb6948784c4604e007b8b574b0a6c42b22a88544e63";
+    console.warn("------->UNCHECKED< ENCLAVE HASH:--------", hash, oracleHash);
     // TODO: Add hash ceck
     const ETHkey = new TextDecoder().decode(attestation_doc['public_key']);
     const RSAraw = hexStringToArray(new TextDecoder().decode(attestation_doc['user_data'])).buffer;
