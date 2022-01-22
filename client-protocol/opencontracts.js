@@ -289,8 +289,8 @@ async function connect(opencontracts, f, oracleIP) {
             } else if (data['fname'] == 'expect_delay') {
                 f.waitHandler(data['seconds'], data['reason']);
             } else if (data['fname'] == 'submit') {
+                sessionFinished = true;
                 await f.submitHandler(async function() {
-                    sessionFinished = true;
                     var success = true;
                     var txReturn = await requestHubTransaction(opencontracts,
                                                                data['nonce'],
