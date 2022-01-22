@@ -95,15 +95,15 @@ IwLz3/Y=
 
 
 // extracts pubkeys and enclave hash if attestation doc is valid
-async function extractContentIfValid(attestation_data) {
+async function parseAttestation(attestationHex) {
     // decode COSE_SIGN1 message
-    const cose = hexStringToArray(attestation_data).buffer;
-    const cose_sign1_struct = CBOR.decode(cose);
-    const array = new Uint8Array(cose_sign1_struct[2]);
-    const attestation_doc = CBOR.decode(array.buffer);
+    const cose = hexStringToArray(attestationHex).buffer;
+    const coseSign1Struct = CBOR.decode(cose);
+    const array = new Uint8Array(coseSign1Struct[2]);
+    const attestation = CBOR.decode(array.buffer);
 
     // check attestation signature
-    const certificate = new x509.X509Certificate(new Uint8Array(attestation_doc['certificate']));
+    const certificate = new x509.X509Certificate(new Uint8Array(attestation['certificate']));
     await certificate.publicKey.export()
     .then(key=>window.crypto.subtle.exportKey("jwk", key))
     .then(function (key) {b64Url2Buff(key['y']); return key})
@@ -112,7 +112,7 @@ async function extractContentIfValid(attestation_data) {
     // check certificate path
     const root = new x509.X509Certificate(awsNitroRootCert);
     var certs = [root];
-    const cabundle = attestation_doc['cabundle'];
+    const cabundle = attestation['cabundle'];
     for (var i=1; i<cabundle.length; i++) {
         var cert = new Uint8Array(cabundle[i]);
         var cert = new x509.X509Certificate(cert);
@@ -124,13 +124,12 @@ async function extractContentIfValid(attestation_data) {
     if (!validcertpath) {throw new Error('Invalid Certpath in Attestation')}
 
     // extracts hash + pubkeys
-    const hash = attestation_doc['pcrs'][0];
+    const hash = attestation['pcrs'][0];
     const hashHex = ArrayToHexString(hash);
     const oracleHash = "381a182d47216082b15f5827e6c96c6f68e2313d073dd1ecee496eb6948784c4604e007b8b574b0a6c42b22a88544e63";
-    console.warn("------->UNCHECKED< ENCLAVE HASH:--------", hash, oracleHash);
-    // TODO: Add hash ceck
-    const ETHkey = new TextDecoder().decode(attestation_doc['public_key']);
-    const RSAraw = hexStringToArray(new TextDecoder().decode(attestation_doc['user_data'])).buffer;
+    if (hashHex != oracleHash) {throw new EnclaveError("Invalid Hash");}
+    const ETHkey = new TextDecoder().decode(attestation['public_key']);
+    const RSAraw = hexStringToArray(new TextDecoder().decode(attestation['user_data'])).buffer;
     const RSAkey = await crypto.subtle.importKey(
         'spki', RSAraw, {name: "RSA-OAEP", hash: "SHA-256"}, true, ["encrypt"]
     );
@@ -254,7 +253,7 @@ async function connect(opencontracts, f, oracleIP) {
     ws.onmessage = async function (event) {
         var data = JSON.parse(event.data);
         if (data['fname'] == "attestation") {
-            [ETHkey, AESkey, encryptedAESkey] = await extractContentIfValid(data['attestation']);
+            [ETHkey, AESkey, encryptedAESkey] = await parseAttestation(data['attestation']);
             ws.send(JSON.stringify({fname: 'submit_AES', encrypted_AES: encryptedAESkey}));
             const signThis = ethers.utils.arrayify("0x" + data['signThis']);
             ws.send(JSON.stringify({
