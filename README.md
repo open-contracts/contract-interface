@@ -1,4 +1,4 @@
-# [open-contracts.github.io](https://open-contracts.github.io)
+# [app.opencontracts.io](https://app.opencontracts.io)
 The OpenContracts Interface
 
 ## Local 
