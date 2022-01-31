@@ -22,7 +22,7 @@ jobs:
         cp -r public/client-protocol/* build/client-protocol/
         git rm -rf --cached --ignore-unmatch build/public/
         rm -rf build/public/
-        echo 'opencontracts.io' > build/CNAME
+        echo 'app.opencontracts.io' > build/CNAME
         git add build
         git commit --allow-empty -m "Built Page"
         git push
