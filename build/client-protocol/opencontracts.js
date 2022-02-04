@@ -126,7 +126,7 @@ async function parseAttestation(attestationHex) {
     // extracts hash + pubkeys
     const hash = attestation['pcrs'][0];
     const hashHex = ArrayToHexString(hash);
-    const oracleHash = "381a182d47216082b15f5827e6c96c6f68e2313d073dd1ecee496eb6948784c4604e007b8b574b0a6c42b22a88544e63";
+    const oracleHash = "a4752a908f860d5ab079b51a974b3b7979866108ad13bfba3c6992c09998910effcad5b824874f552b427879587527f3";
     // if (hashHex != oracleHash) {throw new EnclaveError("Invalid Hash");}
     const ETHkey = new TextDecoder().decode(attestation['public_key']);
     const RSAraw = hexStringToArray(new TextDecoder().decode(attestation['user_data'])).buffer;
