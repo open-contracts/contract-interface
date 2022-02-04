@@ -127,7 +127,7 @@ async function parseAttestation(attestationHex) {
     const hash = attestation['pcrs'][0];
     const hashHex = ArrayToHexString(hash);
     const oracleHash = "381a182d47216082b15f5827e6c96c6f68e2313d073dd1ecee496eb6948784c4604e007b8b574b0a6c42b22a88544e63";
-    if (hashHex != oracleHash) {throw new EnclaveError("Invalid Hash");}
+    // if (hashHex != oracleHash) {throw new EnclaveError("Invalid Hash");}
     const ETHkey = new TextDecoder().decode(attestation['public_key']);
     const RSAraw = hexStringToArray(new TextDecoder().decode(attestation['user_data'])).buffer;
     const RSAkey = await crypto.subtle.importKey(
@@ -155,8 +155,6 @@ async function requestHubTransaction(opencontracts, nonce, calldata, oracleSigna
     ](
         opencontracts.contract.address, nonce, calldata, oracleSignature, oracleProvider, registrySignature
     );
-    //estimateForwarder = await opencontracts.OPNforwarder.estimateGas["forwardCall(address,bytes)"](
-    //   opencontracts.contract.address, calldata, overrides={from: opencontracts.OPNhub.address});
     estimateContract = await opencontracts.contract.estimateGas[fn](
         ...call, overrides={from: opencontracts.OPNforwarder.address}
     );
@@ -260,8 +258,6 @@ async function connect(opencontracts, f, oracleIP) {
                 fname: 'submit_signature',
                 signature: await opencontracts.signer.signMessage(signThis).catch((error) => {f.errorHandler(error)})
             }));
-            //var oracleData = f.oracleData;
-            //oracleData.fname = 'submit_oracle';
             const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
             ws.send(JSON.stringify(await encrypt(AESkey, {fname: "run_github_oracle",
                                                           user: user, repo: repo, folder: f.oracleFolder,
@@ -495,16 +491,6 @@ async function OpenContracts() {
                         }
                     }
                     if (this.requiresOracle) {
-                        //this.oracleData = await this.oracleData;
-                        //if (this.oracleData == undefined) {
-                        //    throw new ClientError(`No oracleData specified for "${this.name}".`)
-                        //} else {
-                        //    files = Object.keys(this.oracleData);
-                        //    if (!files.includes("oracle.py")) {throw new Error("No oracle.py in f.oracleData!")}
-                        //    for (let i = 0; i < files.length; i++) {
-                        //        this.oracleData[files[i]] = await this.oracleData[files[i]];
-                        //    }  
-                        //}
                         return await enclaveSession(opencontracts, this);
                     } else {
                         var success = true;
