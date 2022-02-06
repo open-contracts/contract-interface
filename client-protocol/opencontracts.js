@@ -237,7 +237,8 @@ async function enclaveSession(opencontracts, f) {
 }
 
 async function connect(opencontracts, f, oracleIP) {
-    var ws = new WebSocket("wss://" + oracleIP + ":8080/");
+    // var ws = new WebSocket("wss://" + oracleIP + ":8080/");
+    var ws = new WebSocket("wss://" + oracleIP + "/oracle/");
     var ETHkey = null;
     var AESkey = null;
     var encryptedAESkey = null;
@@ -275,6 +276,10 @@ async function connect(opencontracts, f, oracleIP) {
                 xpraFinished = false;
                 const xpraExit = new Promise((resolve, reject) => {setInterval(()=> {if (xpraFinished) {resolve(true)}}, 1000)});
                 f.waitHandler(5, "Preparing interactive session...");
+                //var ws = new WebSocket("https://" + oracleIP + "/oracle/");
+                // https://open-contracts.github.io/client-protocol/xpra/index.html?server={ec2_ip}&key={aes_key}&port={tcp_port}
+                const [server, key, port] = data['session'].split("&")
+                data['session'] = server.split("=")[0] + `={oracleIP}/xpra&{key}&port=443`
                 setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
             } else if (data["fname"] == 'xpra_finished') {
                 console.warn("xpra finished.");		
