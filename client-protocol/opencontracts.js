@@ -237,6 +237,7 @@ async function enclaveSession(opencontracts, f) {
 }
 
 async function connect(opencontracts, f, oracleIP) {
+    console.warn("connecting to oracle with IP", oracleIP)
     var ws = new WebSocket("wss://" + oracleIP + ":8080/");
     //var ws = new WebSocket("wss://test.opencontracts.io/oracle/" + oracleIP);
     var ETHkey = null;
