@@ -243,6 +243,7 @@ async function connect(opencontracts, f, oracleIP) {
     //   oracleIP.split('/')[0];
     //const location = oracleIP.substring(domain.length);
     const location = oracleIP;
+    console.warn("wss://" + domain + ":8080" + location);
     var ws = new WebSocket("wss://" + domain + ":8080" + location);
     //var ws = new WebSocket("wss://test.opencontracts.io/oracle/" + oracleIP);
     var ETHkey = null;
