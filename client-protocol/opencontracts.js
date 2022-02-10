@@ -287,7 +287,7 @@ async function connect(opencontracts, f, oracleIP) {
                 
                 // https://open-contracts.github.io/client-protocol/xpra/index.html?server={ec2_ip}&key={aes_key}&port={tcp_port}
                 const [server, key, port] = data['session'].split("&")
-                data['session'] = server.split("=")[0] + `=${domain}&${key}&${port}&path=${location}`
+                data['session'] = server.split("=")[0] + `=${domain}&${key}&${port}&path=/${location}`
                 setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
             } else if (data["fname"] == 'xpra_finished') {
                 console.warn("xpra finished.");		
