@@ -12,3 +12,7 @@ port = 14500
 ssl = true
 encryption = AES
 floating_menu = no
+clipboard = no
+printing = no
+sound = no
+file_transfer = no
