@@ -29,28 +29,8 @@ declare global {
     }
     
     interface OpenContractsInterfaceI {
-        ropsten: RopstenI;
     }
-    
-    interface RopstenI {
-        token:     TokenI;
-        forwarder: ForwarderI;
-        hub:       ForwarderI;
-    }
-    
-    interface ForwarderI {
-        address: string;
-        abi:     ForwarderAbiI[];
-    }
-    
-    interface ForwarderAbiI {
-        inputs:          PutI[];
-        stateMutAbility: StateMutAbilityE;
-        type:            AbiTypeE;
-        name?:           string;
-        outputs?:        PutI[];
-    }
-    
+       
     interface PutI {
         internalType ? : string;
         name :         string;
@@ -180,8 +160,6 @@ declare global {
         contractDescription : string,
 
         OPNtoken : OpnTokenI,
-        OPNhub : ethers.Contract,
-        OPNforwarder : ethers.Contract,
     
         contract : ethers.Contract,
         contractFunctions : OpenContractFunctionI[],
