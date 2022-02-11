@@ -144,24 +144,25 @@ async function parseAttestation(attestationHex) {
 }
 
 
-
-async function requestHubTransaction(opencontracts, nonce, calldata, oracleSignature, oracleProvider, registrySignature) {
+async function requestHubTransaction(opencontracts,
+                                     oracleID, nonce, calldata, oracleSignature,
+                                     oracleProvider, oraclePrice, registryPrice, registrySignature) {
     fn = Object.getOwnPropertyNames(opencontracts.contract.interface.functions).filter(
         sig => opencontracts.contract.interface.getSighash(sig) == calldata.slice(0,10)
     )[0];
     call = opencontracts.contract.interface.decodeFunctionData(calldata.slice(0,10), calldata);
-    estimateHub = await opencontracts.OPNhub.connect(opencontracts.signer).estimateGas[
-        "forwardCall(address,bytes4,bytes,bytes,address,bytes)"
+    var estimateHub = await opencontracts.OPNverifier.connect(opencontracts.signer).estimateGas[
+        "forwardCall(address,bytes32,bytes4,bytes,bytes,address,uint256,uint256,bytes)"
     ](
-        opencontracts.contract.address, nonce, calldata, oracleSignature, oracleProvider, registrySignature
+        opencontracts.contract.address, oracleID, nonce, calldata, oracleSignature, oracleProvider, oraclePrice, registryPrice, registrySignature
     );
-    estimateContract = await opencontracts.contract.estimateGas[fn](
+    const estimateContract = await opencontracts.contract.estimateGas[fn](
         ...call, overrides={from: opencontracts.OPNforwarder.address}
     );
-    estimateTotal = estimateHub.add(estimateContract);
-    return opencontracts.OPNhub.connect(opencontracts.signer).functions.forwardCall(
-        opencontracts.contract.address, nonce, calldata, oracleSignature,
-        oracleProvider, registrySignature, overrides={gasLimit: estimateTotal}
+    const estimateTotal = estimateHub.add(estimateContract);
+    return opencontracts.OPNverifier.connect(opencontracts.signer).functions.forwardCall(
+        opencontracts.contract.address, oracleID, nonce, calldata, oracleSignature,
+        oracleProvider, oraclePrice, registryPrice, registrySignature, overrides={gasLimit: estimateTotal}
     );
 }
 
@@ -188,7 +189,7 @@ async function enclaveSession(opencontracts, f) {
     var oracleIP = new URLSearchParams(window.location.search).get('oracleIP');
     if (oracleIP) {
         console.warn("Oracle IP override: ", oracleIP);
-        await connect(opencontracts, f, oracleIP);
+        await connect(opencontracts, f, {ip: oracleIP});
         return;
     }
     var registryIP = new URLSearchParams(window.location.search).get('registryIP');
@@ -217,27 +218,28 @@ async function enclaveSession(opencontracts, f) {
     var waiting = false;
     ws.onopen = function () {
         waiting = true;
-        ws.send(JSON.stringify({fname: 'get_oracle_ip'}));
+        ws.send(JSON.stringify({fname: 'get_oracle'}));
     }
     setTimeout(()=> {if (waiting) {f.waitHandler(55, "Oracle booting up...")}}, 3000);
     ws.onmessage = async function (event) {
         waiting = false;
-        const data = JSON.parse(event.data);
-        if (data['fname'] == 'return_oracle_ip') {
+        const oracle = JSON.parse(event.data);
+        if (oracle['fname'] == 'return_oracle') {
             ws.close();
-            if (data['ip'].toUpperCase() == "N/A") {
+            if (oracle.ip.toUpperCase() == "N/A") {
                 f.errorHandler(
                     new RegistryError("No oracle enclaves available right now. Try again in a bit - or become an enclave provider!")
                 );
             } else {
                 f.waitHandler(10, "Connecting to Oracle...");
-                setTimeout(async () => {await connect(opencontracts, f, data['ip'])}, 10000);
+                setTimeout(async () => {await connect(opencontracts, f, oracle)}, 10000);
             }
         }
     }
 }
 
-async function connect(opencontracts, f, oracleIP) {
+async function connect(opencontracts, f, oracle) {
+    const oracleIP = oracle.ip;
     console.warn("connecting to oracle with IP", oracleIP);
     const domain = "test.opencontracts.io";
     //   oracleIP.split('/')[0];
@@ -302,11 +304,8 @@ async function connect(opencontracts, f, oracleIP) {
                 await f.submitHandler(async function() {
                     var success = true;
                     var txReturn = await requestHubTransaction(opencontracts,
-                                                               data['nonce'],
-                                                               data['calldata'],
-                                                               data['oracleSignature'],
-                                                               data['oracleProvider'],
-                                                               data['registrySignature'])
+                                                               data.oracleID, data.nonce, data.calldata, data.oracleSignature,
+                                                               oracle.provider, oracle.price, oracle.registryPrice, oracle.registrySignature)
                     .then(function(tx){window.tx = tx; return tx})
                     .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                     .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
@@ -418,10 +417,10 @@ async function OpenContracts() {
         } else {
             const token = oc_interface[this.network].token;
             this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
-            const forwarder = oc_interface[this.network].forwarder;
-            this.OPNforwarder = new ethers.Contract(forwarder.address, forwarder.abi, this.provider);
             const hub = oc_interface[this.network].hub;
             this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
+            const verifier = oc_interface[this.network].OPNverifier;
+            this.OPNverifier = new ethers.Contract(verifier.address, verifier.abi, this.provider);
             this.getOPN = async function (amountString) {
                 const amount = ethers.utils.parseEther(amountString);
                 await this.OPNtoken.connect(this.signer).mint(amount);
