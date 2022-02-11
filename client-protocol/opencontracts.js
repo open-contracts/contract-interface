@@ -419,7 +419,7 @@ async function OpenContracts() {
             this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
             const hub = oc_interface[this.network].hub;
             this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
-            const verifier = oc_interface[this.network].OPNverifier;
+            const verifier = oc_interface[this.network].verifier;
             this.OPNverifier = new ethers.Contract(verifier.address, verifier.abi, this.provider);
             this.getOPN = async function (amountString) {
                 const amount = ethers.utils.parseEther(amountString);
