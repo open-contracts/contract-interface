@@ -157,7 +157,7 @@ async function requestHubTransaction(opencontracts,
         opencontracts.contract.address, oracleID, nonce, calldata, oracleSignature, oracleProvider, oraclePrice, registryPrice, registrySignature
     );
     const estimateContract = await opencontracts.contract.estimateGas[fn](
-        ...call, overrides={from: opencontracts.OPNforwarder.address}
+        ...call, overrides={from: opencontracts.OPNhub.address}
     );
     const estimateTotal = estimateHub.add(estimateContract);
     return opencontracts.OPNverifier.connect(opencontracts.signer).functions.forwardCall(
@@ -427,7 +427,7 @@ async function OpenContracts() {
             }
             this.approveOPN = async function (amountString) {
                 const amount = ethers.utils.parseEther(amountString);
-                await this.OPNtoken.connect(this.signer).approve(this.OPNhub.address, amount);
+                await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
             }
         }
         
