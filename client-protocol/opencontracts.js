@@ -196,8 +196,7 @@ async function enclaveSession(opencontracts, f) {
     if (registryIP) {
         console.warn("Registry IP override: ", registryIP);
     } else {
-        const registryAddress = await opencontracts.OPNverifier.registries(0);
-        registryIP = await opencontracts.OPNverifier.registryDomain(registryAddress);
+        registryIP = await opencontracts.OPNverifier.registryDomains(0);
     }
     console.warn(`Trying to connect to registry with IP ${registryIP}.`);
      //var ws = new WebSocket("wss://" + registryIP + ":8080");
