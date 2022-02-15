@@ -419,10 +419,10 @@ async function OpenContracts() {
     const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
     opencontracts.location = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
     console.warn('loading contract at:', opencontracts.location);
-    opencontracts.contractInterface = JSON.parse(await (await fetch(new URL(opencontracts.location + "/interface.json"))).text().catch(
+    opencontracts.interface = JSON.parse(await (await fetch(new URL(opencontracts.location + "/interface.json"))).text().catch(
         (error)=>{status = "Cannot load interface.json from " + contract.location}));
-    opencontracts.contractOracles = JSON.parse(await (await fetch(new URL(opencontracts.location + "/oracles.json"))).text().catch(
-        (error)=>{status = "Cannot load oracles.json from " + contract.location}));
+    opencontracts.oracleHashes = JSON.parse(await (await fetch(new URL(opencontracts.location + "/oracleHashes.json"))).text().catch(
+        (error)=>{status = "Cannot load oracleHashes.json from " + contract.location}));
             
     // instantiates the contracts
     opencontracts.parseContracts = function (oc_interface, contract_interface) {
@@ -445,23 +445,22 @@ async function OpenContracts() {
                 await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
             }
         }
-        const contractInterface = opencontracts.contractInterface;
-        const contractOracles = opencontracts.contractOracles;
-        if (!(this.network in contractInterface.address)) {
+        const interface = opencontracts.interface;
+        if (!(this.network in interface.address)) {
             var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by this contract.";
-            throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(contractInterface.address));
+            throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(interface.address));
         } else {
-            this.contract = new ethers.Contract(contractInterface.address[this.network], contractInterface.abi, this.provider);
-            this.contractName = contractInterface.name;
-            this.contractDescription = contractInterface.descriptions["contract"];
+            this.contract = new ethers.Contract(interface.address[this.network], interface.abi, this.provider);
+            this.contractName = interface.name;
+            this.contractDescription = interface.descriptions["contract"];
             this.contractFunctions = [];
-            for (let i = 0; i < contractInterface.abi.length; i++) {
-                if (contractInterface.abi[i].type == 'constructor') {continue}
+            for (let i = 0; i < interface.abi.length; i++) {
+                if (interface.abi[i].type == 'constructor') {continue}
                 const f = {};
-                f.name = contractInterface.abi[i].name;
-                f.description = contractInterface.descriptions[f.name];
-                f.stateMutability = contractInterface.abi[i].stateMutability;
-                f.requiresOracle = (f.name in contractOracles);
+                f.name = interface.abi[i].name;
+                f.description = interface.descriptions[f.name];
+                f.stateMutability = interface.abi[i].stateMutability;
+                f.requiresOracle = (f.name in opencontracts.oracleHashes);
                 f.errorHandler = async function (error) {
                     console.warn(`Warning: using default (popup) errorHandler for function ${this.name}`); 
                     alert(error);
@@ -502,8 +501,8 @@ async function OpenContracts() {
                     f.inputs.push({name: "transactionValue", type: "ETH", value: null});
                 }
                 if (!f.requiresOracle) {
-                    for (let j = 0; j < contractInterface.abi[i].inputs.length; j++) {
-                        const input = contractInterface.abi[i].inputs[j];
+                    for (let j = 0; j < interface.abi[i].inputs.length; j++) {
+                        const input = interface.abi[i].inputs[j];
                         f.inputs.push({name: input.name, type: input.type, value: null});
                     }
                 }
