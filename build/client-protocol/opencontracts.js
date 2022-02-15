@@ -418,7 +418,7 @@ async function OpenContracts() {
     opencontracts.parseContracts = async function (oc_interface, contract_interface) {
         // TODO: replace now obsolete contract_interface arg with a link to github or ipfs repo
         const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
-        opencontracts.location = `https://raw.githubusercontent.com/{user}/{repo}/{branch || "main"}`;
+        opencontracts.location = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
         console.warn('loading contract at:', opencontracts.location);
         const contractInterface = await fetch(new URL(openonctracts.location + "/interface.json"));
         const contractOracles = await fetch(new URL(openonctracts.location + "/oracles.json"));
