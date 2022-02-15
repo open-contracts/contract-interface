@@ -419,9 +419,9 @@ async function OpenContracts() {
     const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
     opencontracts.location = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
     console.warn('loading contract at:', opencontracts.location);
-    opencontracts.contractInterface = JSON.parse(await (await fetch(new URL(`https://raw.githubusercontent.com/open-contracts/proof-of-id/main/interface.json`))).text().catch(
+    opencontracts.contractInterface = JSON.parse(await (await fetch(new URL(opencontracts.location + "/interface.json"))).text().catch(
         (error)=>{status = "Cannot load interface.json from " + contract.location}));
-    opencontracts.contractOracles = JSON.parse(await (await fetch(new URL(`https://raw.githubusercontent.com/open-contracts/proof-of-id/main/oracles.json`))).text().catch(
+    opencontracts.contractOracles = JSON.parse(await (await fetch(new URL(opencontracts.location + "/oracles.json"))).text().catch(
         (error)=>{status = "Cannot load oracles.json from " + contract.location}));
             
     // instantiates the contracts
