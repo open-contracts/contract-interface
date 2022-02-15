@@ -445,8 +445,9 @@ async function OpenContracts() {
                 await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
             }
         }
-        console.warn(contractInterface);
-        if (!(this.network in contractInterface.address)) {
+        console.warn(contractInterface, contractInterface.address, contractInterface["address"]);
+        window.ci = contractInterface;
+        if (!(this.network in contractInterface["address"])) {
             var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by this contract.";
             throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(contractInterface.address));
         } else {
