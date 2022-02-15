@@ -419,10 +419,10 @@ async function OpenContracts() {
     const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
     opencontracts.location = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
     console.warn('loading contract at:', opencontracts.location);
-    opencontracts.interface = JSON.parse(await (await fetch(new URL(opencontracts.location + "/interface.json"))).text().catch(
-        (error)=>{status = "Cannot load interface.json from " + contract.location}));
-    opencontracts.oracleHashes = JSON.parse(await (await fetch(new URL(opencontracts.location + "/oracleHashes.json"))).text().catch(
-        (error)=>{status = "Cannot load oracleHashes.json from " + contract.location}));
+    opencontracts.interface = JSON.parse(await (await fetch(new URL(opencontracts.location + "/interface.json")).catch(
+        (error)=>{status = "Cannot load interface.json from " + contract.location})).text());
+    opencontracts.oracleHashes = JSON.parse(await (await fetch(new URL(opencontracts.location + "/oracleHashes.json")).catch(
+        (error)=>{status = "Cannot load oracleHashes.json from " + contract.location})).text());
             
     // instantiates the contracts
     opencontracts.parseContracts = function (oc_interface, contract_interface) {
