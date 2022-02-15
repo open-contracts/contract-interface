@@ -415,7 +415,7 @@ async function OpenContracts() {
     }
     
     // instantiates the contracts
-    opencontracts.parseContracts = function (oc_interface, contract_interface) {
+    opencontracts.parseContracts = async function (oc_interface, contract_interface) {
         // TODO: replace now obsolete contract_interface arg with a link to github or ipfs repo
         const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
         opencontracts.location = `https://raw.githubusercontent.com/{user}/{repo}/{branch || "main"}`;
