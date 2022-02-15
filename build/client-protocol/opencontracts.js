@@ -400,7 +400,12 @@ async function OpenContracts() {
             ethereum.request({method: 'eth_requestAccounts'});
             ethereum.on('chainChanged', (_chainId) => window.location.reload());
             opencontracts.provider = new ethers.providers.Web3Provider(ethereum, 'any');
-            opencontracts.network = (await opencontracts.provider.getNetwork()).name;
+            const networks = {"1": "mainnet", "3": "ropsten", "10": "optimism", "42161": "arbitrum"};
+            const chainID = String((await opencontracts.provider.getNetwork()).chainId);
+            if (!(chainID in networks)) {
+                throw new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism.");
+            }
+            opencontracts.network = networks[chainID];
             opencontracts.signer = opencontracts.provider.getSigner();
             status = "initialized";
         } else {
@@ -411,9 +416,17 @@ async function OpenContracts() {
     
     // instantiates the contracts
     opencontracts.parseContracts = function (oc_interface, contract_interface) {
+        // TODO: replace now obsolete contract_interface arg with a link to github or ipfs repo
+        const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
+        opencontracts.location = `https://raw.githubusercontent.com/{user}/{repo}/{branch || "main"}`;
+        console.warn('loading contract at:', opencontracts.location);
+        const contractInterface = await fetch(new URL(openonctracts.location + "/interface.json"));
+        const contractOracles = await fetch(new URL(openonctracts.location + "/oracles.json"));
+        
         if (!(this.network in oc_interface)) {
-            var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by Open Contracts yet.";
-            throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(oc_interface));
+            if (!(chainID in networks)) {
+                throw new ClientError("Currently, the only supported networks are: " + Object.keys(oc_interface));
+            }
         } else {
             const token = oc_interface[this.network].token;
             this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
@@ -431,28 +444,27 @@ async function OpenContracts() {
             }
         }
         
-        if (!(this.network in contract_interface)) {
+        if (!(this.network in contractInterface)) {
             var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by this contract.";
-            throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(contract_interface));
+            throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(contractInterface));
         } else {
-            const contract = contract_interface[this.network];
-            this.contract = new ethers.Contract(contract.address, contract.abi, this.provider);
-            this.contractName = contract.name;
-            this.contractDescription = contract.description;
+            this.contract = new ethers.Contract(contractInterface.address[this.network], contractInterface.abi, this.provider);
+            this.contractName = contractInterface.name;
+            this.contractDescription = contractInterface.descriptions["contract"];
             this.contractFunctions = [];
-            for (let i = 0; i < contract.abi.length; i++) {
-                if (contract.abi[i].type == 'constructor') {continue}
+            for (let i = 0; i < contractInterface.abi.length; i++) {
+                if (contractInterface.abi[i].type == 'constructor') {continue}
                 const f = {};
-                f.name = contract.abi[i].name;
-                f.description = contract.abi[i].description
-                f.stateMutability = contract.abi[i].stateMutability;
-                f.oracleFolder = contract.abi[i].oracleFolder;
-                f.requiresOracle = (f.oracleFolder != undefined);
+                f.name = contractInterface.abi[i].name;
+                f.description = contractInterface.descriptions[f.name];
+                f.stateMutability = contractInterface.abi[i].stateMutability;
+                f.requiresOracle = (f.name in contractOracles);
                 f.errorHandler = async function (error) {
                     console.warn(`Warning: using default (popup) errorHandler for function ${this.name}`); 
                     alert(error);
                 };
                 if (f.requiresOracle) {
+                    f.oracleFolder = f.name;
                     f.printHandler = async function(message) {
                         console.warn(`Warning: using default (popup) printHandler for function ${this.name}`); 
                         alert(message);
@@ -487,8 +499,8 @@ async function OpenContracts() {
                     f.inputs.push({name: "transactionValue", type: "ETH", value: null});
                 }
                 if (!f.requiresOracle) {
-                    for (let j = 0; j < contract.abi[i].inputs.length; j++) {
-                        const input = contract.abi[i].inputs[j];
+                    for (let j = 0; j < contractInterface.abi[i].inputs.length; j++) {
+                        const input = contractInterface.abi[i].inputs[j];
                         f.inputs.push({name: input.name, type: input.type, value: null});
                     }
                 }
