@@ -305,7 +305,7 @@ async function connect(opencontracts, f, oracle) {
                     var success = true;
                     var txReturn = await requestHubTransaction(opencontracts,
                                                                data.oracleID, data.nonce, data.calldata, data.oracleSignature,
-                                                               oracle.provider, oracle.price, oracle.registryPrice, oracle.registrySignature)
+                                                               oracle.provider, String(oracle.price), String(oracle.registryPrice), oracle.registrySignature)
                     .then(function(tx){window.tx = tx; return tx})
                     .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                     .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
