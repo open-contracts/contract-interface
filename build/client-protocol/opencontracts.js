@@ -421,9 +421,9 @@ async function OpenContracts() {
         opencontracts.location = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
         console.warn('loading contract at:', opencontracts.location);
         const contractInterface = await fetch(new URL(opencontracts.location + "/interface.json")).catch(
-            (error)=>throw new ClientError("Cannot load interface.json from " + contract.location));
+            (error)=>{throw new ClientError("Cannot load interface.json from " + contract.location)});
         const contractOracles = await fetch(new URL(opencontracts.location + "/oracles.json")).catch(
-            (error)=>throw new ClientError("Cannot load oracles.json from " + contract.location));
+            (error)=>{throw new ClientError("Cannot load oracles.json from " + contract.location)});
         
         if (!(this.network in oc_interface)) {
             if (!(chainID in networks)) {
