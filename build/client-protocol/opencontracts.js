@@ -380,6 +380,7 @@ async function OpenContracts() {
     // TODO: get error handler
     // TODO: add args for link to github or ipfs repo
     const opencontracts = {};
+    window.opencontracts = opencontracts;
     var status = "loading";
     const initialization = new Promise((resolve, reject) => {setInterval(()=> {
         if (status == "initialized") {
@@ -446,9 +447,7 @@ async function OpenContracts() {
         }
         const contractInterface = opencontracts.contractInterface;
         const contractOracles = opencontracts.contractOracles;
-        console.warn(contractInterface, contractInterface.address, contractInterface["address"]);
-        window.ci = contractInterface;
-        if (!(this.network in contractInterface["address"])) {
+        if (!(this.network in contractInterface.address)) {
             var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by this contract.";
             throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(contractInterface.address));
         } else {
