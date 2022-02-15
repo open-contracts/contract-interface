@@ -422,7 +422,7 @@ async function OpenContracts() {
     opencontracts.interface = JSON.parse(await (await fetch(new URL(opencontracts.location + "/interface.json")).catch(
         (error)=>{status = "Cannot load interface.json from " + contract.location})).text());
     opencontracts.oracleHashes = JSON.parse(await (await fetch(new URL(opencontracts.location + "/oracleHashes.json")).catch(
-        (error)=>{status = "Cannot load oracleHashes.json from " + contract.location})).text());
+        (error)=>{opencontracts.oracleHashes = {}})).text());
             
     // instantiates the contracts
     opencontracts.parseContracts = function (oc_interface, contract_interface) {
@@ -452,13 +452,13 @@ async function OpenContracts() {
         } else {
             this.contract = new ethers.Contract(interface.address[this.network], interface.abi, this.provider);
             this.contractName = interface.name;
-            this.contractDescription = interface.descriptions["contract"];
+            if ("descriptions" in interface) {this.contractDescription = interface.descriptions["contract"];}
             this.contractFunctions = [];
             for (let i = 0; i < interface.abi.length; i++) {
                 if (interface.abi[i].type == 'constructor') {continue}
                 const f = {};
                 f.name = interface.abi[i].name;
-                f.description = interface.descriptions[f.name];
+                if ("descriptions" in interface) {f.description = interface.descriptions[f.name];}
                 f.stateMutability = interface.abi[i].stateMutability;
                 f.requiresOracle = (f.name in opencontracts.oracleHashes);
                 f.errorHandler = async function (error) {
