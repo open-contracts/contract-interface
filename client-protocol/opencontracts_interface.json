@@ -1,8 +1,13 @@
 {
   "ropsten": {
     "token": {
-      "address": "0x6f358829f395B339B7A99D8a857D541524C6E105",
+      "address": "0xbb2222094F6fb5363a832409f23d336CB9A40F1A",
       "abi": [
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
         {
           "anonymous": false,
           "inputs": [
@@ -212,6 +217,30 @@
           "inputs": [
             {
               "internalType": "address",
+              "name": "holder",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "spender",
+              "type": "address"
+            }
+          ],
+          "name": "allowance",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
               "name": "spender",
               "type": "address"
             },
@@ -248,6 +277,25 @@
         {
           "inputs": [
             {
+              "internalType": "address",
+              "name": "tokenHolder",
+              "type": "address"
+            }
+          ],
+          "name": "balanceOf",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
               "internalType": "uint256",
               "name": "amount",
               "type": "uint256"
@@ -264,6 +312,69 @@
           "type": "function"
         },
         {
+          "inputs": [],
+          "name": "decimals",
+          "outputs": [
+            {
+              "internalType": "uint8",
+              "name": "",
+              "type": "uint8"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "defaultOperators",
+          "outputs": [
+            {
+              "internalType": "address[]",
+              "name": "",
+              "type": "address[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "granularity",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "operator",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "tokenHolder",
+              "type": "address"
+            }
+          ],
+          "name": "isOperatorFor",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
           "inputs": [
             {
               "internalType": "uint256",
@@ -274,6 +385,19 @@
           "name": "mint",
           "outputs": [],
           "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "name",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "view",
           "type": "function"
         },
         {
@@ -374,6 +498,32 @@
           "type": "function"
         },
         {
+          "inputs": [],
+          "name": "symbol",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "totalSupply",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
           "inputs": [
             {
               "internalType": "address",
@@ -425,161 +575,11 @@
           ],
           "stateMutability": "nonpayable",
           "type": "function"
-        },
-        {
-          "inputs": [],
-          "stateMutability": "nonpayable",
-          "type": "constructor"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "holder",
-              "type": "address"
-            },
-            {
-              "internalType": "address",
-              "name": "spender",
-              "type": "address"
-            }
-          ],
-          "name": "allowance",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "tokenHolder",
-              "type": "address"
-            }
-          ],
-          "name": "balanceOf",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "decimals",
-          "outputs": [
-            {
-              "internalType": "uint8",
-              "name": "",
-              "type": "uint8"
-            }
-          ],
-          "stateMutability": "pure",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "defaultOperators",
-          "outputs": [
-            {
-              "internalType": "address[]",
-              "name": "",
-              "type": "address[]"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "granularity",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "operator",
-              "type": "address"
-            },
-            {
-              "internalType": "address",
-              "name": "tokenHolder",
-              "type": "address"
-            }
-          ],
-          "name": "isOperatorFor",
-          "outputs": [
-            {
-              "internalType": "bool",
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "name",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "symbol",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "totalSupply",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
         }
       ]
     },
     "verifier": {
-      "address": "0x036C4339bbA6b0e0Cab0e4225eBf887DfD314373",
+      "address": "0xbF0911618a9323e4d29f3318DaBF5c7DD30Cc33e",
       "abi": [
         {
           "inputs": [],
@@ -620,64 +620,13 @@
         {
           "inputs": [
             {
-              "internalType": "address",
-              "name": "registry",
-              "type": "address"
-            },
-            {
-              "internalType": "string",
-              "name": "domain",
-              "type": "string"
-            },
-            {
-              "internalType": "bytes32",
-              "name": "newOracleImage",
-              "type": "bytes32"
-            },
-            {
-              "internalType": "bytes32",
-              "name": "newRegistryImage",
-              "type": "bytes32"
-            },
-            {
-              "internalType": "address",
-              "name": "devs",
-              "type": "address"
-            },
-            {
-              "internalType": "bool",
-              "name": "close",
-              "type": "bool"
-            }
-          ],
-          "name": "backdoor",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "backdoorOpen",
-          "outputs": [
-            {
-              "internalType": "bool",
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
               "internalType": "address payable",
               "name": "openContract",
               "type": "address"
             },
             {
               "internalType": "bytes32",
-              "name": "oracleID",
+              "name": "oracleHash",
               "type": "bytes32"
             },
             {
@@ -744,17 +693,63 @@
           ],
           "stateMutability": "view",
           "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "updatable",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "registry",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "domain",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "newOracleImage",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "newRegistryImage",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "newDevAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "stayUpdatable",
+              "type": "bool"
+            }
+          ],
+          "name": "update",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
         }
       ]
     },
     "hub": {
-      "address": "0x2d7FBE2EbCd2026b6a4fD21923F5221d104e194c",
+      "address": "0x059dE2588d076B67901b07A81239286076eC7b89",
       "abi": [
-        {
-          "inputs": [],
-          "stateMutability": "nonpayable",
-          "type": "constructor"
-        },
         {
           "inputs": [],
           "name": "OpenContractsDevs",
@@ -782,19 +777,6 @@
           "type": "function"
         },
         {
-          "inputs": [],
-          "name": "completed",
-          "outputs": [
-            {
-              "internalType": "bool",
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
           "inputs": [
             {
               "internalType": "address payable",
@@ -803,7 +785,7 @@
             },
             {
               "internalType": "bytes32",
-              "name": "oracleID",
+              "name": "oracleHash",
               "type": "bytes32"
             },
             {
@@ -841,7 +823,7 @@
               "type": "bytes4"
             }
           ],
-          "name": "getOracleID",
+          "name": "getOracleHash",
           "outputs": [
             {
               "internalType": "bytes32",
@@ -861,13 +843,26 @@
             },
             {
               "internalType": "bytes32",
-              "name": "oracleID",
+              "name": "oracleHash",
               "type": "bytes32"
             }
           ],
-          "name": "setOracleID",
+          "name": "setOracleHash",
           "outputs": [],
           "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "updatable",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
           "type": "function"
         },
         {
@@ -884,7 +879,7 @@
             },
             {
               "internalType": "bool",
-              "name": "complete",
+              "name": "stayUpdatable",
               "type": "bool"
             }
           ],
