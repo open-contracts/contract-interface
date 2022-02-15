@@ -378,6 +378,7 @@ async function getOraclePys(user, repo, ref) {
 
 async function OpenContracts() {
     // TODO: get error handler
+    // TODO: add args for link to github or ipfs repo
     const opencontracts = {};
     var status = "loading";
     const initialization = new Promise((resolve, reject) => {setInterval(()=> {
@@ -413,22 +414,20 @@ async function OpenContracts() {
             status = "No Metamask detected.";
         }
     }
-    
+ 
+    const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
+    opencontracts.location = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
+    console.warn('loading contract at:', opencontracts.location);
+    opencontracts.contractInterface = JSON.parse(await (await fetch(new URL(`https://raw.githubusercontent.com/open-contracts/proof-of-id/main/interface.json`))).text().catch(
+        (error)=>{status = "Cannot load interface.json from " + contract.location}));
+    opencontracts.contractOracles = JSON.parse(await (await fetch(new URL(`https://raw.githubusercontent.com/open-contracts/proof-of-id/main/oracles.json`))).text().catch(
+        (error)=>{status = "Cannot load oracles.json from " + contract.location}));
+            
     // instantiates the contracts
-    opencontracts.parseContracts = async function (oc_interface, contract_interface) {
-        // TODO: replace now obsolete contract_interface arg with a link to github or ipfs repo
-        const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
-        opencontracts.location = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
-        console.warn('loading contract at:', opencontracts.location);
-        var contractInterface = JSON.parse(await (await fetch(new URL(`https://raw.githubusercontent.com/open-contracts/proof-of-id/main/interface.json`))).text().catch(
-            (error)=>{throw new ClientError("Cannot load interface.json from " + contract.location)}));
-        const contractOracles = JSON.parse(await (await fetch(new URL(`https://raw.githubusercontent.com/open-contracts/proof-of-id/main/oracles.json`))).text().catch(
-            (error)=>{throw new ClientError("Cannot load oracles.json from " + contract.location)}));
-        
+    opencontracts.parseContracts = function (oc_interface, contract_interface) {
+        // TODO: remove obolete contract_interface arg
         if (!(this.network in oc_interface)) {
-            if (!(chainID in networks)) {
-                throw new ClientError("Currently, the only supported networks are: " + Object.keys(oc_interface));
-            }
+            throw new ClientError("Currently, the only supported networks are: " + Object.keys(oc_interface));
         } else {
             const token = oc_interface[this.network].token;
             this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
@@ -445,6 +444,8 @@ async function OpenContracts() {
                 await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
             }
         }
+        const contractInterface = opencontracts.contractInterface;
+        const contractOracles = opencontracts.contractOracles;
         console.warn(contractInterface, contractInterface.address, contractInterface["address"]);
         window.ci = contractInterface;
         if (!(this.network in contractInterface["address"])) {
