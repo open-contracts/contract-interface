@@ -579,7 +579,7 @@
       ]
     },
     "verifier": {
-      "address": "0xbF0911618a9323e4d29f3318DaBF5c7DD30Cc33e",
+      "address": "0x5399a2Feb6220c06c75A04117B5E56C6a399ea11",
       "abi": [
         {
           "inputs": [],
@@ -689,6 +689,51 @@
               "internalType": "contract OpenContractsHub",
               "name": "",
               "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "oracleImage",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "registryDomains",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "registryImage",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
             }
           ],
           "stateMutability": "view",
