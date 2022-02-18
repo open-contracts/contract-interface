@@ -1,5 +1,5 @@
-# [open-contracts.github.io](https://open-contracts.github.io)
-The OpenContracts Interface
+# [dapp.opencontracts.io](https://dapp.opencontracts.io)
+The OpenContracts Dapp, automatically generated for any Open Contract.
 
 ## Local 
 ### `run`
