@@ -99,7 +99,9 @@ export const ApolloRunDappMainItemInternals : FC<ApolloRunDappMainItemInternalsP
                     color : Colors.Maintheme
                 }}>
                     <h1>{dappItem.contract ? dappItem.contract.contractName : ""}</h1>
-                    <p>{dappItem.contract ? dappItem.contract.contractDescription : ""}</p>
+                    <ReactMarkdown plugins={[remarkGfm]}>
+                        {dappItem.contract ? dappItem.contract.contractDescription : ""}
+                    </ReactMarkdown>
                 </div>
                 <div>
                     <ApolloRunDappMainItemActions
