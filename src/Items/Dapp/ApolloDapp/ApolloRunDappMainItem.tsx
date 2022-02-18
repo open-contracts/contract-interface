@@ -19,6 +19,8 @@ export type ApolloRunDappMainItemProps = {
 
 export const ApolloRunDappMainItem : FC<ApolloRunDappMainItemProps>  = (props) =>{
 
+    document.title = props.dappItem.name || "Open Contracts - Run";
+
     return (
 
        <MediaResponsive>
