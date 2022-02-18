@@ -1,5 +1,6 @@
 import React, {FC, ReactElement, createContext, useReducer, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ErrorPage } from '../../Pages/ErrorPage';
 
 
 export interface ErrorContextI {
@@ -39,8 +40,6 @@ export const ErrorProvider : FC<ErrorProviderProps>  = ({
     children
 }) =>{
 
-    const navigate = useNavigate();
-
     const [state, dispatch] = useReducer(ErrorReducer, DefaultErrorContext);
 
     useEffect(()=>{
@@ -73,23 +72,9 @@ export const ErrorProvider : FC<ErrorProviderProps>  = ({
 
 
         } 
-    })
+    });
 
-    useEffect(()=>{
-
-        
-
-        if(state.error){
-            navigate("/error");
-            dispatch((state)=>{
-                return {
-                    ...state,
-                    error : state.error
-                }
-            })
-        }
-
-    }, [state.error])
+    console.log(state.error);
 
     return (
 
@@ -97,7 +82,7 @@ export const ErrorProvider : FC<ErrorProviderProps>  = ({
             ...state,
             dispatch : dispatch
         }}>
-                {children}
+            {state.error ? <ErrorPage/> : children}
         </ErrorContext.Provider>
 
     )
@@ -112,7 +97,7 @@ export const useErrorContext = () : ErrorContextI=>{
     const context = useContext(ErrorContext);
 
     if(!context){
-        throw new Error("useerror must be called within a ErrorProvider.");
+        throw new Error("useErrorContext must be called within a ErrorProvider.");
     }
 
     return context;
