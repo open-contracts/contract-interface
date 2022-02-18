@@ -59,24 +59,6 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
                     Reset
             </AthenaButton>
             &emsp;
-            {contractFunction.requiresOracle && <AthenaButton
-                action={loadOracleData as unknown as any}
-                style={{
-                    fontSize : "18px"
-                }}
-                primaryColor={Colors.Maintheme}
-                secondaryColor={"white"}>
-                {
-                    !contractFunction.oracleData ? 
-                    <>
-                        Load oracle data
-                    </>
-                    : <>
-                        Load{resolved ? "ed" : "ing"} oracle data {count}/{Object.keys(map).length}     
-                    </>
-                }
-            </AthenaButton>}
-            &emsp;
             <AthenaButton
                 invert
                 style={{
