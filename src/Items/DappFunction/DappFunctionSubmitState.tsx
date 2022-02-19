@@ -52,20 +52,20 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
             fontSize : "18px",
         }}>
             <AthenaButton
-                onClick={resetLog}
-                primaryColor={Colors.failedRed}
-                secondaryColor={"white"}>
+            onClick={resetLog}
+            primaryColor={Colors.failedRed}
+            secondaryColor={"white"}>
                     Reset
             </AthenaButton>
             &emsp;
             <AthenaButton
-                invert
-                style={{
-                    fontSize : "18px"
-                }}
-                action={handleCall}
-                primaryColor={Colors.Maintheme}
-                secondaryColor={"white"}>
+            invert
+            style={{
+                fontSize : "18px"
+            }}
+            action={handleCall}
+            primaryColor={Colors.Maintheme}
+            secondaryColor={"white"}>
                 Call function
             </AthenaButton>
         </div>
