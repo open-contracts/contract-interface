@@ -288,11 +288,6 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
 
             if(contractFunction.requiresOracle){
 
-                if(!contractFunction.oracleData){
-                    addError(new ClientError("Oracle data is required for this function."));
-                    resolve({});
-                }
-
                 contractFunction.call().then((data)=>{
                     resolve(data);
                 }).catch((err)=>{
