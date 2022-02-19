@@ -54,8 +54,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
             <AthenaButton
                 onClick={resetLog}
                 primaryColor={Colors.failedRed}
-                secondaryColor={"white"}
-                >
+                secondaryColor={"white"}>
                     Reset
             </AthenaButton>
             &emsp;
@@ -65,10 +64,8 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
                     fontSize : "18px"
                 }}
                 action={handleCall}
-                disabled={called || (contractFunction.requiresOracle && (contractFunction.oracleData === undefined || !resolved))}
                 primaryColor={Colors.Maintheme}
-                secondaryColor={"white"}
-            >
+                secondaryColor={"white"}>
                 Call function
             </AthenaButton>
         </div>
