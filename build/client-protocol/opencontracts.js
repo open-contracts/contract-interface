@@ -384,36 +384,38 @@ async function OpenContracts() {
     // detects metamask
     opencontracts.walletConnected = false;
     opencontracts.connectWallet = async function () {
-        const ethereum = await detectEthereumProvider();
-        if (ethereum) {
-          ethereum.request({ method: 'eth_requestAccounts' });
-          this.provider = new ethers.providers.Web3Provider(ethereum, 'any');
-          ethereum.on('chainChanged', (_chainId) => window.location.reload());
-          const networks = {"1": "mainnet", "3": "ropsten", "10": "optimism", "42161": "arbitrum"};
-          const chainID = String((await this.provider.getNetwork()).chainId);
-          if (!(chainID in networks)) {
-              throw new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism.");
-          }
-          this.network = networks[chainID];
-          if (!(this.network in this.ocInterface)) {
-              throw new ClientError(`Your wallet is set to ${this.network}, but our website only supports the following networks: ${Object.keys(this.ocInterface)}`);
-          } else if (!(this.network in this.interface.address)) {
-              throw new ClientError(`Your wallet is set to ${this.network}, but this contract only supports the following networks: ${Object.keys(this.interface.address)}`);
-          } else {
-              this.signer = this.provider.getSigner();
-              const token = this.ocInterface[this.network].token;
-              this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
-              const hub = this.ocInterface[this.network].hub;
-              this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
-              const verifier = this.ocInterface[this.network].verifier;
-              this.OPNverifier = new ethers.Contract(verifier.address, verifier.abi, this.provider);
-              this.contract = new ethers.Contract(this.interface.address[this.network], this.interface.abi, this.provider);
-              this.contract.attach(this.interface.address[this.network]);
-              this.explorerUrl = function(address) {return `https://ropsten.etherscan.io/address/${address}`};
-              this.walletConnected = true;
-          }
-        } else {
-          throw new ClientError("No Metamask Detected. Get it at [metamask.io](https://metamask.io/)");
+        if (!this.walletConnected) {
+            const ethereum = await detectEthereumProvider();
+            if (ethereum) {
+              ethereum.request({ method: 'eth_requestAccounts' });
+              this.provider = new ethers.providers.Web3Provider(ethereum, 'any');
+              ethereum.on('chainChanged', (_chainId) => window.location.reload());
+              const networks = {"1": "mainnet", "3": "ropsten", "10": "optimism", "42161": "arbitrum"};
+              const chainID = String((await this.provider.getNetwork()).chainId);
+              if (!(chainID in networks)) {
+                  throw new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism.");
+              }
+              this.network = networks[chainID];
+              if (!(this.network in this.ocInterface)) {
+                  throw new ClientError(`Your wallet is set to ${this.network}, but our website only supports the following networks: ${Object.keys(this.ocInterface)}`);
+              } else if (!(this.network in this.interface.address)) {
+                  throw new ClientError(`Your wallet is set to ${this.network}, but this contract only supports the following networks: ${Object.keys(this.interface.address)}`);
+              } else {
+                  this.signer = this.provider.getSigner();
+                  const token = this.ocInterface[this.network].token;
+                  this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
+                  const hub = this.ocInterface[this.network].hub;
+                  this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
+                  const verifier = this.ocInterface[this.network].verifier;
+                  this.OPNverifier = new ethers.Contract(verifier.address, verifier.abi, this.provider);
+                  this.contract = new ethers.Contract(this.interface.address[this.network], this.interface.abi, this.provider);
+                  this.contract.attach(this.interface.address[this.network]);
+                  this.explorerUrl = function(address) {return `https://ropsten.etherscan.io/address/${address}`};
+                  this.walletConnected = true;
+              }
+            } else {
+              throw new ClientError("No Metamask Detected. Get it at [metamask.io](https://metamask.io/)");
+            }
         }
     }
 
@@ -432,10 +434,12 @@ async function OpenContracts() {
             throw new ClientError("Couldn't find contract at " + contractLocation); 
         }
         this.getOPN = async function (amountString) {
+            this.connectWallet();
             const amount = ethers.utils.parseEther(amountString);
             await this.OPNtoken.connect(this.signer).mint(amount);
         }
         this.approveOPN = async function (amountString) {
+            this.connectWallet();
             const amount = ethers.utils.parseEther(amountString);
             await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
         }
@@ -498,9 +502,7 @@ async function OpenContracts() {
                 }
             }
             f.call = async function () {
-                if (!opencontracts.walletConnected) {
-                    await opencontracts.connectWallet(f.errorHandler);
-                }
+                opencontracts.connectWallet();
                 const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
                 if (unspecifiedInputs.length > 0) {
                     throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
