@@ -347,7 +347,7 @@ export const getDappContract = async (
     const dappInterface = dapp.dappInterface|| await getDappInterface(dapp);
     const openContractsInterface = dapp.openContractsInterface || await getOpenContractsInterface();
 
-    opencontract.parseContracts(openContractsInterface, dappInterface);
+    await opencontract.parseContracts(openContractsInterface, dappInterface);
 
     onGet && onGet(opencontract);
 
