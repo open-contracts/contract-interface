@@ -451,147 +451,146 @@ async function OpenContracts() {
     opencontracts.connectWallet = async function (errorHandler) {
         const ethereum = await detectEthereumProvider();
         if (provider) {
-          opencontracts.provider = new ethers.providers.Web3Provider(ethereum, 'any');
+          this.provider = new ethers.providers.Web3Provider(ethereum, 'any');
           ethereum.on('chainChanged', (_chainId) => window.location.reload());
           const networks = {"1": "mainnet", "3": "ropsten", "10": "optimism", "42161": "arbitrum"};
-          const chainID = String((await opencontracts.provider.getNetwork()).chainId);
+          const chainID = String((await this.provider.getNetwork()).chainId);
           if (!(chainID in networks)) {
-             errorHandler(new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism."));
+              errorHandler(new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism."));
           }
-          opencontracts.network = networks[chainID];
-          opencontracts.signer = opencontracts.provider.getSigner();
-          opencontracts.walletConnected = true;
+          this.network = networks[chainID];
+          if (!(this.network in this.ocInterface)) {
+              errorHandler(new ClientError(`Your wallet is set to ${this.network}, but our website only supports the following networks: ${Object.keys(this.ocInterface)}`));
+          } else if (!(this.network in this.interface.address)) {
+              errorHandler(new ClientError(`Your wallet is set to ${this.network}, but this contract only supports the following networks: ${Object.keys(this.interface.address)}`));
+          } else {
+              this.signer = this.provider.getSigner();
+              const token = oc_interface[this.network].token;
+              this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
+              const hub = oc_interface[this.network].hub;
+              this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
+              const verifier = oc_interface[this.network].verifier;
+              this.OPNverifier = new ethers.Contract(verifier.address, verifier.abi, this.provider);
+              this.contract = new ethers.Contract(this.interface.address[this.network], this.interface.abi, this.provider);
+              this.contract.attach(this.interface.address[this.network]);
+              this.walletConnected = true;
+          }
         } else {
           errorHandler(new ClientError("No Metamask Detected. Get it at [metamask.io](https://metamask.io/)"));
         }
     }
 
     // instantiates the contracts
-    opencontracts.parseContracts = async function (oc_interface, contract_location) {
+    opencontracts.parseContracts = async function (ocInterface, contractLocation) {
         
-        opencontracts.location = contract_location.split("/");
-        if (opencontracts.location[0] == "@git") {
-            const [user, repo, branch] = opencontracts.location.slice(1);
+        this.location = contractLocation.split("/");
+        if (this.location[0] == "@git") {
+            const [user, repo, branch] = this.location.slice(1);
             const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
             console.warn('loading contract at:', url);
-            opencontracts.interface = JSON.parse(await (await fetch(new URL(url + "/interface.json"))).text());
-            opencontracts.oracleHashes = JSON.parse(await (await fetch(new URL(url + "/oracleHashes.json")).catch(
-                (error)=>{console.warn("no oralceHashes.json found!"); opencontracts.oracleHashes = {}})).text());
+            this.interface = JSON.parse(await (await fetch(new URL(url + "/interface.json"))).text());
+            this.oracleHashes = JSON.parse(await (await fetch(new URL(url + "/oracleHashes.json")).catch(
+                (error)=>{console.warn("no oralceHashes.json found!"); this.oracleHashes = {}})).text());
         } else {
-            throw new ClientError("Contract location invalid or unsupported."); 
+            throw new ClientError("Couldn't find contract at " + contractLocation); 
         }
-           
-        if (!(this.network in oc_interface)) {
-            throw new ClientError("Currently, the only supported networks are: " + Object.keys(oc_interface));
-        } else {
-            const token = oc_interface[this.network].token;
-            this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
-            const hub = oc_interface[this.network].hub;
-            this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
-            const verifier = oc_interface[this.network].verifier;
-            this.OPNverifier = new ethers.Contract(verifier.address, verifier.abi, this.provider);
-            this.getOPN = async function (amountString) {
-                const amount = ethers.utils.parseEther(amountString);
-                await this.OPNtoken.connect(this.signer).mint(amount);
-            }
-            this.approveOPN = async function (amountString) {
-                const amount = ethers.utils.parseEther(amountString);
-                await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
-            }
+        this.getOPN = async function (amountString) {
+            const amount = ethers.utils.parseEther(amountString);
+            await this.OPNtoken.connect(this.signer).mint(amount);
         }
-        const interface = opencontracts.interface;
-        if (!(this.network in interface.address)) {
-            var errormsg = "Your Metamask is set to " + this.network + ", which is not supported by this contract.";
-            throw new ClientError(errormsg + " Set your Metamask to one of: " +  Object.keys(interface.address));
-        } else {
-            this.contract = new ethers.Contract(interface.address[this.network], interface.abi, this.provider);
-            this.contractName = interface.name;
-            if ("descriptions" in interface) {this.contractDescription = interface.descriptions["contract"];}
-            this.contractFunctions = [];
-            for (let i = 0; i < interface.abi.length; i++) {
-                if (interface.abi[i].type == 'constructor') {continue}
-                const f = {};
-                f.name = interface.abi[i].name;
-                if ("descriptions" in interface) {f.description = interface.descriptions[f.name];}
-                f.stateMutability = interface.abi[i].stateMutability;
-                f.requiresOracle = (f.name in opencontracts.oracleHashes);
-                f.errorHandler = async function (error) {
-                    console.warn(`Warning: using default (popup) errorHandler for function ${this.name}`); 
-                    alert(error);
+        this.approveOPN = async function (amountString) {
+            const amount = ethers.utils.parseEther(amountString);
+            await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
+        }
+                
+        this.ocInterface = ocInterface:
+        const interface =  this.interface;
+        this.contractName = interface.name;
+        if ("descriptions" in interface) {this.contractDescription = interface.descriptions["contract"];}
+        this.contractFunctions = [];
+        for (let i = 0; i < interface.abi.length; i++) {
+            if (interface.abi[i].type == 'constructor') {continue}
+            const f = {};
+            f.name = interface.abi[i].name;
+            if ("descriptions" in interface) {f.description = interface.descriptions[f.name];}
+            f.stateMutability = interface.abi[i].stateMutability;
+            f.requiresOracle = (f.name in opencontracts.oracleHashes);
+            f.errorHandler = async function (error) {
+                console.warn(`Warning: using default (popup) errorHandler for function ${this.name}`); 
+                alert(error);
+            };
+            if (f.requiresOracle) {
+                f.oracleFolder = f.name;
+                f.printHandler = async function(message) {
+                    console.warn(`Warning: using default (popup) printHandler for function ${this.name}`); 
+                    alert(message);
                 };
-                if (f.requiresOracle) {
-                    f.oracleFolder = f.name;
-                    f.printHandler = async function(message) {
-                        console.warn(`Warning: using default (popup) printHandler for function ${this.name}`); 
-                        alert(message);
-                    };
-                    f.waitHandler = async function(seconds, message) {
-                        console.warn(`Expect to wait around ${seconds} seconds: ${message}`); 
-                    };
-                    f.inputHandler = async function (message) {
-                        console.warn(`Warning: using default (popup) inputHandler for function ${this.name}`); 
-                        return prompt(message);
-                    };
-                    f.xpraHandler = async function(targetUrl, sessionUrl, xpraExit) {
-                        console.warn(`Warning: using default (popup) xpraHandler for function ${this.name}`); 
-                        if (window.confirm(`open interactive session to {targetUrl} in new tab?`)) {
-                            var newWin = window.open(sessionUrl,'_blank');
-                            xpraExit.then(newWin.close);
-                            if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
-                                alert("Could not open new window. Set your browser to allow popups and click ok.");
-                                this.xpraHandler(targetUrl, sessionUrl);
-                            }
-                        }
-                    };
-                    f.submitHandler = async function (submit) {
-                        console.warn(`Warning: using default (popup) submitHandler for function ${this.name}`); 
-                        message = "Oracle execution completed. Starting final transaction. ";
-                        alert(message + "It will fail if you did not grant enough $OPN to the hub.");
-                        await submit()
-                    };
-                }
-                f.inputs = [];
-                if (f.stateMutability == "payable") {
-                    f.inputs.push({name: "transactionValue", type: "ETH", value: null});
-                }
-                if (!f.requiresOracle) {
-                    for (let j = 0; j < interface.abi[i].inputs.length; j++) {
-                        const input = interface.abi[i].inputs[j];
-                        f.inputs.push({name: input.name, type: input.type, value: null});
-                    }
-                }
-                f.call = async function () {
-                    const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
-                    if (unspecifiedInputs.length > 0) {
-                        throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
-                    }
-                    for (let i = 0; i < this.inputs.length; i++) {
-                        if ((this.inputs[i].type === "bool") && (typeof this.inputs[i].value === 'string')) {
-                            this.inputs[i].value = JSON.parse(this.inputs[i].value.toLowerCase());
+                f.waitHandler = async function(seconds, message) {
+                    console.warn(`Expect to wait around ${seconds} seconds: ${message}`); 
+                };
+                f.inputHandler = async function (message) {
+                    console.warn(`Warning: using default (popup) inputHandler for function ${this.name}`); 
+                    return prompt(message);
+                };
+                f.xpraHandler = async function(targetUrl, sessionUrl, xpraExit) {
+                    console.warn(`Warning: using default (popup) xpraHandler for function ${this.name}`); 
+                    if (window.confirm(`open interactive session to {targetUrl} in new tab?`)) {
+                        var newWin = window.open(sessionUrl,'_blank');
+                        xpraExit.then(newWin.close);
+                        if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
+                            alert("Could not open new window. Set your browser to allow popups and click ok.");
+                            this.xpraHandler(targetUrl, sessionUrl);
                         }
                     }
-                    if (this.requiresOracle) {
-                        return await enclaveSession(opencontracts, this);
-                    } else {
-                        var success = true;
-                        var txReturn = await ethereumTransaction(opencontracts, this)
-                        .then(function(tx){window.tx = tx; return tx})
-                        .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
-                        .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
-                        .catch(error => {
-                            success=false;
-                            if (error.error != undefined) {
-                                error = new EthereumError(error.error.message);
-                            } else if (error.message != undefined) {
-                                error = new EthereumError(error.message);
-                            }
-                            this.errorHandler(error);
-                        });
-                        if (success) {return String(txReturn)};
-                    }
-                }
-                opencontracts.contractFunctions.push(f);
+                };
+                f.submitHandler = async function (submit) {
+                    console.warn(`Warning: using default (popup) submitHandler for function ${this.name}`); 
+                    message = "Oracle execution completed. Starting final transaction. ";
+                    alert(message + "It will fail if you did not grant enough $OPN to the hub.");
+                    await submit()
+                };
             }
+            f.inputs = [];
+            if (f.stateMutability == "payable") {
+                f.inputs.push({name: "transactionValue", type: "ETH", value: null});
+            }
+            if (!f.requiresOracle) {
+                for (let j = 0; j < interface.abi[i].inputs.length; j++) {
+                    const input = interface.abi[i].inputs[j];
+                    f.inputs.push({name: input.name, type: input.type, value: null});
+                }
+            }
+            f.call = async function () {
+                const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
+                if (unspecifiedInputs.length > 0) {
+                    throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
+                }
+                for (let i = 0; i < this.inputs.length; i++) {
+                    if ((this.inputs[i].type === "bool") && (typeof this.inputs[i].value === 'string')) {
+                        this.inputs[i].value = JSON.parse(this.inputs[i].value.toLowerCase());
+                    }
+                }
+                if (this.requiresOracle) {
+                    return await enclaveSession(opencontracts, this);
+                } else {
+                    var success = true;
+                    var txReturn = await ethereumTransaction(opencontracts, this)
+                    .then(function(tx){window.tx = tx; return tx})
+                    .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
+                    .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
+                    .catch(error => {
+                        success=false;
+                        if (error.error != undefined) {
+                            error = new EthereumError(error.error.message);
+                        } else if (error.message != undefined) {
+                            error = new EthereumError(error.message);
+                        }
+                        this.errorHandler(error);
+                    });
+                    if (success) {return String(txReturn)};
+                }
+            }
+            opencontracts.contractFunctions.push(f);
         }
     }
 
