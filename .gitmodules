@@ -1,3 +1,0 @@
-[submodule "client-protocol"]
-	path = client-protocol
-	url = https://github.com/open-contracts/client-protocol
