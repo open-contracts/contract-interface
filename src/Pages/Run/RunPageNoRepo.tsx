@@ -39,7 +39,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
         }));
 
         navigate(`/${owner}/${repo}/${branch||"main"}`);
-
+        window.location.reload();
     }
 
     const handleEnter = (text : string)=>{
@@ -60,7 +60,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
         }));
 
         navigate(`/${owner}/${repo}/${branch||"main"}`);
-
+        window.location.reload();
     }
 
     return (
