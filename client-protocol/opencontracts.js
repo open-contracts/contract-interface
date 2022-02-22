@@ -186,9 +186,6 @@ async function decrypt(AESkey, json) {
 }
 
 async function enclaveSession(opencontracts, f) {
-    if (!opencontracts.walletConnected) {
-        await opencontracts.connectWallet(f.errorHandler);
-    }
     var oracleIP = new URLSearchParams(window.location.search).get('oracleIP');
     if (oracleIP) {
         console.warn("Oracle IP override: ", oracleIP);
@@ -333,9 +330,6 @@ async function connect(opencontracts, f, oracle) {
 }
 
 async function ethereumTransaction(opencontracts, f) {
-    if (!opencontracts.walletConnected) {
-        await opencontracts.connectWallet(f.errorHandler);
-    }
     args = [];
     for (let i = 0; i < f.inputs.length; i++) {args.push(f.inputs[i].value); console.warn(args[i])}
     if (f.stateMutability == 'payable') {
@@ -448,7 +442,7 @@ async function OpenContracts() {
     
     // detects metamask
     opencontracts.walletConnected = false;
-    opencontracts.connectWallet = async function (errorHandler) {
+    opencontracts.connectWallet = async function () {
         const ethereum = await detectEthereumProvider();
         if (ethereum) {
           ethereum.request({ method: 'eth_requestAccounts' });
@@ -457,13 +451,13 @@ async function OpenContracts() {
           const networks = {"1": "mainnet", "3": "ropsten", "10": "optimism", "42161": "arbitrum"};
           const chainID = String((await this.provider.getNetwork()).chainId);
           if (!(chainID in networks)) {
-              errorHandler(new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism."));
+              throw new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism.");
           }
           this.network = networks[chainID];
           if (!(this.network in this.ocInterface)) {
-              errorHandler(new ClientError(`Your wallet is set to ${this.network}, but our website only supports the following networks: ${Object.keys(this.ocInterface)}`));
+              throw new ClientError(`Your wallet is set to ${this.network}, but our website only supports the following networks: ${Object.keys(this.ocInterface)}`);
           } else if (!(this.network in this.interface.address)) {
-              errorHandler(new ClientError(`Your wallet is set to ${this.network}, but this contract only supports the following networks: ${Object.keys(this.interface.address)}`));
+              throw new ClientError(`Your wallet is set to ${this.network}, but this contract only supports the following networks: ${Object.keys(this.interface.address)}`);
           } else {
               this.signer = this.provider.getSigner();
               const token = this.ocInterface[this.network].token;
@@ -477,7 +471,7 @@ async function OpenContracts() {
               this.walletConnected = true;
           }
         } else {
-          errorHandler(new ClientError("No Metamask Detected. Get it at [metamask.io](https://metamask.io/)"));
+          throw new ClientError("No Metamask Detected. Get it at [metamask.io](https://metamask.io/)");
         }
     }
 
@@ -562,6 +556,9 @@ async function OpenContracts() {
                 }
             }
             f.call = async function () {
+                if (!opencontracts.walletConnected) {
+                    await opencontracts.connectWallet(f.errorHandler);
+                }
                 const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
                 if (unspecifiedInputs.length > 0) {
                     throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
