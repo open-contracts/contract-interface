@@ -344,10 +344,9 @@ export const getDappContract = async (
 ) : Promise<OpenContractI>=>{
 
     const opencontract = await window.OpenContracts();
-    const dappInterface = dapp.dappInterface|| await getDappInterface(dapp);
     const openContractsInterface = dapp.openContractsInterface || await getOpenContractsInterface();
-
-    await opencontract.parseContracts(openContractsInterface, dappInterface);
+    const contractLocation = '@git/' + window.location.hash.slice(2);
+    await opencontract.parseContracts(openContractsInterface, contractLocation);
 
     onGet && onGet(opencontract);
 
