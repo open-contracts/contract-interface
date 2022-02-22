@@ -434,12 +434,12 @@ async function OpenContracts() {
             throw new ClientError("Couldn't find contract at " + contractLocation); 
         }
         this.getOPN = async function (amountString) {
-            this.connectWallet();
+            await this.connectWallet();
             const amount = ethers.utils.parseEther(amountString);
             await this.OPNtoken.connect(this.signer).mint(amount);
         }
         this.approveOPN = async function (amountString) {
-            this.connectWallet();
+            await this.connectWallet();
             const amount = ethers.utils.parseEther(amountString);
             await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
         }
@@ -502,7 +502,7 @@ async function OpenContracts() {
                 }
             }
             f.call = async function () {
-                opencontracts.connectWallet();
+                await opencontracts.connectWallet();
                 const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
                 if (unspecifiedInputs.length > 0) {
                     throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
