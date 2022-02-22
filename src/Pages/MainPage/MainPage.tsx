@@ -16,9 +16,7 @@ export const MainPage : FC<MainPageProps>  = () =>{
         wallet : "not ready",
     });
 
-    return checksCompleted ? <RunPage stepStatus={stepStatus}
-    setStepStatus={setStepStatus}/> 
-    : <CheckPage stepStatus={stepStatus}
-    setStepStatus={setStepStatus}/>
+    return <RunPage stepStatus={stepStatus}
+    setStepStatus={setStepStatus}/> ;
 
 }

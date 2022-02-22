@@ -154,7 +154,7 @@ declare global {
         parseContracts : (
             ocInterface : OpenContractsInterfaceI,
             contractInterface : OpenContractInterfaceI
-        )=> void
+        )=> Promise<void>
             
         contractName : string,
         contractDescription : string,
