@@ -375,6 +375,63 @@ async function getOraclePys(user, repo, ref) {
     return oraclePys;
 }
 
+/**
+ * Namespace for OpenContracts repo fetching.
+ */
+ class OpenContractsGit {
+
+    /**
+     * @private the char that should start a git lookup string.
+     */
+    static _startChar = "@";
+    /**
+     * @private the char that should start delimit a git lookup string.
+     */
+    static _delimiter = "/";
+
+   /**
+    * @private
+    * Extracts a prefix from the lookup.
+    * @param {string} lookup 
+    * @returns {string} the prefix 
+    */
+    static _extractPrefix(lookup){
+        if(lookup.length < 1 || lookup[0] !== OpenContractsGit._startChar)
+            throw new Error("The provided lookup is not properly formatted.");
+        return lookup.split(OpenContractsGit._delimiter)[0].slice(1).toLowerCase();
+    }
+
+    /**
+     * @private
+     * Gets a GitHub fetch url.
+     * @param {string} lookup 
+     * @returns {string} the fetch url for a GitHub repo.
+     */
+    static _getGitHubFetchUrl(lookup){
+        const split = lookup.split(OpenContractsGit._delimiter);
+        if(split.length < 4) throw new Error("The lookup is not properly formatted for github.");
+        return `https://raw.githubusercontent.com/${split[1]}/${split[2]}/${split[3]}/interface.json`
+    }
+
+    /**
+     * @private 
+     * The parsers for the supported prefixes.
+     */
+    static _parsers = {
+        "github" : OpenContractsGit._getGitHubFetchUrl
+    }
+
+    /**
+     * Parses the fetch url from a provided lookup.
+     * @param {string} lookup 
+     * @returns {string} the fetch url.
+     */
+    static getFetchUrl(lookup){
+        return OpenContractsGit._parsers[OpenContractsGit._extractPrefix(lookup)](lookup);
+    }
+
+}
+
 
 async function OpenContracts() {
     // TODO: get error handler
