@@ -503,7 +503,7 @@ async function OpenContracts() {
             await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
         }
                 
-        this.ocInterface = ocInterface:
+        this.ocInterface = ocInterface;
         const interface =  this.interface;
         this.contractName = interface.name;
         if ("descriptions" in interface) {this.contractDescription = interface.descriptions["contract"];}
