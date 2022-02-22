@@ -486,7 +486,7 @@ async function OpenContracts() {
             opencontracts.oracleHashes = JSON.parse(await (await fetch(new URL(url + "/oracleHashes.json")).catch(
                 (error)=>{console.warn("no oralceHashes.json found!"); opencontracts.oracleHashes = {}})).text());
         } else {
-            throw new ClientError("Contract location invalid or unsupported.")); 
+            throw new ClientError("Contract location invalid or unsupported."); 
         }
            
         if (!(this.network in oc_interface)) {
