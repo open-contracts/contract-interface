@@ -450,7 +450,7 @@ async function OpenContracts() {
     opencontracts.walletConnected = false;
     opencontracts.connectWallet = async function (errorHandler) {
         const ethereum = await detectEthereumProvider();
-        if (provider) {
+        if (ethereum) {
           this.provider = new ethers.providers.Web3Provider(ethereum, 'any');
           ethereum.on('chainChanged', (_chainId) => window.location.reload());
           const networks = {"1": "mainnet", "3": "ropsten", "10": "optimism", "42161": "arbitrum"};
