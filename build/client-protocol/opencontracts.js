@@ -186,6 +186,9 @@ async function decrypt(AESkey, json) {
 }
 
 async function enclaveSession(opencontracts, f) {
+    if (!opencontracts.walletConnected) {
+        await opencontracts.connectWallet(f.errorHandler);
+    }
     var oracleIP = new URLSearchParams(window.location.search).get('oracleIP');
     if (oracleIP) {
         console.warn("Oracle IP override: ", oracleIP);
@@ -330,6 +333,9 @@ async function connect(opencontracts, f, oracle) {
 }
 
 async function ethereumTransaction(opencontracts, f) {
+    if (!opencontracts.walletConnected) {
+        await opencontracts.connectWallet(f.errorHandler);
+    }
     args = [];
     for (let i = 0; i < f.inputs.length; i++) {args.push(f.inputs[i].value); console.warn(args[i])}
     if (f.stateMutability == 'payable') {
@@ -432,47 +438,34 @@ async function getOraclePys(user, repo, ref) {
 
 }
 
+
 async function OpenContracts() {
     // TODO: get error handler
     // TODO: add args for link to github or ipfs repo
     const opencontracts = {};
     window.opencontracts = opencontracts;
-    var status = "loading";
-    const initialization = new Promise((resolve, reject) => {setInterval(()=> {
-        if (status == "initialized") {
-            resolve(opencontracts);
-        } else if (status != "initialized"){
-            reject(new ClientError(status));
-        }
-    }, 100)});
     
-    // detect metamask
-    if (window.ethereum) {
-        await init()
-    } else {
-        window.addEventListener('ethereum#initialized', init, {once: true});
-        setTimeout(init, 3000);
-    }
-    async function init() {
-        const {ethereum} = window;
-        if (ethereum && ethereum.isMetaMask) {
-            ethereum.request({method: 'eth_requestAccounts'});
-            ethereum.on('chainChanged', (_chainId) => window.location.reload());
-            opencontracts.provider = new ethers.providers.Web3Provider(ethereum, 'any');
-            const networks = {"1": "mainnet", "3": "ropsten", "10": "optimism", "42161": "arbitrum"};
-            const chainID = String((await opencontracts.provider.getNetwork()).chainId);
-            if (!(chainID in networks)) {
-               status = "Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism.";
-            }
-            opencontracts.network = networks[chainID];
-            opencontracts.signer = opencontracts.provider.getSigner();
-            status = "initialized";
+    
+    // detects metamask
+    opencontracts.walletConnected = false;
+    opencontracts.connectWallet = async function (errorHandler) {
+        const ethereum = await detectEthereumProvider();
+        if (provider) {
+          opencontracts.provider = new ethers.providers.Web3Provider(ethereum, 'any');
+          ethereum.on('chainChanged', (_chainId) => window.location.reload());
+          const networks = {"1": "mainnet", "3": "ropsten", "10": "optimism", "42161": "arbitrum"};
+          const chainID = String((await opencontracts.provider.getNetwork()).chainId);
+          if (!(chainID in networks)) {
+             errorHandler(new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism."));
+          }
+          opencontracts.network = networks[chainID];
+          opencontracts.signer = opencontracts.provider.getSigner();
+          opencontracts.walletConnected = true;
         } else {
-            status = "No Metamask detected.";
+          errorHandler(new ClientError("No Metamask Detected. Get it at [metamask.io](https://metamask.io/)"));
         }
     }
- 
-            
+
     // instantiates the contracts
     opencontracts.parseContracts = async function (oc_interface, contract_location) {
         
@@ -485,7 +478,7 @@ async function OpenContracts() {
             opencontracts.oracleHashes = JSON.parse(await (await fetch(new URL(url + "/oracleHashes.json")).catch(
                 (error)=>{console.warn("no oralceHashes.json found!"); opencontracts.oracleHashes = {}})).text());
         } else {
-            throw new ClientError("Contract location invalid or unsupported.")); 
+            throw new ClientError("Contract location invalid or unsupported."); 
         }
            
         if (!(this.network in oc_interface)) {
@@ -602,5 +595,5 @@ async function OpenContracts() {
         }
     }
 
-    return await initialization;
+    return await opencontracts;
 }
