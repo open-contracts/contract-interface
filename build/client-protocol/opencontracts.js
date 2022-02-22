@@ -473,17 +473,22 @@ async function OpenContracts() {
         }
     }
  
-    const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
-    opencontracts.location = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
-    console.warn('loading contract at:', opencontracts.location);
-    opencontracts.interface = JSON.parse(await (await fetch(new URL(opencontracts.location + "/interface.json")).catch(
-        (error)=>{status = "Cannot load interface.json from " + contract.location})).text());
-    opencontracts.oracleHashes = JSON.parse(await (await fetch(new URL(opencontracts.location + "/oracleHashes.json")).catch(
-        (error)=>{opencontracts.oracleHashes = {}})).text());
             
     // instantiates the contracts
-    opencontracts.parseContracts = function (oc_interface, contract_interface) {
-        // TODO: remove obolete contract_interface arg
+    opencontracts.parseContracts = async function (oc_interface, contract_location) {
+        
+        opencontracts.location = contract_location.split("/");
+        if (opencontracts.location[0] == "@git") {
+            const [user, repo, branch] = opencontracts.location.slice(1);
+            const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
+            console.warn('loading contract at:', url);
+            opencontracts.interface = JSON.parse(await (await fetch(new URL(url + "/interface.json"))).text());
+            opencontracts.oracleHashes = JSON.parse(await (await fetch(new URL(url + "/oracleHashes.json")).catch(
+                (error)=>{console.warn("no oralceHashes.json found!"); opencontracts.oracleHashes = {}})).text());
+        } else {
+            throw new ClientError("Contract location invalid or unsupported.")); 
+        }
+           
         if (!(this.network in oc_interface)) {
             throw new ClientError("Currently, the only supported networks are: " + Object.keys(oc_interface));
         } else {
