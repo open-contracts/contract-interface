@@ -199,7 +199,7 @@ async function enclaveSession(opencontracts, f) {
         registryIP = await opencontracts.OPNverifier.registryDomains(0);
     }
     console.warn(`Trying to connect to registry with IP ${registryIP}.`);
-    var ws = new WebSocket("wss://enclaves.opencontracts.io:8081/127.0.0.1");
+    var ws = new WebSocket("wss://test.opencontracts.io:8081/127.0.0.1");
     var secondsPassed = 0;
     var timer = setInterval(() => {secondsPassed++; if (secondsPassed>30) {clearInterval(timer)}}, 1000);
     ws.onerror = function(event) {
@@ -240,7 +240,7 @@ async function enclaveSession(opencontracts, f) {
 async function connect(opencontracts, f, oracle) {
     const oracleIP = oracle.ip;
     console.warn("connecting to oracle with IP", oracleIP);
-    const domain = "enclaves.opencontracts.io";
+    const domain = "test.opencontracts.io";
     //   oracleIP.split('/')[0];
     //const oracleIP = oracleIP.substring(domain.length+1);
     const location = oracleIP;
