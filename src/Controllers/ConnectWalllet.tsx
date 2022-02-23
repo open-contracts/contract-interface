@@ -11,12 +11,14 @@ export type ConnectWallletProps = {}
 export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
 
     const {openContract} = useOpenContractContext();
+    console.log(openContract);
 
     const [warning, setWarning] = useState("");
     const action = async ()=>{
         if(!openContract) setWarning("We're sorry. We've failed to load your Open Contract");
         else {
             const [err, result] =  await to(openContract.connectWallet());
+            console.log(err, result);
             if(err) setWarning(err.message);
             setWarning("Your wallet should be connected.");
         }
@@ -25,10 +27,10 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
     const [signer, setSigner] = useState<string|undefined>(undefined);
     useEffect(()=>{
         if(openContract && openContract.walletConnected && !signer){
-            /*openContract.signer.getAddress()
+            openContract.signer.getAddress()
             .then((add)=>{
                 setSigner(add)
-            });*/
+            });
         }
     }, [openContract])
 
@@ -43,10 +45,11 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
             <p><span>Contract: </span><a href={openContract.explortURL(openContract.contract.address)}>{openContract.contract.address}</a></p>
         </div>
         : <PredicateButton
+            disabled={warning.length > 0}
             action={action}
             Warning={warning}
             primaryColor={Colors.Maintheme} secondaryColor={"white"}>
-            Connect Wallet&ensp;<Wallet color={Colors.Maintheme}/>
+            Connect Wallet&ensp;<Wallet/>
         </PredicateButton>
 
     )

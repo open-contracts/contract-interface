@@ -107,6 +107,7 @@ export const RunPage : FC<RunPageProps>  = ({
                 (contract : IOpenContract)=>{
                     setContractLoad(contract);
                     setWhich(contract.contractFunctions[0].name);
+                    console.log(contract);
                     dispatchContract((context)=>{
                         return {
                             ...context,

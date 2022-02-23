@@ -8,7 +8,7 @@ export type MainSegmentProps = {}
 export const MainSegment : FC<MainSegmentProps>  = () =>{
 
     return (<OpenContractContextProvider>
-        <MainSegment/>
+        <MainRouter/>
     </OpenContractContextProvider>)
 
 }

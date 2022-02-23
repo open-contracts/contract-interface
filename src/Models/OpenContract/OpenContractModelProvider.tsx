@@ -42,7 +42,6 @@ export const OpenContractContextProvider : FC<OpenContractContextProps>  = ({ope
         DefaultOpenContractContext
     );
 
-
     return (
 
         <OpenContractCtx.Provider value={{
