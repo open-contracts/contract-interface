@@ -10,6 +10,7 @@ import {DappFunctionSubmitState} from "./DappFunctionSubmitState";
 import {generate} from "shortid";
 import * as log from "./StateMethods";
 import { OpenContractFunctionReducer } from '../../Types';
+import { useOpenContractContext } from '../../Models/OpenContract/OpenContractModelProvider';
 
 
 export type DappFunctionLogProps = {
@@ -28,6 +29,8 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
     contractFunction,
     setFunctionState
 }) =>{
+
+    const {openContract} = useOpenContractContext();
 
     const [tick, forceUpdate] = useReducer(x=>x+1, 0);
 

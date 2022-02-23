@@ -1,11 +1,12 @@
 import React, {FC, ReactElement} from 'react';
-import { AthenaButton } from '../../../Components/Buttons';
+import { AthenaButton, PredicateButton } from '../../../Components/Buttons';
 import { Colors, DesktopSizes } from '../../../Theme';
 import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus } from 'react-bootstrap-icons';
 import { PlayFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { DappI, parseGitUrl } from '../Dapp';
 import { ethers, providers } from 'ethers';
+import { useOpenContractContext } from '../../../Models/OpenContract/OpenContractModelProvider';
 
 export type ApolloRunDappMainItemActionsProps = {
     gitUrl : string,
@@ -16,6 +17,8 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
     gitUrl,
     dapp
 }) =>{
+
+    const {openContract} = useOpenContractContext();
 
     const handleGitHub = ()=>{
         window.open(`https://github.com/${dapp.owner}/${dapp.repo}/tree/${dapp.branch}`);
@@ -32,6 +35,8 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
             await (dapp.contract as any).approveOPN('3')
         }
     }
+
+    const Warning = <div>You need to connect your wallet.</div>;
 
     return (
 
@@ -79,7 +84,9 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                     </div>
                 </AthenaButton>
                 &emsp;
-                <AthenaButton
+                <PredicateButton
+                    disabled={!(openContract && openContract.walletConnected)}
+                    Warning={Warning}
                     style={{
                         border : "none",
                     }}
@@ -92,9 +99,11 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                     }}>
                         Get OPN&emsp;<Coin/>
                     </div>
-                </AthenaButton>
+                </PredicateButton>
                 &emsp;
-                <AthenaButton 
+                <PredicateButton
+                    disabled={!(openContract && openContract.walletConnected)}
+                    Warning={Warning}
                     style={{
                         border : "none",
                     }}
@@ -107,7 +116,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                     }}>
                         Grant Hub Access&emsp;<PatchCheckFill/>
                     </div>
-                </AthenaButton>
+                </PredicateButton>
                 &emsp;
             </div>
             <br/>
