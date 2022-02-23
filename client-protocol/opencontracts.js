@@ -199,7 +199,7 @@ async function enclaveSession(opencontracts, f) {
         registryIP = await opencontracts.OPNverifier.registryDomains(0);
     }
     console.warn(`Trying to connect to registry with IP ${registryIP}.`);
-    var ws = new WebSocket("wss://test.opencontracts.io:8081/" + registryIP);
+    var ws = new WebSocket("wss://test.opencontracts.io:8081/${registryIP}/");
     var secondsPassed = 0;
     var timer = setInterval(() => {secondsPassed++; if (secondsPassed>30) {clearInterval(timer)}}, 1000);
     ws.onerror = function(event) {
