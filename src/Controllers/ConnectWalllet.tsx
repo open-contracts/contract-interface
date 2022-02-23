@@ -1,6 +1,5 @@
 import React, {FC, ReactElement, useState} from 'react';
 import {useOpenContractContext} from "../Models";
-import {ConnectionStatus} from "../Maps/ConnectionStatus";
 import { PredicateButton } from '../Components/Buttons/PredicateButton';
 import { Colors } from '../Theme';
 import {to} from "await-to-js";
@@ -25,11 +24,11 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
 
     const [signer, setSigner] = useState<string|undefined>(undefined);
     useEffect(()=>{
-        if(openContract && openContract.walletConnected){
-            openContract.signer.getAddress()
+        if(openContract && openContract.walletConnected && !signer){
+            /*openContract.signer.getAddress()
             .then((add)=>{
                 setSigner(add)
-            });
+            });*/
         }
     }, [openContract])
 

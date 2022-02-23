@@ -1,14 +1,8 @@
 import React, {FC, ReactElement} from 'react';
 import { LogoB } from '../../Glitter';
 import {HeaderLayoutDesktop} from "../../Layouts";
-import { ArchimedesNav } from '../../Components/Navs';
-import { AbleAccountToggle } from '../../Components/AccountToggles';
-import { PersonFill } from 'react-bootstrap-icons';
-import { Colors } from '../../Theme';
-import { useColorStore } from '../../Theme/ColorProvider';
-import { useNavigate } from 'react-router-dom';
-import {ConnectionStatus} from "../ConnectionStatus";
 import { ReadyT } from '../../Components/Ready/AristophanesReady/AristophanesReady';
+import { ConnectWalllet } from '../../Controllers/ConnectWalllet';
 
 export const HOME = "EXPLORE"
 export const HOME_PATH = "/"
@@ -54,7 +48,7 @@ export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
                     flexDirection : "row-reverse",
                     textAlign : "right"
                 }}>
-                    <ConnectionStatus/>
+                    <ConnectWalllet/>
                 </div>
             </HeaderLayoutDesktop.Nav>
         </HeaderLayoutDesktop>
