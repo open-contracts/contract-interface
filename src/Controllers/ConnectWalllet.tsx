@@ -49,6 +49,18 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
             openContract.signer.getAddress()
             .then((add)=>{
                 setSigner(add)
+            }).catch(()=>{
+                dispatch((context)=>{
+                    return {
+                        ...context,
+                        ...(context.openContract) && {
+                            openContract : {
+                                ...context.openContract,
+                                walletConnected : false
+                            }
+                        }
+                    }
+                })
             });
         }
     }, [openContract && openContract.walletConnected]);
