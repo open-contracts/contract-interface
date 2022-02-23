@@ -1,14 +1,9 @@
 import React, {FC, ReactElement} from 'react';
 import { LogoB } from '../../Glitter';
 import {HeaderLayoutMobile} from "../../Layouts";
-import { ArchimedesNav } from '../../Components/Navs';
-import { AbleAccountToggle } from '../../Components/AccountToggles';
-import { PersonFill } from 'react-bootstrap-icons';
-import { Colors, DesktopSizes } from '../../Theme';
-import { useColorStore } from '../../Theme/ColorProvider';
 import { useNavigate } from 'react-router-dom';
 import { ReadyT } from '../../Components/Ready';
-import { ConnectionStatus } from '../ConnectionStatus';
+import { ConnectWalllet } from '../../Controllers/ConnectWalllet';
 
 export const HOME = "EXPLORE"
 export const HOME_PATH = "/"
@@ -67,16 +62,7 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
                 </div>
             </HeaderLayoutMobile.Brand>
             <HeaderLayoutMobile.Nav>
-                <ConnectionStatus
-                stack
-                style={{
-                    fontSize : "12px",
-                    margin : "0 auto",
-                    width : "150px",
-                    justifyContent : "center",
-                    justifyItems : "center",
-                    padding : DesktopSizes.Padding.standard
-                }}/>
+                <ConnectWalllet/>
             </HeaderLayoutMobile.Nav>
         </HeaderLayoutMobile>
 

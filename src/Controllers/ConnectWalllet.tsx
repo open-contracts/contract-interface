@@ -1,6 +1,5 @@
 import React, {FC, ReactElement, useState} from 'react';
 import {useOpenContractContext} from "../Models";
-import {ConnectionStatus} from "../Maps/ConnectionStatus";
 import { PredicateButton } from '../Components/Buttons/PredicateButton';
 import { Colors } from '../Theme';
 import {to} from "await-to-js";
