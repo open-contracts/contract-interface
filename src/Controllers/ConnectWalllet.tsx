@@ -24,11 +24,11 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
 
     const [signer, setSigner] = useState<string|undefined>(undefined);
     useEffect(()=>{
-        if(openContract && openContract.walletConnected){
-            openContract.signer.getAddress()
+        if(openContract && openContract.walletConnected && !signer){
+            /*openContract.signer.getAddress()
             .then((add)=>{
                 setSigner(add)
-            });
+            });*/
         }
     }, [openContract])
 
