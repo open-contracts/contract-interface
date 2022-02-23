@@ -6,9 +6,9 @@ export interface DappDataI {
     readme : string,
     oracle : string,
     appTile : string,
-    contract : OpenContractI,
+    contract : IOpenContract,
     openContractsInterface : OpenContractsInterfaceI,
-    dappInterface : OpenContractInterfaceI
+    dappInterface : IOpenContractnterfaceI
 }
 
 export interface DappI extends Partial<DappDataI>{
@@ -297,8 +297,8 @@ export const getDappReadMe = async (dapp : DappI, onGet ? : (readme : string)=>v
 export const jsonInterfacePath = "interface.json";
 export const getDappInterface = async (
     dapp : DappI,
-    onGet ? : (dappInterface : OpenContractInterfaceI)=>void
-) : Promise<OpenContractInterfaceI>=>{
+    onGet ? : (dappInterface : IOpenContractnterfaceI)=>void
+) : Promise<IOpenContractnterfaceI>=>{
 
     const dappInterface = (dapp.owner && dapp.repo) ? JSON.parse(
         await getFileText({
@@ -340,8 +340,8 @@ export const getOpenContractsInterface = async (
 
 export const getDappContract = async (
     dapp : DappI,
-    onGet ? : (contract : OpenContractI)=>void
-) : Promise<OpenContractI>=>{
+    onGet ? : (contract : IOpenContract)=>void
+) : Promise<IOpenContract>=>{
 
     const opencontract = await window.OpenContracts();
     const openContractsInterface = dapp.openContractsInterface || await getOpenContractsInterface();

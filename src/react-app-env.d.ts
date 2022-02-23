@@ -25,7 +25,7 @@ declare global {
             [key : string] : string
         }>
 
-        OpenContracts() : Promise<OpenContractI>
+        OpenContracts() : Promise<IOpenContract>
     }
     
     interface OpenContractsInterfaceI {
@@ -74,7 +74,7 @@ declare global {
         outputs?:         PutI[];
     }
     
-    interface OpenContractInterfaceI {
+    interface IOpenContractnterfaceI {
         name:                 string;
         network:              string;
         address:              string;
@@ -149,8 +149,14 @@ declare global {
     }
 
 
-    interface OpenContractI {
-        
+    interface IOpenContract {
+        walletConnected : boolean,
+        connectWallet : ()=>Promise<void>,
+
+        explortURL : (address : string)=>string,
+
+        signer : ethers.Signer
+
         parseContracts : (
             ocInterface : OpenContractsInterfaceI,
             contractLocation : string

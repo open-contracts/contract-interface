@@ -10,6 +10,7 @@ import { MainLayoutMobile } from '../../Layouts';
 import {useParams} from "react-router-dom";
 import { useErrorContext } from '../../Error/ErrorProvider';
 import { DappI, getDappName,  getDappContract } from "../../Items";
+import { useOpenContractContext } from '../../Models';
 
 export type RunPageProps = {
     stepStatus : StepStatusT,
@@ -95,16 +96,23 @@ export const RunPage : FC<RunPageProps>  = ({
 
     })
 
-    const [contractLoad, setContractLoad] = useState<OpenContractI|undefined>(undefined);
+    const {dispatch : dispatchContract} = useOpenContractContext();
+    const [contractLoad, setContractLoad] = useState<IOpenContract|undefined>(undefined);
     useEffect(()=>{
 
         if(!dapp.contract && dapp.owner.length && dapp.repo.length){
             
             getDappContract(
                 dapp,
-                (contract : OpenContractI)=>{
+                (contract : IOpenContract)=>{
                     setContractLoad(contract);
                     setWhich(contract.contractFunctions[0].name);
+                    dispatchContract((context)=>{
+                        return {
+                            ...context,
+                            openContract : contract
+                        }
+                    })
                 }
             ).catch((err)=>{
                 dispatch((state)=>{
@@ -138,48 +146,48 @@ export const RunPage : FC<RunPageProps>  = ({
     setDapp={setDapp}/>);
 
     return (
-        <MediaResponsive>
-           <MediaResponsive.Desktop>
-                <MainLayoutDesktop>
-                    <MainLayoutDesktop.Header>
-                        <HeaderResponsive wallet={stepStatus.wallet}/>
-                    </MainLayoutDesktop.Header>
-                    <MainLayoutDesktop.Content>
-                        {page}
-                    </MainLayoutDesktop.Content>
-                </MainLayoutDesktop>
-            </MediaResponsive.Desktop>
-           <MediaResponsive.Laptop>
-                <MainLayoutDesktop>
-                    <MainLayoutDesktop.Header>
-                        <HeaderResponsive wallet={stepStatus.wallet}/>
-                    </MainLayoutDesktop.Header>
-                    <MainLayoutDesktop.Content>
-                       {page}
-                    </MainLayoutDesktop.Content>
-                </MainLayoutDesktop>
-           </MediaResponsive.Laptop>
-           <MediaResponsive.Tablet>
-                <MainLayoutMobile>
-                    <MainLayoutMobile.Header>
-                        <HeaderResponsive wallet={stepStatus.wallet}/>
-                    </MainLayoutMobile.Header>
-                    <MainLayoutMobile.Content>
-                       {page}
-                    </MainLayoutMobile.Content>
-                </MainLayoutMobile>
-           </MediaResponsive.Tablet>
-           <MediaResponsive.Mobile>
-                <MainLayoutMobile>
-                    <MainLayoutMobile.Header>
-                        <HeaderResponsive wallet={stepStatus.wallet}/>
-                    </MainLayoutMobile.Header>
-                    <MainLayoutMobile.Content>
-                        {page}
-                    </MainLayoutMobile.Content>
-                </MainLayoutMobile>
-           </MediaResponsive.Mobile>
-       </MediaResponsive>
+            <MediaResponsive>
+                <MediaResponsive.Desktop>
+                        <MainLayoutDesktop>
+                            <MainLayoutDesktop.Header>
+                                <HeaderResponsive wallet={stepStatus.wallet}/>
+                            </MainLayoutDesktop.Header>
+                            <MainLayoutDesktop.Content>
+                                {page}
+                            </MainLayoutDesktop.Content>
+                        </MainLayoutDesktop>
+                    </MediaResponsive.Desktop>
+                <MediaResponsive.Laptop>
+                        <MainLayoutDesktop>
+                            <MainLayoutDesktop.Header>
+                                <HeaderResponsive wallet={stepStatus.wallet}/>
+                            </MainLayoutDesktop.Header>
+                            <MainLayoutDesktop.Content>
+                            {page}
+                            </MainLayoutDesktop.Content>
+                        </MainLayoutDesktop>
+                </MediaResponsive.Laptop>
+                <MediaResponsive.Tablet>
+                        <MainLayoutMobile>
+                            <MainLayoutMobile.Header>
+                                <HeaderResponsive wallet={stepStatus.wallet}/>
+                            </MainLayoutMobile.Header>
+                            <MainLayoutMobile.Content>
+                            {page}
+                            </MainLayoutMobile.Content>
+                        </MainLayoutMobile>
+                </MediaResponsive.Tablet>
+                <MediaResponsive.Mobile>
+                        <MainLayoutMobile>
+                            <MainLayoutMobile.Header>
+                                <HeaderResponsive wallet={stepStatus.wallet}/>
+                            </MainLayoutMobile.Header>
+                            <MainLayoutMobile.Content>
+                                {page}
+                            </MainLayoutMobile.Content>
+                        </MainLayoutMobile>
+                </MediaResponsive.Mobile>
+            </MediaResponsive>
     )
 
 }

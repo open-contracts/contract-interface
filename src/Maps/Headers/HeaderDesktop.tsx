@@ -54,7 +54,7 @@ export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
                     flexDirection : "row-reverse",
                     textAlign : "right"
                 }}>
-                    <ConnectionStatus wallet={wallet}/>
+                    <ConnectionStatus/>
                 </div>
             </HeaderLayoutDesktop.Nav>
         </HeaderLayoutDesktop>
