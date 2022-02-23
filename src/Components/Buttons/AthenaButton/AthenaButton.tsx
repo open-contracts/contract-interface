@@ -1,6 +1,6 @@
 import Color from "color";
 import React, { FC, useEffect, useState } from 'react';
-import {Button, Spinner } from "react-bootstrap";
+import {Button, ButtonProps, Spinner } from "react-bootstrap";
 import { Colors, Shadows } from "../../../Theme";
 
 
@@ -12,7 +12,7 @@ import { Colors, Shadows } from "../../../Theme";
 /**
  * @description
  */
-export type AthenaButtonProps = {
+export type AthenaButtonProps = ButtonProps & {
     className ? : string,
     label?: string,
     primaryColor: React.CSSProperties["color"],
@@ -49,7 +49,7 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
     onClick=(e: React.MouseEvent)=>{},
     onMouseEnter=(e: React.MouseEvent)=>{},
     onMouseLeave=(e: React.MouseEvent)=>{},
-    style
+    style,
 }) =>{
 
     const [isDisabled, setDisabled] = useState(disabled);

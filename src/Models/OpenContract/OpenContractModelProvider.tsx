@@ -3,6 +3,7 @@ import { createContext } from 'react';
 import { useContext, useReducer } from 'react';
 
 export type OpenContractContext = {
+    notify : number,
     openContract ? : IOpenContract,
     dispatch : React.Dispatch<(state: OpenContractContext) => OpenContractContext>
 }
@@ -13,6 +14,7 @@ export type OpenContractContext = {
  */
 export const DefaultOpenContractContext : OpenContractContext = {
     openContract : undefined,
+    notify : 0,
     dispatch : ()=>{}
 }
 
@@ -27,7 +29,7 @@ export const OpenContractCtx = createContext(DefaultOpenContractContext);
 export const domainReducer = (state : OpenContractContext, set : (state : OpenContractContext)=>OpenContractContext)=>set(state);
 
 export type OpenContractContextProps = {
-    openContract ? : IOpenContract
+
 }
 
 /**
@@ -35,18 +37,23 @@ export type OpenContractContextProps = {
  * @param param0 
  * @returns 
  */
-export const OpenContractContextProvider : FC<OpenContractContextProps>  = ({openContract, children}) =>{
+export const OpenContractContextProvider : FC<OpenContractContextProps>  = ({children}) =>{
 
     const [state, dispatch] = useReducer(
         domainReducer,
         DefaultOpenContractContext
     );
 
+    const _dispatch = (set : (contract : OpenContractContext)=>OpenContractContext)=>{
+        console.log("Setting!");
+        set(state)
+        dispatch(set);
+    }
+
     return (
 
         <OpenContractCtx.Provider value={{
             ...state,
-            openContract : openContract,
             dispatch : dispatch
         }}>
             {children}

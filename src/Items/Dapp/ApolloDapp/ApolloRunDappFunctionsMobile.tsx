@@ -7,6 +7,7 @@ import {ApolloDappFunction} from "./ApolloRunDappFunction";
 import {LeftRightScrollAdorno} from "../../../Components/Scroll/LeftRightScroll";
 import { DesktopSizes } from '../../../Theme';
 import Masonry from "react-masonry-css";
+import {generate} from "shortid";
 
 export type ApolloDappFunctionsMobileProps = {
     dapp : DappI,
@@ -29,7 +30,9 @@ export const ApolloDappFunctionsMobile : FC<ApolloDappFunctionsMobileProps>  = (
 
 
         return (
-            <div style={{
+            <div 
+            key={generate()}
+            style={{
                 paddingTop : index === 0 ? DesktopSizes.Padding.standard : 0,
                 paddingLeft : DesktopSizes.Padding.standard,
                 paddingRight : DesktopSizes.Padding.standard,

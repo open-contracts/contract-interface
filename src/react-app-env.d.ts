@@ -153,7 +153,7 @@ declare global {
         walletConnected : boolean,
         connectWallet : ()=>Promise<void>,
 
-        explortURL : (address : string)=>string,
+        explorerUrl : (address : string)=>string,
 
         signer : ethers.Signer
 

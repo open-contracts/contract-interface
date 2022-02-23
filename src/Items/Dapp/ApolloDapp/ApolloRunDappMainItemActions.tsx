@@ -36,7 +36,10 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
         }
     }
 
-    const Warning = <div>You need to connect your wallet.</div>;
+    const Warning = <div>You need to <a 
+    style={{
+        color : "#99aacc"
+    }}>connect your wallet.</a></div>;
 
     return (
 

@@ -1,5 +1,6 @@
 import React, {FC, ReactElement, useState, useEffect, useReducer} from 'react';
-import { AthenaButton } from '../../Components/Buttons';
+import { AthenaButton, PredicateButton } from '../../Components/Buttons';
+import { useOpenContractContext } from '../../Models';
 import { Colors } from '../../Theme';
 import { lightenStandard, darkenStandard } from '../DappPut/Methods';
 import * as pure from "./StateMethods";
@@ -22,6 +23,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
     const map = contractFunction.oracleData||{};
     const resolved = pure.allPromisesResolved(map);
     const count = pure.countPromisesResolved(map);
+    const {openContract} = useOpenContractContext();
     
     const resetLog = ()=>{
         setCalled(false);
@@ -58,7 +60,12 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
                     Reset
             </AthenaButton>
             &emsp;
-            <AthenaButton
+            <PredicateButton 
+            Warning={<div>You need to <a 
+                style={{
+                    color : "#99aacc"
+                }}>connect your wallet</a>.</div>}
+            disabled={!(openContract && openContract.walletConnected)}
             invert
             style={{
                 fontSize : "18px"
@@ -67,7 +74,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
             primaryColor={Colors.Maintheme}
             secondaryColor={"white"}>
                 Call function
-            </AthenaButton>
+            </PredicateButton>
         </div>
 
     )

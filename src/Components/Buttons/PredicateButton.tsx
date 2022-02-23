@@ -27,19 +27,19 @@ export const PredicateButton : FC<PredicateButtonProps>  = (props) =>{
     const target = useRef(null);
 
     return (
-        <>
-            <div ref={target}>
-                <motion.div 
-                transition={{ duration : .5 }}
-                animate={warningPopup && {
-                    left : [0, 1, -1, 1, -1, 1, -1, 0]
-                }}>
-                    <AthenaButton 
-                    {...props} action={_action} onClick={_onClick} disabled={false}>
+        <div>
+            <motion.div
+            transition={{ duration : .4 }}
+            animate={warningPopup && {
+                x : [0, 4, -4, 4, -4, 4, -4, 0]
+            }}>
+                <AthenaButton 
+                {...props} action={_action} onClick={_onClick} disabled={false}>
+                    <div ref={target}>
                         {props.children}
-                    </AthenaButton>
-                </motion.div>
-            </div>
+                    </div>
+                </AthenaButton>
+            </motion.div>
             <Overlay target={target.current} show={warningPopup} placement="left">
                 {(innerProps)=>(
                     <Tooltip id={generate()} {...innerProps}>
@@ -47,7 +47,7 @@ export const PredicateButton : FC<PredicateButtonProps>  = (props) =>{
                     </Tooltip>
                 )}
             </Overlay>
-        </>
+        </div>
 
     )
 

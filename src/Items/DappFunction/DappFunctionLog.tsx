@@ -183,7 +183,7 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
 
     const addResult = (data : OpenContractFunctionI["result"])=>{
 
-        
+        console.log("Data: ", data);
 
         setFunctionState((contractFunction : OpenContractFunctionI)=>{
             return {
@@ -250,7 +250,7 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
                         })
                     }
                 })
-            }
+            };
             addOracleData(
                 data||{} as any,
                 resolve,
@@ -301,6 +301,7 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
             } 
             
             contractFunction.call().then((data)=>{
+                console.log(data);
                 addResult(data);
                 resolve(data);
             }).catch((err)=>{
@@ -374,6 +375,8 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
             log.removeWaitingPut(setFunctionState);
         }
     }, [contractFunction.waiting]);
+
+    console.log(contractFunction.inputs, contractFunction.result, contractFunction.puts, puts);
 
     return (
 

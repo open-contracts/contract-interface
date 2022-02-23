@@ -5,22 +5,41 @@ import { Colors } from '../Theme';
 import {to} from "await-to-js";
 import {Wallet} from "react-bootstrap-icons";
 import { useEffect } from 'react';
+import { ThroughGlassAgathocles } from '../Glitter/Animations/ThroughGlass/ThroughGlassAgathocles';
+import { GrowOnEventAchamaenid } from '../Glitter/Animations';
+import { FileText } from 'react-bootstrap-icons';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { useReducer } from 'react';
 
 export type ConnectWallletProps = {}
 
 export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
 
-    const {openContract} = useOpenContractContext();
-    console.log(openContract);
+    const {openContract, dispatch} = useOpenContractContext();
 
-    const [warning, setWarning] = useState("");
+    const [warning, setWarning] = useState<React.ReactNode|string>("");
     const action = async ()=>{
-        if(!openContract) setWarning("We're sorry. We've failed to load your Open Contract");
+        if(!openContract) setWarning(<ReactMarkdown plugins={[remarkGfm]}>
+            We're sorry. We've failed to load your Open Contract
+        </ReactMarkdown>);
         else {
             const [err, result] =  await to(openContract.connectWallet());
-            console.log(err, result);
-            if(err) setWarning(err.message);
-            setWarning("Your wallet should be connected.");
+            if(err){
+                console.log(err);
+                setWarning(<ReactMarkdown plugins={[remarkGfm]}>
+                    {err.message}
+                </ReactMarkdown>);
+            }
+            else {
+                setWarning(undefined);
+                dispatch((state)=>{
+                    return {
+                        ...state,
+                        notify : state.notify + 1
+                    }
+                })
+            }
         }
     }
 
@@ -32,25 +51,42 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                 setSigner(add)
             });
         }
-    }, [openContract])
+    }, [openContract && openContract.walletConnected]);
+
+    const [hover, setHover] = useState(false);
 
     return (
 
         openContract && openContract.walletConnected ?
-        <div style={{
-            display : ""
-        }}>
-            <Wallet color={Colors.Maintheme}/>
-            {signer && <p><span>Contract: </span><a href={signer}>{signer}</a></p>}
-            <p><span>Contract: </span><a href={openContract.explortURL(openContract.contract.address)}>{openContract.contract.address}</a></p>
-        </div>
-        : <PredicateButton
-            disabled={warning.length > 0}
-            action={action}
-            Warning={warning}
-            primaryColor={Colors.Maintheme} secondaryColor={"white"}>
-            Connect Wallet&ensp;<Wallet/>
-        </PredicateButton>
+        <ThroughGlassAgathocles>
+            <GrowOnEventAchamaenid grow={hover}>
+                <div 
+                onMouseOver={()=>setHover(true)}
+                onMouseOut={()=>setHover(false)}
+                style={{
+                    fontSize : "12px",
+
+                }}>
+                    Addresses&ensp;<FileText size={12} color={Colors.Maintheme}/>
+                    <br/>
+                    {signer && <><span>You: </span><a style={{
+                        color : "#99aacc"
+                    }} href={openContract.explorerUrl(signer)}>{signer}</a></>}
+                    <br/>
+                    <><span>Contract: </span><a style={{
+                        color : "#99aacc"
+                    }} href={openContract.explorerUrl(openContract.contract.address)}>{openContract.contract.address}</a></>
+                </div>
+            </GrowOnEventAchamaenid>
+        </ThroughGlassAgathocles>
+        : <div><PredicateButton
+        id="#connect-wallet"
+        disabled={warning === undefined}
+        action={action}
+        Warning={warning}
+        primaryColor={Colors.Maintheme} secondaryColor={"white"}>
+        Connect Wallet&ensp;<Wallet/>
+    </PredicateButton></div>
 
     )
 
