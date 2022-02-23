@@ -193,14 +193,14 @@ async function enclaveSession(opencontracts, f) {
         await connect(opencontracts, f, {ip: oracleIP});
         return;
     }
-    var registryIP = new URLSearchParams(window.location.search).get('registryIP');
-    if (registryIP) {
-        console.warn("Registry IP override: ", registryIP);
+    var registryDomain = new URLSearchParams(window.location.search).get('registryDomain');
+    if (registryDomain) {
+        console.warn("Registry IP override: ", registryDomain);
     } else {
-        registryIP = await opencontracts.OPNverifier.registryDomains(0);
+        registryDomain = await opencontracts.OPNverifier.registryDomains(0);
     }
-    console.warn(`Trying to connect to registry with IP ${registryIP}.`);
-    var ws = new WebSocket("wss://enclaves.opencontracts.io:8081/${registryIP}/");
+    console.warn(`Trying to connect to registry with IP ${registryDomain}.`);
+    var ws = new WebSocket(`wss://${registryDomain}:8081/127.0.0.1`);
     var secondsPassed = 0;
     var timer = setInterval(() => {secondsPassed++; if (secondsPassed>30) {clearInterval(timer)}}, 1000);
     ws.onerror = function(event) {
