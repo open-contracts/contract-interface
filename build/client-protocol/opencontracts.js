@@ -186,20 +186,21 @@ async function decrypt(AESkey, json) {
 }
 
 async function enclaveSession(opencontracts, f) {
+    // TODO: check registry returns for validity
     var oracleIP = new URLSearchParams(window.location.search).get('oracleIP');
     if (oracleIP) {
         console.warn("Oracle IP override: ", oracleIP);
         await connect(opencontracts, f, {ip: oracleIP});
         return;
     }
-    var registryIP = new URLSearchParams(window.location.search).get('registryIP');
-    if (registryIP) {
-        console.warn("Registry IP override: ", registryIP);
+    var registryDomain = new URLSearchParams(window.location.search).get('registryDomain');
+    if (registryDomain) {
+        console.warn("Registry IP override: ", registryDomain);
     } else {
-        registryIP = await opencontracts.OPNverifier.registryDomains(0);
+        registryDomain = await opencontracts.OPNverifier.registryDomains(0);
     }
-    console.warn(`Trying to connect to registry with IP ${registryIP}.`);
-    var ws = new WebSocket("wss://test.opencontracts.io:8081/" + registryIP);
+    console.warn(`Trying to connect to registry with IP ${registryDomain}.`);
+    var ws = new WebSocket(`wss://${registryDomain}:8081/127.0.0.1`);
     var secondsPassed = 0;
     var timer = setInterval(() => {secondsPassed++; if (secondsPassed>30) {clearInterval(timer)}}, 1000);
     ws.onerror = function(event) {
@@ -240,12 +241,12 @@ async function enclaveSession(opencontracts, f) {
 async function connect(opencontracts, f, oracle) {
     const oracleIP = oracle.ip;
     console.warn("connecting to oracle with IP", oracleIP);
-    const domain = "test.opencontracts.io";
+    const domain = "enclaves.opencontracts.io";
     //   oracleIP.split('/')[0];
     //const oracleIP = oracleIP.substring(domain.length+1);
     const location = oracleIP;
-    console.warn("wss://" + domain + ":8080/" + oracleIP);
-    var ws = new WebSocket("wss://" + domain + ":8081/" + location);
+    console.warn(`wss://${domain}:8081/${location}/`);
+    var ws = new WebSocket(`wss://${domain}:8081/${location}/`);
     var ETHkey = null;
     var AESkey = null;
     var encryptedAESkey = null;
