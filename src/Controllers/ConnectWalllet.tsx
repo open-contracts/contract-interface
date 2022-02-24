@@ -18,7 +18,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
 
     const {openContract, dispatch} = useOpenContractContext();
 
-    const [warning, setWarning] = useState<React.ReactNode|string>("");
+    const [warning, setWarning] = useState<React.ReactNode|string|undefined>(undefined);
     const action = async ()=>{
         if(!openContract) setWarning(<ReactMarkdown plugins={[remarkGfm]}>
             We're sorry. We've failed to load your Open Contract
@@ -26,12 +26,13 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
         else {
             const [err, result] =  await to(openContract.connectWallet());
             if(err){
-                console.log(err);
-                setWarning(<ReactMarkdown plugins={[remarkGfm]}>
-                    {err.message}
-                </ReactMarkdown>);
-            }
-            else {
+                console.log("Error:", err);
+                setWarning(<><ReactMarkdown plugins={[remarkGfm]}>
+                    {`${err.message}`}
+                </ReactMarkdown><ReactMarkdown plugins={[remarkGfm]}>
+                    {`You may need to complete your wallet sign in.`}
+                </ReactMarkdown></>);
+            } else {
                 setWarning(undefined);
                 dispatch((state)=>{
                     return {
@@ -48,8 +49,10 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
         if(openContract && openContract.walletConnected && !signer){
             openContract.signer.getAddress()
             .then((add)=>{
-                setSigner(add)
+                setWarning(undefined);
+                setSigner(add);
             }).catch(()=>{
+                setWarning("Please complete your MetaMask login.");
                 dispatch((context)=>{
                     return {
                         ...context,
@@ -60,12 +63,14 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                             }
                         }
                     }
-                })
+                });
             });
         }
     }, [openContract && openContract.walletConnected]);
 
     const [hover, setHover] = useState(false);
+
+    console.log(warning);
 
     return (
 
@@ -93,7 +98,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
         </ThroughGlassAgathocles>
         : <div><PredicateButton
         id="#connect-wallet"
-        disabled={warning === undefined}
+        disabled={warning !== undefined}
         action={action}
         Warning={warning}
         primaryColor={Colors.Maintheme} secondaryColor={"white"}>
