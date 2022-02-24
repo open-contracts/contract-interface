@@ -8,3 +8,13 @@
 # debug_keyboard = true
 
 blocked-hosts = xpra.org,www.xpra.org
+port = 14500
+ssl = true
+encryption = AES-CBC
+floating_menu = no
+keyboard = no
+clipboard = no
+keyboard = no
+printing = no
+sound = no
+file_transfer = no
