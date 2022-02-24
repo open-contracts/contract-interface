@@ -58,8 +58,10 @@ export const RunPage : FC<RunPageProps>  = ({
         }
     }, [window.location.hash]); // I don't believe this dep array actually does anything.
 
+    const {_which} = useParams();
+
     const [grid, setGrid] = useState(true);
-    const [which, setWhich] = useState<string>("");
+    const [which, setWhich] = useState<string>(_which||"");
 
     // Logic for loading the contract
     const {
