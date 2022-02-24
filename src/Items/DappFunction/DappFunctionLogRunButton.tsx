@@ -5,9 +5,7 @@ import { TextInputApollo } from '../../Components/TextInput';
 import * as pure from "./StateMethods";
 import { DefaultHeader } from '../DappPut/Standards';
 import { useSearchParams } from 'react-router-dom';
-import jwt from "jwt-simple";
-import lz from "lzutf8";
-import { StringifyOptions } from 'node:querystring';
+import {generate} from "shortid";
 
 export type DappFunctionLogRunButtonProps = {
     contractFunction : OpenContractFunctionI,
@@ -48,13 +46,21 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     ]
                 }
 
-                /*setSearchParams({
+                /*window.history.pushState(
+                    "no data",
+                    generate(),
+                    window.location.origin + window.location.hash + "?query="
+                )*/
+
+                setSearchParams({
                     ...searchParams,
                     [contractFunction.name] : encodeURI(JSON.stringify({
                             ..._searchInput,
                             [input.name] : text
                         }))
-                });*/
+                }, {
+                    replace : true
+                });
 
                 return newC;
             });

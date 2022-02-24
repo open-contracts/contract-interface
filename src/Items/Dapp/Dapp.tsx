@@ -345,8 +345,7 @@ export const getDappContract = async (
 
     const opencontract = await window.OpenContracts();
     const openContractsInterface = dapp.openContractsInterface || await getOpenContractsInterface();
-    const contractLocation = '@git/' + window.location.hash.split("?")[0].slice(2);
-    console.log(window.location.hash);
+    const contractLocation = `@git/${dapp.owner}/${dapp.repo}/${dapp.contract||"main"}`;
     await opencontract.parseContracts(openContractsInterface, contractLocation);
 
     onGet && onGet(opencontract);
