@@ -18,7 +18,8 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
 
     const {openContract, dispatch} = useOpenContractContext();
 
-    const [warning, setWarning] = useState<React.ReactNode|string|undefined>(undefined);
+    const [warning, setWarning] = useState<React.ReactNode|string>("");
+    const [fail, setFail] = useState(false);
     const action = async ()=>{
         if(!openContract) setWarning(<ReactMarkdown plugins={[remarkGfm]}>
             We're sorry. We've failed to load your Open Contract
@@ -32,14 +33,16 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                 </ReactMarkdown><ReactMarkdown plugins={[remarkGfm]}>
                     {`You may need to complete your wallet sign in.`}
                 </ReactMarkdown></>);
+                setFail(true);
             } else {
-                setWarning(undefined);
+                setWarning("");
                 dispatch((state)=>{
                     return {
                         ...state,
                         notify : state.notify + 1
                     }
-                })
+                });
+                setFail(false);
             }
         }
     }
@@ -51,6 +54,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
             .then((add)=>{
                 setWarning(undefined);
                 setSigner(add);
+                setFail(false);
             }).catch(()=>{
                 setWarning("Please complete your MetaMask login.");
                 dispatch((context)=>{
@@ -64,6 +68,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                         }
                     }
                 });
+                setFail(true);
             });
         }
     }, [openContract && openContract.walletConnected]);
@@ -98,11 +103,18 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
         </ThroughGlassAgathocles>
         : <div><PredicateButton
         id="#connect-wallet"
-        disabled={warning !== undefined}
+        allow={true}
+        disabled={fail}
         action={action}
         Warning={warning}
         primaryColor={Colors.Maintheme} secondaryColor={"white"}>
-        Connect Wallet&ensp;<Wallet/>
+            <div style={{
+                display : "flex",
+                alignContent : "center",
+                alignItems : "center"
+            }}>
+                 Connect Wallet&ensp;<Wallet/>
+            </div>
     </PredicateButton></div>
 
     )

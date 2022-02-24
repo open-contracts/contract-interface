@@ -5,7 +5,8 @@ import {generate} from "shortid";
 import {motion} from "framer-motion";
 
 export type PredicateButtonProps = AthenaButtonProps & {
-    Warning : React.ReactNode
+    Warning : React.ReactNode,
+    allow ? : boolean
 };
 
 export const PredicateButton : FC<PredicateButtonProps>  = (props) =>{
@@ -14,13 +15,21 @@ export const PredicateButton : FC<PredicateButtonProps>  = (props) =>{
 
     const _action = async ()=>{
         setWarningPopup(false);
-        if(props.disabled) return setWarningPopup(true);
+        if(props.disabled) {
+            setWarningPopup(true);
+            if(props.allow)  props.action && await props.action();
+            return;
+        }
         props.action && await props.action();
     }
 
     const _onClick = (e  : React.MouseEvent)=>{
         setWarningPopup(false);
-        if(props.disabled) return setWarningPopup(true); 
+        if(props.disabled) {
+             setWarningPopup(true); 
+             if(props.allow) props.onClick && props.onClick(e);
+             return
+        }
         props.onClick && props.onClick(e);
     }
 
