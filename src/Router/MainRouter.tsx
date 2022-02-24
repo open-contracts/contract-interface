@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { IntegratedErrorBoundary } from '../Error/IntegratedErrorBoundary';
 import { RunPage } from '../Pages';
 import { ErrorPage } from '../Pages/ErrorPage';
@@ -12,10 +12,11 @@ export const MainRouter : FC<MainRouterProps>  = () =>{
 
     return (
 
-        <BrowserRouter>
+        <HashRouter>
             <CheckProvider>
                 <IntegratedErrorBoundary>
                     <Routes>
+                        <Route path="/:owner/:repo/:branch/:funcName/s" element={<MainPage/>}/>
                         <Route path="/:owner/:repo/:branch/:funcName" element={<MainPage/>}/>
                         <Route path="/:owner/:repo/:branch" element={<MainPage/>}/>
                         <Route path="/:owner/:repo" element={<MainPage/>}/>
@@ -24,7 +25,7 @@ export const MainRouter : FC<MainRouterProps>  = () =>{
                     </Routes>
                 </IntegratedErrorBoundary>
             </CheckProvider>
-        </BrowserRouter>
+        </HashRouter>
 
     )
 

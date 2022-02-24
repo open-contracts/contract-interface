@@ -67,7 +67,7 @@ export const RunPage : FC<RunPageProps>  = ({
     useEffect(()=>{
         console.log(which, funcName)
         which.length && 
-        nav(`/${owner}/${repo}/${branch||"main"}/${which}`)
+        nav(`/${owner}/${repo}/${branch||"main"}/${which}#/${window.location.search}`)
     }, [which])
 
     // Logic for loading the contract

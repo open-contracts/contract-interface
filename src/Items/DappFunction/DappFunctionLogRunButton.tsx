@@ -52,15 +52,13 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     window.location.origin + window.location.hash + "?query="
                 )*/
 
-                setSearchParams({
+                /*setSearchParams({
                     ...searchParams,
                     [contractFunction.name] : encodeURI(JSON.stringify({
                             ..._searchInput,
                             [input.name] : text
                         }))
-                }, {
-                    replace : true
-                });
+                });*/
 
                 return newC;
             });
