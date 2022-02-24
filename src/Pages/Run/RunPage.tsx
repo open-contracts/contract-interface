@@ -7,10 +7,11 @@ import { MainLayoutDesktop } from '../../Layouts';
 import { HeaderDesktop, HeaderResponsive } from '../../Maps/Headers';
 import { MediaResponsive } from '../../Sytems';
 import { MainLayoutMobile } from '../../Layouts';
-import {useParams} from "react-router-dom";
+import {useNavigationType, useParams} from "react-router-dom";
 import { useErrorContext } from '../../Error/ErrorProvider';
 import { DappI, getDappName,  getDappContract } from "../../Items";
 import { useOpenContractContext } from '../../Models';
+import { useNavigate } from 'react-router';
 
 export type RunPageProps = {
     stepStatus : StepStatusT,
@@ -59,18 +60,19 @@ export const RunPage : FC<RunPageProps>  = ({
     }, [window.location.hash]); // I don't believe this dep array actually does anything.
 
     const {funcName} = useParams();
+    const nav = useNavigate();
 
     const [grid, setGrid] = useState(true);
     const [which, setWhich] = useState<string>(funcName||"");
     useEffect(()=>{
-        setWhich(funcName as string);
+        which.length && 
+        nav(`/${owner}/${repo}/${branch||"main"}/${funcName}`)
     }, [funcName])
 
     // Logic for loading the contract
     const {
         dispatch
     } = useErrorContext();
-
 
     const [nameLoad, setNameLoad] = useState<string|undefined>(undefined);
     useEffect(()=>{

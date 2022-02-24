@@ -16,6 +16,7 @@ export const MainRouter : FC<MainRouterProps>  = () =>{
             <CheckProvider>
                 <IntegratedErrorBoundary>
                     <Routes>
+                        <Route path="/:owner/:repo/:branch/:funcName" element={<MainPage/>}/>
                         <Route path="/:owner/:repo/:branch" element={<MainPage/>}/>
                         <Route path="/:owner/:repo" element={<MainPage/>}/>
                         <Route path="/error" element={<ErrorPage/>}/>
