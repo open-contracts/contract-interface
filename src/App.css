@@ -7,6 +7,22 @@ p {
   user-select: text;
 }
 
+.hover-invert-sm:hover {
+  backdrop-filter: invert(5%);
+}
+
+.hover-salmon:hover {
+  color : salmon;
+}
+
+a {
+  color : #99aacc;
+}
+
+a:hover {
+  color : #99aadd;
+}
+
 html {
   background: #F9F9FB;
 }
@@ -49,16 +65,4 @@ html {
   to {
     transform: rotate(360deg);
   }
-}
-
-.hover-invert-sm:hover {
-  backdrop-filter: invert(5%);
-}
-
-a {
-  color : #99aacc;
-}
-
-a:hover {
-  color : #99aadd;
 }
