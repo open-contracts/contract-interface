@@ -20,7 +20,7 @@ export type RunPageProps = {
 export const RunPage : FC<RunPageProps>  = ({
     stepStatus
 }) =>{
-
+    // step status should go away 
     const {
         owner,
         repo,
