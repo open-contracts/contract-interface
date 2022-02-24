@@ -18,17 +18,14 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
 }) =>{
 
     const searchParams = new URLSearchParams(window.location.search);
-    console.log(window.location.search, searchParams);
-    const searchInput = searchParams.get(contractFunction.name);
-    const _searchInput : {[key : string] : string} | undefined= searchInput 
-    && JSON.parse(decodeURI(searchInput));
 
     const inputs = pure.createInputs(
         contractFunction,
         reduceContractFunction
     ).map((input, index)=>{
 
-       const val = _searchInput && _searchInput[input.name];
+       const _input = searchParams.get(`${contractFunction.name}.${input.name}`);
+       const val = _input && decodeURI(_input);
 
         const onTextInput = (text : string)=>{
       
@@ -47,11 +44,8 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     ]
                 };
                 searchParams.set(
-                    contractFunction.name,
-                    encodeURI(JSON.stringify({
-                        ..._searchInput,
-                        [input.name] : text
-                    }))
+                    `${contractFunction.name}.${input.name}`,
+                    text
                 );
 
                 console.log(searchParams);

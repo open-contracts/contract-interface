@@ -50,3 +50,15 @@ html {
     transform: rotate(360deg);
   }
 }
+
+.hover-invert-sm:hover {
+  backdrop-filter: invert(5%);
+}
+
+a {
+  color : #99aacc;
+}
+
+a:hover {
+  color : #99aadd;
+}

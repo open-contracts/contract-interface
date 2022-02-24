@@ -10,6 +10,8 @@ import {
 } from "../DappPutType";
 import { useNavigate } from 'react-router-dom';
 import {Card} from "react-bootstrap";
+import Color from "color";
+import {X} from "react-bootstrap-icons";
 
 export type DappInteractputContentProps = {
     dappInteractput : DappInteractputI
@@ -33,13 +35,10 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                     border : `1px solid ${Colors.lilac}`
                 }}
                 onClick={()=>{
-                    const newWindow = window.open(dappInteractput.sessionUrl);
+                    setModal(true);
                     dappInteractput.xpraExit.then(()=>{
-                        newWindow?.close();
+                        setModal(false);
                     })
-                    if(!newWindow || newWindow.closed || newWindow.closed === undefined){
-                        setFailedWindow(false);
-                    }
                 }}
                 primaryColor={darkenStandard(Colors.lilac)}
                 secondaryColor={"white"}>
@@ -54,14 +53,23 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
             href={dappInteractput.sessionUrl}>{dappInteractput.sessionUrl}</a>
                 Please enable popups and try again or click the link above.
             </p>}
-            {modal && <Card style={{
+            {modal && <Card 
+            style={{
+                position : "absolute",
+                zIndex : 1000,
                 width : "95vw",
                 height : "95vh",
                 left : "2.5vw",
                 top : "2.5vh",
                 padding : "10px",
-                border : `1px solid ${Colors.lilac}` 
+                border : `1px solid ${Colors.lilac}` ,
+                background : Color(Colors.lilac).lighten(.5).hex(),
             }}>
+                <div 
+                className="hover-invert-sm"
+                style={{
+                    marginLeft : "auto",
+                }}></div>
                 <iframe src={dappInteractput.sessionUrl} style={{
                     height : "100%",
                     width : "100%",

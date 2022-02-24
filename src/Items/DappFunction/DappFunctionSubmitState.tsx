@@ -61,10 +61,7 @@ export const DappFunctionSubmitState : FC<DappFunctionSubmitStateProps>  = ({
             </AthenaButton>
             &emsp;
             <PredicateButton 
-            Warning={<div>You need to <a 
-                style={{
-                    color : "#99aacc"
-                }}>connect your wallet</a>.</div>}
+            Warning={<div>You need to <a>connect your wallet</a>.</div>}
             disabled={!(openContract && openContract.walletConnected)}
             invert
             style={{

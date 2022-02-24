@@ -73,7 +73,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                     }
                 });
                 setFail(true);
-                setForce(true)
+                setForce(true);
             });
         }
     }, [openContract && openContract.walletConnected]);
@@ -96,13 +96,9 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                 }}>
                     Addresses&ensp;<FileText size={12} color={Colors.Maintheme}/>
                     <br/>
-                    {signer && <><span>You: </span><a style={{
-                        color : "#99aacc"
-                    }} href={openContract.explorerUrl(signer)}>{signer}</a></>}
+                    {signer && <><span>You: </span><a href={openContract.explorerUrl(signer)}>{signer}</a></>}
                     <br/>
-                    <><span>Contract: </span><a style={{
-                        color : "#99aacc"
-                    }} href={openContract.explorerUrl(openContract.contract.address)}>{openContract.contract.address}</a></>
+                    <><span>Contract: </span><a href={openContract.explorerUrl(openContract.contract.address)}>{openContract.contract.address}</a></>
                 </div>
             </GrowOnEventAchamaenid>
         </ThroughGlassAgathocles>

@@ -46,17 +46,11 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                 onClick={(e)=>{
                     e.preventDefault();
                     getTokens();
-                }}
-                style={{
-                    color : "#99aacc"
                 }}>get some OPN</a>&nbsp;and&nbsp;<a
                 href="#" 
                 onClick={(e)=>{
                     e.preventDefault();
                     approveHub();
-                }}
-                style={{
-                    color : "#99aacc"
                 }}>grant access to the Open Contracts hub</a>.
             </p>
             <br/>

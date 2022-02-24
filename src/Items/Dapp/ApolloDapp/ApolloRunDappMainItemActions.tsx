@@ -36,10 +36,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
         }
     }
 
-    const Warning = <div>You need to <a 
-    style={{
-        color : "#99aacc"
-    }}>connect your wallet.</a></div>;
+    const Warning = <div>You need to <a>connect your wallet.</a></div>;
 
     return (
 
@@ -53,17 +50,11 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                 onClick={(e)=>{
                     e.preventDefault();
                     getTokens()
-                }}
-                style={{
-                    color : "#99aacc"
                 }}>get some OPN</a>&nbsp;and&nbsp;<a 
                 href="#" 
                 onClick={(e)=>{
                     e.preventDefault();
                     approveHub();
-                }}
-                style={{
-                    color : "#99aacc"
                 }}>grant access to the Open Contracts hub</a>.
             </p>
             <br/>
