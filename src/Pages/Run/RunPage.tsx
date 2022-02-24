@@ -65,9 +65,10 @@ export const RunPage : FC<RunPageProps>  = ({
     const [grid, setGrid] = useState(true);
     const [which, setWhich] = useState<string>(funcName||"");
     useEffect(()=>{
-        console.log(which, funcName)
-        which.length && 
-        nav(`/${owner}/${repo}/${branch||"main"}/${which}#/${window.location.search}`)
+        which.length && window.history.pushState({
+            path : `/${window.location.search}#/${owner}/${repo}/${branch||"main"}/${which}`
+        }, '', `/${window.location.search}#/${owner}/${repo}/${branch||"main"}/${which}`);
+
     }, [which])
 
     // Logic for loading the contract

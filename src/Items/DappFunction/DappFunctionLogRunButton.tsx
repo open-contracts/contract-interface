@@ -17,12 +17,11 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
     reduceContractFunction
 }) =>{
 
-    const [searchParams, setSearchParams]= useSearchParams();
+    const searchParams = new URLSearchParams(window.location.search);
+    console.log(window.location.search, searchParams);
     const searchInput = searchParams.get(contractFunction.name);
     const _searchInput : {[key : string] : string} | undefined= searchInput 
     && JSON.parse(decodeURI(searchInput));
-
-    const nav = useNavigate();
 
     const inputs = pure.createInputs(
         contractFunction,
@@ -46,23 +45,22 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         newInput,
                         ...contractFunction.inputs.slice(index + 1)
                     ]
-                }
+                };
+                searchParams.set(
+                    contractFunction.name,
+                    encodeURI(JSON.stringify({
+                        ..._searchInput,
+                        [input.name] : text
+                    }))
+                );
 
-                /*window.history.pushState(
-                    "no data",
-                    generate(),
-                    window.location.origin + window.location.hash + "?query="
-                )*/
+                console.log(searchParams);
 
-                const params = new URLSearchParams({
-                    ...searchParams,
-                    [contractFunction.name] : encodeURI(JSON.stringify({
-                            ..._searchInput,
-                            [input.name] : text
-                        }))
-                });
+                // nav(`/${params.toString()}#/${window.location.hash}`)
 
-                //nav(window.origin + `/${params.toString()}#/${}`)
+                window.history.pushState({
+                    path : `/?${searchParams.toString()}${window.location.hash}`
+                }, '', `/?${searchParams.toString()}${window.location.hash}`)
 
                 return newC;
             });
