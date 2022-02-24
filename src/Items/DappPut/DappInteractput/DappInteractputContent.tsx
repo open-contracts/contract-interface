@@ -9,6 +9,7 @@ import {
     DappInteractputI
 } from "../DappPutType";
 import { useNavigate } from 'react-router-dom';
+import {Card} from "react-bootstrap";
 
 export type DappInteractputContentProps = {
     dappInteractput : DappInteractputI
@@ -19,6 +20,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
 }) =>{
     
     const [failedWindow, setFailedWindow] = useState<boolean>(false);
+    const [modal, setModal] = useState(false);
 
     return (
 
@@ -44,9 +46,28 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                     Open interactive session
                 </AthenaButton>
             {failedWindow && 
-            <p>Failed to open a new window at <a href={dappInteractput.sessionUrl}>{dappInteractput.sessionUrl}</a>
+            <p>Failed to open a new window at <a 
+            onClick={(e)=>{
+                e.preventDefault();
+                setModal(true);
+            }}
+            href={dappInteractput.sessionUrl}>{dappInteractput.sessionUrl}</a>
                 Please enable popups and try again or click the link above.
             </p>}
+            {modal && <Card style={{
+                width : "95vw",
+                height : "95vh",
+                left : "2.5vw",
+                top : "2.5vh",
+                padding : "10px",
+                border : `1px solid ${Colors.lilac}` 
+            }}>
+                <iframe src={dappInteractput.sessionUrl} style={{
+                    height : "100%",
+                    width : "100%",
+                    border : "none"
+                }}/>
+            </Card>}
         </div>
 
     )

@@ -73,7 +73,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                     }
                 });
                 setFail(true);
-                setForce(false)
+                setForce(true)
             });
         }
     }, [openContract && openContract.walletConnected]);
