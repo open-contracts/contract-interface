@@ -23,14 +23,13 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
     const [disabled, setDisabled] = useState(false);
 
    // const [text, setText] = useState(dappOracleInput.response);
-   const text = dappOracleInput.contractFunction.oracleInputs ? 
-   dappOracleInput.contractFunction.oracleInputs[dappOracleInput.id].response||"" :
-   "";
+   const text = dappOracleInput.contractFunction.oracleInputs &&
+   dappOracleInput.contractFunction.oracleInputs[dappOracleInput.id].response;
 
    const searchParams = new URLSearchParams(window.location.search);
    
    const _input = searchParams.get(`o.${dappOracleInput.contractFunction.name}.${dappOracleInput.name}`);
-   const val = _input && decodeURI(_input);
+   const val = _input ? decodeURI(_input) : undefined;
 
     const onTextOracleInput = (text : string)=>{
         
@@ -55,7 +54,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
     }
 
     const onButtonSumbit = ()=>{
-        dappOracleInput.resolve(text);
+        dappOracleInput.resolve(text||val||"");
         setDisabled(true);
     }
 
@@ -81,7 +80,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
                 <tbody>
                     <tr onKeyDown={handleKeyDown}>
                         <td> <TextInputApollo 
-                            value={text}
+                            value={text||val}
                             placeholder={"Enter value"}
                             onTextInput={onTextOracleInput}
                             onSubmit={onTextSubmit}
