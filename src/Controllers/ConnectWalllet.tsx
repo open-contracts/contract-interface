@@ -20,6 +20,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
 
     const [warning, setWarning] = useState<React.ReactNode|string>("");
     const [fail, setFail] = useState(false);
+    const [force, setForce] = useState(false);
     const action = async ()=>{
         if(!openContract) setWarning(<ReactMarkdown plugins={[remarkGfm]}>
             We're sorry. We've failed to load your Open Contract
@@ -34,6 +35,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                     {`You may need to complete your wallet sign in.`}
                 </ReactMarkdown></>);
                 setFail(true);
+                setForce(true);
             } else {
                 setWarning("");
                 dispatch((state)=>{
@@ -43,6 +45,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                     }
                 });
                 setFail(false);
+                setForce(false)
             }
         }
     }
@@ -55,6 +58,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                 setWarning(undefined);
                 setSigner(add);
                 setFail(false);
+                setForce(false)
             }).catch(()=>{
                 setWarning("Please complete your MetaMask login.");
                 dispatch((context)=>{
@@ -69,6 +73,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                     }
                 });
                 setFail(true);
+                setForce(false)
             });
         }
     }, [openContract && openContract.walletConnected]);
@@ -103,6 +108,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
         </ThroughGlassAgathocles>
         : <div><PredicateButton
         id="#connect-wallet"
+        force={force}
         allow={true}
         disabled={fail}
         action={action}

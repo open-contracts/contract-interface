@@ -3,10 +3,12 @@ import { Overlay, Tooltip } from 'react-bootstrap';
 import {AthenaButton, AthenaButtonProps} from "./AthenaButton";
 import {generate} from "shortid";
 import {motion} from "framer-motion";
+import { useEffect } from 'react';
 
 export type PredicateButtonProps = AthenaButtonProps & {
     Warning : React.ReactNode,
-    allow ? : boolean
+    allow ? : boolean,
+    force ? : boolean
 };
 
 export const PredicateButton : FC<PredicateButtonProps>  = (props) =>{
@@ -34,6 +36,10 @@ export const PredicateButton : FC<PredicateButtonProps>  = (props) =>{
     }
 
     const target = useRef(null);
+
+    useEffect(()=>{
+        if(props.force) setWarningPopup(true);
+    })
 
     return (
         <div>
