@@ -86,6 +86,8 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
         setWhich && setWhich(which);
     }
 
+    console.log(which)
+
     return (
 
         <div style={{
@@ -110,7 +112,7 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
                         gitUrl={dappItem.gitUrl}
                     />
                 </div>
-                <ApolloRunDappContent grid={grid} setGrid={setGrid}>
+                <ApolloRunDappContent which={which} grid={grid} setGrid={setGrid}>
                     <ApolloRunDappContent.Grid>
                         <ApolloRunDappFunctionGridView
                             dapp={dappItem}
