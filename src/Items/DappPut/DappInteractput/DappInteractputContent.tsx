@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import {Card} from "react-bootstrap";
 import Color from "color";
 import {X} from "react-bootstrap-icons";
+import {Modal} from "react-bootstrap";
 
 export type DappInteractputContentProps = {
     dappInteractput : DappInteractputI
@@ -23,6 +24,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
     
     const [failedWindow, setFailedWindow] = useState<boolean>(false);
     const [modal, setModal] = useState(false);
+    
 
     return (
 
@@ -53,9 +55,10 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
             href={dappInteractput.sessionUrl}>{dappInteractput.sessionUrl}</a>
                 Please enable popups and try again or click the link above.
             </p>}
-            {modal && <Card 
+            {modal && <Modal
+            show={modal}
             style={{
-                position : "absolute",
+                position : "fixed",
                 zIndex : 1000,
                 width : "95vw",
                 height : "95vh",
@@ -75,7 +78,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                     width : "100%",
                     border : "none"
                 }}/>
-            </Card>}
+            </Modal>}
         </div>
 
     )
