@@ -207,11 +207,11 @@ async function enclaveSession(opencontracts, f) {
         waiting = false;
         if (secondsPassed < 10) {
             f.errorHandler(
-                new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
+                new RegistryError("Early WebSocket failure. Probable reason: registry rejected connection or has ssl certificate issues.")
             )
         } else {
             f.errorHandler(
-                new RegistryError("Early WebSocket failure. Probable reason: registry root cert not trusted by the client.")
+                new RegistryError("Late WebSocket failure. Probable reason: registry doesn't exist or respond.")
             )
         }
     }; 
