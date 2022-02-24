@@ -1,78 +1,60 @@
 /**
- * https://github.com/scopsy/await-to-js/blob/master/src/await-to-js.ts
- * @param { Promise } promise
- * @param { Object= } errorExt - Additional Information you can pass to the err object
- * @return { Promise }
- */
-function to(promise,errorExt){
-    return promise
-      .then(data=>[null, data])
-      .catch(err=>{
-        if (errorExt) {
-          const parsedError = Object.assign({}, err, errorExt);
-          return [parsedError, undefined];
-        }
-        return [err, undefined];
-      });
-  }
-
-/**
  * Error type to be thrown when error is in the enclave.
  */
+const enclaveErrorTypeName = "EnclaveError";
 class EnclaveError extends Error{
-    static enclaveErrorTypeName = "EnclaveError";
     /**
      * Constructs an EnclaveError
      * @param {string} message 
      */
     constructor(message){
         super(message);
-        this.name = EnclaveError.enclaveErrorTypeName;
+        this.name = enclaveErrorTypeName
     }
 }
 
 /**
  * Error type to be thrown when error is in the registry.
  */
+const registryErrorTypeName = "RegistryError";
 class RegistryError extends Error{
-    static registryErrorTypeName = "RegistryError";
     /**
      * Constructs a RegistryError
      * @param {string} message 
      */
     constructor(message){
         super(message);
-        this.name = RegistryError.registryErrorTypeName
+        this.name = registryErrorTypeName
     }
 }
 
 /**
  * Error type to be thrown when error is on the client.
  */
+const clientErrorTypeName = "ClientError";
 class ClientError extends Error{
-    static clientErrorTypeName = "ClientError";
     /**
      * Constructs a Client Error.
      * @param {string} message 
      */
     constructor(message){
         super(message);
-        this.name = ClientError.clientErrorTypeName
+        this.name = clientErrorTypeName
     }
 }
 
 /**
  * Error type to be thrown when error is on the client.
  */
+const ethereumErrorTypeName = "EthereumError";
 class EthereumError extends Error{
-    static ethereumErrorTypeName = "EthereumError";
     /**
      * Constructs an Ethereum Error.
      * @param {string} message 
      */
     constructor(message){
         super(message);
-        this.name = EthereumError.ethereumErrorTypeName
+        this.name = ethereumErrorTypeName
     }
 }
 
@@ -404,8 +386,7 @@ async function OpenContracts() {
         if (!this.walletConnected) {
             const ethereum = await detectEthereumProvider();
             if (ethereum) {
-              await ethereum.request({method : "eth_accounts"});
-              await ethereum.request({ method: 'eth_requestAccounts' });
+              ethereum.request({ method: 'eth_requestAccounts' });
               this.provider = new ethers.providers.Web3Provider(ethereum, 'any');
               ethereum.on('chainChanged', (_chainId) => window.location.reload());
               const networks = {"1": "mainnet", "3": "ropsten", "10": "optimism", "42161": "arbitrum"};
@@ -419,8 +400,7 @@ async function OpenContracts() {
               } else if (!(this.network in this.interface.address)) {
                   throw new ClientError(`Your wallet is set to ${this.network}, but this contract only supports the following networks: ${Object.keys(this.interface.address)}`);
               } else {
-                  this.signer = this.provider.getSigner(); 
-                  console.log(this.signer);
+                  this.signer = this.provider.getSigner();
                   const token = this.ocInterface[this.network].token;
                   this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
                   const hub = this.ocInterface[this.network].hub;
