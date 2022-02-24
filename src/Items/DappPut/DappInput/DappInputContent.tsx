@@ -7,6 +7,9 @@ import {darkenStandard, lightenStandard} from "../Methods";
 import {
     TextInputApollo
 } from "../../../Components/TextInput"
+import { useParams, useSearchParams } from 'react-router-dom';
+import { useOpenContractContext } from '../../../Models';
+import jwt from "jwt-simple";
 
 export type DappInputContentProps = {
     dappInput : DappInputI,
@@ -18,7 +21,16 @@ export const DappInputContent : FC<DappInputContentProps>  = ({
     setInput
 }) =>{
 
+    const [searchParams, setSearchParams]= useSearchParams();
+    const val = searchParams.get(dappInput.contractFunction.name)
+    && jwt.decode(searchParams.get(dappInput.contractFunction.name) as string, dappInput.contractFunction.name);
+
     const onTextInput = (text : string)=>{
+        const newVal = jwt.encode(text, dappInput.contractFunction.name);
+        setSearchParams({
+            ...searchParams,
+            [dappInput.contractFunction.name] : newVal
+        })
         setInput && setInput({
             ...dappInput,
             value : text
@@ -30,7 +42,7 @@ export const DappInputContent : FC<DappInputContentProps>  = ({
         <div>
             <TextInputApollo 
                 onTextInput={onTextInput}
-                type="text" placeholder={dappInput.prompt} style={{
+                type="text" placeholder={val||dappInput.prompt} style={{
                 background : darkenStandard(Colors.greenCeramic),
                 color : Colors.primaryTextColor,
                 border : `1px solid ${lightenStandard(Colors.forestEdge)}`

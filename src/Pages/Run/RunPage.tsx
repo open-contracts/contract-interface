@@ -27,6 +27,8 @@ export const RunPage : FC<RunPageProps>  = ({
         branch
     } = useParams();
 
+    console.log(branch);
+
     const [dapp, setDapp] = useReducer(
         (dapp : DappI, set :(dapp : DappI)=>DappI)=>{
             return set(dapp);

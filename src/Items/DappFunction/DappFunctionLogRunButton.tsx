@@ -4,8 +4,10 @@ import { DappInputHeader } from '../DappPut/DappInput/DappInputHeader';
 import { TextInputApollo } from '../../Components/TextInput';
 import * as pure from "./StateMethods";
 import { DefaultHeader } from '../DappPut/Standards';
-
-
+import { useSearchParams } from 'react-router-dom';
+import jwt from "jwt-simple";
+import lz from "lzutf8";
+import { StringifyOptions } from 'node:querystring';
 
 export type DappFunctionLogRunButtonProps = {
     contractFunction : OpenContractFunctionI,
@@ -17,21 +19,27 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
     reduceContractFunction
 }) =>{
 
+    const [searchParams, setSearchParams]= useSearchParams();
+    const searchInput = searchParams.get(contractFunction.name);
+    const _searchInput : {[key : string] : string} | undefined= searchInput 
+    && JSON.parse(decodeURI(searchInput));
 
     const inputs = pure.createInputs(
         contractFunction,
         reduceContractFunction
     ).map((input, index)=>{
 
-        const onTextInput = (text : string)=>{
+       const val = _searchInput && _searchInput[input.name];
 
+        const onTextInput = (text : string)=>{
+      
             reduceContractFunction((contractFunction)=>{
                 
                 const newInput =  {
                     ...contractFunction.inputs[index],
                     value : text
                 };
-                return {
+                const newC = {
                     ...contractFunction,
                     inputs : [
                         ...contractFunction.inputs.slice(0, index),
@@ -39,6 +47,16 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                         ...contractFunction.inputs.slice(index + 1)
                     ]
                 }
+
+                /*setSearchParams({
+                    ...searchParams,
+                    [contractFunction.name] : encodeURI(JSON.stringify({
+                            ..._searchInput,
+                            [input.name] : text
+                        }))
+                });*/
+
+                return newC;
             });
         }
 
@@ -66,7 +84,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                            &emsp;<span style={{
                                fontSize : "16px"
                            }}>=&emsp;</span><TextInputApollo
-                            value={input.value||""}
+                            value={input.value||val||""}
                             onTextInput={onTextInput}
                             style={{
                                 fontSize : "16px"
