@@ -4,7 +4,7 @@ import { DappInputHeader } from '../DappPut/DappInput/DappInputHeader';
 import { TextInputApollo } from '../../Components/TextInput';
 import * as pure from "./StateMethods";
 import { DefaultHeader } from '../DappPut/Standards';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {generate} from "shortid";
 
 export type DappFunctionLogRunButtonProps = {
@@ -21,6 +21,8 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
     const searchInput = searchParams.get(contractFunction.name);
     const _searchInput : {[key : string] : string} | undefined= searchInput 
     && JSON.parse(decodeURI(searchInput));
+
+    const nav = useNavigate();
 
     const inputs = pure.createInputs(
         contractFunction,
@@ -52,13 +54,15 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     window.location.origin + window.location.hash + "?query="
                 )*/
 
-                /*setSearchParams({
+                const params = new URLSearchParams({
                     ...searchParams,
                     [contractFunction.name] : encodeURI(JSON.stringify({
                             ..._searchInput,
                             [input.name] : text
                         }))
-                });*/
+                });
+
+                //nav(window.origin + `/${params.toString()}#/${}`)
 
                 return newC;
             });
