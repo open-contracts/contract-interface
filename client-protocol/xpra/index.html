@@ -1090,6 +1090,8 @@
 				}
 				else {
 					$('.simple-keyboard').show();
+					window.hasmouse = True;
+					window.document.addEventListener('mousemove', e => {if (!window.hasmouse) hasmouse = true; $('.simple-keyboard').hide()});
 					$('#keyboard_button').css('color', '#111');
 				}
 			}

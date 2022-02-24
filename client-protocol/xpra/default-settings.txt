@@ -13,6 +13,7 @@ ssl = true
 encryption = AES-CBC
 floating_menu = no
 clipboard = no
+keyboard = yes
 printing = no
 sound = no
 file_transfer = no
