@@ -96,7 +96,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                                 padding : "0px",
                                 alignContent : "center"
                             }}>
-                                <span>  {openContract && openContract.contractName}: {dappInteractput.contractFunction.name}</span>
+                                <span>&nbsp;{openContract && openContract.contractName}: {dappInteractput.contractFunction.name}</span>
                             </div>
                             <div 
                             style={{
