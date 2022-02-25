@@ -1,5 +1,5 @@
-import React, {FC, ReactElement, useState} from 'react';
-import {useOpenContractContext} from "../Models";
+import React, {FC, MutableRefObject, ReactElement, useState} from 'react';
+import {useConnectWalletContext, useOpenContractContext} from "../Models";
 import { PredicateButton } from '../Components/Buttons/PredicateButton';
 import { Colors } from '../Theme';
 import {to} from "await-to-js";
@@ -11,32 +11,61 @@ import { FileText } from 'react-bootstrap-icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useMediaQuery } from 'react-responsive';
+import { useRef } from 'react';
+import {motion} from "framer-motion";
+import { Overlay, Tooltip } from 'react-bootstrap';
+import {generate} from "shortid";
 
 export type ConnectWallletProps = {}
 
 export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
 
+    const {dispatch : dispatchWalletContext, warning, buttonRef} = useConnectWalletContext();
+    const ref = useRef<HTMLDivElement>(null);
+    useEffect(()=>{
+        dispatchWalletContext((state)=>{
+            return {
+                ...state,
+                buttonRef : ref as MutableRefObject<HTMLDivElement>
+            }
+        })
+    }, [ref]);
+
     const {openContract, dispatch} = useOpenContractContext();
 
-    const [warning, setWarning] = useState<React.ReactNode|string>("");
     const [fail, setFail] = useState(false);
     const [force, setForce] = useState(false);
     const action = async ()=>{
-        if(!openContract) setWarning(<ReactMarkdown plugins={[remarkGfm]}>
-            We're sorry. We've failed to load your Open Contract
-        </ReactMarkdown>);
+        if(!openContract) dispatchWalletContext((state)=>{
+            return {
+                ...state,
+                warning : <ReactMarkdown plugins={[remarkGfm]}>
+                We're sorry. We've failed to load your Open Contract
+            </ReactMarkdown>
+            }
+        });
         else {
             const [err, result] =  await to(openContract.connectWallet());
             if(err){
-                setWarning(<><ReactMarkdown plugins={[remarkGfm]}>
-                    {`${err.message}`}
-                </ReactMarkdown><ReactMarkdown plugins={[remarkGfm]}>
-                    {`You may need to complete your wallet sign in.`}
-                </ReactMarkdown></>);
+                dispatchWalletContext((state)=>{
+                    return {
+                        ...state,
+                        warning : <><ReactMarkdown plugins={[remarkGfm]}>
+                        {`${err.message}`}
+                    </ReactMarkdown><ReactMarkdown plugins={[remarkGfm]}>
+                        {`You may need to complete your wallet sign in.`}
+                    </ReactMarkdown></>
+                    }
+                });
                 setFail(true);
                 setForce(true);
             } else {
-                setWarning("");
+                dispatchWalletContext((state)=>{
+                    return {
+                        ...state,
+                        warning : undefined
+                    }
+                });
                 dispatch((state)=>{
                     return {
                         ...state,
@@ -54,12 +83,22 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
         if(openContract && openContract.walletConnected && !signer){
             openContract.signer.getAddress()
             .then((add)=>{
-                setWarning(undefined);
+                dispatchWalletContext((state)=>{
+                    return {
+                        ...state,
+                        warning : undefined
+                    }
+                });
                 setSigner(add);
                 setFail(false);
                 setForce(false)
             }).catch(()=>{
-                setWarning("Please complete your MetaMask login.");
+                dispatchWalletContext((state)=>{
+                    return {
+                        ...state,
+                        warning : "Please complete your MetaMask login."
+                    }
+                });
                 dispatch((context)=>{
                     return {
                         ...context,
@@ -114,22 +153,37 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                 </div>
             </GrowOnEventAchamaenid>
         </ThroughGlassAgathocles>
-        : <div><PredicateButton
-        id="#connect-wallet"
-        force={force}
-        allow={true}
-        disabled={fail}
-        action={action}
-        Warning={warning}
-        primaryColor={Colors.Maintheme} secondaryColor={"white"}>
-            <div style={{
-                display : "flex",
-                alignContent : "center",
-                alignItems : "center"
-            }}>
-                 Connect Wallet&ensp;<Wallet/>
-            </div>
-    </PredicateButton></div>
+        : <>
+            <motion.div
+            transition={{ duration : .4 }}
+            animate={warning !== undefined && {
+                x : [0, 4, -4, 4, -4, 4, -4, 0]
+            }}><div style={{
+                padding : "10px"
+            }} ref={ref}><PredicateButton
+            id="#connect-wallet"
+            force={force}
+            allow={true}
+            disabled={fail}
+            action={action}
+            Warning={warning}
+            primaryColor={Colors.Maintheme} secondaryColor={"white"}>
+                <div style={{
+                    display : "flex",
+                    alignContent : "center",
+                    alignItems : "center"
+                }}>
+                    Connect Wallet&ensp;<Wallet/>
+                </div>
+        </PredicateButton></div></motion.div>
+        <Overlay target={ref.current} show={warning!==undefined} placement="left">
+                {(innerProps)=>(
+                    <Tooltip id={generate()} {...innerProps}>
+                        {warning}
+                    </Tooltip>
+                )}
+            </Overlay>
+        </>
 
     )
 

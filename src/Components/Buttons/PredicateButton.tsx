@@ -4,6 +4,7 @@ import {AthenaButton, AthenaButtonProps} from "./AthenaButton";
 import {generate} from "shortid";
 import {motion} from "framer-motion";
 import { useEffect } from 'react';
+import { useConnectWalletContext } from '../../Models';
 
 export type PredicateButtonProps = AthenaButtonProps & {
     Warning : React.ReactNode,
@@ -13,12 +14,17 @@ export type PredicateButtonProps = AthenaButtonProps & {
 
 export const PredicateButton : FC<PredicateButtonProps>  = (props) =>{
 
-    const [warningPopup, setWarningPopup] = useState(false);
+    const {buttonRef, dispatch} = useConnectWalletContext();
 
     const _action = async ()=>{
-        setWarningPopup(false);
         if(props.disabled) {
-            setWarningPopup(true);
+            dispatch((state)=>{
+                return {
+                    ...state,
+                    warning : props.Warning
+                }
+            });
+            buttonRef && buttonRef.current && buttonRef.current.scrollIntoView({behavior : "smooth", block : "start"});
             if(props.allow)  props.action && await props.action();
             return;
         }
@@ -26,44 +32,32 @@ export const PredicateButton : FC<PredicateButtonProps>  = (props) =>{
     }
 
     const _onClick = (e  : React.MouseEvent)=>{
-        setWarningPopup(false);
         if(props.disabled) {
-             setWarningPopup(true); 
+             dispatch((state)=>{
+                 return {
+                    ...state,
+                    warning : props.Warning
+                 }
+             });
+             buttonRef && buttonRef.current && buttonRef.current.scrollIntoView({behavior : "smooth", block : "start"});
              if(props.allow) props.onClick && props.onClick(e);
-             return
+             return;
         }
         props.onClick && props.onClick(e);
     }
 
     const target = useRef(null);
 
-    useEffect(()=>{
-        if(props.force) setWarningPopup(true);
-    })
 
     return (
-        <div>
-            <motion.div
-            transition={{ duration : .4 }}
-            animate={warningPopup && {
-                x : [0, 4, -4, 4, -4, 4, -4, 0]
-            }}>
-                <AthenaButton 
-                {...props} action={_action} onClick={_onClick} disabled={false}>
-                    <div ref={target}>
-                        {props.children}
-                    </div>
-                </AthenaButton>
-            </motion.div>
-            <Overlay target={target.current} show={warningPopup} placement="left">
-                {(innerProps)=>(
-                    <Tooltip id={generate()} {...innerProps}>
-                        {props.Warning}
-                    </Tooltip>
-                )}
-            </Overlay>
-        </div>
 
+        <AthenaButton 
+        {...props} action={_action} onClick={_onClick} disabled={false}>
+            <div ref={target}>
+                {props.children}
+            </div>
+        </AthenaButton>
+           
     )
 
 }

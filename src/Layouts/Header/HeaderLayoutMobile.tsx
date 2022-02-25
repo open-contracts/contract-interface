@@ -33,7 +33,11 @@ const HeaderLayoutMobile : FC<HeaderLayoutMobileProps> & {
             <div>
                 {Brand}
             </div>
-            <div>
+            <div style={{
+                display : "flex",
+                justifyContent : "center",
+                justifyItems : "center"
+            }}>
                 {Nav}
             </div>
         </div>

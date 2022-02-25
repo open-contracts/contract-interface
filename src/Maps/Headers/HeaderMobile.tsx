@@ -68,7 +68,9 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
                 </div>
             </HeaderLayoutMobile.Brand>
             <HeaderLayoutMobile.Nav>
-                <ConnectWalllet/>
+                <div>
+                    <ConnectWalllet/>
+                </div>
             </HeaderLayoutMobile.Nav>
         </HeaderLayoutMobile>
 
