@@ -576,7 +576,7 @@
   },
   "optimism": {
     "token": {
-      "address": "",
+      "address": "0x8dfb2aaB408BC6140c65E1Af0D4Be94DD767d9DA",
       "abi": [
 	{
 		"inputs": [],
