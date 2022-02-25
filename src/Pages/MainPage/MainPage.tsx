@@ -3,6 +3,7 @@ import { useCheckStore } from '../../Sytems';
 import {RunPage} from "../Run";
 import { CheckPage } from '../CheckPage/CheckPage';
 import { StepStatusT, AllSteps } from '../../Statics/Steps/Steps';
+import {Footer} from "../../Maps/Footers"
 
 export type MainPageProps = {}
 
@@ -16,8 +17,8 @@ export const MainPage : FC<MainPageProps>  = () =>{
         wallet : "not ready",
     });
 
-    return <RunPage stepStatus={stepStatus}
-    setStepStatus={setStepStatus}/> 
+    return <><RunPage stepStatus={stepStatus}
+    setStepStatus={setStepStatus}/><Footer/></>
  
 
 }
