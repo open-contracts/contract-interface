@@ -11,6 +11,7 @@ import {generate} from "shortid";
 import * as log from "./StateMethods";
 import { OpenContractFunctionReducer } from '../../Types';
 import { useOpenContractContext } from '../../Models/OpenContract/OpenContractModelProvider';
+import { useState } from 'react';
 
 
 export type DappFunctionLogProps = {
@@ -96,6 +97,7 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
         addOutput("Notification.", message)
     }
 
+    const [oracleInputCount, setOracleInputCount] = useState(0);
     const addOracleInput = (
         data : string,
         resolve : (msg : string)=>void,
@@ -108,6 +110,7 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
                 response : undefined,
                 id : generate()
             }
+            setOracleInputCount(oracleInputCount + 1);
             return {
                 ...contractFunction,
                 waiting : false,
@@ -122,7 +125,8 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
                     contractFunction,
                     resolve,
                     reject,
-                    setFunctionState
+                    setFunctionState,
+                    oracleInputCount
                 )]
             }
         });

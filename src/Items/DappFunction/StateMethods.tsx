@@ -87,11 +87,12 @@ export const createOracleInputs = (
     resolve : (message : string)=>void,
     reject : (message : string)=>void,
     reduceContractFunction : (func : reduceContractFunctionI)=>void,
+    index : number
 ) : DappOracleInputI[]=>{
-    return inputs ? Object.keys(inputs).map((key)=>{
+    return inputs ? Object.keys(inputs).map((key, i)=>{
         return {
             ...inputs[key],
-            name : inputs[key].prompt,
+            name : index.toString(),
             value : inputs[key].prompt,
             resolve : resolve,
             reject : reject,
