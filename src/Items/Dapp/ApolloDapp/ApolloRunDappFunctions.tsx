@@ -7,6 +7,7 @@ import {ApolloDappFunction} from "./ApolloRunDappFunction";
 import {LeftRightScrollAdorno} from "../../../Components/Scroll/LeftRightScroll";
 import { DesktopSizes } from '../../../Theme';
 import Masonry from "react-masonry-css";
+import Skeleton from 'react-loading-skeleton';
 
 export type ApolloDappFunctionsProps = {
     dapp : DappI,
@@ -23,7 +24,6 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
     const onFunctionClick = (e : React.MouseEvent, name : string)=>{
         setWhich && setWhich(name);
     }
-
 
     const funcs = dapp.contract && dapp.contract ? dapp.contract.contractFunctions.map((func, index)=>{
 
@@ -57,14 +57,24 @@ export const ApolloDappFunctions : FC<ApolloDappFunctionsProps>  = ({
             paddingLeft : DesktopSizes.Padding.standard,
             paddingTop : DesktopSizes.Padding.standard
         }}>
-            <Masonry 
+            {dapp.contract ? <Masonry 
                 style={{
                     overflow : "visible"
                 }}
                 className={"masonry"}
                 breakpointCols={3}>
                 {funcs}
-            </Masonry>
+            </Masonry> : <Masonry 
+                style={{
+                    overflow : "visible"
+                }}
+                className={"masonry"}
+                breakpointCols={3}>
+              {Array(Math.floor(Math.random() * 7) + 5).fill(0).map(()=><div style={{
+                     paddingRight : DesktopSizes.Padding.standard,
+                     paddingBottom : DesktopSizes.Padding.standard,
+                }}><Skeleton height={`${Math.floor(Math.random() * 150) + 50}px`} width="100%"/></div>)}
+            </Masonry>}
         </div>
 
     )
