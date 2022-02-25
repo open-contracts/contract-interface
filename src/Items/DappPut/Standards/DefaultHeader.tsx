@@ -43,7 +43,7 @@ const DefaultHeader : FC<DefaultHeaderProps> & {
                     <b>{Pre}</b>
                 </div>
                 <div>
-                    {dappPut.name}{Post}
+                    {dappPut.prompt||dappPut.name}{Post}
                 </div>
             </div>
             <div>

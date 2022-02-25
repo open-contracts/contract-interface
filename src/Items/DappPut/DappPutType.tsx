@@ -7,7 +7,8 @@ export interface DappPutI extends PutI {
     type ? : string,
     putType : string,
     contractFunction : OpenContractFunctionI,
-    reduceContractFunction : (reducer : reduceContractFunctionI)=>void
+    reduceContractFunction : (reducer : reduceContractFunctionI)=>void,
+    prompt ? : string
 }
 
 export interface DappCallputI extends DappPutI {

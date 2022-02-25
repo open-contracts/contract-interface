@@ -28,7 +28,7 @@ export const RunPage : FC<RunPageProps>  = ({
         branch
     } = useParams();
 
-    console.log(branch);
+    
 
     const [dapp, setDapp] = useReducer(
         (dapp : DappI, set :(dapp : DappI)=>DappI)=>{
@@ -118,7 +118,7 @@ export const RunPage : FC<RunPageProps>  = ({
                 (contract : IOpenContract)=>{
                     setContractLoad(contract);
                     !which.length && setWhich(contract.contractFunctions[0].name);
-                    console.log(contract);
+                    
                     dispatchContract((context)=>{
                         return {
                             ...context,

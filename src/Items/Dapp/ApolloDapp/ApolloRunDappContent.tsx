@@ -35,7 +35,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
         setGrid && setGrid(false);
     }
 
-    console.log(which)
+    
     
 
     return (

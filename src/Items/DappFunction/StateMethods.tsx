@@ -137,7 +137,7 @@ export const createResult = (
     contractFunction : OpenContractFunctionI,
     setFunc : (func : reduceContractFunctionI)=>void
 ) : DappResultputI=>{
-    console.log("Create result data: ", data)
+    
     return {
         contractFunction : contractFunction,
         reduceContractFunction : setFunc,

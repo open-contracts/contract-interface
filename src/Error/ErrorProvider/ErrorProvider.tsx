@@ -74,7 +74,7 @@ export const ErrorProvider : FC<ErrorProviderProps>  = ({
         } 
     });
 
-    console.log(state.error);
+    
 
     return (
 

@@ -46,11 +46,11 @@ export const OpenContractContextProvider : FC<OpenContractContextProps>  = ({chi
     );
 
     useEffect(()=>{
-        console.log("Rerendering contract...", state);
+        
     });
 
     const _dispatch = (set : (contract : OpenContractContext)=>OpenContractContext)=>{
-        console.log("Setting!");
+        
         set(state)
         dispatch(set);
     }

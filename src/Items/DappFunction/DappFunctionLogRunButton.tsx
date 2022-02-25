@@ -63,7 +63,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     text
                 );
 
-                console.log(searchParams);
+                
 
                 // nav(`/${params.toString()}#/${window.location.hash}`)
 

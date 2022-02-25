@@ -86,7 +86,7 @@ export const ApolloRunDappMainItemMobileInternals : FC<ApolloRunDappMainItemMobi
         setWhich && setWhich(which);
     }
 
-    console.log(which)
+    
 
     return (
 
