@@ -80,7 +80,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                         left : ".4vw",
                         top : ".4vh",
                         padding : "0px",
-                        border : `1px solid ${Colors.black}`,
+                        border : `1px solid ${Colors.Maintheme}`,
                         borderRadius : "5px",
                         background : Color(Colors.lilac).lighten(.5).hex(),
                         display : "grid",
@@ -114,7 +114,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                             <iframe src={dappInteractput.sessionUrl} style={{
                                 height : "100%",
                                 width : "100%",
-                                border : `0px solid ${Colors.Maintheme}`,
+                                border : `0px solid #FFFFFF`,
                                 borderRadius : "5px"
                             }}/>
                         </div>
