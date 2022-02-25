@@ -79,8 +79,8 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                         height : "99.2vh",
                         left : ".4vw",
                         top : ".4vh",
-                        padding : "2px",
-                        border : `1px solid ${Colors.lilac}`,
+                        padding : "0px",
+                        border : `1px solid ${Colors.black}`,
                         borderRadius : "5px",
                         background : Color(Colors.lilac).lighten(.5).hex(),
                         display : "grid",
@@ -95,7 +95,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                                 alignItems : 'center',
                                 alignContent : "center"
                             }}>
-                                <span>{openContract && openContract.contractName}: {dappInteractput.contractFunction.name}</span>
+                                <span>  {openContract && openContract.contractName}: {dappInteractput.contractFunction.name}</span>
                             </div>
                             <div 
                             style={{
@@ -113,7 +113,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                             <iframe src={dappInteractput.sessionUrl} style={{
                                 height : "100%",
                                 width : "100%",
-                                border : `1px solid ${Colors.Maintheme}`,
+                                border : `0px solid ${Colors.Maintheme}`,
                                 borderRadius : "5px"
                             }}/>
                         </div>
