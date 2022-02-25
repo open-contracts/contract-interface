@@ -1,4 +1,5 @@
 import React, {FC, ReactElement} from 'react';
+import { useEffect } from 'react';
 import { createContext } from 'react';
 import { useContext, useReducer } from 'react';
 
@@ -43,6 +44,10 @@ export const OpenContractContextProvider : FC<OpenContractContextProps>  = ({chi
         domainReducer,
         DefaultOpenContractContext
     );
+
+    useEffect(()=>{
+        console.log("Rerendering contract...", state);
+    });
 
     const _dispatch = (set : (contract : OpenContractContext)=>OpenContractContext)=>{
         console.log("Setting!");

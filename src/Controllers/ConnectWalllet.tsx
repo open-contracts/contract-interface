@@ -10,7 +10,6 @@ import { GrowOnEventAchamaenid } from '../Glitter/Animations';
 import { FileText } from 'react-bootstrap-icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { useReducer } from 'react';
 
 export type ConnectWallletProps = {}
 
@@ -28,7 +27,6 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
         else {
             const [err, result] =  await to(openContract.connectWallet());
             if(err){
-                console.log("Error:", err);
                 setWarning(<><ReactMarkdown plugins={[remarkGfm]}>
                     {`${err.message}`}
                 </ReactMarkdown><ReactMarkdown plugins={[remarkGfm]}>
@@ -79,8 +77,6 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
     }, [openContract && openContract.walletConnected]);
 
     const [hover, setHover] = useState(false);
-
-    console.log(warning);
 
     return (
 

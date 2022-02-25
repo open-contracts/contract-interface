@@ -24,8 +24,25 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
         reduceContractFunction
     ).map((input, index)=>{
 
-       const _input = searchParams.get(`${contractFunction.name}.${input.name}`);
+       const _input = searchParams.get(`i.${contractFunction.name}.${input.name}`);
        const val = _input && decodeURI(_input);
+
+       if(!input.value && val){
+           reduceContractFunction((contractFunction)=>{
+            const newInput =  {
+                ...contractFunction.inputs[index],
+                value : val
+            };
+            return  {
+                ...contractFunction,
+                inputs : [
+                    ...contractFunction.inputs.slice(0, index),
+                    newInput,
+                    ...contractFunction.inputs.slice(index + 1)
+                ]
+            };
+           })
+       }
 
         const onTextInput = (text : string)=>{
       
@@ -44,7 +61,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     ]
                 };
                 searchParams.set(
-                    `${contractFunction.name}.${input.name}`,
+                    `i.${contractFunction.name}.${input.name}`,
                     text
                 );
 

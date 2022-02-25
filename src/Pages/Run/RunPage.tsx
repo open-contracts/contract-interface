@@ -66,8 +66,8 @@ export const RunPage : FC<RunPageProps>  = ({
     const [which, setWhich] = useState<string>(funcName||"");
     useEffect(()=>{
         which.length && window.history.pushState({
-            path : `/${window.location.search}#/${owner}/${repo}/${branch||"main"}/${which}`
-        }, '', `/${window.location.search}#/${owner}/${repo}/${branch||"main"}/${which}`);
+            path : `/${window.location.search}#/${owner}/${repo}/${branch||"main"}`
+        }, '', `/${window.location.search}#/${owner}/${repo}/${branch||"main"}`);
 
     }, [which])
 
