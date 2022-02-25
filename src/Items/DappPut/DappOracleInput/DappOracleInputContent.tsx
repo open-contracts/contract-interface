@@ -28,19 +28,20 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
 
    const searchParams = new URLSearchParams(window.location.search);
    
-   const _input = searchParams.get(`o.${dappOracleInput.contractFunction.name}.${dappOracleInput.name}`);
+   const _input = searchParams.get(`${dappOracleInput.contractFunction.name}.${dappOracleInput.name}`);
    const val = _input ? decodeURI(_input) : undefined;
 
     const onTextOracleInput = (text : string)=>{
         
         searchParams.set(
-            `o.${dappOracleInput.contractFunction.name}.${dappOracleInput.name}`,
+            `${dappOracleInput.contractFunction.name}.${dappOracleInput.name}`,
             text
         );
 
         window.history.pushState({
             path : `/?${searchParams.toString()}${window.location.hash}`
         }, '', `/?${searchParams.toString()}${window.location.hash}`);
+
 
         setOracleInput && setOracleInput({
             ...dappOracleInput,

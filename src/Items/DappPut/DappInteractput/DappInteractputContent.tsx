@@ -1,21 +1,16 @@
 import React, {FC, ReactElement, useState} from 'react';
 import {AthenaButton} from "../../../Components/Buttons"
 import {
-    lightenStandard,
     darkenStandard
 } from "../Methods";
 import {Colors} from "../../../Theme";
 import {
     DappInteractputI
 } from "../DappPutType";
-import { useNavigate } from 'react-router-dom';
-import {Card} from "react-bootstrap";
 import Color from "color";
 import {X} from "react-bootstrap-icons";
 import {Modal} from "react-bootstrap";
 import { useOpenContractContext } from '../../../Models';
-import { LogoB } from '../../../Glitter';
-import { useMediaQuery } from 'react-responsive';
 
 export type DappInteractputContentProps = {
     dappInteractput : DappInteractputI
