@@ -23,10 +23,12 @@ const HeaderLayoutMobile : FC<HeaderLayoutMobileProps> & {
     return (
 
         <div style={{
+            width : "90vw",
             display : "grid",
             gridTemplateColumns : "1fr",
             gap : DesktopSizes.Padding.whitespacePreferred,
-            padding : DesktopSizes.Padding.whitespacePreferred
+            paddingBottom : DesktopSizes.Padding.whitespacePreferred,
+            paddingTop : DesktopSizes.Padding.whitespacePreferred
         }}>
             <div>
                 {Brand}

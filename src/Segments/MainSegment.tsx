@@ -1,6 +1,6 @@
 import React, {FC, ReactElement} from 'react';
 import { OpenContractContextProvider } from '../Models';
-import { MainRouter } from "../Router";
+import { HashIgnorantRouterContextProvider, MainRouter } from "../Router";
 
 
 export type MainSegmentProps = {}
@@ -8,7 +8,7 @@ export type MainSegmentProps = {}
 export const MainSegment : FC<MainSegmentProps>  = () =>{
 
     return (<OpenContractContextProvider>
-        <MainRouter/>
+            <MainRouter/>
     </OpenContractContextProvider>)
 
 }

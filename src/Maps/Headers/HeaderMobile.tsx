@@ -4,6 +4,7 @@ import {HeaderLayoutMobile} from "../../Layouts";
 import { useNavigate } from 'react-router-dom';
 import { ReadyT } from '../../Components/Ready';
 import { ConnectWalllet } from '../../Controllers/ConnectWalllet';
+import { useMediaQuery } from 'react-responsive';
 
 export const HOME = "EXPLORE"
 export const HOME_PATH = "/"
@@ -22,13 +23,13 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
     const navigate = useNavigate();
     const goHome = ()=>{
         navigate(HOME_PATH);
-    }
+    };
     const goAbout = ()=>{
         navigate(ABOUT_PATH);
-    }
+    };
     const goDocs = ()=>{
         window.location.href = DOCS_PATH;
-    }
+    };
     const handleSelect = (item : string)=>{
 
         if(item === ABOUT) {
@@ -39,10 +40,15 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
             goHome();
         }
 
-    }
+    };
     const handleLogo  = ()=>{
         handleSelect("HOME")
-    }
+    };
+
+    const tiny = useMediaQuery({
+        query : '(max-width:300px)'
+    });
+
     return (
 
         <HeaderLayoutMobile>
@@ -58,7 +64,7 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
                     justifyItems : "center",
                     justifyContent : "center",
                 }}>
-                    <LogoB size={"50px"} />
+                    <LogoB label={!tiny}  size={"50px"} />
                 </div>
             </HeaderLayoutMobile.Brand>
             <HeaderLayoutMobile.Nav>

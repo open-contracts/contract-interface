@@ -3,7 +3,6 @@ import {Form} from "react-bootstrap";
 import { Colors, DesktopSizes } from '../../../Theme';
 import { DappOracleInputI } from '../DappPutType';
 import Color from "color";
-import {darkenStandard, lightenStandard} from "../Methods";
 import {
     TextInputApollo
 } from "../../../Components/TextInput"
@@ -39,8 +38,8 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
         );
 
         window.history.pushState({
-            path : `/?${searchParams.toString()}${window.location.hash}`
-        }, '', `/?${searchParams.toString()}${window.location.hash}`);
+            path : `/?${searchParams.toString()}/${window.location.hash}`
+        }, '', `/?${searchParams.toString()}/${window.location.hash}`);
 
 
         setOracleInput && setOracleInput({

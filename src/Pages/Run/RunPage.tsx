@@ -60,14 +60,13 @@ export const RunPage : FC<RunPageProps>  = ({
     }, [window.location.hash]); // I don't believe this dep array actually does anything.
 
     const {funcName} = useParams();
-    const nav = useNavigate();
 
     const [grid, setGrid] = useState(true);
     const [which, setWhich] = useState<string>(funcName||"");
     useEffect(()=>{
         which.length && window.history.pushState({
-            path : `/${window.location.search}#/${owner}/${repo}/${branch||"main"}`
-        }, '', `/${window.location.search}#/${owner}/${repo}/${branch||"main"}`);
+            path : `/${window.location.search.length}#/${owner}/${repo}/${branch||"main"}`
+        }, '', `/${window.location.search.length}#/${owner}/${repo}/${branch||"main"}`);
 
     }, [which])
 

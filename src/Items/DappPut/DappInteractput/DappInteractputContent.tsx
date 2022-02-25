@@ -51,8 +51,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
             onClick={(e)=>{
                 e.preventDefault();
                 setModal(true);
-            }}
-            href={dappInteractput.sessionUrl}>{dappInteractput.sessionUrl}</a>
+            }} href={dappInteractput.sessionUrl}>{dappInteractput.sessionUrl}</a>
                 Please enable popups and try again or click the link above.
             </p>}
             {modal&&<div style={{
@@ -94,9 +93,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                                 alignItems : 'center',
                                 alignContent : "center"
                             }}>
-                                <h3 style={{
-                                    color : Colors.lilac
-                                }}>{openContract && openContract.contractName}.{dappInteractput.contractFunction.name}</h3>
+                                <span>{openContract && openContract.contractName}: {dappInteractput.contractFunction.name}</span>
                             </div>
                             <div 
                             style={{
@@ -107,7 +104,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                                 className={"hover-invert-sm hover-salmon"}
                                 onClick={()=>setModal(false)}
                                 style={{
-                                    marginLeft : "auto",
+                                marginLeft : "auto",
                                 }}/>
                             </div>
                         </div>

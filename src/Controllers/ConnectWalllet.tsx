@@ -10,6 +10,7 @@ import { GrowOnEventAchamaenid } from '../Glitter/Animations';
 import { FileText } from 'react-bootstrap-icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useMediaQuery } from 'react-responsive';
 
 export type ConnectWallletProps = {}
 
@@ -78,6 +79,13 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
 
     const [hover, setHover] = useState(false);
 
+    const tiny = useMediaQuery({
+        query : '(max-width:300px)'
+    });
+    const medium = useMediaQuery({
+        query : '(max-width:600px)'
+    });
+
     return (
 
         openContract && openContract.walletConnected ?
@@ -92,9 +100,17 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                 }}>
                     Addresses&ensp;<FileText size={12} color={Colors.Maintheme}/>
                     <br/>
-                    {signer && <><span>You: </span><a href={openContract.explorerUrl(signer)}>{signer}</a></>}
+                    {signer && <><span>You: </span><a href={openContract.explorerUrl(signer)}>
+                        {tiny ? signer.slice(0, 3) + "..." 
+                        : medium ? signer.slice(0, 16) + "..." 
+                        : signer}
+                    </a></>}
                     <br/>
-                    <><span>Contract: </span><a href={openContract.explorerUrl(openContract.contract.address)}>{openContract.contract.address}</a></>
+                    <><span>Contract: </span><a href={openContract.explorerUrl(openContract.contract.address)}>
+                        {tiny ? openContract.contract.address.slice(0, 3) + "..." 
+                        : medium ? openContract.contract.address.slice(0, 16) + "..." 
+                        : openContract.contract.address}
+                    </a></>
                 </div>
             </GrowOnEventAchamaenid>
         </ThroughGlassAgathocles>

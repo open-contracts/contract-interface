@@ -22,7 +22,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
         reduceContractFunction
     ).map((input, index)=>{
 
-       const _input = searchParams.get(`${contractFunction.name}.${input.name}`);
+       const _input = searchParams.get(`i.${contractFunction.name}.${input.name}`);
        const val = _input && decodeURI(_input);
 
        if(!input.value && val){
@@ -63,13 +63,9 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                     text
                 );
 
-                
-
-                // nav(`/${params.toString()}#/${window.location.hash}`)
-
                 window.history.pushState({
-                    path : `/?${searchParams.toString()}${window.location.hash}`
-                }, '', `/?${searchParams.toString()}${window.location.hash}`)
+                    path : `/?${searchParams.toString()}/${window.location.hash}`
+                }, '', `/?${searchParams.toString()}/${window.location.hash}`)
 
                 return newC;
             });
