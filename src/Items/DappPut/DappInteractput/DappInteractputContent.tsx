@@ -59,7 +59,8 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                     height : "100vh",
                     width : "100vw",
                     left : 0,
-                    top : 0
+                    top : 0,
+                    padding : "2px"
                 }}>
                 <Modal
                 show={modal}
@@ -74,8 +75,10 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                     <div style={{
                         position : "fixed",
                         zIndex : 1000,
-                        width : "100%",
-                        height : "100%",
+                        width : "99.2vw",
+                        height : "99.2vh",
+                        left : ".4vw",
+                        top : ".4vh",
                         padding : "2px",
                         border : `1px solid ${Colors.lilac}`,
                         borderRadius : "5px",

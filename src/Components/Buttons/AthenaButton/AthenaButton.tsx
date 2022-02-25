@@ -112,14 +112,20 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
                 backgroundColor: _isHovered? primaryColor : invert ? invertedBackground : secondaryColor,
                 ...style
             }}
-        >{label||children}<span style={{display: isLoading||loading ? "inline-block" : "none"}}>&ensp;</span><Spinner
+        ><div style={{
+            display : "flex",
+            alignContent : "center",
+            alignItems : "center",
+            justifyContent : 'center',
+            justifyItems : "center"
+        }}>{label||children}<span style={{display: isLoading||loading ? "inline-block" : "none"}}>&ensp;</span><Spinner
             animation="border"
             style={{
                 display : isLoading||loading ? "inline-block" : "none", 
                 height : "15px",
                 width: "15px"
             }}
-            ></Spinner>
+            ></Spinner></div>
         </Button>
     )
 
