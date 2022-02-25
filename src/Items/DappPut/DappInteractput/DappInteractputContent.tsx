@@ -81,7 +81,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                         borderRadius : "5px",
                         background : Color(Colors.lilac).lighten(.5).hex(),
                         display : "grid",
-                        gridTemplateRows : "1fr 9fr"
+                        gridTemplateRows : "1fr 20fr"
                     }}>
                         <div style={{
                             display : "grid",
