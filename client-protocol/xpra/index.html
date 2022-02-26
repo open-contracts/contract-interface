@@ -1057,16 +1057,17 @@
 						"{enter}" : "return",
 					},
 				});
+				window.kb = kb;
 				function onChange(input){
 					clog("Input changed", input);
 				}
 				function onKeyPress(button){
 					forward_key(true, button);
-					if (button == "shift" || button == "lock") {
+					if (button == "{shift}" || button == "{lock}") {
 					    if (window.keyboardShifted) {
-					        $('.simple-keyboard').setOptions({layoutName: 'default'});
+					        window.kb.setOptions({layoutName: 'default'});
 					    } else {
-					        $('.simple-keyboard').setOptions({layoutName: 'shift'});
+					        window.kb.setOptions({layoutName: 'shift'});
 					    }
 					    window.keyboardShifted = !window.keyboardShifted
 					}
