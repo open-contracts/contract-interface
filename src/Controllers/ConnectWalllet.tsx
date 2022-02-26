@@ -53,7 +53,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                         warning : <><ReactMarkdown plugins={[remarkGfm]}>
                         {`${err.message}`}
                     </ReactMarkdown><ReactMarkdown plugins={[remarkGfm]}>
-                        {`You may need to complete your wallet sign in.`}
+                        {`You may need to manually open your MeteMask wallet to connect it.`}
                     </ReactMarkdown></>
                     }
                 });
@@ -96,7 +96,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                 dispatchWalletContext((state)=>{
                     return {
                         ...state,
-                        warning : "Please complete your MetaMask login."
+                        warning : "You may need to manually open your MetaMask wallet to connect it."
                     }
                 });
                 dispatch((context)=>{
