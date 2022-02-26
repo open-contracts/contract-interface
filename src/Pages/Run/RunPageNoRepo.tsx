@@ -71,7 +71,7 @@ export const RunPageNoRepo : FC<RunPageNoRepoProps>  = ({
         }}>
             <TextInputApollo 
             onSubmit={handleEnter}
-            placeholder={"Enter repo"}
+            placeholder={"github-handle/contract-repo/branch"}
             onTextInput={setText}/>&emsp;<AthenaButton 
             onClick={handleSubmit}
             primaryColor={Colors.Maintheme} secondaryColor={Colors.primaryTextColor}>
