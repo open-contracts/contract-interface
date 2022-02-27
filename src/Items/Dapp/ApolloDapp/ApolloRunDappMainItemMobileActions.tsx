@@ -42,7 +42,10 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                 textAlign : "left",
                 color : "#c60000"
             }}>
-                <ExclamationTriangle size={18}/>&emsp;Open Contracts is still in its beta phase. In particular, there may be bugs in our code which break the security of our oracle protocol. As long as we're in beta, the contracts allow us to upgrade the oracle protocol at our own discretion. Proceed at your own risk. 
+                <ExclamationTriangle size={18}/>&emsp;Open Contracts is still in its beta phase.
+                There may be bugs in our code which break the security of our oracle protocol.
+                As long as we're in beta, the contracts allow us to upgrade the oracle protocol at our own discretion.
+                Proceed at your own risk. 
             </p>
             <p style={{
                 textAlign : "left"
