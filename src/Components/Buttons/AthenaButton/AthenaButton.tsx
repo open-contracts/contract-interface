@@ -27,7 +27,8 @@ export type AthenaButtonProps = ButtonProps & {
     onClick? : (e : React.MouseEvent)=>void,
     onMouseEnter? : (e : React.MouseEvent)=>void,
     onMouseLeave? : (e : React.MouseEvent)=>void,
-    style?: React.CSSProperties
+    style?: React.CSSProperties,
+    innerStyle ? : React.CSSProperties
 }
 
 /**
@@ -50,6 +51,7 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
     onMouseEnter=(e: React.MouseEvent)=>{},
     onMouseLeave=(e: React.MouseEvent)=>{},
     style,
+    innerStyle
 }) =>{
 
     const [isDisabled, setDisabled] = useState(disabled);
@@ -117,7 +119,8 @@ export const AthenaButton : FC<AthenaButtonProps>  = ({
             alignContent : "center",
             alignItems : "center",
             justifyContent : 'center',
-            justifyItems : "center"
+            justifyItems : "center",
+            ...innerStyle
         }}>{label||children}<span style={{display: isLoading||loading ? "inline-block" : "none"}}>&ensp;</span><Spinner
             animation="border"
             style={{

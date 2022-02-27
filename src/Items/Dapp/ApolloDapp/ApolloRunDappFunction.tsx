@@ -68,6 +68,11 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                         border : "none",
                         ...style
                     }}
+                    innerStyle={{
+                        justifyItems : "left",
+                        justifyContent : "left",
+                        textAlign : "left",
+                    }}
                 
                     primaryColor={Colors.Maintheme} secondaryColor={"white"}>
                         <div style={{
@@ -78,9 +83,11 @@ export const ApolloDappFunction : FC<ApolloDappFunctionProps>  = ({
                                 <div style={{
                                     display : "flex",
                                     justifyContent : "left",
+                                    justifyItems : "left",
                                     alignContent : "center",
                                     alignItems : "center",
-                                    fontSize : "18px"
+                                    fontSize : "18px",
+                                    textAlign : "left"
                                 }}>
                                     <div>
                                         <b>ƒ<sub>𝑥</sub></b>&emsp;

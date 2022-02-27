@@ -12,6 +12,7 @@ import * as log from "./StateMethods";
 import { OpenContractFunctionReducer } from '../../Types';
 import { useOpenContractContext } from '../../Models/OpenContract/OpenContractModelProvider';
 import { useState } from 'react';
+import { useRef } from 'react';
 
 
 export type DappFunctionLogProps = {
@@ -30,8 +31,6 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
     contractFunction,
     setFunctionState
 }) =>{
-
-    const {openContract} = useOpenContractContext();
 
     const [tick, forceUpdate] = useReducer(x=>x+1, 0);
 
@@ -97,20 +96,25 @@ export const DappFunctionLog : FC<DappFunctionLogProps>  = ({
         addOutput("Notification.", message)
     }
 
-    const [oracleInputCount, setOracleInputCount] = useState(0);
     const addOracleInput = (
         data : string,
         resolve : (msg : string)=>void,
         reject : (msg : string)=>void
     )=>{
+
         setFunctionState((contractFunction : OpenContractFunctionI)=>{
+
+            const oracleInputCount = (contractFunction.puts||[]).filter((put)=>{
+                return put.putType === "oracle-input"
+            }).length;
+
+            console.log(oracleInputCount);
             
             const newOracleInput = {
                 prompt : data,
                 response : undefined,
                 id : generate()
             }
-            setOracleInputCount(oracleInputCount + 1);
             return {
                 ...contractFunction,
                 waiting : false,
