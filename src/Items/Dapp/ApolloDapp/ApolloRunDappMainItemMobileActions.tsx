@@ -1,7 +1,7 @@
 import React, {FC, ReactElement} from 'react';
 import { AthenaButton } from '../../../Components/Buttons';
 import { Colors, DesktopSizes } from '../../../Theme';
-import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus } from 'react-bootstrap-icons';
+import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus, ExclamationTriangle } from 'react-bootstrap-icons';
 import { PlayFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { DappI, } from '../Dapp';
@@ -38,6 +38,12 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
 
         <div style={{
         }}>
+            <p style={{
+                textAlign : "left",
+                color: #c60000
+            }}>
+                <ExclamationTriangle size={18}/>&emsp;Our protocol is still in its beta phase. In particular, there may be unknown bugs in our code which break the security of oracle functions, for which we take no responsibility. Proceed with caution. 
+            </p>
             <p style={{
                 textAlign : "left"
             }}>
