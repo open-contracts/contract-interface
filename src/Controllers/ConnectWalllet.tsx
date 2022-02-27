@@ -52,9 +52,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                         ...state,
                         warning : <><ReactMarkdown plugins={[remarkGfm]}>
                         {`${err.message}`}
-                    </ReactMarkdown><ReactMarkdown plugins={[remarkGfm]}>
-                        {`You may need to manually open your MeteMask wallet to connect it.`}
-                    </ReactMarkdown></>
+                    </ReactMarkdown>
                     }
                 });
                 setFail(true);
