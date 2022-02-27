@@ -396,9 +396,7 @@ async function OpenContracts() {
                   throw new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism.");
               }
               this.network = networks[chainID];
-              if (!(this.network in this.ocInterface)) {
-                  throw new ClientError(`Your wallet is set to ${this.network}, but our website only supports the following networks: ${Object.keys(this.ocInterface)}`);
-              } else if (!(this.network in this.interface.address)) {
+              if (!(this.network in this.interface.address)) {
                   throw new ClientError(`Your wallet is set to ${this.network}, but this contract only supports the following networks: ${Object.keys(this.interface.address)}`);
               } else {
                   this.signer = this.provider.getSigner();
@@ -410,6 +408,9 @@ async function OpenContracts() {
                       if (this.network == 'arbitrum') {return `https://arbiscan.io/address/${address}`}
                   };
                   if (window.opencontracts.contractFunctions.reduce((requires, f) =>{return requires||f.requiresOracle}, false)) {
+                      if (!(this.network in this.ocInterface)) {
+                          throw new ClientError(`Your wallet is set to ${this.network}, but this contract relies on our protocol, which is currently deployed to the following networks: ${Object.keys(this.ocInterface)}`);
+                      }
                       const token = this.ocInterface[this.network].token;
                       this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
                       const hub = this.ocInterface[this.network].hub;
