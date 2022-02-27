@@ -403,15 +403,17 @@ async function OpenContracts() {
                   throw new ClientError(`Your wallet is set to ${this.network}, but this contract only supports the following networks: ${Object.keys(this.interface.address)}`);
               } else {
                   this.signer = this.provider.getSigner();
-                  const token = this.ocInterface[this.network].token;
-                  this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
-                  const hub = this.ocInterface[this.network].hub;
-                  this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
-                  const verifier = this.ocInterface[this.network].verifier;
-                  this.OPNverifier = new ethers.Contract(verifier.address, verifier.abi, this.provider);
                   this.contract = new ethers.Contract(this.interface.address[this.network], this.interface.abi, this.provider);
                   this.contract.attach(this.interface.address[this.network]);
                   this.explorerUrl = function(address) {return `https://ropsten.etherscan.io/address/${address}`};
+                  if (window.opencontracts.contractFunctions.reduce((requires, f) =>{return requires||f.requiresOracle}, false)) {
+                      const token = this.ocInterface[this.network].token;
+                      this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
+                      const hub = this.ocInterface[this.network].hub;
+                      this.OPNhub = new ethers.Contract(hub.address, hub.abi, this.provider);
+                      const verifier = this.ocInterface[this.network].verifier;
+                      this.OPNverifier = new ethers.Contract(verifier.address, verifier.abi, this.provider);
+                  }
                   this.walletConnected = true;
               }
             } else {
