@@ -162,10 +162,10 @@ async function parseAttestation(attestationHex) {
 
 
 async function requestHubTransaction(opencontracts, results) {
-    fn = Object.getOwnPropertyNames(opencontracts.contract.interface.functions).filter(
-        sig => opencontracts.contract.interface.getSighash(sig) == calldata.slice(0,10)
+    const fn = Object.getOwnPropertyNames(opencontracts.contract.interface.functions).filter(
+        sig => opencontracts.contract.interface.getSighash(sig) == results.calldata.slice(0,10)
     )[0];
-    call = opencontracts.contract.interface.decodeFunctionData(calldata.slice(0,10), calldata);
+    const call = opencontracts.contract.interface.decodeFunctionData(results.calldata.slice(0,10), results.calldata);
     var estimateHub = await opencontracts.OPNverifier.connect(opencontracts.signer).estimateGas[
         "forwardCall(address,bytes32,bytes4,bytes,bytes,address,uint256,uint256,bytes)"
     ](
@@ -177,8 +177,8 @@ async function requestHubTransaction(opencontracts, results) {
     );
     const estimateTotal = estimateHub.add(estimateContract);
     return opencontracts.OPNverifier.connect(opencontracts.signer).functions.forwardCall(
-        opencontracts.contract.address, oracleID, nonce, calldata, oracleSignature,
-        oracleProvider, oraclePrice, registryPrice, registrySignature, overrides={gasLimit: estimateTotal}
+        opencontracts.contract.address, results.oracleID, results.nonce, results.calldata, results.oracleSignature,
+        results.oracleProvider, results.oraclePrice, results.registryPrice, results.registrySignature, overrides={gasLimit: estimateTotal}
     );
 }
 
@@ -322,7 +322,7 @@ async function connect(opencontracts, f, oracle) {
                 sessionFinished = true;
                 await f.submitHandler(async function() {
                     var success = true;
-                    f.results = {oracleID: data.oracleID, nonce: data.nonce, calldata: data.calldata, oracleSignature: data.oracleSignatue,
+                    f.results = {oracleID: data.oracleID, nonce: data.nonce, calldata: data.calldata, oracleSignature: data.oracleSignature,
                                  provider: oracle.provider, price: String(oracle.price), registryPrice: String(oracle.registryPrice), registrySignature: oracle.registrySignature}
                     var txReturn = await requestHubTransaction(opencontracts, f.results)
                     .then(function(tx){window.tx = tx; return tx})
