@@ -249,7 +249,7 @@ async function enclaveSession(opencontracts, f) {
                 );
             } else {
                 const price = ethers.utils.formatEther(String((oracle.price+oracle.registryPrice)*1.2));
-                f.printHandler(`Received an oracle. Submitting the results of this session will cost {price} OPN.`)
+                f.printHandler(`Received an oracle. Submitting the results of this session will cost ${price} OPN.`)
                 f.waitHandler(10, "Connecting to Oracle...");
                 setTimeout(async () => {await connect(opencontracts, f, oracle)}, 10000);
             }
