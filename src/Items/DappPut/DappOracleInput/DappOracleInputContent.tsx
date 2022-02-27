@@ -25,7 +25,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
    const text = dappOracleInput.contractFunction.oracleInputs &&
    dappOracleInput.contractFunction.oracleInputs[dappOracleInput.id].response;
 
-   const searchParams = new URLSearchParams(window.location.search);
+   const searchParams = new URLSearchParams(window.location.search.slice(0,-1));
    
    const _input = searchParams.get(`${dappOracleInput.contractFunction.name}.${dappOracleInput.name}`);
    const val = _input ? decodeURI(_input) : undefined;
