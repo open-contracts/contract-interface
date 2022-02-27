@@ -574,8 +574,9 @@ async function OpenContracts() {
                         for (let i = 0; i < this.outputs.length; i++) {
                             window.f = this;
                             if (this.outputs[i].name == "") {this.outputs[i].name = this.outputs[i].type}
-                            if (typeof this.outputs[i].decimals !== 'undefined') {txReturn[i] = ethers.utils.formatUnits(String(txReturn[i]), this.outputs[i].decimals)}
-                            results += `${this.outputs[i].name}: ${String(txReturn[i])}`
+                            var value = String(txReturn[i]);
+                            if (typeof this.outputs[i].decimals !== 'undefined') {value = ethers.utils.formatUnits(value, this.outputs[i].decimals)}
+                            results += `${this.outputs[i].name}: ${value}`
                             if (i < this.outputs.length-1) {results += ", "}
                         }
                         return results
