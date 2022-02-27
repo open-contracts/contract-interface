@@ -60,7 +60,7 @@ export const DappFunctionLogRunButton : FC<DappFunctionLogRunButtonProps>  = ({
                 };
                 searchParams.set(
                     `${contractFunction.name}.${input.name}`,
-                    text
+                    encodeURI(text)
                 );
 
                 window.history.pushState({

@@ -35,7 +35,7 @@ export const DappOracleInputContent : FC<DappOracleInputContentProps>  = ({
         
         searchParams.set(
             `${dappOracleInput.contractFunction.name}.${dappOracleInput.name}`,
-            text
+                encodeURI(text)
         );
 
         window.history.pushState({
