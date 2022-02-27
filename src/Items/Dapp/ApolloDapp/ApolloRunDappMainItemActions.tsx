@@ -1,7 +1,7 @@
 import React, {FC, ReactElement} from 'react';
 import { AthenaButton, PredicateButton } from '../../../Components/Buttons';
 import { Colors, DesktopSizes } from '../../../Theme';
-import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus } from 'react-bootstrap-icons';
+import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus, ExclamationTriangle } from 'react-bootstrap-icons';
 import { PlayFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { DappI, parseGitUrl } from '../Dapp';
@@ -42,6 +42,12 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
 
         <div style={{
         }}>
+            <p style={{
+                textAlign : "left",
+                color : "#c60000"
+            }}>
+                <ExclamationTriangle size={18}/>&emsp;Open Contracts is still in its beta phase. In particular, there may be bugs in our code which break the security of our oracle protocol. As long as we're in beta, the contracts allow us to upgrade the oracle protocol at our own discretion. Proceed at your own risk. 
+            </p>
             <p style={{
                 textAlign : "left"
             }}>
