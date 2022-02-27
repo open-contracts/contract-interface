@@ -333,7 +333,7 @@ async function connect(opencontracts, f, oracle) {
                         if (error.error != undefined) {
                             error = new EthereumError(error.error.message);
                         } else if (error.message != undefined) {
-                            error = new EthereumError(error.message  + " (Check your MetaMask for details)");
+                            error = new EthereumError(error.message  + "");
                         }
                         f.errorHandler(error);
                     });
@@ -550,6 +550,7 @@ async function OpenContracts() {
                     if ((this.inputs[i].type === "bool") && (typeof this.inputs[i].value === 'string')) {
                         this.inputs[i].value = JSON.parse(this.inputs[i].value.toLowerCase());
                     }
+                    if (this.inputs[i].decimals) {this.inputs[i].value = ethers.utils.parseUnits(String(txReturn[i]), this.outputs[i].decimals)}
                 }
                 if (this.requiresOracle) {
                     return await enclaveSession(opencontracts, this);
@@ -572,7 +573,7 @@ async function OpenContracts() {
                         const results = ""
                         for (let i = 0; i < this.outputs.length; i++) {
                             if (this.outputs[i].name == "") {this.outputs[i].name = this.outputs[i].type}
-                            if (this.outputs[i].parseFloat) {txReturn[i] = ethers.utils.parseEther(String(txReturn[i]))}
+                            if (this.outputs[i].decimals) {txReturn[i] = ethers.utils.parseUnits(String(txReturn[i]), this.outputs[i].decimals)}
                             results += `${this.outputs.name}: ${String(txReturn[i])}`
                             if (i < this.outputs.length-1) {results += ", "}
                         }
