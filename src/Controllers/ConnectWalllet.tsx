@@ -52,7 +52,9 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                         ...state,
                         warning : <><ReactMarkdown plugins={[remarkGfm]}>
                         {`${err.message}`}
-                    </ReactMarkdown>
+                    </ReactMarkdown><ReactMarkdown plugins={[remarkGfm]}>
+                        {` `}
+                    </ReactMarkdown></>
                     }
                 });
                 setFail(true);
