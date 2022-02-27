@@ -40,7 +40,7 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
         }}>
             <p style={{
                 textAlign : "left",
-                color: #c60000
+                color : "#c60000"
             }}>
                 <ExclamationTriangle size={18}/>&emsp;Our protocol is still in its beta phase. In particular, there may be unknown bugs in our code which break the security of oracle functions, for which we take no responsibility. Proceed with caution. 
             </p>
