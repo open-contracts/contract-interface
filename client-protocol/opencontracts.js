@@ -491,6 +491,7 @@ async function OpenContracts() {
             if (interface.abi[i].type == 'constructor') {continue}
             const f = {};
             f.name = interface.abi[i].name;
+            f.outputs = interface.abi[i].outputs;
             if ("descriptions" in interface) {f.description = interface.descriptions[f.name];}
             f.stateMutability = interface.abi[i].stateMutability;
             f.requiresOracle = (f.name in opencontracts.oracleHashes);
@@ -568,12 +569,14 @@ async function OpenContracts() {
                         this.errorHandler(error);
                     });
                     if (success) {
-                        const results = Object.entries(txReturn).slice(txReturn.length);
-                        if (results.length > 0) {
-                            return String(results.map((r)=>` ${r[0]}: ${r[1]}`))
-                        } else {
-                            return String(txReturn)
+                        const results = ""
+                        for (let i = 0; i < this.outputs.length; i++) {
+                            if (this.outputs[i].name == "") {this.outputs[i].name = this.outputs[i].type}
+                            if (this.outputs[i].parseFloat) {txReturn[i] = ethers.utils.parseEther(String(txReturn[i]))}
+                            results += `${this.outputs.name}: ${String(txReturn[i])}`
+                            if (i < this.outputs.length-1) {results += ", "}
                         }
+                        return results
                     };
                 }
             }
