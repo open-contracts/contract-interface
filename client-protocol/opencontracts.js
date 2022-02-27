@@ -404,7 +404,11 @@ async function OpenContracts() {
                   this.signer = this.provider.getSigner();
                   this.contract = new ethers.Contract(this.interface.address[this.network], this.interface.abi, this.provider);
                   this.contract.attach(this.interface.address[this.network]);
-                  this.explorerUrl = function(address) {return `https://ropsten.etherscan.io/address/${address}`};
+                  this.explorerUrl = function(address) {
+                      if (this.network == 'ropsten') {return `https://ropsten.etherscan.io/address/${address}`}
+                      if (this.network == 'optimism') {return `https://optimism.etherscan.io/address/${address}`}
+                      if (this.network == 'arbitrum') {return `https://arbiscan.io/address/${address}`}
+                  };
                   if (window.opencontracts.contractFunctions.reduce((requires, f) =>{return requires||f.requiresOracle}, false)) {
                       const token = this.ocInterface[this.network].token;
                       this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
