@@ -550,7 +550,7 @@ async function OpenContracts() {
                     if ((this.inputs[i].type === "bool") && (typeof this.inputs[i].value === 'string')) {
                         this.inputs[i].value = JSON.parse(this.inputs[i].value.toLowerCase());
                     }
-                    if (this.inputs[i].decimals) {this.inputs[i].value = ethers.utils.parseUnits(String(txReturn[i]), this.outputs[i].decimals)}
+                    if (this.inputs[i].decimals) {this.inputs[i].value = ethers.utils.parseUnits(String(this.inputs[i].value), this.outputs[i].decimals)}
                 }
                 if (this.requiresOracle) {
                     return await enclaveSession(opencontracts, this);
@@ -570,7 +570,7 @@ async function OpenContracts() {
                         this.errorHandler(error);
                     });
                     if (success) {
-                        const results = ""
+                        var results = ""
                         for (let i = 0; i < this.outputs.length; i++) {
                             if (this.outputs[i].name == "") {this.outputs[i].name = this.outputs[i].type}
                             if (this.outputs[i].decimals) {txReturn[i] = ethers.utils.parseUnits(String(txReturn[i]), this.outputs[i].decimals)}
