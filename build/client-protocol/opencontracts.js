@@ -248,8 +248,8 @@ async function enclaveSession(opencontracts, f) {
                     new RegistryError("No oracle enclaves available right now. Try again in a bit - or become an enclave provider!")
                 );
             } else {
-                const oprice = ethers.utils.formatEther(String(oracle.price));
-                const price = oprice.add(ethers.utils.formatEther(String(oracle.registryPrice))).mul(1.2).toString();
+                var price = parseFloat(ethers.utils.formatEther(String(oracle.price)));
+                var price = (price + parseFloat(ethers.utils.formatEther(String(oracle.registryPrice)))) * 1.2;
                 f.printHandler(`Received an oracle. Submitting the results of this session will cost ${price} OPN.`)
                 f.waitHandler(10, "Connecting to Oracle...");
                 setTimeout(async () => {await connect(opencontracts, f, oracle)}, 10000);
