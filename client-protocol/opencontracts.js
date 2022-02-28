@@ -143,8 +143,8 @@ async function parseAttestation(attestationHex) {
     // extracts hash + pubkeys
     const hash = attestation['pcrs'][0];
     const hashHex = ArrayToHexString(hash);
-    const oracleHash = "a4752a908f860d5ab079b51a974b3b7979866108ad13bfba3c6992c09998910effcad5b824874f552b427879587527f3";
-    // if (hashHex != oracleHash) {throw new EnclaveError("Invalid Hash");}
+    const oracleHash = "ba19b0568898f7eed74c911b29cccd6d026f918fa77953a705f142d06d33f51dfb00bda8f4e90e13755374548b0430e4";
+    if (hashHex != oracleHash) {throw new EnclaveError("Connected to Oracle with invalid hash. Cannot be trusted.");}
     const ETHkey = new TextDecoder().decode(attestation['public_key']);
     const RSAraw = hexStringToArray(new TextDecoder().decode(attestation['user_data'])).buffer;
     const RSAkey = await crypto.subtle.importKey(
