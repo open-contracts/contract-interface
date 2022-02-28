@@ -26,13 +26,13 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
 
     const getTokens = async ()=>{
         if(dapp.contract){
-            await (dapp.contract as any).getOPN('3')
+            await (dapp.contract as any).getOPN('10000')
         }
     }
 
     const approveHub = async ()=>{
         if(dapp.contract){
-            await (dapp.contract as any).approveOPN('3')
+            await (dapp.contract as any).approveOPN('50000')
         }
     }
 
@@ -53,17 +53,17 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
             <p style={{
                 textAlign : "left"
             }}>
-                <InfoCircle size={18}/>&emsp;If this is your first time here, you may need to&nbsp;<a 
+                <InfoCircle size={18}/>&emsp;To submit an oracle proof, you need to &nbsp;<a 
                 href="#" 
                 onClick={(e)=>{
                     e.preventDefault();
                     getTokens()
-                }}>get some OPN</a>&nbsp;and&nbsp;<a 
+                }}>get some OPN</a>&nbsp;(currently roughly 100 OPN, around 4 USD per transaction), and&nbsp;<a 
                 href="#" 
                 onClick={(e)=>{
                     e.preventDefault();
                     approveHub();
-                }}>grant access to the Open Contracts hub</a>.
+                }}>grant the protocol access to your OPN</a>.
             </p>
             <br/>
             <div style={{
