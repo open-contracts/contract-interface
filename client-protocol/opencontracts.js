@@ -484,6 +484,7 @@ async function OpenContracts() {
             }
         }
         this.approveOPN = async function (amountString) {
+            await this.connectWallet();
             const amount = ethers.utils.parseEther(amountString);
             await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
         }
