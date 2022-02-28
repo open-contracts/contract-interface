@@ -462,13 +462,16 @@ async function OpenContracts() {
             } catch {
                 throw new ClientError(`Couldn't load contract. The repo at https://github.com/${user}/${repo}/tree/${branch || "main"} may not exist or contains an invalid interface.json`)
             };
-            this.oracleHashes = JSON.parse(await (await fetch(new URL(url + "/oracleHashes.json")).catch(
-                (error)=>{console.warn("no oralceHashes.json found!"); this.oracleHashes = {}})).text());
+            try {
+                this.oracleHashes = JSON.parse(await (await fetch(new URL(url + "/oracleHashes.json"))).text())
+            } catch {
+                console.warn("No valid oralceHashes.json found! Assuming no oracle functions.");
+                this.oracleHashes = {};
+            };
         } else {
             throw new ClientError("Couldn't find contract at " + contractLocation); 
         }
         this.getOPN = async function (amountString) {
-            await this.connectWallet();
             const amount = ethers.utils.parseEther(amountString);
             if (this.network == "ropsten") {
                 await this.OPNtoken.connect(this.signer).mint(amount);
@@ -481,7 +484,6 @@ async function OpenContracts() {
             }
         }
         this.approveOPN = async function (amountString) {
-            await this.connectWallet();
             const amount = ethers.utils.parseEther(amountString);
             await this.OPNtoken.connect(this.signer).approve(this.OPNverifier.address, amount);
         }
@@ -545,7 +547,6 @@ async function OpenContracts() {
                 }
             }
             f.call = async function () {
-                await opencontracts.connectWallet();
                 const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
                 if (unspecifiedInputs.length > 0) {
                     throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
