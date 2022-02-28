@@ -29,7 +29,7 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
 
     const approveHub = async ()=>{
         if(dapp.contract){
-            await (dapp.contract as any).approveOPN('10000')
+            await (dapp.contract as any).approveOPN('50000')
         }
     }
 
@@ -54,7 +54,7 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                 onClick={(e)=>{
                     e.preventDefault();
                     getTokens();
-                }}>get some OPN</a>&nbsp; (currently roughly 1000OPN, around 4USD per transaction), and&nbsp;<a
+                }}>get some OPN</a>&nbsp; (currently roughly 100OPN, around 4USD per transaction), and&nbsp;<a
                 href="#" 
                 onClick={(e)=>{
                     e.preventDefault();
