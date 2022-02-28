@@ -40,7 +40,7 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
         }}>
             <p style={{
                 textAlign : "left",
-                color : "#c60000"
+                color : "#dbac3e"
             }}>
                 <ExclamationTriangle size={18}/>&emsp;Open Contracts is still in its beta phase.
                 As long as we're in beta, the contracts allow us to upgrade the protocol at our own discretion.
