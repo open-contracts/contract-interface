@@ -453,6 +453,7 @@ async function OpenContracts() {
         
         this.location = contractLocation.split("/");
         if (this.location[0] == "@git") {
+            this.location = window.location.hash.split('/');
             const [user, repo, branch] = this.location.slice(1);
             const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
             console.warn('loading contract at:', url);
