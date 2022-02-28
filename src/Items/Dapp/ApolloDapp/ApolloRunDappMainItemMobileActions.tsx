@@ -23,13 +23,13 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
 
     const getTokens = async ()=>{
         if(dapp.contract){
-            await (dapp.contract as any).getOPN('3')
+            await (dapp.contract as any).getOPN('10000')
         }
     }
 
     const approveHub = async ()=>{
         if(dapp.contract){
-            await (dapp.contract as any).approveOPN('3')
+            await (dapp.contract as any).approveOPN('10000')
         }
     }
 
@@ -49,17 +49,17 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
             <p style={{
                 textAlign : "left"
             }}>
-                <InfoCircle size={18}/>&emsp;If this is your first time here, you may need to&nbsp;<a
+                <InfoCircle size={18}/>&emsp;To submit an oracle proof, you need to &nbsp;<a
                 href="#" 
                 onClick={(e)=>{
                     e.preventDefault();
                     getTokens();
-                }}>get some OPN</a>&nbsp;and&nbsp;<a
+                }}>get some OPN</a>&nbsp; (currently roughly 1000OPN, around 4USD per transaction), and&nbsp;<a
                 href="#" 
                 onClick={(e)=>{
                     e.preventDefault();
                     approveHub();
-                }}>grant access to the Open Contracts hub</a>.
+                }}>grant the protocol access to your OPN.</a>.
             </p>
             <br/>
             <div style={{
@@ -117,7 +117,7 @@ export const ApolloRunDappMainItemMobileActions : FC<ApolloRunDappMainItemMobile
                         justifyContent : "center",
                         fontSize : "22px"
                     }}>
-                        Grant Hub Access&emsp;<PatchCheckFill/>
+                        Approve OPN for Protocol&emsp;<PatchCheckFill/>
                     </div>
                 </AthenaButton>
                 &emsp;
