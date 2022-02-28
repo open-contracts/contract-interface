@@ -253,7 +253,7 @@ async function enclaveSession(opencontracts, f) {
                 var price = (price + parseFloat(ethers.utils.formatEther(String(oracle.registryPrice)))) * 1.2;
                 f.printHandler(`Received an oracle. Submitting the results of this session will cost ${price} OPN.`)
                 f.waitHandler(10, "Connecting to Oracle...");
-                setTimeout(async () => {await connect(opencontracts, f, oracle)}, 10000);
+                setTimeout(async () => {await connect(opencontracts, f, oracle)}, 11500);
             }
         }
     }
@@ -325,7 +325,7 @@ async function connect(opencontracts, f, oracle) {
                 await f.submitHandler(async function() {
                     var success = true;
                     f.results = {oracleID: data.oracleID, nonce: data.nonce, calldata: data.calldata, oracleSignature: data.oracleSignature,
-                                 provider: oracle.provider, price: String(oracle.price), registryPrice: String(oracle.registryPrice), registrySignature: oracle.registrySignature};
+                                 oracleProvider: oracle.provider, oraclePrice: String(oracle.price), registryPrice: String(oracle.registryPrice), registrySignature: oracle.registrySignature};
                     window.results = f.results;
                     var txReturn = await requestHubTransaction(opencontracts, f.results)
                     .then(function(tx){window.tx = tx; return tx})
