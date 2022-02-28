@@ -203,6 +203,7 @@ async function decrypt(AESkey, json) {
 
 async function enclaveSession(opencontracts, f) {
     // TODO: check registry returns for validity
+    window.f = f;
     var oracleIP = new URLSearchParams(window.location.search).get('oracleIP');
     if (oracleIP) {
         console.warn("Oracle IP override: ", oracleIP);
@@ -326,7 +327,7 @@ async function connect(opencontracts, f, oracle) {
                     f.results = {oracleID: data.oracleID, nonce: data.nonce, calldata: data.calldata, oracleSignature: data.oracleSignature,
                                  provider: oracle.provider, price: String(oracle.price), registryPrice: String(oracle.registryPrice), registrySignature: oracle.registrySignature};
                     window.results = f.results;
-                    var txReturn = await requestHubTransaction(opencontracts, f.results);
+                    var txReturn = await requestHubTransaction(opencontracts, f.results)
                     .then(function(tx){window.tx = tx; return tx})
                     .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                     .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
