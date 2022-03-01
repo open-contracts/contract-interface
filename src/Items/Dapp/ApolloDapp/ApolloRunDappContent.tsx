@@ -59,7 +59,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                     primaryColor={Colors.Maintheme}
                     secondaryColor={grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
-                        boxShadow : grid ? `0 6px 6px ${Colors.jonasGray}, 0 0 10px #999` : "none",
+                        boxShadow : grid ? `0 6px 6px ${Colors.jonasGray}, 0 0 10px #999, 0 0 1px #888` : "none",
                         height : "50px",
                         width : "60px",
                         zIndex : grid ? 100 : 0,
@@ -81,7 +81,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                     primaryColor={Colors.Maintheme}
                     secondaryColor={!grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
-                        boxShadow : !grid ? `0 6px 6px ${Colors.jonasGray}, 0 0 10px #999` : "none",
+                        boxShadow : !grid ? `0 6px 6px ${Colors.jonasGray}, 0 0 10px #999, 0 0 1px #888` : "none",
                         height : "50px",
                         zIndex : !grid ? 100 : 0,
                         position : "relative",
