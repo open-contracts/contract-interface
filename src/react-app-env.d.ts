@@ -27,9 +27,7 @@ declare global {
 
         OpenContracts() : Promise<IOpenContract>
     }
-    
-    interface OpenContractsInterfaceI {
-    }
+
        
     interface PutI {
         internalType ? : string;
@@ -169,6 +167,8 @@ declare global {
     
         contract : ethers.Contract,
         contractFunctions : OpenContractFunctionI[],
+
+        network : string
     
     }
     

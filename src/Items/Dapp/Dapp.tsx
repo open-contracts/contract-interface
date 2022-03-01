@@ -7,7 +7,7 @@ export interface DappDataI {
     oracle : string,
     appTile : string,
     contract : IOpenContract,
-    openContractsInterface : OpenContractsInterfaceI,
+    openContractsInterface : IOpenContract,
     dappInterface : IOpenContractnterfaceI
 }
 
@@ -321,8 +321,8 @@ export const getDappInterface = async (
 
 export const ocInterfacePath = "/client-protocol/opencontracts_interface.json"
 export const getOpenContractsInterface = async (
-    onGet ? : (dappInterface : OpenContractsInterfaceI)=>void
-) : Promise<OpenContractsInterfaceI>=>{
+    onGet ? : (dappInterface : IOpenContract)=>void
+) : Promise<IOpenContract>=>{
 
     
 

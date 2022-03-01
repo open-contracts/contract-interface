@@ -137,7 +137,7 @@ export const ConnectWalllet : FC<ConnectWallletProps>  = () =>{
                     fontSize : "12px",
 
                 }}>
-                    Addresses&ensp;<FileText size={12} color={Colors.Maintheme}/>
+                    {openContract.network[0].toUpperCase() + openContract.network.slice(1)} Addresses&ensp;<FileText size={12} color={Colors.Maintheme}/>
                     <br/>
                     {signer && <><span>You: </span><a href={openContract.explorerUrl(signer)}>
                         {tiny ? signer.slice(0, 3) + "..." 
