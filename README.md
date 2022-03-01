@@ -13,3 +13,4 @@ Rather tell us what's missing and we'll see if it makes sense to add into this g
 - What's the minimal amount of customization you need to create your own 'branding'?
 - What's the best way to tie the (verified) contract source code closer to the interface?
 - Could the interface parse the source code, and be a neutal source of info for the user about what each function will do (e.g. transfer tokens under some conditions)?
+
