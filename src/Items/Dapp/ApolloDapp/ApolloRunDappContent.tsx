@@ -59,7 +59,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                     primaryColor={Colors.Maintheme}
                     secondaryColor={grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
-                        boxShadow : "none",
+                        boxShadow : `0 8px 0 ${Colors.jonasGray}, 0 0 8px #888`,
                         height : "50px",
                         width : "60px",
                         zIndex : 1000,

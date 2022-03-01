@@ -1,12 +1,7 @@
 import React, {FC, ReactElement} from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { CollectionFill } from 'react-bootstrap-icons';
 import { DappI } from '../Dapp';
 import {ApolloDappFunction} from "./ApolloRunDappFunction";
-import {LeftRightScrollAdorno} from "../../../Components/Scroll/LeftRightScroll";
 import { DesktopSizes } from '../../../Theme';
-import Masonry from "react-masonry-css";
 
 export type ApolloDappFunctionMobilesProps = {
     dapp : DappI,
