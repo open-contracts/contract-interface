@@ -3,6 +3,8 @@ import { Clipboard } from 'react-bootstrap-icons';
 import { AthenaButton } from '../../../Components/Buttons';
 import { Colors } from '../../../Theme';
 import { DappOutputI } from '../DappPutType';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export type DappOutputContentProps = {
     dappOutput : DappOutputI
@@ -37,7 +39,9 @@ export const DappOutputContent : FC<DappOutputContentProps>  = ({
                                 color : Colors.secondaryTextColor,
                                 textAlign : "left"
                             }}>
-                                {dappOutput.value}
+                                <ReactMarkdown plugins={[remarkGfm]}>
+                                    {dappOutput.value}
+                                </ReactMarkdown>
                             </div>
                         </td>
                         <td>
