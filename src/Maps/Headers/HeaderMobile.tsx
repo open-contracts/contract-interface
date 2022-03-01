@@ -54,7 +54,7 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
         <HeaderLayoutMobile>
             <HeaderLayoutMobile.Brand>
                 <div 
-                    onClick={handleLogo}
+                    onClick={()=>window.location.href = "https://www.opencontracts.io"}
                     style={{
                     cursor : "pointer",
                     height : "100%",

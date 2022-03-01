@@ -27,6 +27,7 @@ export const HeaderDesktop : FC<HeaderDesktopProps>  = ({
         <HeaderLayoutDesktop>
             <HeaderLayoutDesktop.Brand>
                 <div 
+                    onClick={()=>window.location.href = "https://www.opencontracts.io"}
                     style={{
                     cursor : "pointer",
                     height : "100%",
