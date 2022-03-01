@@ -68,7 +68,10 @@ export const HeaderMobile : FC<HeaderMobileProps>  = ({
                 </div>
             </HeaderLayoutMobile.Brand>
             <HeaderLayoutMobile.Nav>
-                <div>
+                <div style={{
+                    justifyContent : "center",
+                    justifyItems : "center"
+                }}>
                     <ConnectWalllet/>
                 </div>
             </HeaderLayoutMobile.Nav>

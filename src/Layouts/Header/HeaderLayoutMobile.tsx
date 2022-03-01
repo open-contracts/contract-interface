@@ -23,7 +23,7 @@ const HeaderLayoutMobile : FC<HeaderLayoutMobileProps> & {
     return (
 
         <div style={{
-            width : "90vw",
+            width : "100%",
             display : "grid",
             gridTemplateColumns : "1fr",
             gap : DesktopSizes.Padding.whitespacePreferred,
