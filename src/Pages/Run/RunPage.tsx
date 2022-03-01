@@ -28,6 +28,7 @@ export const RunPage : FC<RunPageProps>  = ({
         branch
     } = useParams();
 
+    console.log(branch);
     
 
     const [dapp, setDapp] = useReducer(
@@ -104,11 +105,13 @@ export const RunPage : FC<RunPageProps>  = ({
             })
         }
 
-    })
+    });
 
     const {dispatch : dispatchContract} = useOpenContractContext();
     const [contractLoad, setContractLoad] = useState<IOpenContract|undefined>(undefined);
     useEffect(()=>{
+
+        console.log(dapp);
 
         if(!dapp.contract && dapp.owner.length && dapp.repo.length){
             
@@ -116,8 +119,7 @@ export const RunPage : FC<RunPageProps>  = ({
                 dapp,
                 (contract : IOpenContract)=>{
                     setContractLoad(contract);
-                    !which.length && setWhich(contract.contractFunctions[0].name);
-                    
+                    !which.length && setWhich(contract.contractFunctions[0].name); // TODO: this should be run whenever which does not exists in the contract function names
                     dispatchContract((context)=>{
                         return {
                             ...context,
@@ -135,7 +137,7 @@ export const RunPage : FC<RunPageProps>  = ({
             })
         }
 
-    }, [dapp.contract?.contractName])
+    }, [owner, repo, branch])
     useEffect(()=>{
 
         if(contractLoad && (dapp.contract !== contractLoad)){
