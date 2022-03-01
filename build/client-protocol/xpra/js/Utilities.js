@@ -293,8 +293,7 @@ const Utilities = {
 	},
 
 	isMobile : function () {
-	    //return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-	    return false;
+	    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 	},
 
 	getSimpleUserAgentString : function() {

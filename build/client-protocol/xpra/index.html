@@ -1043,7 +1043,6 @@
 
 			function init_keyboard(client) {
 				const Keyboard = window.SimpleKeyboard.default;
-				window.keyboardShifted = false;
 				let kb = new Keyboard({
 					onKeyPress: button => onKeyPress(button),
 					onKeyReleased: button => onKeyReleased(button),
@@ -1057,20 +1056,11 @@
 						"{enter}" : "return",
 					},
 				});
-				window.kb = kb;
 				function onChange(input){
 					clog("Input changed", input);
 				}
 				function onKeyPress(button){
 					forward_key(true, button);
-					if (button == "{shift}" || button == "{lock}") {
-					    if (window.keyboardShifted) {
-					        window.kb.setOptions({layoutName: 'default'});
-					    } else {
-					        window.kb.setOptions({layoutName: 'shift'});
-					    }
-					    window.keyboardShifted = !window.keyboardShifted
-					}
 				}
 				function onKeyReleased(button){
 					forward_key(false, button);

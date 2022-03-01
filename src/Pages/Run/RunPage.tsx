@@ -58,7 +58,7 @@ export const RunPage : FC<RunPageProps>  = ({
             }));
             setLoc(window.location.hash);
         }
-    }, [window.location.hash]); // I don't believe this dep array actually does anything.
+    }, [owner, repo, branch]); // I don't believe this dep array actually does anything.
 
     const {funcName} = useParams();
 
