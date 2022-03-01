@@ -116,7 +116,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                         alignContent : "center",
                         alignItems : "center"
                     }}>
-                        Grant Hub Access&emsp;<PatchCheckFill/>
+                        Approve OPN for Protocol&emsp;<PatchCheckFill/>
                     </div>
                 </PredicateButton>
                 &emsp;
