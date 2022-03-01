@@ -250,8 +250,9 @@ async function enclaveSession(opencontracts, f) {
                 );
             } else {
                 var price = parseFloat(ethers.utils.formatEther(String(oracle.price)));
-                var price = (price + parseFloat(ethers.utils.formatEther(String(oracle.registryPrice)))) * 1.2;
-                f.printHandler(`Received an oracle. Submitting the results of this session will cost ${price} OPN.`)
+                var price = Math.round((price + parseFloat(ethers.utils.formatEther(String(oracle.registryPrice))))*120)/100;
+                var burn = Math.round((price + parseFloat(ethers.utils.formatEther(String(oracle.registryPrice))))*20)/100;
+                f.printHandler(`Received an oracle quote. Submitting the results of this session will cost ${price} OPN, of which ${burn} OPN will be permanently removed from circulation.`)
                 f.waitHandler(10, "Connecting to Oracle...");
                 setTimeout(async () => {await connect(opencontracts, f, oracle)}, 11500);
             }
