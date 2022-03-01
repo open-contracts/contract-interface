@@ -59,10 +59,10 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                     primaryColor={Colors.Maintheme}
                     secondaryColor={grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
-                        boxShadow : `0 6px 6px ${Colors.jonasGray}, 0 0 10px #999`,
+                        boxShadow : grid ? `0 6px 6px ${Colors.jonasGray}, 0 0 10px #999` : "none",
                         height : "50px",
                         width : "60px",
-                        zIndex : 1000,
+                        zIndex : grid ? 100 : 0,
                         position : "relative",
                         top : grid ? "1px" : 0,
                         borderBottomRightRadius : "0px",
@@ -81,8 +81,9 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                     primaryColor={Colors.Maintheme}
                     secondaryColor={!grid ? Colors.jonasGray : Colors.quartenaryTextColor}
                     style={{
-                        boxShadow : "none",
-                        zIndex : 100,
+                        boxShadow : !grid ? `0 6px 6px ${Colors.jonasGray}, 0 0 10px #999` : "none",
+                        height : "50px",
+                        zIndex : !grid ? 100 : 0,
                         position : "relative",
                         top : !grid ? "1px" : 0,
                         borderBottomRightRadius : "0px",
@@ -102,6 +103,7 @@ const ApolloRunDappContent : FC<ApolloRunDappContentProps> & {
                 flexGrow : 1,
                 zIndex : 0,
                 background : Colors.jonasGray,
+                borderTopLeftRadius : grid ? 0 : DesktopSizes.BorderRadius.standard,
                 borderTopRightRadius : DesktopSizes.BorderRadius.standard,
                 borderBottomLeftRadius : DesktopSizes.BorderRadius.standard,
                 borderBottomRightRadius : DesktopSizes.BorderRadius.standard
