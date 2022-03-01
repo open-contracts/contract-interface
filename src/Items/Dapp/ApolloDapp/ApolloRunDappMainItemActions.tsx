@@ -1,7 +1,7 @@
 import React, {FC, ReactElement} from 'react';
 import { AthenaButton, PredicateButton } from '../../../Components/Buttons';
 import { Colors, DesktopSizes } from '../../../Theme';
-import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus } from 'react-bootstrap-icons';
+import { Coin, Github, InfoCircle, PatchCheckFill, PatchPlus, ExclamationTriangle } from 'react-bootstrap-icons';
 import { PlayFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { DappI, parseGitUrl } from '../Dapp';
@@ -26,13 +26,13 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
 
     const getTokens = async ()=>{
         if(dapp.contract){
-            await (dapp.contract as any).getOPN('3')
+            await (dapp.contract as any).getOPN('10000')
         }
     }
 
     const approveHub = async ()=>{
         if(dapp.contract){
-            await (dapp.contract as any).approveOPN('3')
+            await (dapp.contract as any).approveOPN('50000')
         }
     }
 
@@ -43,19 +43,27 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
         <div style={{
         }}>
             <p style={{
+                textAlign : "left",
+                color : "#dbac3e"
+            }}>
+                <ExclamationTriangle size={18}/>&emsp;Open Contracts is still in its 'beta' phase.
+                As long as we're in beta, the contracts allow us to upgrade the protocol at our own discretion.
+                And there may bugs in our code. Proceed at your own risk. 
+            </p>
+            <p style={{
                 textAlign : "left"
             }}>
-                <InfoCircle size={18}/>&emsp;If this is your first time here, you may need to&nbsp;<a 
+                <InfoCircle size={18}/>&emsp;To submit an oracle proof, you need to &nbsp;<a 
                 href="#" 
                 onClick={(e)=>{
                     e.preventDefault();
                     getTokens()
-                }}>get some OPN</a>&nbsp;and&nbsp;<a 
+                }}>get some OPN</a>&nbsp;(currently roughly 100 OPN, around 4 USD per transaction), and&nbsp;<a 
                 href="#" 
                 onClick={(e)=>{
                     e.preventDefault();
                     approveHub();
-                }}>grant access to the Open Contracts hub</a>.
+                }}>grant the protocol access to your OPN</a>.
             </p>
             <br/>
             <div style={{
@@ -108,7 +116,7 @@ export const ApolloRunDappMainItemActions : FC<ApolloRunDappMainItemActionsProps
                         alignContent : "center",
                         alignItems : "center"
                     }}>
-                        Grant Hub Access&emsp;<PatchCheckFill/>
+                        Approve OPN for Protocol&emsp;<PatchCheckFill/>
                     </div>
                 </PredicateButton>
                 &emsp;

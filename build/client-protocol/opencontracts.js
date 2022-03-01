@@ -1,3 +1,20 @@
+// Open Contracts Oracle Protocol
+// Copyright (C) 2022  Jonas Metzger
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 /**
  * Error type to be thrown when error is in the enclave.
  */
@@ -126,8 +143,8 @@ async function parseAttestation(attestationHex) {
     // extracts hash + pubkeys
     const hash = attestation['pcrs'][0];
     const hashHex = ArrayToHexString(hash);
-    const oracleHash = "a4752a908f860d5ab079b51a974b3b7979866108ad13bfba3c6992c09998910effcad5b824874f552b427879587527f3";
-    // if (hashHex != oracleHash) {throw new EnclaveError("Invalid Hash");}
+    const oracleHash = "ba19b0568898f7eed74c911b29cccd6d026f918fa77953a705f142d06d33f51dfb00bda8f4e90e13755374548b0430e4";
+    if (hashHex != oracleHash) {throw new EnclaveError("Connected to Oracle with invalid hash. Rejecting connection.");}
     const ETHkey = new TextDecoder().decode(attestation['public_key']);
     const RSAraw = hexStringToArray(new TextDecoder().decode(attestation['user_data'])).buffer;
     const RSAkey = await crypto.subtle.importKey(
@@ -144,25 +161,24 @@ async function parseAttestation(attestationHex) {
 }
 
 
-async function requestHubTransaction(opencontracts,
-                                     oracleID, nonce, calldata, oracleSignature,
-                                     oracleProvider, oraclePrice, registryPrice, registrySignature) {
-    fn = Object.getOwnPropertyNames(opencontracts.contract.interface.functions).filter(
-        sig => opencontracts.contract.interface.getSighash(sig) == calldata.slice(0,10)
+async function requestHubTransaction(opencontracts, results) {
+    const fn = Object.getOwnPropertyNames(opencontracts.contract.interface.functions).filter(
+        sig => opencontracts.contract.interface.getSighash(sig) == results.calldata.slice(0,10)
     )[0];
-    call = opencontracts.contract.interface.decodeFunctionData(calldata.slice(0,10), calldata);
+    const call = opencontracts.contract.interface.decodeFunctionData(results.calldata.slice(0,10), results.calldata);
     var estimateHub = await opencontracts.OPNverifier.connect(opencontracts.signer).estimateGas[
         "forwardCall(address,bytes32,bytes4,bytes,bytes,address,uint256,uint256,bytes)"
     ](
-        opencontracts.contract.address, oracleID, nonce, calldata, oracleSignature, oracleProvider, oraclePrice, registryPrice, registrySignature
+        opencontracts.contract.address, results.oracleID, results.nonce, results.calldata, results.oracleSignature,
+        results.oracleProvider, results.oraclePrice, results.registryPrice, results.registrySignature
     );
     const estimateContract = await opencontracts.contract.estimateGas[fn](
         ...call, overrides={from: opencontracts.OPNhub.address}
     );
     const estimateTotal = estimateHub.add(estimateContract);
     return opencontracts.OPNverifier.connect(opencontracts.signer).functions.forwardCall(
-        opencontracts.contract.address, oracleID, nonce, calldata, oracleSignature,
-        oracleProvider, oraclePrice, registryPrice, registrySignature, overrides={gasLimit: estimateTotal}
+        opencontracts.contract.address, results.oracleID, results.nonce, results.calldata, results.oracleSignature,
+        results.oracleProvider, results.oraclePrice, results.registryPrice, results.registrySignature, overrides={gasLimit: estimateTotal}
     );
 }
 
@@ -187,6 +203,7 @@ async function decrypt(AESkey, json) {
 
 async function enclaveSession(opencontracts, f) {
     // TODO: check registry returns for validity
+    window.f = f;
     var oracleIP = new URLSearchParams(window.location.search).get('oracleIP');
     if (oracleIP) {
         console.warn("Oracle IP override: ", oracleIP);
@@ -232,8 +249,12 @@ async function enclaveSession(opencontracts, f) {
                     new RegistryError("No oracle enclaves available right now. Try again in a bit - or become an enclave provider!")
                 );
             } else {
+                var price = parseFloat(ethers.utils.formatEther(String(oracle.price)));
+                var price = Math.round((price + parseFloat(ethers.utils.formatEther(String(oracle.registryPrice))))*120)/100;
+                var burn = Math.round((price + parseFloat(ethers.utils.formatEther(String(oracle.registryPrice))))*20)/100;
+                f.printHandler(`Received an oracle quote. Submitting the results of this session will cost ${price} OPN, of which ${burn} OPN will be permanently removed from circulation.`)
                 f.waitHandler(10, "Connecting to Oracle...");
-                setTimeout(async () => {await connect(opencontracts, f, oracle)}, 10000);
+                setTimeout(async () => {await connect(opencontracts, f, oracle)}, 11500);
             }
         }
     }
@@ -304,9 +325,10 @@ async function connect(opencontracts, f, oracle) {
                 sessionFinished = true;
                 await f.submitHandler(async function() {
                     var success = true;
-                    var txReturn = await requestHubTransaction(opencontracts,
-                                                               data.oracleID, data.nonce, data.calldata, data.oracleSignature,
-                                                               oracle.provider, String(oracle.price), String(oracle.registryPrice), oracle.registrySignature)
+                    f.results = {oracleID: data.oracleID, nonce: data.nonce, calldata: data.calldata, oracleSignature: data.oracleSignature,
+                                 oracleProvider: oracle.provider, oraclePrice: String(oracle.price), registryPrice: String(oracle.registryPrice), registrySignature: oracle.registrySignature};
+                    window.results = f.results;
+                    var txReturn = await requestHubTransaction(opencontracts, f.results)
                     .then(function(tx){window.tx = tx; return tx})
                     .then(function(tx){if (tx.wait != undefined) {return tx.wait(1)} else {return tx}})
                     .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
@@ -315,7 +337,7 @@ async function connect(opencontracts, f, oracle) {
                         if (error.error != undefined) {
                             error = new EthereumError(error.error.message);
                         } else if (error.message != undefined) {
-                            error = new EthereumError(error.message  + " (Check your MetaMask for details)");
+                            error = new EthereumError(error.message  + "");
                         }
                         f.errorHandler(error);
                     });
@@ -397,16 +419,21 @@ async function OpenContracts() {
                   throw new ClientError("Your Metamask is set to a chain with unknown ID. Please change your network to Ropsten, Arbitrum or Optimism.");
               }
               this.network = networks[chainID];
-              if (!(this.network in this.ocInterface)) {
-                  throw new ClientError(`Your wallet is set to ${this.network}, but our website only supports the following networks: ${Object.keys(this.ocInterface)}`);
-              } else if (!(this.network in this.interface.address)) {
+              if (!(this.network in this.interface.address)) {
                   throw new ClientError(`Your wallet is set to ${this.network}, but this contract only supports the following networks: ${Object.keys(this.interface.address)}`);
               } else {
                   this.signer = this.provider.getSigner();
                   this.contract = new ethers.Contract(this.interface.address[this.network], this.interface.abi, this.provider);
                   this.contract.attach(this.interface.address[this.network]);
-                  this.explorerUrl = function(address) {return `https://ropsten.etherscan.io/address/${address}`};
+                  this.explorerUrl = function(address) {
+                      if (this.network == 'ropsten') {return `https://ropsten.etherscan.io/address/${address}`}
+                      if (this.network == 'optimism') {return `https://optimism.etherscan.io/address/${address}`}
+                      if (this.network == 'arbitrum') {return `https://arbiscan.io/address/${address}`}
+                  };
                   if (window.opencontracts.contractFunctions.reduce((requires, f) =>{return requires||f.requiresOracle}, false)) {
+                      if (!(this.network in this.ocInterface)) {
+                          throw new ClientError(`Your wallet is set to ${this.network}, but this contract relies on our protocol, which is currently deployed to the following networks: ${Object.keys(this.ocInterface)}`);
+                      }
                       const token = this.ocInterface[this.network].token;
                       this.OPNtoken = new ethers.Contract(token.address, token.abi, this.provider);
                       const hub = this.ocInterface[this.network].hub;
@@ -427,17 +454,25 @@ async function OpenContracts() {
         
         this.location = contractLocation.split("/");
         if (this.location[0] == "@git") {
+            this.location = window.location.hash.split('/');
             const [user, repo, branch] = this.location.slice(1);
             const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch || "main"}`;
             console.warn('loading contract at:', url);
-            this.interface = JSON.parse(await (await fetch(new URL(url + "/interface.json"))).text());
-            this.oracleHashes = JSON.parse(await (await fetch(new URL(url + "/oracleHashes.json")).catch(
-                (error)=>{console.warn("no oralceHashes.json found!"); this.oracleHashes = {}})).text());
+            try {
+                this.interface = JSON.parse(await (await fetch(new URL(url + "/interface.json"))).text())
+            } catch {
+                throw new ClientError(`Couldn't load contract. The repo at https://github.com/${user}/${repo}/tree/${branch || "main"} may not exist or contains an invalid interface.json`)
+            };
+            try {
+                this.oracleHashes = JSON.parse(await (await fetch(new URL(url + "/oracleHashes.json"))).text())
+            } catch {
+                console.warn("No valid oralceHashes.json found! Assuming no oracle functions.");
+                this.oracleHashes = {};
+            };
         } else {
             throw new ClientError("Couldn't find contract at " + contractLocation); 
         }
         this.getOPN = async function (amountString) {
-            await this.connectWallet();
             const amount = ethers.utils.parseEther(amountString);
             if (this.network == "ropsten") {
                 await this.OPNtoken.connect(this.signer).mint(amount);
@@ -464,6 +499,7 @@ async function OpenContracts() {
             if (interface.abi[i].type == 'constructor') {continue}
             const f = {};
             f.name = interface.abi[i].name;
+            f.outputs = interface.abi[i].outputs;
             if ("descriptions" in interface) {f.description = interface.descriptions[f.name];}
             f.stateMutability = interface.abi[i].stateMutability;
             f.requiresOracle = (f.name in opencontracts.oracleHashes);
@@ -513,7 +549,6 @@ async function OpenContracts() {
                 }
             }
             f.call = async function () {
-                await opencontracts.connectWallet();
                 const unspecifiedInputs = this.inputs.filter(i=>i.value == null).map(i => i.name);
                 if (unspecifiedInputs.length > 0) {
                     throw new ClientError(`The following inputs to "${this.name}" were unspecified:  ${unspecifiedInputs}`);
@@ -522,6 +557,7 @@ async function OpenContracts() {
                     if ((this.inputs[i].type === "bool") && (typeof this.inputs[i].value === 'string')) {
                         this.inputs[i].value = JSON.parse(this.inputs[i].value.toLowerCase());
                     }
+                    if (this.inputs[i].decimals) {this.inputs[i].value = ethers.utils.parseUnits(String(this.inputs[i].value), this.outputs[i].decimals)}
                 }
                 if (this.requiresOracle) {
                     return await enclaveSession(opencontracts, this);
@@ -540,7 +576,18 @@ async function OpenContracts() {
                         }
                         this.errorHandler(error);
                     });
-                    if (success) {return String(txReturn)};
+                    if (success) {
+                        var results = ""
+                        for (let i = 0; i < this.outputs.length; i++) {
+                            window.f = this;
+                            if (this.outputs[i].name == "") {this.outputs[i].name = this.outputs[i].type}
+                            var value = String(txReturn[i]);
+                            if (Object.keys(f.outputs[0]).indexOf("decimals") != -1) {value = ethers.utils.formatUnits(value, this.outputs[i].decimals)}
+                            results += `${this.outputs[i].name}: ${value}`
+                            if (i < this.outputs.length-1) {results += ", "}
+                        }
+                        return results
+                    };
                 }
             }
             opencontracts.contractFunctions.push(f);
