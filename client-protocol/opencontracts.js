@@ -144,7 +144,15 @@ async function parseAttestation(attestationHex) {
     const hash = attestation['pcrs'][0];
     const hashHex = ArrayToHexString(hash);
     const oracleHash = "ba19b0568898f7eed74c911b29cccd6d026f918fa77953a705f142d06d33f51dfb00bda8f4e90e13755374548b0430e4";
-    if (hashHex != oracleHash) {throw new EnclaveError("Connected to Oracle with invalid hash. Rejecting connection.");}
+    if (hashHex != oracleHash) {
+        var msg = `You're about to connect to an enclave which is in debug mode or does not run our protocol. `;
+        msg += `You should only proceed if you personally control the enclave. Continue?`;
+        if (confirm(msg)) {
+            console.warn("Connecting despite invalid oracleImageHash");
+        } else {
+            throw new EnclaveError("Connected to Oracle with invalid hash. Rejecting connection.");
+        }
+    }
     const ETHkey = new TextDecoder().decode(attestation['public_key']);
     const RSAraw = hexStringToArray(new TextDecoder().decode(attestation['user_data'])).buffer;
     const RSAkey = await crypto.subtle.importKey(
@@ -282,7 +290,9 @@ async function connect(opencontracts, f, oracle) {
     ws.onmessage = async function (event) {
         var data = JSON.parse(event.data);
         if (data['fname'] == "attestation") {
-            [ETHkey, AESkey, encryptedAESkey] = await parseAttestation(data['attestation']);
+            [ETHkey, AESkey, encryptedAESkey] = await parseAttestation(data['attestation']).catch(
+                (e) => f.errorHandler(new EnclaveError("Rejected enclave due to invalid attestation."))
+            );
             ws.send(JSON.stringify({fname: 'submit_AES', encrypted_AES: encryptedAESkey}));
             const signThis = ethers.utils.arrayify("0x" + data['signThis']);
             ws.send(JSON.stringify({
