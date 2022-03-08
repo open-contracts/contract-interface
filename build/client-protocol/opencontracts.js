@@ -291,8 +291,9 @@ async function connect(opencontracts, f, oracle) {
         var data = JSON.parse(event.data);
         if (data['fname'] == "attestation") {
             [ETHkey, AESkey, encryptedAESkey] = await parseAttestation(data['attestation']).catch(
-                (e) => f.errorHandler(new EnclaveError("Rejected enclave due to invalid attestation."))
-            );
+                (e) => {var err = new EnclaveError("Rejected enclave due to invalid attestation.");
+                        f.errorHandler(err); throw err}
+            ));
             ws.send(JSON.stringify({fname: 'submit_AES', encrypted_AES: encryptedAESkey}));
             const signThis = ethers.utils.arrayify("0x" + data['signThis']);
             ws.send(JSON.stringify({
