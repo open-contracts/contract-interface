@@ -490,6 +490,9 @@ async function OpenContracts() {
             } else if (this.network == "optimism") {
                 const link = `https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0x8dfb2aaB408BC6140c65E1Af0D4Be94DD767d9DA&exactAmount=${amountString}&exactField=output&chain=optimism`
                 window.open(link)
+            } else if (this.network == "arbitrum") {
+                const link = `https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0x0611cfc667129d6e4b49c92c37184262acddafbc&exactAmount=${amountString}&exactField=output&chain=arbitrum`
+                window.open(link)
             } else {
                 const link = `https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0xa2d9519A8692De6E47fb9aFCECd67737c288737F&chain=mainnet&exactAmount=${amountString}&exactField=output`
                 window.open(link)            
