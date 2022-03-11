@@ -345,8 +345,10 @@ async function connect(opencontracts, f, oracle) {
                     .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
                     .catch(error => {
                         success=false;
-                        if (error.error != undefined) {
+                        if ((error.error != undefined) && (error.error.message != undefined)) {
                             error = new EthereumError(error.error.message);
+                        } else if ((error.data != undefined) && (error.data.message != undefined)) {
+                            error = new EthereumError(error.data.message);
                         } else if (error.message != undefined) {
                             error = new EthereumError(error.message  + "");
                         }
@@ -583,10 +585,12 @@ async function OpenContracts() {
                     .then(function(tx){if (tx.logs != undefined) {return "Transaction Confirmed. " + String(tx.logs)} else {return tx}})
                     .catch(error => {
                         success=false;
-                        if (error.error != undefined) {
+                        if ((error.error != undefined) && (error.error.message != undefined)) {
                             error = new EthereumError(error.error.message);
+                        } else if ((error.data != undefined) && (error.data.message != undefined)) {
+                            error = new EthereumError(error.data.message);
                         } else if (error.message != undefined) {
-                            error = new EthereumError(error.message);
+                            error = new EthereumError(error.message + "");
                         }
                         this.errorHandler(error);
                     });
