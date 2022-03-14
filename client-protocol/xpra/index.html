@@ -106,10 +106,12 @@
 		<div id="screen" style="width: 100%; height:100%;">
 			<div id="float_menu">
 				<ul class="Menu -horizontal">
+                                        <!--
 					<li class="-hasSubmenu -noChevron">
 						<a href="#" title="Xpra" class="noDrag" data-icon="menu"></a>
 						<ul id="menu_list">
-							<li class="-hasSubmenu" id="startmenuentry" style="display: none">
+
+                                                        							<li class="-hasSubmenu" id="startmenuentry" style="display: none">
 								<a data-icon="apps" href="#">Start</a>
 								<ul id="startmenu">
 								</ul>
@@ -122,14 +124,14 @@
 									<li><a href="#" data-icon="exit_to_app" onclick="confirm_shutdown_server(event); return false">Shutdown Server</a></li>
 								</ul>
 							</li>
-							<!--
+							< !--
 							<li class="-hasSubmenu">
 								<a href="#" data-icon="list">Features</a>
 								<ul>
 									<li><a href="#" data-icon="message">Notifications</a></li>
 								</ul>
 							</li>
-							-->
+							-- >
 							<li class="-hasSubmenu">
 								<a href="#" data-icon="info">Information</a>
 								<ul>
@@ -147,15 +149,19 @@
 						<ul id="open_windows_list">
 						</ul>
 					</li>
+                                        
 					<li class="-hasSubmenu -noChevron">
 						<a href="#" id="fullscreen_button" title="Fullscreen" data-icon="fullscreen"></a>
 					</li>
+                                        -->
 					<li class="-hasSubmenu -noChevron">
 						<a href="#" id="keyboard_button" title="Keyboard" data-icon="keyboard"></a>
 					</li>
+                                        <!--
 					<li class="-hasSubmenu -noChevron">
 						<a href="#" id="sound_button" title="Audio" data-icon="volume_off"></a>
 					</li>
+                                        -->
 				</ul>
 				<div id="float_tray" class="menu-divright"></div>
 			</div>
