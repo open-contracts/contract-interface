@@ -2641,7 +2641,7 @@ XpraClient.prototype.position_float_menu = function() {
 	var toolbar_width = float_menu_element.width();
 	var left = float_menu_element.offset().left || 0;
 	var top = float_menu_element.offset().top || 0;
-	var top += toolbar_width * 8;
+	top += toolbar_width * 8;
 	var screen_width = $('#screen').width();
 	if (this.toolbar_position=="custom") {
 		//no calculations needed
