@@ -12,5 +12,5 @@ We believe there's a lot to gain from focusing on one interface for all contract
 So just tell us what's missing in our open-source contract frontend and we'll see if it makes sense to add it! Let's work together on building the right contract interface, instead of reinventing the wheel for every contract.
 - What's the minimal amount of customization you need to create your own 'branding'?
 - What's the best way to tie the (verified) contract source code closer to the interface?
-- Could the interface parse the source code, and be a neutal source of info for the user about what each function will do (e.g. transfer tokens under some conditions)?
+- Could the interface parse the source code, and be a neutral source of info for the user about what each function will do (e.g. transfer tokens under some conditions)?
 
