@@ -6,10 +6,10 @@ The client protocol logic is isolated inito https://github.com/open-contracts/cl
 But why worry about creating a custom interface when you don't have to? :) 
 
 We believe there's a lot to gain from focusing on one interface for all contracts:
-- If everyone writes their own frontend, contract developers also have to be web developers. Why not just solidity (and a bit of python?)
-- By representing all contracts using according to same rules, users can have a much tighter understanding of the components of each contract, making 
+- If everyone writes their own frontend, contract developers also have to be web developers. Why not just focus on writing Solidity, and maybe a bit of Python?
+- By representing all contracts using according to same rules, users can have a much tighter understanding of the components of each contract. By including more and more automatic contract validation features into this frontend over time, users may eventually be able to convince themselves of what a contract does - even if they aren't familiar with Solidity.
 
-Rather tell us what's missing and we'll see if it makes sense to add into this general purpose frontend! Let's work together on building the right contract interface, instead of reinventing the wheel for every contract.
+So just tell us what's missing in our open-source contract frontend and we'll see if it makes sense to add it! Let's work together on building the right contract interface, instead of reinventing the wheel for every contract.
 - What's the minimal amount of customization you need to create your own 'branding'?
 - What's the best way to tie the (verified) contract source code closer to the interface?
 - Could the interface parse the source code, and be a neutal source of info for the user about what each function will do (e.g. transfer tokens under some conditions)?
