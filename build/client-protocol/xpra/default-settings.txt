@@ -16,5 +16,4 @@ clipboard = no
 printing = no
 sound = no
 file_transfer = no
-encoding = rgb
 bandwidth_limit = 300000
