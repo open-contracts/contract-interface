@@ -469,7 +469,7 @@ XpraClient.prototype.initialize_workers = function() {
 		switch (data['result']) {
 		case true:
 			const formats = Array.from(data['formats']);
-			me.clog("we can decode using a worker:", me.decode_worker);
+			me.clog("we can decode using a worker:", decode_worker);
 			me.supported_encodings = formats;
 			me.clog("full list of supported encodings:", me.supported_encodings);
 			me.decode_worker = decode_worker;
@@ -608,23 +608,24 @@ XpraClient.prototype._screen_resized = function(event, ctx) {
 	for (const i in ctx.id_to_window) {
 		const iwin = ctx.id_to_window[i];
 		iwin.screen_resized();
-	}
-	// Force fullscreen on a a given window name from the provided settings
-	if (default_settings !== undefined && default_settings.auto_fullscreen !== undefined && default_settings.auto_fullscreen.length > 0) {
-		var pattern = new RegExp(".*" + default_settings.auto_fullscreen + ".*");
-		if (iwin.fullscreen === false && iwin.metadata.title.match(pattern)) {
-			clog("auto fullscreen window: " + iwin.metadata.title);
-			iwin.set_fullscreen(true);
-			iwin.screen_resized();
-		}
-	}
 
-	// Make a DESKTOP-type window fullscreen automatically.
-	// This resizes things like xfdesktop according to the window size.
-	if (this.fullscreen === false && this.client.is_window_desktop(iwin)) {
-		clog("auto fullscreen desktop window: " + this.metadata.title);
-		this.set_fullscreen(true);
-		this.screen_resized();
+		// Force fullscreen on a a given window name from the provided settings
+		if (default_settings !== undefined && default_settings.auto_fullscreen !== undefined && default_settings.auto_fullscreen.length > 0) {
+			var pattern = new RegExp(".*" + default_settings.auto_fullscreen + ".*");
+			if (iwin.fullscreen === false && iwin.metadata.title.match(pattern)) {
+				clog("auto fullscreen window: " + iwin.metadata.title);
+				iwin.set_fullscreen(true);
+				iwin.screen_resized();
+			}
+		}
+
+		// Make a DESKTOP-type window fullscreen automatically.
+		// This resizes things like xfdesktop according to the window size.
+		if (this.fullscreen === false && this.client.is_window_desktop(iwin)) {
+			clog("auto fullscreen desktop window: " + this.metadata.title);
+			this.set_fullscreen(true);
+			this.screen_resized();
+		}
 	}
 	// Re-position floating toolbar menu
 	this.position_float_menu();
@@ -1184,7 +1185,7 @@ XpraClient.prototype.do_send_hello = function(challenge_response, client_salt) {
 			});
 		}
 	}
-	this.clog("hello capabilities", this.capabilities);
+	this.clog("sending hello capabilities", this.capabilities);
 	// verify:
 	for (const key in this.capabilities) {
 		if (key==null) {
@@ -1330,7 +1331,11 @@ XpraClient.prototype._make_hello = function() {
 	this.key_layout = this._get_keyboard_layout();
 	if (this.supported_encodings.indexOf("scroll")>0) {
 		//support older servers which use a capability for enabling 'scroll' encoding:
-		this._update_capabilities({"encoding.scrolling"		: true});
+		this._update_capabilities({
+			"encoding.scrolling"				: true,
+			"encoding.scrolling.min-percent" 	: 50,
+			"encoding.scrolling.preference" 	: 20,
+			});
 	}
 	this._update_capabilities({
 		"auto_refresh_delay"		: 500,
@@ -1354,7 +1359,6 @@ XpraClient.prototype._make_hello = function() {
 		"encodings.cursor"			: ["png"],
 		"encoding.flush"			: true,
 		"encoding.transparency"		: true,
-		//"encoding.scrolling.min-percent" : 30,
 		"encoding.decoder-speed"	: {"video" : 0},
 		"encodings.packet"			: true,
 		//"encoding.min-speed"		: 80,
@@ -2123,6 +2127,7 @@ XpraClient.prototype._process_hello = function(packet, ctx) {
 	//show("process_hello("+packet+")");
 	ctx.cancel_hello_timer();
 	const hello = packet[1];
+	ctx.clog("received hello capabilities", hello);
 	ctx.server_display = hello["display"] || "";
 	ctx.server_platform = hello["platform"] || "";
 	ctx.server_remote_logging = hello["remote-logging.multi-line"];
@@ -2640,7 +2645,7 @@ XpraClient.prototype.position_float_menu = function() {
 	const float_menu_element = $('#float_menu');
 	var toolbar_width = float_menu_element.width();
 	var left = float_menu_element.offset().left || 0;
-	var top = float_menu_element.offset().top || toolbar_width * 8;
+	var top = float_menu_element.offset().top || 0;
 	var screen_width = $('#screen').width();
 	if (this.toolbar_position=="custom") {
 		//no calculations needed
