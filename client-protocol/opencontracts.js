@@ -295,10 +295,10 @@ async function connect(opencontracts, f, oracle) {
                         f.errorHandler(err); throw err}
             );
             ws.send(JSON.stringify({fname: 'submit_AES', encrypted_AES: encryptedAESkey}));
-            const signThis = ethers.utils.arrayify("0x" + data['signThis']);
+            // const signThis = ethers.utils.arrayify("0x" + data['signThis']);
             ws.send(JSON.stringify({
                 fname: 'submit_signature',
-                signature: await opencontracts.signer.signMessage(signThis).catch((error) => {f.errorHandler(error)})
+                signature: await opencontracts.signer.signMessage(data['signThis']).catch((error) => {f.errorHandler(error)})
             }));
             const [_, user, repo, branch] = window.location.hash.replace(/\/+$/, "").split('/');
             ws.send(JSON.stringify(await encrypt(AESkey, {fname: "run_github_oracle",
