@@ -261,7 +261,7 @@
 			const float_menu_item_size = 30;
 			const float_menu_padding = 20;
 			// let float_menu_width = (float_menu_item_size*5) + float_menu_padding;
-			let float_menu_width = float_menu_item_size;
+			let float_menu_width = 30;
 
 			let cdebug = function () {
 				Utilities.clog.apply(Utilities, arguments);
@@ -564,7 +564,7 @@
 				const scroll_reverse_x = getboolparam("scroll_reverse_x", false);
 				const scroll_reverse_y = getboolparam("scroll_reverse_y", Utilities.isMacOS());
 				const floating_menu = getboolparam("floating_menu", true);
-				const toolbar_position = getparam("toolbar_position");
+				const toolbar_position = "top-right"; //getparam("toolbar_position");
 				const autohide = getboolparam("autohide", false);
 				const override_width = getfloatparam("override_width", window.innerWidth);
 				vrefresh = getintparam("vrefresh", -1);
