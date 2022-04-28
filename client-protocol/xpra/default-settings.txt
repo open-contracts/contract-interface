@@ -18,4 +18,3 @@ sound = no
 file_transfer = no
 bandwidth_limit = 300000
 keyboard = no
-toolbar_position = top-right
