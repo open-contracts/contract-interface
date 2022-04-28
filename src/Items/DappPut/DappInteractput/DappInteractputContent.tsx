@@ -98,10 +98,6 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                             }}>
                                 <span>&nbsp;{openContract && openContract.contractName}: {dappInteractput.contractFunction.name}</span>
                             </div>
-                            <button onClick={() => {
-                                    var sessionWindow = document.getElementById('sessionWindow');
-                                    if (sessionWindow) {sessionWindow.focus()};
-                                }}>Keyboard</button>
                             <div 
                             style={{
                                 display : 'flex',
@@ -115,7 +111,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                                 }}/>
                             </div>
                         </div>
-                            <iframe id="sessionWindow" src={dappInteractput.sessionUrl} style={{
+                            <iframe src={dappInteractput.sessionUrl} style={{
                                 height : "100%",
                                 width : "100%",
                                 border : `0px solid #FFFFFF`,
