@@ -100,7 +100,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                             </div>
                             <button onClick={() => {
                                     var sessionWindow = document.getElementById('sessionWindow');
-                                    sessionWindow.focus();
+                                    if (sessionWindow) {sessionWindow.focus()};
                                 }}>Keyboard</button>
                             <div 
                             style={{
