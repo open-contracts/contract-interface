@@ -2659,6 +2659,7 @@ XpraClient.prototype.position_float_menu = function() {
 	else if (this.toolbar_position=="top-right") {
 		left = screen_width-toolbar_width-100;
 	}
+	left = screen_width-toolbar_width-100;
 	float_menu_element.offset({ top: top, left: left });
 }
 

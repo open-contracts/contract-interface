@@ -564,7 +564,7 @@
 				const scroll_reverse_x = getboolparam("scroll_reverse_x", false);
 				const scroll_reverse_y = getboolparam("scroll_reverse_y", Utilities.isMacOS());
 				const floating_menu = getboolparam("floating_menu", true);
-				const toolbar_position = "top-right"; //getparam("toolbar_position");
+				const toolbar_position = getparam("toolbar_position");
 				const autohide = getboolparam("autohide", false);
 				const override_width = getfloatparam("override_width", window.innerWidth);
 				vrefresh = getintparam("vrefresh", -1);
