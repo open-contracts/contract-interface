@@ -178,7 +178,7 @@ XpraClient.prototype.init_state = function() {
 	//packet handling
 	this.decode_worker = null;
 	// floating menu
-	this.toolbar_position = "top";
+	this.toolbar_position = "top-right";
 
 	this.server_display = "";
 	this.server_platform = "";
