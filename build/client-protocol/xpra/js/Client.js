@@ -178,7 +178,7 @@ XpraClient.prototype.init_state = function() {
 	//packet handling
 	this.decode_worker = null;
 	// floating menu
-	this.toolbar_position = "top-right";
+	this.toolbar_position = "top";
 
 	this.server_display = "";
 	this.server_platform = "";
@@ -2659,7 +2659,6 @@ XpraClient.prototype.position_float_menu = function() {
 	else if (this.toolbar_position=="top-right") {
 		left = screen_width-toolbar_width-100;
 	}
-	left = screen_width-toolbar_width-100;
 	float_menu_element.offset({ top: top, left: left });
 }
 
