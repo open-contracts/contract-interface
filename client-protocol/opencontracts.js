@@ -143,7 +143,7 @@ async function parseAttestation(attestationHex) {
     // extracts hash + pubkeys
     const hash = attestation['pcrs'][0];
     const hashHex = ArrayToHexString(hash);
-    const oracleHash = "ba19b0568898f7eed74c911b29cccd6d026f918fa77953a705f142d06d33f51dfb00bda8f4e90e13755374548b0430e4";
+    const oracleHash = "a5e152ec8d45c1d137a7823e8edbb236dc010823a3b06506ca493ec35d9197ecf335868900bf6ab40156874d6fcbd0ad";
     if (hashHex != oracleHash) {
         var msg = `You're about to connect to an enclave which is in debug mode or does not run our protocol. `;
         msg += `You should only proceed if you personally control the enclave. Continue?`;
