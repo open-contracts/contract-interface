@@ -326,7 +326,7 @@ async function connect(opencontracts, f, oracle) {
                 //data['session'] = `https://xpra.org/html5/latest/connect.html?server=${domain}&${key}&${port}&path=/${location}` // debug!
                 //data['session'] += "&port=14500&ssl=true&encryption=AES-CBC&floating_menu=yes&printing=no&sound=no&file_transfer=no";
                 console.log('starting interactive session at ', data['session']);
-                //if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {data['session'] += '&keyboard=yes'};
+                if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {data['session'] += '&keyboard=yes'};
                 setTimeout(async () => {await f.xpraHandler(data['url'], data['session'], xpraExit)}, 5000);
             } else if (data["fname"] == 'xpra_finished') {
                 console.warn("xpra finished.");		
