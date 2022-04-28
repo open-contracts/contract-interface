@@ -248,7 +248,7 @@
 		</div>
 
 		<div>
-			<textarea id="pasteboard" autocapitalize=off style="display: block; position: absolute; left: -99em;"></textarea>
+			<textarea id="pasteboard" readonly autocapitalize=off style="display: block; position: absolute; left: -99em;"></textarea>
 		</div>
 
 		<div class="simple-keyboard" style="display: block; position: fixed; bottom: 0; width: 100%">
@@ -1398,7 +1398,8 @@
 				});
 
 				$('#keyboard_button').on('click', function (e) {
-					toggle_keyboard();
+					// toggle_keyboard();
+					document.getElementById('pasteboard').focus();
 				});
 
 				// Configure Xpra tray window list right click behavior.
