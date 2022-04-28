@@ -98,7 +98,7 @@ export const DappInteractputContent : FC<DappInteractputContentProps>  = ({
                             }}>
                                 <span>&nbsp;{openContract && openContract.contractName}: {dappInteractput.contractFunction.name}</span>
                             </div>
-                            <button onclick="getElementById('iframe').focus()">Open Keyboard</button>
+                            <button onclick="getElementById('sessionWindow').focus()">Keyboard</button>
                             <div 
                             style={{
                                 display : 'flex',
