@@ -1047,29 +1047,44 @@
 					onKeyPress: button => onKeyPress(button),
 					onKeyReleased: button => onKeyReleased(button),
 					display : {
-						".com" : "|",
-						"{tab}" : "tab",
-						"{lock}" : "lock",
-						"{shift}" : "shift",
-						"{bksp}" : "bksp",
-						"{space}" : "space",
-						"{enter}" : "return",
+						"{expand}" : " ⌨ ",
+						"{minify}" : " ⌨ ",
+						"{letters}" : "abc",
+						"{digits}" :  "?#.123",
+						"{shift}" : " ⇧ ",
+						"{bksp}" : " ↤ ",
+						"{space}" : "     ",
+						"{enter}" : " ↵ ",
 					},
 				});
                                 window.kb = kb;
-                                window.kb.isShifted = false;
+                                window.kb.currentState = "default";
 				function onChange(input){
 					clog("Input changed", input);
 				}
 				function onKeyPress(button){
-					forward_key(true, button);
-                                        if (button == "{shift}" || button == "{lock}") {
-					    if (window.kb.isShifted) {
-					        window.kb.setOptions({layoutName: 'default'});
-					    } else {
+                                        if (button == "{shift}") {
+					    if (window.kb.currentState == "default") {
+					        window.kb.currentState == "shift"
 					        window.kb.setOptions({layoutName: 'shift'});
+					    } else {
+						window.kb.currentState == "default"
+					        window.kb.setOptions({layoutName: 'default'});
 					    }
-					    window.kb.isShifted = !window.kb.isShifted;
+					} else if (button == "{expand}") {
+					    window.kb.currentState == "default"
+					    window.kb.setOptions({layoutName: 'default'});
+					} else if (button == "{minify}") {
+					    window.kb.currentState == "minify"
+					    window.kb.setOptions({layoutName: 'minify'});
+					} else if (button == "{letters}") {
+					    window.kb.currentState == "default"
+					    window.kb.setOptions({layoutName: 'default'});
+					} else if (button == "{digits}") {
+					    window.kb.currentState == "digits"
+					    window.kb.setOptions({layoutName: 'digits'});
+					} else {
+					    forward_key(true, button);
 					}
 				}
 				function onKeyReleased(button){
