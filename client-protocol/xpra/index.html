@@ -1061,7 +1061,8 @@
 					}]
 				});
                                 window.kb = kb;
-                                window.kb.currentState = "default";
+                                window.kb.currentState = "minify";
+				window.kb.setOptions({layoutName: 'minify'});
 				function onChange(input){
 					clog("Input changed", input);
 				}
