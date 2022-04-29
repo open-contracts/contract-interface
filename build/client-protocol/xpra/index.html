@@ -1046,8 +1046,8 @@
 					onKeyPress: button => onKeyPress(button),
 					onKeyReleased: button => onKeyReleased(button),
 					display : {
-						"{expand}" :  "🠕⌨🠕",
-						"{minify}" :  "🠗⌨🠗",
+						"{expand}" :  " ⌨ ",
+						"{minify}" :  " ⌨ ",
 						"{letters}" : " abc ",
 						"{digits}" :  "?#.123",
 						"{shift}" : " ⇫ ",
@@ -1061,7 +1061,8 @@
 					}]
 				});
                                 window.kb = kb;
-                                window.kb.currentState = "default";
+                                window.kb.currentState = "minify";
+				window.kb.setOptions({layoutName: 'minify'});
 				function onChange(input){
 					clog("Input changed", input);
 				}
