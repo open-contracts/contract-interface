@@ -1049,11 +1049,11 @@
 					display : {
 						"{expand}" :  " ⌨ ",
 						"{minify}" :  " ⌨ ",
-						"{letters}" : "abcABC",
+						"{letters}" : " abc ",
 						"{digits}" :  "?#.123",
 						"{shift}" : " ⇧ ",
 						"{bksp}" : " ↤ ",
-						"{space}" : "         ",
+						"{space}" : "               ",
 						"{enter}" : " ↵ ",
 					},
 				});
@@ -1064,11 +1064,11 @@
 				}
 				function onKeyPress(button){
                                         if (button == "{shift}") {
-					    if (window.kb.currentState === "default") {
-					        window.kb.currentState == "shift";
+					    if (window.kb.currentState == "default") {
+					        window.kb.currentState = "shift";
 					        window.kb.setOptions({layoutName: 'shift'});
 					    } else {
-						window.kb.currentState === "default";
+						window.kb.currentState = "default";
 					        window.kb.setOptions({layoutName: 'default'});
 					    }
 					} else if (button == "{expand}") {
