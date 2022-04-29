@@ -1047,13 +1047,13 @@
 					onKeyPress: button => onKeyPress(button),
 					onKeyReleased: button => onKeyReleased(button),
 					display : {
-						"{expand}" : " ⌨ ",
-						"{minify}" : " ⌨ ",
-						"{letters}" : "abc",
+						"{expand}" :  " ⌨ ",
+						"{minify}" :  " ⌨ ",
+						"{letters}" : "abcABC",
 						"{digits}" :  "?#.123",
 						"{shift}" : " ⇧ ",
 						"{bksp}" : " ↤ ",
-						"{space}" : "     ",
+						"{space}" : "         ",
 						"{enter}" : " ↵ ",
 					},
 				});
@@ -1064,24 +1064,24 @@
 				}
 				function onKeyPress(button){
                                         if (button == "{shift}") {
-					    if (window.kb.currentState == "default") {
-					        window.kb.currentState == "shift"
+					    if (window.kb.currentState === "default") {
+					        window.kb.currentState == "shift";
 					        window.kb.setOptions({layoutName: 'shift'});
 					    } else {
-						window.kb.currentState == "default"
+						window.kb.currentState === "default";
 					        window.kb.setOptions({layoutName: 'default'});
 					    }
 					} else if (button == "{expand}") {
-					    window.kb.currentState == "default"
+					    window.kb.currentState == "default";
 					    window.kb.setOptions({layoutName: 'default'});
 					} else if (button == "{minify}") {
 					    window.kb.currentState == "minify"
 					    window.kb.setOptions({layoutName: 'minify'});
 					} else if (button == "{letters}") {
-					    window.kb.currentState == "default"
+					    window.kb.currentState == "default";
 					    window.kb.setOptions({layoutName: 'default'});
 					} else if (button == "{digits}") {
-					    window.kb.currentState == "digits"
+					    window.kb.currentState == "digits";
 					    window.kb.setOptions({layoutName: 'digits'});
 					} else {
 					    forward_key(true, button);
@@ -1098,7 +1098,6 @@
 						"{tab}"		: "Tab",
 						"{lock}"	: "CapsLock",
 						"{shift}"	: "Shift",
-						".com"		: "|",
 						}[button] || button;
 					let e = {
 						"which" : 0,
