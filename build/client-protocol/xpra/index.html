@@ -253,7 +253,13 @@
 
 		<div class="simple-keyboard" style="display: block; position: fixed; bottom: 0; width: 100%">
 		</div>
-
+		<style>
+			.simple-keyboard.hg-layout-default .hg-button.hg-red {
+				background: rgb(255, 0, 0, 0.7);
+				color: white;
+				max-height: 3px;
+			}
+                </style>
 		<script>
 			const default_settings = {};
 			const getparam = function(prop) {
@@ -1056,6 +1062,10 @@
 						"{space}" : "			",
 						"{enter}" : " ↵ ",
 					},
+					buttonTheme: [{
+						class: "hg-red",
+						buttons: "{expand}"
+					}]
 				});
                                 window.kb = kb;
                                 window.kb.currentState = "default";
