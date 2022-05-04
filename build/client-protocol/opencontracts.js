@@ -423,12 +423,19 @@ async function OpenContracts() {
     
     // detects metamask
     opencontracts.walletConnected = false;
-    opencontracts.connectWallet = async function (provider) {
+    opencontracts.connectWallet = async function () {
         if (!this.walletConnected) {
-            if (provider) {
-              const ethereum = provider;
-            } else {
-              const ethereum = await detectEthereumProvider();
+            var ethereum = await detectEthereumProvider();
+            if (!ethereum) {
+              ethereum = new WalletConnectProvider({
+                rpc: {
+                  1: "https://rpc.ankr.com/eth",
+                  3: "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+                  10: "https://mainnet.optimism.io",
+                  42161: "https://arb1.arbitrum.io/rpc",
+                },
+              });
+              await ethereum.enable();
             }
             if (ethereum) {
               ethereum.request({ method: 'eth_requestAccounts' });
