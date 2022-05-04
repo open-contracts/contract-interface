@@ -1,7 +1,12 @@
 // this file is not used by the website, it serves as an input to to create walletconnect.js with:
-// browserify walletconnect_source.js --standalone WALLETCONNECT > walletconnect.js
+// browserify browserify walletconnect_source.js -p esmify --standalone WALLETCONNECT > walletconnect.js
 
-const provider = require('@walletconnect/web3-provider');
+const WalletConnectProvider = require('@walletconnect/web3-provider');
+
+async function provider(rpc) {
+    const wcprovider = new WalletConnectProvider(rpc);
+    return wcprovider
+}
 
 if (typeof module !== 'undefined'){ //we are in node.js environment
     module.exports={
