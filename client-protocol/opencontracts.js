@@ -427,7 +427,7 @@ async function OpenContracts() {
         if (!this.walletConnected) {
             var ethereum = await detectEthereumProvider();
             if (!ethereum) {
-              ethereum = new WalletConnectProvider({
+              ethereum = new WalletConnectProvider.default({
                 rpc: {
                   1: "https://rpc.ankr.com/eth",
                   3: "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
