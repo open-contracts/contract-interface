@@ -146,7 +146,7 @@ async function parseAttestation(attestationHex) {
     const oracleHash = "a5e152ec8d45c1d137a7823e8edbb236dc010823a3b06506ca493ec35d9197ecf335868900bf6ab40156874d6fcbd0ad";
     if (hashHex != oracleHash) {
         var msg = `You're about to connect to an enclave which is in debug mode or does not run our protocol. `;
-        msg += `You should only proceed if you personally control the enclave. Continue?`;
+        msg += `You should only proceed if you personally control the enclave or trust the image hash ${hashHex}. Continue?`;
         if (confirm(msg)) {
             console.warn("Connecting despite invalid oracleImageHash");
         } else {
