@@ -423,9 +423,13 @@ async function OpenContracts() {
     
     // detects metamask
     opencontracts.walletConnected = false;
-    opencontracts.connectWallet = async function () {
+    opencontracts.connectWallet = async function (provider) {
         if (!this.walletConnected) {
-            const ethereum = await detectEthereumProvider();
+            if (provider) {
+              const ethereum = provider;
+            } else {
+              const ethereum = await detectEthereumProvider();
+            }
             if (ethereum) {
               ethereum.request({ method: 'eth_requestAccounts' });
               this.provider = new ethers.providers.Web3Provider(ethereum, 'any');
