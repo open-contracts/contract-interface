@@ -4,7 +4,7 @@
 const WalletConnectProvider = require('@walletconnect/web3-provider');
 
 async function provider(rpc) {
-    const wcprovider = new WalletConnectProvider(rpc);
+    const wcprovider = WalletConnectProvider(rpc);
     return wcprovider
 }
 
