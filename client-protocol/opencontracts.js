@@ -455,7 +455,7 @@ async function OpenContracts() {
                   this.contract.attach(this.interface.address[this.network]);
                   this.explorerUrl = function(address) {
                       if (this.network == 'ropsten') {return `https://ropsten.etherscan.io/address/${address}`}
-                      if (this.network == 'optimism') {return `https://optimism.etherscan.io/address/${address}`}
+                      if (this.network == 'optimism') {return `https://optimistic.etherscan.io/address/${address}`}
                       if (this.network == 'arbitrum') {return `https://arbiscan.io/address/${address}`}
                   };
                   if (window.opencontracts.contractFunctions.reduce((requires, f) =>{return requires||f.requiresOracle}, false)) {
